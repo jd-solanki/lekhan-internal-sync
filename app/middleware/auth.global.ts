@@ -1,8 +1,7 @@
-export default defineNuxtRouteMiddleware((to, _) => {
-  const runtimeConfig = useRuntimeConfig()
-  const userStore = useUserStore()
+import { authClient } from '~/libs/auth'
 
-  console.log('userStore.user :>> ', userStore.user);
+export default defineNuxtRouteMiddleware(async (to, _) => {
+  const runtimeConfig = useRuntimeConfig()
 
   // Check if the route requires any specific query parameters
   // If missing, redirect to the specified URL
@@ -24,16 +23,27 @@ export default defineNuxtRouteMiddleware((to, _) => {
     }
   }
 
+  let { data: session } = await authClient.getSession()
+  if (import.meta.server) {
+    // Dynamic import of auth to avoid compilation & env issues
+    const { auth } = await import('~~/server/libs/auth')
+    const event = useRequestEvent()!
+
+    session = await auth.api.getSession({
+      headers: event.headers,
+    })
+  }
+
   if (to.meta.isAuthRequired) {
-    if (userStore.user) {
+    if (session.user) {
       // Check if email verification is required
-      if (to.meta.isEmailVerificationRequired && !userStore.user.emailVerified) {
+      if (to.meta.isEmailVerificationRequired && !session.user.emailVerified) {
         // Redirect to email verification page if email is not verified
         return navigateTo(runtimeConfig.public.app.routes.verifyEmail)
       }
 
       // Check if redirectIfEmailVerified is set
-      if (to.meta.redirectIfEmailVerified && userStore.user.emailVerified) {
+      if (to.meta.redirectIfEmailVerified && session.user.emailVerified) {
         // Redirect to home page
         return navigateTo(runtimeConfig.public.app.routes.home)
       }
@@ -49,7 +59,7 @@ export default defineNuxtRouteMiddleware((to, _) => {
   }
 
   if (to.meta.redirectIfLoggedIn) {
-    if (userStore.user) {
+    if (session.user) {
       // Redirect to home page if already logged in
       return navigateTo(runtimeConfig.public.app.routes.home)
     }
