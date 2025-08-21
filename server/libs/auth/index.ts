@@ -3,7 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { createAuthMiddleware, magicLink } from 'better-auth/plugins'
 import { eq } from 'drizzle-orm'
 import { sendEmail } from '~~/server/utils/email'
-import env from '~~/shared/lib/env'
+import env from '~~/shared/libs/env'
 import { db } from '../../db'
 
 export const auth = betterAuth({
@@ -14,14 +14,14 @@ export const auth = betterAuth({
       Ref: https://github.com/better-auth/better-auth/issues/1707#issuecomment-2752071258
     */
     after: createAuthMiddleware(async (ctx) => {
-      if (ctx.path === "/get-session") {
+      if (ctx.path === '/get-session') {
         if (!ctx.context.session) {
           return ctx.json({
             session: null,
             user: null,
-          });
+          })
         }
-        return ctx.json(ctx.context.session);
+        return ctx.json(ctx.context.session)
       }
     }),
   },

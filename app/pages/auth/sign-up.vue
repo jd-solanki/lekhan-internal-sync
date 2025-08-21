@@ -14,7 +14,6 @@ const appConfig = useAppConfig()
 const state = reactive<SchemaSignUp>({
   email: 'admin@mail.com',
   password: 'adminadmin',
-  name: 'John Doe',
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {

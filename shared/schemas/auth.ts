@@ -1,18 +1,17 @@
 import { z } from 'zod/v4'
-import { dbVerificationInsertSchema } from './db/verification'
-import { dbUserInsertSchema } from './db/user'
 import { plainPasswordSchema } from '.'
+import { dbUserInsertSchema } from './db/user'
+import { dbVerificationInsertSchema } from './db/verification'
 
 // Sign Up
 export const schemaSignUp = z.strictObject({
   ...dbUserInsertSchema.pick({ email: true }).shape,
   password: plainPasswordSchema,
-  ...dbUserInsertSchema.pick({ name: true }).shape,
 })
 export type SchemaSignUp = z.infer<typeof schemaSignUp>
 
 // Sign In
-export const schemaSignIn = schemaSignUp.omit({ name: true })
+export const schemaSignIn = schemaSignUp
 export type SchemaSignIn = z.infer<typeof schemaSignIn>
 
 // Magic Link

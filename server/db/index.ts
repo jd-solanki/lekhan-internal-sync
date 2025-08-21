@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
-import env from '~~/shared/lib/env'
+import env from '~~/shared/libs/env'
 import * as schema from './schemas/tables'
 import 'dotenv/config'
 

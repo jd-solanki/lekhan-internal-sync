@@ -1,4 +1,4 @@
-import env from './shared/lib/env'
+import env from './shared/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -8,20 +8,13 @@ export default defineNuxtConfig({
     mail: {
       // NOTE: We shouldn't make adminEmails public as it may contain personal information.
       // Add admin emails here to receive notifications about unexpected errors
-      adminEmails: [
-        'admin@example.com',
-      ],
+      adminEmails: env.ADMIN_EMAILS,
     },
 
     public: {
       // Server Config
       server: {
         apiBaseUrl: env.API_BASE_URL,
-        // NOTE: Ensure these are according to your server/api directory
-        routes: {
-          emailVerification: '/auth/email-verification/verify', // This is used by API routes internally
-          magicLinkVerification: '/auth/magic-link/verify', // This is used by API routes internally
-        },
       },
 
       // App Config
@@ -31,10 +24,7 @@ export default defineNuxtConfig({
         routes: {
           home: '/',
           signIn: '/auth/sign-in',
-          forgotPassword: '/auth/forgot-password',
-          resetPassword: '/auth/reset-password',
           verifyEmail: '/auth/verify-email',
-          magicLink: '/auth/magic-link',
         },
       },
 
@@ -48,11 +38,11 @@ export default defineNuxtConfig({
          */
         isEmailVerificationRequiredForAccess: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
       },
-    }
+    },
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   icon: {
     customCollections: [
       {
@@ -66,7 +56,7 @@ css: ['~/assets/css/main.css'],
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/ui',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
   ],
   features: {
     devLogs: true,

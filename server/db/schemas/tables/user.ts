@@ -1,4 +1,4 @@
-import { boolean, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
+import { boolean, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { lower } from '../functions'
 import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../mixins'
 
@@ -6,7 +6,7 @@ export const user = pgTable('user', {
   ...mixinId(),
   email: varchar({ length: 255 }).notNull(),
   emailVerified: boolean().default(false).notNull(),
-  name: varchar({ length: 255 }).notNull(),
+  name: varchar({ length: 255 }),
   image: text(),
   lastSignInAt: timestamp({ withTimezone: true }),
   ...mixinCreatedAt('createdAt', 'created_at'),

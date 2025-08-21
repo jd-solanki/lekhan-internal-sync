@@ -4,7 +4,16 @@ const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
   APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
   API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
-  
+
+  // 🧙🏻 Admin
+  ADMIN_EMAILS: z.preprocess((val) => {
+    if (typeof val === 'string') {
+      // CSV
+      return val.split(',').map(email => email.trim())
+    }
+    return val
+  }, z.array(z.email())),
+
   // 📦 Database
   DATABASE_URL: z.string(),
 
@@ -28,5 +37,7 @@ if (!parseResult.success) {
 
   process.exit(1)
 }
+
+console.log('parseResult.data :>> ', parseResult.data)
 
 export default parseResult.data

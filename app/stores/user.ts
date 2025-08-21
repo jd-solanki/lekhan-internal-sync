@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
         // show loading
       },
       onSuccess: async (_ctx) => {
-        if (useRuntimeConfig().public.isEmailVerificationRequiredForAccess) {
+        if (runtimeConfig.public.shared.isEmailVerificationRequiredForAccess) {
         // Send verification mail and redirect to verify email page
         // await sendVerificationEmail()
           await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?state=mail-sent`)
@@ -109,7 +109,7 @@ export const useUserStore = defineStore('user', () => {
   async function sendResetPasswordLink(body: SchemaForgotPassword) {
     await authClient.requestPasswordReset({
       email: body.email,
-      redirectTo: runtimeConfig.public.app.routes.resetPassword,
+      redirectTo: '/auth/reset-password',
     }).then(() => {
       successToast({
         title: 'Reset Password Link Sent',
