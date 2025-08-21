@@ -38,6 +38,4 @@ if (!parseResult.success) {
   process.exit(1)
 }
 
-console.log('parseResult.data :>> ', parseResult.data)
-
 export default parseResult.data
