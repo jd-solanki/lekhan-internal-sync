@@ -1,0 +1,34 @@
+const APP_NAME = 'LaunchDayOne'
+
+export default defineAppConfig({
+  app: {
+    title: APP_NAME,
+    logoUrl: '/launchdayone-logo.svg',
+    logoClass: 'dark:invert',
+  },
+  mail: {
+    // This will me mentioned as the sender in emails sent by the app
+    from: { email: 'no-reply@example.com', name: APP_NAME },
+  },
+  ui: {
+    colors: {
+      primary: 'black',
+      neutral: 'neutral',
+    },
+    card: {
+      slots: {
+        root: 'py-4 sm:*:py-6',
+        header: '!py-0',
+        body: '!py-0',
+        footer: '!py-0',
+      },
+      variants: {
+        variant: {
+          outline: {
+            root: 'divide-none gap-6 flex flex-col',
+          },
+        },
+      },
+    },
+  },
+})

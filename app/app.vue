@@ -1,6 +1,14 @@
+<script lang="ts" setup>
+showFlashMessageFromCookie()
+const userStore = useUserStore()
+await userStore.init()
+</script>
+
 <template>
-  <div>
+  <UApp>
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-  </div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
 </template>
