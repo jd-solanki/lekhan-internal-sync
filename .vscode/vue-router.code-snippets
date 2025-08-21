@@ -1,0 +1,16 @@
+{
+    "Get current route": {
+        "prefix": "!route",
+        "body": [
+            "const route = useRoute()"
+        ],
+        "description": "Get current route"
+    },
+    "Get router": {
+        "prefix": "!router",
+        "body": [
+            "const router = useRouter()"
+        ],
+        "description": "Get router"
+    }
+}

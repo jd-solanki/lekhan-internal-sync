@@ -1,0 +1,48 @@
+flowchart TD
+    A[User visits sign-in page] --> B[User enters email & password]
+    B --> C[Frontend validation - email format & password length]
+    C --> D{Valid format?}
+    D -->|No| E[Show validation errors to user]
+    E --> B
+    D -->|Yes| F[Submit credentials to server]
+    
+    F --> G[POST /api/auth/sign-in]
+    G --> H[Validate request body schema with Zod - lowercase email & validate format]
+    H --> I{Valid schema?}
+    I -->|No| J[Return 400 - Malformed request]
+    J --> K[Frontend displays validation error]
+    
+    I -->|Yes| L[Query user table by email using getUserByOnlyEmail]
+    L --> M[Query account table using getAccountByAuthMethodAndIdentifier with password method]
+    M --> N{User exists AND account exists AND account has password?}
+    N -->|No| O[Return 401 - Invalid email or password]
+    O --> P[Frontend shows generic login error]
+    
+    N -->|Yes| Q[Verify password using nuxt-auth-utils verifyPassword function]
+    Q --> R{Password valid?}
+    R -->|No| O
+    
+    R -->|Yes| S[Check user banned status from user table]
+    S --> T{User banned?}
+    T -->|Yes| U[Return 403 - Account suspended]
+    U --> V[Frontend shows account banned message]
+    V --> W[Display contact support information]
+    
+    T -->|No| X[Check user deactivated status from user table]
+    X --> Y{User deactivated?}
+    Y -->|Yes| Z[Automatically reactivate user account using reactivateUser function]
+    Z --> AA[Clear deactivatedAt timestamp in user table]
+    AA --> BB[Set user session using nuxt-auth-utils setUserSession]
+    
+    X -->|No| BB[Update user lastSignInAt timestamp in user table]
+    BB --> CC[Create session record in database - NOTE: Not implemented yet as nuxt-auth-utils doesn't support it]
+    CC --> DD[setUserSession: Set session expiry timestamp, Store user ID and session data, Create secure HTTP-only cookie, Set cookie with secure flags]
+    DD --> EE[Return 200 - Login successful with user data]
+    EE --> FF[Frontend receives user data]
+    FF --> GG[Store user state in application. This is done by the nuxt-auth-utils plugin.]
+    GG --> HH[Redirect to protected dashboard]
+    HH --> II[Middleware checks email verification status]
+    II --> JJ{Email verified?}
+    JJ -->|No| KK[Middleware redirects to verify-email page]
+    JJ -->|Yes| LL[User accesses dashboard]
+    

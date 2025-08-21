@@ -1,0 +1,16 @@
+{
+    "Use error toast message": {
+        "prefix": "!errorToast",
+        "body": [
+            "const { errorToast } = useToastMessage()"
+        ],
+        "description": "Use error toast message"
+    },
+    "Use success toast message": {
+        "prefix": "!successToast",
+        "body": [
+            "const { successToast } = useToastMessage()"
+        ],
+        "description": "Use success toast message"
+    }
+}

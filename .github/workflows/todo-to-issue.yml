@@ -1,0 +1,50 @@
+name: Convert TODO comments to issues
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  todo-to-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Convert TODO comments to issues
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Insert issue URLs into comments
+          INSERT_ISSUE_URLS: 'true'
+
+          # allow issues to be closed when a TODO is removed
+          CLOSE_ISSUES: 'true'
+
+          # Automatically assign new issues to the user who triggered the action
+          AUTO_ASSIGN: 'true'
+
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["todo"]}]'
+      - name: Set Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Commit and Push Changes
+        run: |
+          git add -A
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "chore: added GitHub issue links to TODOs"
+            git push origin ${{ github.ref_name }}
+          else
+            echo "No changes to commit"
+          fi
