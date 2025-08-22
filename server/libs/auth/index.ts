@@ -119,7 +119,6 @@ export const auth = betterAuth({
   },
 })
 
-
 /*
   🚨 NEVER enable social sign in without email verification
   CASE 1: User sign in via Google. This will create user record & account record.
@@ -130,10 +129,10 @@ export const auth = betterAuth({
     Now User X unintentionally gains access to User Y's account.
 */
 if (
-  auth.options.hasOwnProperty('emailAndPassword')
-  && auth.options.emailAndPassword.hasOwnProperty('requireEmailVerification')
+  Object.prototype.hasOwnProperty.call(auth.options, 'emailAndPassword')
+  && Object.prototype.hasOwnProperty.call(auth.options.emailAndPassword, 'requireEmailVerification')
   && !auth.options.emailAndPassword.requireEmailVerification
-  && auth.options.hasOwnProperty('socialProviders')
+  && Object.prototype.hasOwnProperty.call(auth.options, 'socialProviders')
 ) {
   throw new Error('Social Sign In is not allowed without email verification. Reason: Someone can hijack other users\' accounts.')
 }

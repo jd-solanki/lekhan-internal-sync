@@ -4,6 +4,7 @@ import { authClient } from '~/libs/auth'
 export const useUserStore = defineStore('user', () => {
   // const { user, clear, fetch: fetchUserSession, ...restOfUseUserSession } = useUserSession()
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null)
+  const lastSignInMethod = useCookie('lastSignInMethod')
 
   /*
     This function initializes the user session by fetching it from the authClient
@@ -36,6 +37,8 @@ export const useUserStore = defineStore('user', () => {
         // show loading
       },
       onSuccess: async (_ctx) => {
+        lastSignInMethod.value = 'email'
+
         if (runtimeConfig.public.shared.isEmailVerificationRequiredForAccess) {
         // Send verification mail and redirect to verify email page
         // await sendVerificationEmail()
@@ -61,6 +64,8 @@ export const useUserStore = defineStore('user', () => {
         // show loading
       },
       onSuccess: async (_ctx) => {
+        lastSignInMethod.value = 'email'
+
         // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
         await navigateTo(runtimeConfig.public.app.routes.home, { replace: true })
       },
@@ -87,6 +92,8 @@ export const useUserStore = defineStore('user', () => {
       provider,
       errorCallbackURL: runtimeConfig.public.app.routes.signIn,
     })
+
+    lastSignInMethod.value = `oauth:${provider}`
   }
 
   async function sendMagicLink(email: string) {

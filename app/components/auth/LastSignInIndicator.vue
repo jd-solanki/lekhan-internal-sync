@@ -32,7 +32,7 @@ defineProps<{
         <UIcon
           name="arrows:2"
           :size="100"
-          class="text-muted opacity-50 rotate-[35deg]"
+          class="text-muted opacity-50 -scale-x-100 -rotate-[35deg]"
         />
       </template>
     </template>

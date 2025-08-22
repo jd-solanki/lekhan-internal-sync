@@ -35,13 +35,13 @@ const lastSignInMethod = useCookie('lastSignInMethod')
     <div class="flex items-center gap-4 my-10">
       <AuthLastSignInIndicator
         side="left"
-        :open="lastSignInMethod === 'oauth_google'"
+        :open="lastSignInMethod === 'oauth:google'"
       >
         <UButton
           variant="outline"
           icon="i-logos-google-icon"
           block
-          @click="() => userStore.socialSignIn('google')"
+          @click="userStore.socialSignIn('google')"
         >
           Google
         </UButton>
@@ -49,14 +49,14 @@ const lastSignInMethod = useCookie('lastSignInMethod')
 
       <AuthLastSignInIndicator
         side="right"
-        :open="lastSignInMethod === 'oauth_github'"
+        :open="lastSignInMethod === 'oauth:github'"
       >
         <UButton
           :ui="{ leadingIcon: 'dark:invert' }"
           variant="outline"
           icon="i-logos-github-icon"
           block
-          @click="() => userStore.socialSignIn('github')"
+          @click="userStore.socialSignIn('github')"
         >
           GitHub
         </UButton>
@@ -103,7 +103,7 @@ const lastSignInMethod = useCookie('lastSignInMethod')
       </UFormField>
       <AuthLastSignInIndicator
         side="right"
-        :open="lastSignInMethod === 'password'"
+        :open="lastSignInMethod === 'email'"
       >
         <UButton
           type="submit"
