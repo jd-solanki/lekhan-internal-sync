@@ -1,6 +1,5 @@
-import { boolean, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
-import { lower } from '../functions'
-import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../mixins'
+import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../mixins'
 
 export const verification = pgTable('verification', {
   ...mixinId(),

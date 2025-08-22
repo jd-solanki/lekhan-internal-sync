@@ -24,23 +24,23 @@ async function generateMermaidSVGs(files: string[], options: ConversionOptions =
   const {
     theme = 'neutral',
     backgroundColor = 'transparent',
-    outputDir
+    outputDir,
   } = options
 
   consola.info(`🎨 Generating SVG files for ${files.length} Mermaid diagram(s)...`)
 
   const results = {
     success: [] as string[],
-    failed: [] as { file: string, error: string }[]
+    failed: [] as { file: string, error: string }[],
   }
 
   for (const file of files) {
     try {
       const resolvedFile = resolve(file)
-      
+
       // Check if file exists
       await access(resolvedFile)
-      
+
       // Validate file extension
       const ext = extname(resolvedFile)
       if (!['.mmd', '.mermaid'].includes(ext)) {
@@ -56,7 +56,8 @@ async function generateMermaidSVGs(files: string[], options: ConversionOptions =
         const fileName = baseName.split('/').pop() || 'diagram'
         await mkdir(outputDir, { recursive: true })
         outputFile = join(outputDir, `${fileName}.svg`)
-      } else {
+      }
+      else {
         // Same directory as input file
         outputFile = `${baseName}.svg`
       }
@@ -66,14 +67,14 @@ async function generateMermaidSVGs(files: string[], options: ConversionOptions =
 
       // Generate SVG using mermaid-cli
       const command = `mmdc -i "${resolvedFile}" -o "${outputFile}" -t ${theme} -b ${backgroundColor}`
-      
+
       consola.log(`📄 Processing: ${file}`)
       await execAsync(command)
-      
+
       results.success.push(outputFile)
       consola.success(`Generated: ${outputFile}`)
-      
-    } catch (error) {
+    }
+    catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
       results.failed.push({ file, error: errorMessage })
       consola.error(`Failed to process ${file}: ${errorMessage}`)
@@ -82,7 +83,7 @@ async function generateMermaidSVGs(files: string[], options: ConversionOptions =
 
   // Summary
   consola.box(`📊 Summary:\n✅ Success: ${results.success.length}\n❌ Failed: ${results.failed.length}`)
-  
+
   if (results.failed.length > 0) {
     consola.error(`Failed files:`)
     results.failed.forEach(({ file, error }) => {
@@ -100,32 +101,32 @@ const main = defineCommand({
   meta: {
     name: 'generate-mermaid-svgs',
     description: '🧜‍♀️ Generate SVG files from Mermaid diagrams',
-    version: '1.0.0'
+    version: '1.0.0',
   },
   args: {
     files: {
       type: 'positional',
       description: 'Mermaid files to convert (.mmd or .mermaid)',
-      required: true
+      required: true,
     },
     theme: {
       type: 'string',
       description: 'Mermaid theme to use',
-      default: 'neutral'
+      default: 'neutral',
     },
     backgroundColor: {
       type: 'string',
       description: 'Background color for the SVG',
-      default: 'transparent'
+      default: 'transparent',
     },
     outputDir: {
       type: 'string',
-      description: 'Output directory for SVG files (defaults to same directory as input)'
-    }
+      description: 'Output directory for SVG files (defaults to same directory as input)',
+    },
   },
   async run({ args }) {
     const files = Array.isArray(args.files) ? args.files : [args.files]
-    
+
     if (files.length === 0) {
       consola.error('No files provided')
       process.exit(1)
@@ -135,14 +136,14 @@ const main = defineCommand({
     const results = await generateMermaidSVGs(files, {
       theme: args.theme,
       backgroundColor: args.backgroundColor,
-      outputDir: args.outputDir
+      outputDir: args.outputDir,
     })
-    
+
     // Exit with error code if any failures
     if (results.failed.length > 0) {
       process.exit(1)
     }
-  }
+  },
 })
 
 // Run the command directly

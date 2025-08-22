@@ -1,8 +1,6 @@
-import { boolean, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar, inet } from 'drizzle-orm/pg-core'
-import { lower } from '../functions'
-import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../mixins'
-import { user } from '.';
-import { integer } from 'drizzle-orm/pg-core';
+import { inet, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { user } from '.'
+import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../mixins'
 
 export const session = pgTable('session', {
   ...mixinId(),

@@ -1,7 +1,6 @@
-import { boolean, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
-import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../mixins'
-import { integer } from 'drizzle-orm/pg-core'
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { user } from '.'
+import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../mixins'
 
 export const account = pgTable('account', {
   ...mixinId(),

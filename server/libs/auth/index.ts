@@ -1,7 +1,6 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { createAuthMiddleware, magicLink } from 'better-auth/plugins'
-import { eq } from 'drizzle-orm'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
 import { db } from '../../db'
@@ -69,7 +68,7 @@ export const auth = betterAuth({
   },
   plugins: [
     magicLink({
-      sendMagicLink: async ({ email, token, url }, request) => {
+      sendMagicLink: async ({ email, url }) => {
         await sendEmail({
           to: { email },
           subject: 'Magic Link',
@@ -79,7 +78,7 @@ export const auth = betterAuth({
     }),
   ],
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }, request) => {
+    sendVerificationEmail: async ({ user, url }) => {
       await sendEmail({
         to: { email: user.email },
         subject: 'Verify your email address',
@@ -92,7 +91,7 @@ export const auth = betterAuth({
     autoSignIn: true,
     requireEmailVerification: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
     revokeSessionsOnPasswordReset: true,
-    sendResetPassword: async ({ user, url, token }, request) => {
+    sendResetPassword: async ({ user, url }) => {
       await sendEmail({
         to: { email: user.email },
         subject: 'Reset your password',
