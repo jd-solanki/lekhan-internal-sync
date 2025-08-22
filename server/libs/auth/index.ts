@@ -26,29 +26,6 @@ export const auth = betterAuth({
     }),
   },
   databaseHooks: {
-    // account: {
-    //   create: {
-    //     before: async (account, _ctx) => {
-    //       // If provider id is not credentials, it's a social login
-    //       if (account.providerId !== 'credentials') {
-    //         // Check if credential account already exists with given email
-    //         // If it exists, throw an error that user already has an account with credentials
-    //         const existingAccount = await db
-    //           .select()
-    //           .from(accountTable)
-    //           .where(
-    //             // TODO: Why BA is not considering userId as number?
-    //             eq(accountTable.userId, account.userId as unknown as number),
-    //           )
-    //           .limit(1)
-
-    //         if (existingAccount) {
-    //           throw new Error('User already has an account with credentials')
-    //         }
-    //       }
-    //     },
-    //   },
-    // },
     session: {
       create: {
         before: async (session, _ctx) => {

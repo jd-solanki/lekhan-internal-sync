@@ -90,7 +90,6 @@ export const useUserStore = defineStore('user', () => {
 
   async function socialSignIn(provider: 'google' | 'github') {
     await withLoading(async () => {
-      // TODO: Check if there's already account with the same email having credentials or magic link
       await authClient.signIn.social({
         provider,
         errorCallbackURL: runtimeConfig.public.app.routes.signIn,
