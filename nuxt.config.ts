@@ -2,6 +2,14 @@ import env from './shared/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/launchdayone-favicon.ico' },
+        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/launchdayone-favicon-light.ico' },
+      ],
+    },
+  },
   runtimeConfig: {
     // INFO: Private config will be server only so no need to separate in app, server & shared
 
