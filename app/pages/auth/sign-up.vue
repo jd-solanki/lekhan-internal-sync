@@ -67,6 +67,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
         type="submit"
         size="lg"
         block
+        :loading="userStore.isLoading"
       >
         Sign Up
       </UButton>

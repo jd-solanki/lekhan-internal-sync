@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 showFlashMessageFromCookie()
-const userStore = useUserStore()
-await userStore.init()
 </script>
 
 <template>

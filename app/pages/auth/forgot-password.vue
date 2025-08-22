@@ -10,13 +10,21 @@ definePageMeta({
 
 const appConfig = useAppConfig()
 const userStore = useUserStore()
+const route = useRoute()
 
 const state = reactive<Partial<SchemaForgotPassword>>({
   email: 'admin@mail.com',
 })
+const uiState = ref(route.query.state)
 
 async function onSubmit(event: FormSubmitEvent<SchemaForgotPassword>) {
   await userStore.sendResetPasswordLink(event.data)
+    .then(() => {
+      uiState.value = 'mail-sent'
+    })
+    .catch(() => {
+      uiState.value = undefined
+    })
 }
 </script>
 
@@ -28,46 +36,57 @@ async function onSubmit(event: FormSubmitEvent<SchemaForgotPassword>) {
       :class="appConfig.app.logoClass"
     />
     <h1 class="font-bold text-2xl leading-10 text-center">
-      Forgot Password
+      {{ uiState === 'mail-sent' ? 'Success' : 'Forgot Password' }}
     </h1>
     <p class="text-muted text-center">
-      Enter email to receive reset password link
+      {{ uiState === 'mail-sent' ? 'Email sent successfully' : 'Enter email to receive reset password link' }}
     </p>
 
-    <UForm
-      :schema="schemaForgotPassword"
-      :state="state"
-      class="space-y-6 my-10"
-      @submit="onSubmit"
+    <p
+      v-if="uiState === 'mail-sent'"
+      class="text-center my-10 text-balance"
     >
-      <UFormField
-        label="Email"
-        name="email"
-      >
-        <UInput
-          v-model="state.email"
-          autofocus
-          size="xl"
-          class="w-full"
-        />
-      </UFormField>
-      <UButton
-        type="submit"
-        block
-        size="lg"
-      >
-        Submit
-      </UButton>
-    </UForm>
-
-    <p class="text-sm text-center">
-      <span class="text-muted">Remembered your password?</span>
-      <NuxtLink
-        to="/auth/sign-in"
-        class="hover:underline"
-      >
-        Sign In
-      </NuxtLink>
+      Please check your inbox for reset password link
     </p>
+
+    <template v-if="!uiState">
+      <UForm
+        :schema="schemaForgotPassword"
+        :state="state"
+        class="space-y-6 my-10"
+        @submit="onSubmit"
+      >
+        <UFormField
+          label="Email"
+          name="email"
+        >
+          <UInput
+            v-model="state.email"
+            autofocus
+            size="xl"
+            class="w-full"
+          />
+        </UFormField>
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :disabled="userStore.isLoading"
+          loading-auto
+        >
+          Submit
+        </UButton>
+      </UForm>
+
+      <p class="text-sm text-center">
+        <span class="text-muted">Remembered your password?</span>
+        <NuxtLink
+          to="/auth/sign-in"
+          class="hover:underline"
+        >
+          Sign In
+        </NuxtLink>
+      </p>
+    </template>
   </div>
 </template>

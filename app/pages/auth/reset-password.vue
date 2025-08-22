@@ -71,6 +71,8 @@ async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {
         type="submit"
         block
         size="lg"
+        :disabled="userStore.isLoading"
+        loading-auto
       >
         Reset Password
       </UButton>

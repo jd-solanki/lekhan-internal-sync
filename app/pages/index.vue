@@ -7,7 +7,10 @@ const userStore = useUserStore()
     <h1>Index Page</h1>
     <pre>{{ userStore.user }}</pre>
     <pre>{{ $route.meta }}</pre>
-    <UButton @click="userStore.signOut">
+    <UButton
+      :loading-auto="true"
+      @click="userStore.signOut"
+    >
       Sign Out
     </UButton>
     <UButton to="/play">

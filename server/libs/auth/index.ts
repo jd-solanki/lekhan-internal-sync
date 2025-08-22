@@ -15,6 +15,7 @@ export const auth = betterAuth({
     */
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path === '/get-session') {
+        console.log('✨ requesting session...')
         if (!ctx.context.session) {
           return ctx.json({
             session: null,

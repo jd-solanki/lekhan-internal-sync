@@ -48,6 +48,8 @@ async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
         type="submit"
         block
         size="lg"
+        :disabled="userStore.isLoading"
+        loading-auto
       >
         Send Magic Link
       </UButton>

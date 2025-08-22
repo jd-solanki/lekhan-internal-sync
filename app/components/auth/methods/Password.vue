@@ -41,6 +41,8 @@ const lastSignInMethod = useCookie('lastSignInMethod')
           variant="outline"
           icon="i-logos-google-icon"
           block
+          :disabled="userStore.isLoading"
+          loading-auto
           @click="userStore.socialSignIn('google')"
         >
           Google
@@ -56,6 +58,8 @@ const lastSignInMethod = useCookie('lastSignInMethod')
           variant="outline"
           icon="i-logos-github-icon"
           block
+          :disabled="userStore.isLoading"
+          loading-auto
           @click="userStore.socialSignIn('github')"
         >
           GitHub
@@ -109,6 +113,8 @@ const lastSignInMethod = useCookie('lastSignInMethod')
           type="submit"
           block
           size="lg"
+          :disabled="userStore.isLoading"
+          loading-auto
         >
           Sign In
         </UButton>
