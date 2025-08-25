@@ -3,7 +3,7 @@ const APP_NAME = 'LaunchDayOne'
 export default defineAppConfig({
   app: {
     title: APP_NAME,
-    logoUrl: '/launchdayone-logo.svg',
+    logoUrl: '/logo.svg',
     logoClass: 'dark:invert',
   },
   mail: {

@@ -5,8 +5,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/launchdayone-favicon.ico' },
-        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/launchdayone-favicon-light.ico' },
+        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/favicon-light.ico' },
       ],
     },
   },
@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         baseUrl: env.APP_BASE_URL,
         // NOTE: Ensure these are according to your app/pages directory
         routes: {
-          home: '/',
+          home: '/app',
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
         },
@@ -81,6 +81,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       '../shared/schemas/**',
+      './libs/auth/index.ts',
     ],
   },
   nitro: {

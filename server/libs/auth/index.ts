@@ -1,11 +1,39 @@
+import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { createAuthMiddleware, magicLink } from 'better-auth/plugins'
+import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
 import { db } from '../../db'
 
+const runtimeConfig = useRuntimeConfig()
+
 export const auth = betterAuth({
+  plugins: [
+    polar({
+      client: polarClient,
+      createCustomerOnSignUp: true,
+      use: [
+        checkout({
+          successUrl: '/app?paymentStatus=success',
+          authenticatedUsersOnly: true,
+        }),
+        portal(),
+        usage(),
+        // webhooks({ ... })
+      ],
+    }),
+    magicLink({
+      sendMagicLink: async ({ email, url }) => {
+        await sendEmail({
+          to: { email },
+          subject: 'Magic Link',
+          text: `Click the link to sign in to your account: ${url}`,
+        })
+      },
+    }),
+  ],
   hooks: {
     /*
       When BetterAuth returns session data, its null when user is not authenticated.
@@ -43,17 +71,6 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [
-    magicLink({
-      sendMagicLink: async ({ email, url }) => {
-        await sendEmail({
-          to: { email },
-          subject: 'Magic Link',
-          text: `Click the link to sign in to your account: ${url}`,
-        })
-      },
-    }),
-  ],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       await sendEmail({
@@ -66,7 +83,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
-    requireEmailVerification: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
+    requireEmailVerification: runtimeConfig.public.shared.isEmailVerificationRequiredForAccess,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
       await sendEmail({

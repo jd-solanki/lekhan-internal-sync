@@ -23,6 +23,8 @@
     "@nuxt/scripts": "0.11.10",
     "@nuxt/ui": "3.3.2",
     "@pinia/nuxt": "0.11.2",
+    "@polar-sh/better-auth": "^1.1.0",
+    "@polar-sh/sdk": "^0.34.13",
     "@unhead/vue": "^2.0.3",
     "better-auth": "^1.3.7",
     "dotenv": "^17.2.1",

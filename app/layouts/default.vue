@@ -4,7 +4,13 @@ const routeMeta = route.meta
 </script>
 
 <template>
-  <main :class="[routeMeta.mainClass]">
-    <slot />
-  </main>
+  <div class="flex min-h-dvh bg-black">
+    <LayoutDefaultAside />
+    <main
+      :class="[routeMeta.mainClass]"
+      class="grow bg-(--ui-bg) rounded-lg m-2 ring ring-(--ui-border) p-6"
+    >
+      <slot />
+    </main>
+  </div>
 </template>

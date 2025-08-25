@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+import * as z from 'zod'
+import { redirectUrlSchema } from '~~/shared/schemas'
 
 const appConfig = useAppConfig()
 const userStore = useUserStore()
+const route = useRoute()
+const paymentsStore = usePaymentsStore()
 
 const state = reactive<Partial<SchemaSignIn>>({
   // email: undefined,
@@ -11,8 +15,39 @@ const state = reactive<Partial<SchemaSignIn>>({
   password: 'adminadmin',
 })
 
+const querySchema = z.object({
+  redirectTo: redirectUrlSchema.optional(),
+  nextAction: z.string().optional(),
+  productId: z.string().optional(),
+})
+
+function useParsedQuery<T extends z.ZodType>(zodSchema: T, defaults: Partial<z.infer<T>>) {
+  return computed(() => {
+    const parsed = zodSchema.safeParse(route.query)
+    return parsed.success ? parsed.data : defaults
+  })
+}
+
+const parsedQuery = useParsedQuery(querySchema, { redirectTo: undefined, nextAction: undefined })
+
 async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
-  await userStore.signIn(event.data)
+  const nextAction = parsedQuery.value.nextAction
+
+  await userStore.signIn(
+    event.data,
+    {
+      redirectTo: nextAction ? false : parsedQuery.value.redirectTo,
+      onSuccess: async () => {
+        // If nextAction is checkout & productId is present create checkout session
+        if (nextAction) {
+          const productId = parsedQuery.value.productId
+          if (nextAction === 'checkout' && productId) {
+            await paymentsStore.createCheckoutSession(productId)
+          }
+        }
+      },
+    },
+  )
 }
 
 const lastSignInMethod = useCookie('lastSignInMethod')

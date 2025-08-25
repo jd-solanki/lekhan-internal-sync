@@ -20,11 +20,16 @@ const EnvSchema = z.object({
   // 🔒 AUTH
   BETTER_AUTH_SECRET: z.string(),
   BETTER_AUTH_URL: z.url(),
+
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
   NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS: z.stringbool().default(true),
+
+  // 💰 Polar
+  POLAR_ACCESS_TOKEN: z.string(),
+  POLAR_SERVER: z.enum(['sandbox', 'production']),
 })
 
 // eslint-disable-next-line ts/no-redeclare

@@ -49,16 +49,27 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  async function signIn(body: SchemaSignIn) {
+  // INFO: We don't want to accept redirectTo as `true` value.
+  // It can either be redirect URL or false to prevent redirection
+  // When nothing is passed it'll be default to redirection to default home URL
+  async function signIn(body: SchemaSignIn, options?: { redirectTo?: string | false, onSuccess?: () => Promise<void> }) {
+    const { redirectTo = runtimeConfig.public.app.routes.home } = options || {}
     await withLoading(async () => {
       await authClient.signIn.email(body, {
         onSuccess: async (_ctx) => {
-          // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
+          // NOTE: We'll always watch for user even if there's no redirection to avoid
+          //   executing code before user session is assigned
           watch(user, async () => {
-            // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
-            await navigateTo(runtimeConfig.public.app.routes.home, { replace: true })
-
             lastSignInMethod.value = 'email'
+
+            await options?.onSuccess?.()
+
+            // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
+            // Only redirect if redirectTo is given
+            if (redirectTo) {
+              // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
+              await navigateTo(redirectTo, { replace: true })
+            }
           }, { once: true })
         },
         onError: async (ctx) => {
@@ -93,6 +104,7 @@ export const useUserStore = defineStore('user', () => {
       await authClient.signIn.social({
         provider,
         errorCallbackURL: runtimeConfig.public.app.routes.signIn,
+        callbackURL: runtimeConfig.public.app.routes.home,
       })
     })
 
