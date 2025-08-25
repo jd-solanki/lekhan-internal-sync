@@ -6,6 +6,22 @@ export default defineAppConfig({
     logoUrl: '/logo.svg',
     logoClass: 'dark:invert',
   },
+  layout: {
+    default: {
+      navigationItems: [
+        {
+          label: 'Dashboard',
+          to: '/app',
+          icon: 'lucide:home',
+        },
+        {
+          label: 'Playground',
+          to: '/playground',
+          icon: 'lucide:gamepad-2',
+        },
+      ],
+    },
+  },
   mail: {
     // This will me mentioned as the sender in emails sent by the app
     from: { email: 'no-reply@example.com', name: APP_NAME },

@@ -1,9 +1,0 @@
-{
-    "Import EnvSchema": {
-        "prefix": "ienvschema",
-        "body": [
-            "import env from '~~/shared/libs/env'"
-        ],
-        "description": "Import EnvSchema"
-    }
-}

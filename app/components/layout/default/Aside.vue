@@ -1,22 +1,11 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
-import appConfig from '~/app.config'
 
 const userStore = useUserStore()
+const appConfig = useAppConfig()
 
 const items = ref<NavigationMenuItem[][]>([
-  [
-    {
-      label: 'Dashboard',
-      to: '/app',
-      icon: 'lucide:home',
-    },
-    {
-      label: 'Playground',
-      to: '/playground',
-      icon: 'lucide:gamepad-2',
-    },
-  ],
+  appConfig.layout.default.navigationItems,
 ])
 </script>
 
@@ -39,7 +28,8 @@ const items = ref<NavigationMenuItem[][]>([
       class="grow px-2"
       tooltip
     />
-    <footer class="py-4 px-5">
+    <footer class="py-4 px-5 space-y-4">
+      <CommandPalette />
       <UButton
         block
         variant="soft"

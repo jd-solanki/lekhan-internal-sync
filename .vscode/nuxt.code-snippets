@@ -12,5 +12,19 @@
             "const { successToast } = useToastMessage()"
         ],
         "description": "Use success toast message"
+    },
+    "get appConfig": {
+        "prefix": "!appConfig",
+        "body": [
+            "const appConfig = useAppConfig()"
+        ],
+        "description": "get appConfig"
+    },
+    "get runtimeConfig": {
+        "prefix": "!runtimeConfig",
+        "body": [
+            "const runtimeConfig = useRuntimeConfig()"
+        ],
+        "description": "get runtimeConfig"
     }
 }

@@ -1,0 +1,23 @@
+{
+    "Import EnvSchema": {
+        "prefix": "ienvschema",
+        "body": [
+            "import env from '~~/shared/libs/env'"
+        ],
+        "description": "Import EnvSchema"
+    },
+    "get userStore": {
+        "prefix": "!userStore",
+        "body": [
+            "const userStore = useUserStore()"
+        ],
+        "description": "get userStore"
+    },
+    "get paymentsStore": {
+        "prefix": "!paymentsStore",
+        "body": [
+            "const paymentsStore = usePaymentsStore()"
+        ],
+        "description": "get paymentsStore"
+    }
+}
