@@ -1,4 +1,13 @@
 {
+  // Hide gitignored files in explorer
+  // "explorer.excludeGitIgnore": true,
+
+  // Hide symlinked files in explorer
+  // "files.exclude": {
+  //   ".cursor": true,
+  //   ".windsurf": true,
+  //   ".github/prompts": true
+  // },
   // SECTION: antfu-eslint
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
