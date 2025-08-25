@@ -16,7 +16,7 @@ const state = reactive<Partial<SchemaSignIn>>({
 })
 
 const querySchema = z.object({
-  redirectTo: redirectUrlSchema.optional(),
+  redirectUrl: redirectUrlSchema.optional(),
   nextAction: z.string().optional(),
   productId: z.string().optional(),
 })
@@ -28,7 +28,7 @@ function useParsedQuery<T extends z.ZodType>(zodSchema: T, defaults: Partial<z.i
   })
 }
 
-const parsedQuery = useParsedQuery(querySchema, { redirectTo: undefined, nextAction: undefined })
+const parsedQuery = useParsedQuery(querySchema, { redirectUrl: undefined, nextAction: undefined })
 
 async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
   const nextAction = parsedQuery.value.nextAction
@@ -36,7 +36,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
   await userStore.signIn(
     event.data,
     {
-      redirectTo: nextAction ? false : parsedQuery.value.redirectTo,
+      redirectUrl: nextAction ? false : parsedQuery.value.redirectUrl,
       onSuccess: async () => {
         // If nextAction is checkout & productId is present create checkout session
         if (nextAction) {

@@ -52,8 +52,8 @@ export const useUserStore = defineStore('user', () => {
   // INFO: We don't want to accept redirectTo as `true` value.
   // It can either be redirect URL or false to prevent redirection
   // When nothing is passed it'll be default to redirection to default home URL
-  async function signIn(body: SchemaSignIn, options?: { redirectTo?: string | false, onSuccess?: () => Promise<void> }) {
-    const { redirectTo = runtimeConfig.public.app.routes.home } = options || {}
+  async function signIn(body: SchemaSignIn, options?: { redirectUrl?: string | false, onSuccess?: () => Promise<void> }) {
+    const { redirectUrl = runtimeConfig.public.app.routes.home } = options || {}
     await withLoading(async () => {
       await authClient.signIn.email(body, {
         onSuccess: async (_ctx) => {
@@ -66,9 +66,9 @@ export const useUserStore = defineStore('user', () => {
 
             // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
             // Only redirect if redirectTo is given
-            if (redirectTo) {
+            if (redirectUrl) {
               // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
-              await navigateTo(redirectTo, { replace: true })
+              await navigateTo(redirectUrl, { replace: true })
             }
           }, { once: true })
         },
