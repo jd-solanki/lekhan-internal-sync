@@ -15,20 +15,15 @@ const state = reactive<Partial<SchemaSignIn>>({
   password: 'adminadmin',
 })
 
-const querySchema = z.object({
-  redirectUrl: redirectUrlSchema.optional(),
-  nextAction: z.string().optional(),
-  productId: z.string().optional(),
-})
-
-function useParsedQuery<T extends z.ZodType>(zodSchema: T, defaults: Partial<z.infer<T>>) {
-  return computed(() => {
-    const parsed = zodSchema.safeParse(route.query)
-    return parsed.success ? parsed.data : defaults
-  })
-}
-
-const parsedQuery = useParsedQuery(querySchema, { redirectUrl: undefined, nextAction: undefined })
+const parsedQuery = useParsedQuery(
+  z.object({
+    redirectUrl: redirectUrlSchema.optional(),
+    nextAction: z.string().optional(),
+    productId: z.string().optional(),
+  }),
+  { redirectUrl: undefined, nextAction: undefined, productId: undefined },
+  { route },
+)
 
 async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
   const nextAction = parsedQuery.value.nextAction
