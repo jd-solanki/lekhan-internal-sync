@@ -3,6 +3,7 @@ import env from './shared/libs/env'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
+    // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },
     head: {
       link: [
         { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/favicon.ico' },
@@ -50,7 +51,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/routerTransitions.css'],
   icon: {
     customCollections: [
       {
