@@ -29,10 +29,16 @@ async function createCheckoutSession() {
 </script>
 
 <template>
-  <div>
+  <div class="space-x-4">
     <h1 class="text-3xl font-bold mb-12">
       Welcome
     </h1>
+    <UButton to="/auth/sign-in">
+      Sign In
+    </UButton>
+    <UButton to="/app">
+      App
+    </UButton>
     <UButton @click="createCheckoutSession">
       Buy Now at ${{ (product?.prices[0]?.priceAmount / 100).toFixed(2) }}
     </UButton>
