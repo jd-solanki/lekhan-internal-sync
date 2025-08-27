@@ -1,7 +1,9 @@
 import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
+import { render } from '@vue-email/render'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { createAuthMiddleware, magicLink } from 'better-auth/plugins'
+import EmailTemplateVerifyEmail from '~~/server/emails/auth/verifyEmail.vue'
 import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
@@ -73,10 +75,16 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      const html = await render(EmailTemplateVerifyEmail, {
+        url,
+      }, {
+        pretty: true,
+      })
       await sendEmail({
         to: { email: user.email },
         subject: 'Verify your email address',
-        text: `Click the link to verify your email: ${url}`,
+        // text: `Click the link to verify your email: ${url}`,
+        html,
       })
     },
   },

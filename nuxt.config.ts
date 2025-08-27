@@ -1,3 +1,4 @@
+import vue from '@vitejs/plugin-vue'
 import env from './shared/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -86,6 +87,9 @@ export default defineNuxtConfig({
     ],
   },
   nitro: {
+    rollupConfig: {
+      plugins: [vue()],
+    },
     imports: {
       dirs: [
         'shared/schemas/**/*',
