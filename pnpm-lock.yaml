@@ -93,6 +93,9 @@ importers:
       drizzle-kit:
         specifier: ^0.31.4
         version: 0.31.4
+      eslint-plugin-harlanzw:
+        specifier: ^0.0.2
+        version: 0.0.2(eslint@9.33.0(jiti@2.5.1))
       eslint-plugin-regex:
         specifier: ^1.10.0
         version: 1.10.0(eslint@9.33.0(jiti@2.5.1))
@@ -3354,6 +3357,11 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=8'
+
+  eslint-plugin-harlanzw@0.0.2:
+    resolution: {integrity: sha512-7tc57J+FSGd+qTeTm7q+oT/fDGdIJjrmzTgsDgAEJwHJ4Qmx11EUXPXYi1ovBwmUWdmlU4Gt+zv1I70KJVIjgg==}
+    peerDependencies:
+      eslint: '*'
 
   eslint-plugin-import-lite@0.3.0:
     resolution: {integrity: sha512-dkNBAL6jcoCsXZsQ/Tt2yXmMDoNt5NaBh/U7yvccjiK8cai6Ay+MK77bMykmqQA2bTF6lngaLCDij6MTO3KkvA==}
@@ -9626,6 +9634,10 @@ snapshots:
       '@eslint-community/regexpp': 4.12.1
       eslint: 9.33.0(jiti@2.5.1)
       eslint-compat-utils: 0.5.1(eslint@9.33.0(jiti@2.5.1))
+
+  eslint-plugin-harlanzw@0.0.2(eslint@9.33.0(jiti@2.5.1)):
+    dependencies:
+      eslint: 9.33.0(jiti@2.5.1)
 
   eslint-plugin-import-lite@0.3.0(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2):
     dependencies:

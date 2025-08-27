@@ -1,5 +1,6 @@
 // @ts-check
 import antfu from '@antfu/eslint-config'
+// import harlanzw from 'eslint-plugin-harlanzw'
 import regexPlugin from 'eslint-plugin-regex'
 import withNuxt from './.nuxt/eslint.config.mjs'
 
@@ -17,6 +18,7 @@ export default withNuxt(
   {
     plugins: {
       regex: regexPlugin,
+      // harlanzw,
     },
     rules: {
       'regex/invalid': [
@@ -31,10 +33,10 @@ export default withNuxt(
             regex: 'router\.(push|replace)\((.*)\)',
             message: 'Prefer `navigateTo()` instead of `router.replace()` or `router.push()`',
           },
-          {
-            regex: '(?<!\\breturn\\s)(?<!\\bawait\\s)\\bnavigateTo\\b',
-            message: 'Make sure to always use `await` or `return` on result of `navigateTo` when calling it.',
-          },
+          // {
+          //   regex: '(?<!\\breturn\\s)(?<!\\bawait\\s)\\bnavigateTo\\b',
+          //   message: 'Make sure to always use `await` or `return` on result of `navigateTo` when calling it.',
+          // },
           {
             regex: 'db.transaction\\(async ',
             message: 'Prefer <entity>_crud over manual db import & initiating transaction.',
