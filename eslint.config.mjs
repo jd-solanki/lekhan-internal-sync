@@ -5,6 +5,12 @@ import regexPlugin from 'eslint-plugin-regex'
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
+  // Global ignores - applies to all configurations
+  {
+    ignores: [
+      './.prompts/nuxt-ui.md',
+    ],
+  },
   antfu({
     vue: {
       overrides: {

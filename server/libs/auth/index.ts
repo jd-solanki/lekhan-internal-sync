@@ -1,4 +1,4 @@
-import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
+import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { render } from '@vue-email/render'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
@@ -44,6 +44,7 @@ export const auth = betterAuth({
     */
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path === '/get-session') {
+        // eslint-disable-next-line no-console
         console.log('✨ requesting session...')
         if (!ctx.context.session) {
           return ctx.json({

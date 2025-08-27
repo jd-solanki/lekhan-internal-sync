@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { authClient } from '~/libs/auth'
-
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center min-h-dvh',
