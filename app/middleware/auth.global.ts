@@ -3,6 +3,11 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   const runtimeConfig = useRuntimeConfig()
   const userStore = useUserStore()
 
+  // If it's 404 page, don't perform any authentication checks
+  if (!to.matched.length) {
+    return
+  }
+
   // Initialize user session on server & initial load
   // This will only fetch session once
   if ((import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered) || import.meta.server) {
