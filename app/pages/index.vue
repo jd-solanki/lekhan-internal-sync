@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ProductPriceFixed } from '@polar-sh/sdk/models/components/productpricefixed'
+
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center min-h-dvh',
@@ -38,7 +40,7 @@ async function createCheckoutSession() {
       App
     </UButton>
     <UButton @click="createCheckoutSession">
-      Buy Now at ${{ (product?.prices[0]?.priceAmount / 100).toFixed(2) }}
+      Buy Now at ${{ ((product?.prices[0] as unknown as ProductPriceFixed)?.priceAmount / 100).toFixed(2) }}
     </UButton>
   </div>
 </template>

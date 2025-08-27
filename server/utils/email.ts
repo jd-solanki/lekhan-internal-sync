@@ -13,12 +13,10 @@ export function getEmailService() {
   if (emailService)
     return emailService
 
-  const runtimeConfig = useRuntimeConfig()
-
   emailService = createEmailService({
     provider: smtpProvider({
-      host: runtimeConfig.smtpHost || 'localhost',
-      port: Number.parseInt(runtimeConfig.smtpPort || '1025'),
+      host: 'localhost',
+      port: 1025,
       secure: false, // typically false for development
     }),
   })

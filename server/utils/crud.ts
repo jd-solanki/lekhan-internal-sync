@@ -25,15 +25,16 @@ class BaseCrud<T extends PgTable> {
   async create(newItem: T['$inferInsert'], options?: { dbOrTx?: DBOrTx }): Promise<T['$inferSelect']> {
     const { dbOrTx = db } = options || {}
     const [result] = await dbOrTx.insert(this.table).values(newItem).returning()
-    return result
+    return result as T['$inferSelect']
   }
 
   async createMulti(newItems: T['$inferInsert'][], options?: { dbOrTx?: DBOrTx }): Promise<T['$inferSelect'][]> {
     const { dbOrTx = db } = options || {}
-    return await dbOrTx.insert(this.table).values(newItems).returning()
+    const result = await dbOrTx.insert(this.table).values(newItems).returning()
+    return result
   }
 
-  async patch(params: { patchedItem: Partial<T['$inferInsert']>, where: CrudParamWhere }, options?: { dbOrTx?: DBOrTx }) {
+  async patch(params: { patchedItem: Partial<T['$inferInsert']>, where: SQL | undefined }, options?: { dbOrTx?: DBOrTx }) {
     const { dbOrTx = db } = options || {}
     return await dbOrTx.update(this.table).set(params.patchedItem).where(params.where).returning()
   }

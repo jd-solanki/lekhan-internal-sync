@@ -88,7 +88,10 @@ export default defineNuxtConfig({
   },
   nitro: {
     rollupConfig: {
-      plugins: [vue()],
+      plugins: [
+        /* @ts-expect-error Because we're using vue component inside server scope */
+        vue(),
+      ],
     },
     imports: {
       dirs: [
