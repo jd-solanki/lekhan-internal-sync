@@ -1,4 +1,4 @@
-name: Generate Mermaid SVGs
+name: 🖼️ Generate Mermaid SVGs
 
 # This workflow automatically generates SVG files from Mermaid diagrams
 # Supports:

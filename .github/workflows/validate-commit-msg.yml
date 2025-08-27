@@ -1,4 +1,4 @@
-name: Validate commit message
+name: 🕵🏻‍♂️ Validate commit message
 
 on: [push, pull_request]
 

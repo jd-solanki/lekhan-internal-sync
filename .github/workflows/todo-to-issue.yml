@@ -1,4 +1,4 @@
-name: Convert TODO comments to issues
+name: ✅ Convert TODO comments to issues
 
 on:
   push:

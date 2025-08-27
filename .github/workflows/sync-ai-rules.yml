@@ -1,4 +1,4 @@
-name: Sync AI Rules
+name: 🔄 Sync AI Rules
 on:
   # schedule:
   #   - cron: '0 0 1 * *' # Monthly

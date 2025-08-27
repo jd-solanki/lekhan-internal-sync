@@ -1,4 +1,4 @@
-name: Linting and Type Checking
+name: 🕵🏻‍♂️ Linting and Type Checking
 
 on:
   pull_request:
