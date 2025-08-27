@@ -1,0 +1,31 @@
+name: Release
+run-name: ✨ Release ${{ github.ref_name }}
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GitHubPersonalToken: ${{ secrets.GH_PAT }}
+    steps:
+      - name: ⚙️ Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: ⬇️ Checkout template
+        uses: actions/checkout@v4
+
+      - name: ⬇️ Install packages in typescript full version
+        working-directory: ${{ env.BRAND_NAME }}/vue/typescript-version/full-version
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 🚀 Release
+        run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "Please refer to live [changelog](${{ vars.WEBSITE_URL }}/changelog) for details." --verify-tag
