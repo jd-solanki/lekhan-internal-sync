@@ -11,30 +11,8 @@ type Order = NonNullable<UnwrapRef<typeof data>>['result']['items'][number]
 
 const columns: TableColumn<Order>[] = [
   {
-    id: 'expand',
-    cell: ({ row }) =>
-      h(UButton, {
-        'color': 'neutral',
-        'variant': 'ghost',
-        'icon': 'i-lucide-chevron-down',
-        'square': true,
-        'aria-label': 'Expand',
-        'ui': {
-          leadingIcon: [
-            'transition-transform',
-            row.getIsExpanded() ? 'duration-200 rotate-180' : '',
-          ],
-        },
-        'onClick': () => row.toggleExpanded(),
-      }),
-  },
-  {
-    accessorKey: 'id',
-    header: 'ID',
-  },
-  {
-    header: 'Purchase Date',
-    cell: ({ row }) => row.original.items[0]?.createdAt ? new Date(row.original.items[0].createdAt).toLocaleString() : '',
+    header: 'Product',
+    cell: ({ row }) => row.original.product.name,
   },
   {
     header: 'Amount',
@@ -67,6 +45,10 @@ const columns: TableColumn<Order>[] = [
   {
     accessorKey: 'billingAddress',
     header: 'Billing Address',
+  },
+  {
+    header: 'Purchase Date',
+    cell: ({ row }) => row.original.items[0]?.createdAt ? new Date(row.original.items[0].createdAt).toLocaleString() : '',
   },
   {
     accessorKey: 'isInvoiceGenerated',
@@ -120,22 +102,6 @@ async function handleInvoiceAction(order: Order) {
       :loading="status === 'pending'"
       class="flex-1"
     >
-      <!-- Expanded row -->
-      <template #expanded="{ row }">
-        <p class="mb-2">
-          Purchased Items:
-        </p>
-        <ul class="list-disc list-inside space-y-1">
-          <li
-            v-for="p in row.original.items"
-            :key="p.id"
-            class="space-x-2"
-          >
-            <span>{{ p.label }}</span>
-            <span>({{ formatPolarAmount(p.amount) }})</span>
-          </li>
-        </ul>
-      </template>
       <!-- Col: Billing Address -->
       <template #billingAddress-cell="{ row }">
         <UPopover mode="hover">
