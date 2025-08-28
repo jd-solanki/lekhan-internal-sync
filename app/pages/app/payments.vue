@@ -112,6 +112,7 @@ async function handleInvoiceAction(order: Order) {
 <template>
   <div>
     <AppPageHeader title="Payments" />
+    <!-- TODO: Add pagination -->
     <UTable
       :data="data?.result.items || []"
       :columns="columns"
