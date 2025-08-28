@@ -113,6 +113,7 @@ async function handleInvoiceAction(order: Order) {
   <div>
     <AppPageHeader title="Payments" />
     <!-- TODO: Add pagination -->
+    <!-- Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/46 -->
     <UTable
       :data="data?.result.items || []"
       :columns="columns"
