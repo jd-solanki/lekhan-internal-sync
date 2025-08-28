@@ -16,8 +16,18 @@ export default defineAppConfig({
         },
         {
           label: 'Playground',
-          to: '/playground',
+          to: '/app/playground',
           icon: 'lucide:gamepad-2',
+        },
+        {
+          label: 'Billing',
+          to: '/app/billing',
+          icon: 'lucide:credit-card',
+        },
+        {
+          label: 'Payments',
+          to: '/app/payments',
+          icon: 'lucide:dollar-sign',
         },
       ],
     },
@@ -44,6 +54,11 @@ export default defineAppConfig({
             root: 'divide-none gap-6 flex flex-col',
           },
         },
+      },
+    },
+    table: {
+      slots: {
+        thead: 'text-nowrap',
       },
     },
   },

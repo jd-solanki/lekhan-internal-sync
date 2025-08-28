@@ -26,5 +26,14 @@
             "const runtimeConfig = useRuntimeConfig()"
         ],
         "description": "get runtimeConfig"
+    },
+    "Create nitro event handler": {
+        "prefix": "!event",
+        "body": [
+            "export default defineEventHandler(async (event) => {",
+            "  ${1}",
+            "})"
+        ],
+        "description": "Create nitro event handler"
     }
 }

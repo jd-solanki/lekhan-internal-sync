@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const paymentStatus = getFirstQueryValue('paymentStatus')
 const { successToast } = useToastMessage()
+const route = useRoute()
 
 if (paymentStatus === 'success') {
   onMounted(() => {
@@ -9,11 +10,15 @@ if (paymentStatus === 'success') {
       description: 'Thank you for your purchase!',
     })
   })
+
+  // Remove query params after showing success toast
+  // UX: Replace the previous route so if user tries to go back it don't land of same path having query params
+  navigateTo(route.path, { replace: true })
 }
 </script>
 
 <template>
   <div>
-    <h1>Dashboard Page</h1>
+    <AppPageHeader title="Dashboard" />
   </div>
 </template>

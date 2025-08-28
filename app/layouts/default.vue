@@ -8,7 +8,7 @@ const routeMeta = route.meta
     <LayoutDefaultAside />
     <main
       :class="[routeMeta.mainClass]"
-      class="grow bg-(--ui-bg) rounded-lg m-2 ring ring-(--ui-border) p-6"
+      class="grow bg-(--ui-bg) rounded-lg m-2 ring ring-(--ui-border) p-6 overflow-auto"
     >
       <slot />
     </main>

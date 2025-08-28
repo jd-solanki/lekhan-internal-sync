@@ -4,10 +4,10 @@
 
 <template>
   <div>
-    <div>
-      <h1>Playground</h1>
-      <small>Experiment with your ideas here!</small>
-    </div>
+    <AppPageHeader
+      title="Playground"
+      description="Experiment with your ideas here!"
+    />
     <div>
       <!-- Write your code here -->
     </div>
