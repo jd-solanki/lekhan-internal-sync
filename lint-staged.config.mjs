@@ -3,6 +3,6 @@
  * @type {import('lint-staged').Configuration}
  */
 export default {
-  '*': 'pnpm lint',
+  '*': stagedFiles => `pnpm lint ${stagedFiles.join(' ')}`,
   '*.{vue,js,jsx,ts,tsx}': () => 'pnpm typecheck',
 }
