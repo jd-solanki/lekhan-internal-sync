@@ -11,6 +11,7 @@
     "bradlc.vscode-tailwindcss",
     "meganrogge.template-string-converter",
     "vue.volar",
-    "matijao.vue-nuxt-snippets"
+    "matijao.vue-nuxt-snippets",
+    "github.vscode-github-actions"
   ]
 }
