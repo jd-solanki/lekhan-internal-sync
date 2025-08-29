@@ -38,6 +38,11 @@
 - Ignore `.nuxt/` and `.output/` in git.
 - Nuxt enforces auto-imports and we also prefer the same
 
+### Components
+
+- When using `UButton` if it's Async operation add `loading-auto` to it.
+- If extracting page specific components, place them in `app/components/pages/`. E.g. For `app/pages/dashboard.vue`, place components in `app/components/pages/dashboard/`.
+
 ### Data Fetching
 
 - Use `useFetch()` or `useAsyncData()` for SSR-safe fetching. E.g. Fetching data from an API:
