@@ -16,7 +16,7 @@ jobs:
           curl -sL https://raw.githubusercontent.com/HugoRCD/nuxt-ui-rules/refs/heads/main/rules/nuxt-ui.md --output nuxt-ui.md
       - name: Compare and commit if changed
         run: |
-          if ! cmp -s nuxt-ui.md .prompts/nuxt-ui.md; then
+          if ! cmp -s nuxt-ui.md .prompts/nuxt-ui.instructions.md; then
             mv nuxt-ui.md .prompts/nuxt-ui.md
             git config user.name "${{ github.actor }}"
             git config user.email "${{ github.actor }}@users.noreply.github.com"

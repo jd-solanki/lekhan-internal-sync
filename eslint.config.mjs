@@ -8,7 +8,7 @@ export default withNuxt(
   // Global ignores - applies to all configurations
   {
     ignores: [
-      './.prompts/nuxt-ui.md',
+      './.prompts/nuxt-ui.instructions.md',
     ],
   },
   antfu({
