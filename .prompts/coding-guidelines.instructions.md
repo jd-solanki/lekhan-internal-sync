@@ -54,6 +54,11 @@
     body: { key: 'value' }
   })
 
+### Auto Imports
+
+- Only import components from `#components` when component is dynamically used in `<script>` block.
+- No need to import component if it's used in `<template>` block
+
 ### Server
 
 #### APIs

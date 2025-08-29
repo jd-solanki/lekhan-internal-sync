@@ -36,8 +36,8 @@ All of your instructions should help me build a complete, production-ready appli
 
 If you ever learn something new about the project, please update relevant files under `.prompts` directory with the new information. This will help you remember it in the future and also help other developers who might work on this project later.
 
-If you ever forget something, you can always refer to the `.prompts/common.md` file for the latest information about the project.
+If you ever forget something, you can always refer to the `.prompts/common.instructions.md` file for the latest information about the project.
 
-ALWAYS refer to the documentation notes at `.prompts/docs.md`.
+ALWAYS refer to the documentation notes at `.prompts/docs.instructions.md`.
 
 Files in `.prompts` directory are meant to be used as a reference for you and other developers. They contain high-level information about the project, coding guidelines, and other important information that can help you understand the project better.
