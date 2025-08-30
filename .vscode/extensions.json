@@ -12,6 +12,7 @@
     "meganrogge.template-string-converter",
     "vue.volar",
     "matijao.vue-nuxt-snippets",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "orta.vscode-twoslash-queries"
   ]
 }

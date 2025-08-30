@@ -5,7 +5,18 @@ import { ConfirmModal, UBadge, UButton } from '#components'
 
 const { successToast } = useToastMessage()
 const overlay = useOverlay()
-const { data, status } = await useLazyFetch('/api/polar/orders')
+
+// Use pagination composable that handles both page & size
+const { currentPage, pageSize } = usePagination()
+
+// Optimized fetch with computed query parameter mapping
+const { data, status } = await useLazyFetch('/api/polar/orders', {
+  query: {
+    page: currentPage,
+    size: pageSize,
+  },
+  watch: [currentPage, pageSize],
+})
 
 type Order = NonNullable<UnwrapRef<typeof data>>['result']['items'][number]
 
@@ -55,6 +66,9 @@ const columns: TableColumn<Order>[] = [
     header: 'Invoice',
   },
 ]
+
+// Pagination computed properties
+const totalItems = computed(() => data.value?.result?.pagination?.totalCount || 0)
 
 async function handleInvoiceAction(order: Order) {
   const orderId = order.id
@@ -162,5 +176,12 @@ async function handleInvoiceAction(order: Order) {
         </UButton>
       </template>
     </UTable>
+
+    <!-- Pagination Controls -->
+    <AppPaginationFooter
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :total-items="totalItems"
+    />
   </div>
 </template>

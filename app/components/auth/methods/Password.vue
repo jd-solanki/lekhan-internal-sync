@@ -21,7 +21,7 @@ const parsedQuery = useParsedQuery(
     nextAction: z.string().optional(),
     productId: z.string().optional(),
   }),
-  { redirectUrl: undefined, nextAction: undefined, productId: undefined },
+  {},
   { route },
 )
 
