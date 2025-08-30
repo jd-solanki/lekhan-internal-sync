@@ -1,5 +1,3 @@
-import { polarClient } from '~~/server/libs/polar'
-
-export default defineEventHandler(() => {
-  return polarClient.customers.getStateExternal({ externalId: '32' })
+export default defineAuthenticatedEventHandler(async (event) => {
+  return getPolarCustomerState(event.context.user.id)
 })

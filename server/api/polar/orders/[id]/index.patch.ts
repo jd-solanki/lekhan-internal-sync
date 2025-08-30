@@ -6,7 +6,7 @@ const routerParamsSchema = z.object({
   id: z.string(),
 })
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const routerParams = await getValidatedRouterParams(event, routerParamsSchema.parse)
   const body = await readValidatedBody(event, schemaPolarOrderBillingUpdate.parse)
 

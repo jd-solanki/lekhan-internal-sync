@@ -6,7 +6,7 @@ const routerParamsSchema = z.object({
   id: z.uuidv4(),
 })
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const routerParams = await getValidatedRouterParams(event, routerParamsSchema.parse)
 
   // Polar will generate invoice in background and trigger the `order.updated` webhook

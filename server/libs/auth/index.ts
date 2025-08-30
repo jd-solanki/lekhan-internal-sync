@@ -1,3 +1,4 @@
+import type { User } from 'better-auth'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { render } from '@vue-email/render'
 import { betterAuth } from 'better-auth'
@@ -8,6 +9,8 @@ import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
 import { db } from '../../db'
+
+export type UserWithId = Omit<User, 'id'> & { id: number }
 
 const runtimeConfig = useRuntimeConfig()
 

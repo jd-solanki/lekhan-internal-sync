@@ -19,5 +19,12 @@
             "const paymentsStore = usePaymentsStore()"
         ],
         "description": "get paymentsStore"
+    },
+    "Get polar customer state": {
+        "prefix": "!pocstate",
+        "body": [
+            "const polarCustomerState = await getPolarCustomerState(event.context.user.id)"
+        ],
+        "description": "Get polar customer state"
     }
 }
