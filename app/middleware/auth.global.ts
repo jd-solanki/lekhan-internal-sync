@@ -58,7 +58,7 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     }
   }
 
-  if (to.meta.redirectIfLoggedIn) {
+  if (to.meta.redirectIfSignedIn) {
     if (userStore.user) {
       // Redirect to home page if already logged in
       return navigateTo(runtimeConfig.public.app.routes.home)

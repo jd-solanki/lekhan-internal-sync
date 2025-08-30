@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to) => {
   // Set default values for route meta properties
   if (to.meta) {
     to.meta.isAuthRequired = to.meta.isAuthRequired ?? true
-    to.meta.redirectIfLoggedIn = to.meta.redirectIfLoggedIn ?? false
+    to.meta.redirectIfSignedIn = to.meta.redirectIfSignedIn ?? false
 
     /*
     Based on runtime configuration of `isEmailVerificationRequiredForAccess`,

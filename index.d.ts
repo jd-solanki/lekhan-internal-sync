@@ -2,7 +2,7 @@ declare module '#app' {
   interface PageMeta {
     mainClass?: string /* Add class to layout's <main> element */
     isAuthRequired?: boolean /* If true, the page requires authentication */
-    redirectIfLoggedIn?: boolean /* If true, the page redirects if the user is already logged in */
+    redirectIfSignedIn?: boolean /* If true, the page redirects if the user is already logged in */
     isEmailVerificationRequired?: boolean /* If true, the page requires email verification */
     redirectIfEmailVerified?: boolean /* If true, the page redirects if the user has already verified their email */
     requiredQueryParamsOrRedirect?: { /* If present, the page requires these query params or redirects */

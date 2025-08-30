@@ -1,11 +1,11 @@
 // import { authClient } from '~/libs/auth';
 
 export const usePaymentsStore = defineStore('payments', () => {
-  async function createCheckoutSession(productId: string) {
-    const userStore = useUserStore()
-    const { infoToast } = useToastMessage()
-    const runtimeConfig = useRuntimeConfig()
+  const userStore = useUserStore()
+  const { infoToast } = useToastMessage()
+  const runtimeConfig = useRuntimeConfig()
 
+  async function createCheckoutSession(productId: string) {
     // Check if user is authenticated as only authenticated users can create checkout sessions
     if (!userStore.user) {
       infoToast({
@@ -14,7 +14,7 @@ export const usePaymentsStore = defineStore('payments', () => {
       await navigateTo(`${runtimeConfig.public.app.routes.signIn}?nextAction=checkout&productId=${productId}`)
     }
 
-    authClient.checkout({
+    await authClient.checkout({
       products: [productId],
     })
   }

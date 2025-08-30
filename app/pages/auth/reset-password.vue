@@ -4,7 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center min-h-dvh',
-  redirectIfLoggedIn: true,
+  redirectIfSignedIn: true,
   isAuthRequired: false,
   requiredQueryParamsOrRedirect: {
     token: {
