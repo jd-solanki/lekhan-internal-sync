@@ -29,6 +29,7 @@ export const useUserStore = defineStore('user', () => {
       await authClient.signUp.email({
         ...body,
         name: body.email.split('@')[0] as string, // BetterAuth requires name col
+        callbackURL: runtimeConfig.public.app.routes.signIn,
       }, {
         onSuccess: async (_ctx) => {
           lastSignInMethod.value = 'email'

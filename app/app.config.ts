@@ -25,9 +25,10 @@ export default defineAppConfig({
           icon: 'lucide:credit-card',
         },
         {
-          label: 'Payments',
-          to: '/app/payments',
-          icon: 'lucide:dollar-sign',
+          label: 'Customer Portal',
+          icon: 'i-lucide-store',
+          to: '/polar/customer-portal',
+          target: '_blank',
         },
       ],
     },
