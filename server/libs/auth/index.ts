@@ -21,7 +21,7 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       use: [
         checkout({
-          successUrl: '/app?paymentStatus=success',
+          successUrl: `/app?flash_message__success=${encodeURIComponent('Payment processed successfully')}`,
           authenticatedUsersOnly: true,
         }),
         portal(),
