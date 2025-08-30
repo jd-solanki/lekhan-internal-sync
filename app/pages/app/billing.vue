@@ -17,11 +17,14 @@ const { successToast } = useToastMessage()
 
 const { data: activeSubscriptions, refresh: refreshActiveSubscriptions, pending: isFetchingSubscriptions } = await useLazyAsyncData(
   'polar:customer:subscriptions:list',
-  async () => await authClient.customer.subscriptions.list(),
+  () => authClient.customer.subscriptions.list(),
 )
 
 // NOTE: You'll have only single active subscription
-const activeSubscription = computed(() => activeSubscriptions.value?.data?.result.items[0])
+const activeSubscription = computed(() => {
+  const activeSubscription = activeSubscriptions.value?.data?.result.items[0]
+  return activeSubscription?.status === 'active' ? activeSubscription : null
+})
 
 const isSubscriptionProcessActive = ref(false)
 const withLoading = createWithLoading(isSubscriptionProcessActive)
@@ -44,6 +47,18 @@ async function handlePlanClick(productId: string) {
   else {
     await paymentsStore.createCheckoutSession(productId)
   }
+}
+
+async function cancelSubscription() {
+  await $fetch(`/api/polar/subscriptions/${activeSubscription.value?.id}`, {
+    method: 'DELETE',
+  })
+
+  successToast({
+    title: 'Subscription cancelled successfully!',
+  })
+
+  await refreshActiveSubscriptions()
 }
 </script>
 
@@ -86,6 +101,17 @@ async function handlePlanClick(productId: string) {
           {{ activeSubscription ? 'Update Plan' : 'Buy Now' }}
         </UButton>
       </UCard>
+
+      <UButton
+        v-if="activeSubscription"
+        variant="soft"
+        color="error"
+        loading-auto
+        :disabled="isSubscriptionProcessActive"
+        @click="withLoading(async () => await cancelSubscription())"
+      >
+        Cancel Subscription
+      </UButton>
     </div>
   </div>
 </template>
