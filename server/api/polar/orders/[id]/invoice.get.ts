@@ -1,4 +1,4 @@
-// https://docs.polar.sh/api-reference/orders/get-invoice
+// Polar Docs: https://docs.polar.sh/api-reference/orders/get-invoice
 import * as z from 'zod'
 import { polarClient } from '~~/server/libs/polar'
 

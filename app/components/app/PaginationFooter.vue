@@ -4,7 +4,7 @@ interface Props {
   pageSizeOptions?: number[]
 }
 
-const { pageSizeOptions } = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   pageSizeOptions: () => [10, 20, 50],
 })
 

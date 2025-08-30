@@ -22,6 +22,13 @@
 - Always use TypeScript for type safety.
 - Organize logic via composables in `app/composables/` (auto-imported).
 
+### Validation & Schemas
+
+- Use Zod v4 for validation schemas. With Zod v4, use ternary operator to provide better error messages: `z.email({ error: e => !e.input ? 'Email is required' : 'Invalid email address' })`.
+- Never duplicate validation schemas between client and server. Keep shared schemas in `shared/schemas/` directory if they need to be used on both sides.
+- Always check for existing schemas in `shared/schemas/` before creating new ones.
+- Shared schemas from `shared/schemas/` are auto-imported by Nuxt, no manual import required.
+
 ### 🎨 Styling
 
 - We use NuxtUI for UI components which uses tailwind 4 for styling.
