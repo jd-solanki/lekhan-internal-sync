@@ -31,6 +31,18 @@ export default defineAppConfig({
           target: '_blank',
         },
       ],
+      adminNavigationItems: [
+        {
+          label: 'Back to App',
+          to: '/app',
+          icon: 'i-lucide-arrow-left',
+        },
+        {
+          label: 'Users',
+          to: '/admin/users',
+          icon: 'i-lucide-users',
+        },
+      ],
     },
   },
   mail: {

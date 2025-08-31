@@ -47,6 +47,12 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
         // Redirect to home page
         return navigateTo(runtimeConfig.public.app.routes.home)
       }
+
+      // Check if route is admin only
+      if (to.meta.isAdminOnly && userStore.user.role !== 'admin') {
+        // Redirect to 403 page if user is not admin
+        return navigateTo('/auth/forbidden')
+      }
     }
     else {
       // Redirect to sign in page if not logged in

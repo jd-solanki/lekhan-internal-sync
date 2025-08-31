@@ -3,9 +3,14 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
+const { isAdminOnlyRoute } = useAdmin()
 
-const items = ref<NavigationMenuItem[][]>([
-  appConfig.layout.default.navigationItems,
+const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
+  isAdminOnlyRoute.value
+    ? userStore.isUserAdmin
+      ? appConfig.layout.default.adminNavigationItems
+      : []
+    : appConfig.layout.default.navigationItems,
 ])
 </script>
 

@@ -11,4 +11,5 @@ export const session = pgTable('session', {
   ipAddress: inet(), /* postgres provides built in inet column type */
   userAgent: text(), /* User agent string length can vary hence text type is used */
   userId: integer().notNull().references(() => user.id, { onDelete: 'cascade' }),
+  impersonatedBy: integer().references(() => user.id, { onDelete: 'set null' }),
 })

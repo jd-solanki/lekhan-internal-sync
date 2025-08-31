@@ -3,7 +3,7 @@ import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { render } from '@vue-email/render'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { createAuthMiddleware, magicLink } from 'better-auth/plugins'
+import { admin, createAuthMiddleware, magicLink } from 'better-auth/plugins'
 import EmailTemplateVerifyEmail from '~~/server/emails/auth/verifyEmail.vue'
 import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
@@ -16,6 +16,7 @@ const runtimeConfig = useRuntimeConfig()
 
 export const auth = betterAuth({
   plugins: [
+    admin(),
     polar({
       client: polarClient,
       createCustomerOnSignUp: true,

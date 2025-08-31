@@ -1,18 +1,16 @@
-export function usePagination(options?: { page?: number, size?: number, route: ReturnType<typeof useRoute> }) {
+export function usePagination(options?: { defaultPage?: number, defaultSize?: number, route: ReturnType<typeof useRoute> }) {
+  const { route = useRoute(), defaultPage = 1, defaultSize = 10 } = options || {}
   // Get pagination state from URL query parameters
-  const paginationQuery = useParsedQuery(paginationSchema, {
-    page: options?.page ?? 1,
-    size: options?.size ?? 10,
-  }, { route: options?.route })
+  const paginationQuery = useParsedQuery(paginationSchema, { page: defaultPage, size: defaultSize }, { route })
 
   // Separate computed for page to work with UPagination component
-  const currentPage = computed({
+  const page = computed({
     get: () => paginationQuery.value.page,
     set: (value) => {
       navigateTo({
         query: {
-          ...useRoute().query,
-          page: value,
+          ...route.query,
+          page: value === defaultPage ? undefined : value,
           size: paginationQuery.value.size,
         },
       })
@@ -25,16 +23,16 @@ export function usePagination(options?: { page?: number, size?: number, route: R
     set: (value) => {
       navigateTo({
         query: {
-          ...useRoute().query,
-          page: 1, // Reset to first page when changing page size
-          size: value,
+          ...route.query,
+          page: undefined, // Reset to first page when changing page size
+          size: value === defaultSize ? undefined : value,
         },
       })
     },
   })
 
   return {
-    currentPage,
+    page,
     pageSize,
   }
 }

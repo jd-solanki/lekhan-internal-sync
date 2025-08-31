@@ -3,6 +3,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // Set default values for route meta properties
   if (to.meta) {
+    to.meta.isAdminOnly = to.meta.isAdminOnly ?? false
     to.meta.isAuthRequired = to.meta.isAuthRequired ?? true
     to.meta.redirectIfSignedIn = to.meta.redirectIfSignedIn ?? false
 

@@ -1,6 +1,7 @@
 declare module '#app' {
   interface PageMeta {
     mainClass?: string /* Add class to layout's <main> element */
+    isAdminOnly?: boolean /* If true, the page is only accessible to admin users */
     isAuthRequired?: boolean /* If true, the page requires authentication */
     redirectIfSignedIn?: boolean /* If true, the page redirects if the user is already logged in */
     isEmailVerificationRequired?: boolean /* If true, the page requires email verification */

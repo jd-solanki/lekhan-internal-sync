@@ -4,6 +4,8 @@ import type { NuxtError } from '#app'
 defineProps({
   error: Object as () => NuxtError,
 })
+
+const runtimeConfig = useRuntimeConfig()
 </script>
 
 <template>
@@ -26,7 +28,7 @@ defineProps({
       </DevOnly>
 
       <UButton
-        to="/"
+        :to="runtimeConfig.public.app.routes.home"
         class="ms-auto"
       >
         Go back home

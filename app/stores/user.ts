@@ -22,6 +22,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const user = computed(() => session.value?.data?.user)
+  const isUserAdmin = computed(() => user.value?.role === 'admin')
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
 
   async function signUp(body: SchemaSignUp) {
@@ -197,6 +198,7 @@ export const useUserStore = defineStore('user', () => {
     // user session
     init,
     user,
+    isUserAdmin,
     isLoading,
   }
 })
