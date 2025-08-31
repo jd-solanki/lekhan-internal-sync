@@ -220,10 +220,10 @@ const columns: TableColumn<any>[] = [
       </template>
     </UTable>
 
-    <AppPaginationFooter
-      v-model:current-page="page"
+    <TablePagination
+      v-model:page="page"
       v-model:page-size="pageSize"
-      :total-items="users?.total ?? (users?.users?.length || 0)"
+      :total="users?.total ?? (users?.users?.length || 0)"
     />
   </div>
 </template>

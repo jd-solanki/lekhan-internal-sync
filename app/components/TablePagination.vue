@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  totalItems: number
+  total: number
   pageSizeOptions?: number[]
 }
 
@@ -9,7 +9,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 // Use defineModel for v-model binding
-const currentPage = defineModel<number>('currentPage', { required: true })
+const page = defineModel<number>('page', { required: true })
 const pageSize = defineModel<number>('pageSize', { required: true })
 </script>
 
@@ -17,7 +17,7 @@ const pageSize = defineModel<number>('pageSize', { required: true })
   <div class="flex flex-col md:flex-row items-center flex-wrap gap-4 mt-6 p-4">
     <!-- Results info and page size selector -->
     <div class="text-sm text-muted text-nowrap">
-      Showing {{ ((currentPage - 1) * pageSize) + 1 }} to {{ Math.min(currentPage * pageSize, totalItems) }} of {{ totalItems }} results
+      Showing {{ ((page - 1) * pageSize) + 1 }} to {{ Math.min(page * pageSize, total) }} of {{ total }} results
     </div>
 
     <div class="grow" />
@@ -34,9 +34,9 @@ const pageSize = defineModel<number>('pageSize', { required: true })
 
     <!-- Pagination component -->
     <UPagination
-      v-model:page="currentPage"
+      v-model:page="page"
       :items-per-page="pageSize"
-      :total="totalItems"
+      :total="total"
       show-edges
       active-variant="subtle"
       class="md:ms-auto"
