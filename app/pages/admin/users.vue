@@ -66,8 +66,8 @@ const columns: TableColumn<any>[] = [
     accessorKey: 'emailVerified',
     header: 'Email Verified',
     cell: ({ row }) => (row.getValue('emailVerified')
-      ? h(UIcon, { name: 'i-lucide-badge-check', class: 'text-green-600' })
-      : h(UIcon, { name: 'i-lucide-circle-x', class: 'text-red-600' })),
+      ? h(UIcon, { name: 'i-lucide-badge-check', class: 'text-blue-400 text-lg' })
+      : h(UIcon, { name: 'i-lucide-circle-x', class: 'text-lg' })),
   },
   { accessorKey: 'role', header: 'Role' },
   {
@@ -110,7 +110,7 @@ const columns: TableColumn<any>[] = [
         <div class="mb-4 flex items-center gap-2">
           <!-- Search Users -->
           <UButtonGroup>
-            <UInput
+            <SearchInput
               v-model="q"
               placeholder="Search users"
               class="max-w-md"
