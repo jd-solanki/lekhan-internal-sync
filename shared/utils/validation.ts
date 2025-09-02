@@ -102,3 +102,9 @@ export function partialParse<T extends z.ZodRawShape, D extends Partial<z.infer<
 
   return result as MergeDeep<Partial<z.infer<z.ZodObject<T>>>, { [x in keyof D]: D[x] }>
 }
+
+export function extractDefaultValuesFromSchema<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
+  return Object.fromEntries(
+    Object.entries(schema.shape).map(([key, value]) => [key, value._def.defaultValue]),
+  )
+}

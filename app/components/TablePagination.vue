@@ -38,7 +38,7 @@ const pageSize = defineModel<number>('pageSize', { required: true })
       :items-per-page="pageSize"
       :total="total"
       show-edges
-      active-variant="subtle"
+      active-variant="soft"
       class="md:ms-auto"
     />
   </div>

@@ -1,3 +1,5 @@
+import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+
 declare module '#app' {
   interface PageMeta {
     mainClass?: string /* Add class to layout's <main> element */
@@ -11,6 +13,19 @@ declare module '#app' {
         redirectUrl: string /* URL to redirect to if the query param is missing */
         errorMessage?: string /* Optional error message to show if the query param is missing */
         redirectOptions?: Parameters<typeof navigateTo>[1] /* Options for the middleware redirect */
+      }
+    }
+  }
+}
+
+declare module 'nuxt/schema' {
+  interface AppConfigInput {
+    layout?: {
+      default?: {
+        navigationItems?: NavigationMenuItem[]
+        adminNavigationItems?: NavigationMenuItem[]
+        navigationFooterItems?: NavigationMenuItem[]
+        themePreferences?: DropdownMenuItem[]
       }
     }
   }

@@ -12,6 +12,16 @@ defineShortcuts({
 })
 
 const groups: CommandPaletteGroup[] = [
+  ...(userStore.isUserAdmin
+    ? [
+        {
+          id: 'adminPages',
+          label: 'Admin Pages',
+          items: appConfig.layout.default.adminNavigationItems.map(i => ({ ...i, active: false })),
+        },
+      ]
+    : []
+  ),
   {
     id: 'pages',
     label: 'Pages',
@@ -19,8 +29,8 @@ const groups: CommandPaletteGroup[] = [
     items: appConfig.layout.default.navigationItems.map(i => ({ ...i, active: false })),
   },
   {
-    id: 'action',
-    label: 'Actions',
+    id: 'account',
+    label: 'Account',
     items: [
       {
         icon: 'lucide:log-out',
@@ -28,6 +38,11 @@ const groups: CommandPaletteGroup[] = [
         onSelect: userStore.signOut,
       },
     ],
+  },
+  {
+    id: 'theme',
+    label: 'Theme',
+    items: appConfig.layout.default.themePreferences,
   },
 ]
 </script>

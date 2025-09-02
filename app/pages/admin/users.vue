@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { TableColumn } from '@nuxt/ui'
 import { UIcon } from '#components'
+import * as z from 'zod'
 
 definePageMeta({
   isAdminOnly: true,
@@ -11,11 +12,9 @@ const { q, qDebounced } = useSearchQuery()
 
 // Query Field
 const queryFields = ['name', 'email'] as const
-type QueryField = (typeof queryFields)[number]
-const queryField = ref<QueryField>('name')
-
-// Pagination
-const { page, pageSize } = usePagination()
+const parsedQuery = useParsedQuery(paginationSchema.extend({
+  qField: z.enum(queryFields).default('name'),
+}), { page: 1, size: 10 })
 
 // Sorting state (TanStack Table sorting model)
 type Sorting = { id: string, desc: boolean }[]
@@ -28,7 +27,7 @@ const { data: users, pending: isLoading } = useLazyAsyncData(
     const res = await authClient.admin.listUsers({
       query: {
         searchValue: qDebounced.value || undefined,
-        searchField: queryField.value,
+        searchField: parsedQuery.value.qField,
         searchOperator: 'contains',
         // Sorting
         sortBy: sorting.value[0]?.id,
@@ -37,20 +36,23 @@ const { data: users, pending: isLoading } = useLazyAsyncData(
         // filterField: effectiveFilter.value?.field,
         // filterOperator: effectiveFilter.value?.operator,
         // filterValue: effectiveFilter.value?.value as any,
-        limit: pageSize.value,
-        offset: (page.value - 1) * pageSize.value,
+        limit: parsedQuery.value.size,
+        offset: (parsedQuery.value.page - 1) * parsedQuery.value.size,
       },
     })
     return res?.data
   },
-  { watch: [qDebounced, queryField, sorting, page, pageSize], server: false, immediate: true },
+  { watch: [qDebounced, () => parsedQuery.value.qField, sorting, () => parsedQuery.value.page, () => parsedQuery.value.size], server: false, immediate: true },
 )
 
 // Reset to first page when search/filter changes
-watch([qDebounced, queryField, sorting], () => {
-  if (page.value !== 1)
-    page.value = 1
-})
+watch(
+  [qDebounced, () => parsedQuery.value.qField, sorting],
+  () => {
+    if (parsedQuery.value.page !== 1)
+      parsedQuery.value.page = 1
+  },
+)
 
 // Ensure visible loading state on initial mount and during refetches
 const isTableLoading = computed(() => isLoading.value || !users.value)
@@ -118,7 +120,7 @@ const columns: TableColumn<any>[] = [
             />
 
             <USelect
-              v-model="queryField"
+              v-model="parsedQuery.qField"
               :items="[...queryFields]"
             />
           </UButtonGroup>
@@ -221,9 +223,10 @@ const columns: TableColumn<any>[] = [
     </UTable>
 
     <TablePagination
-      v-model:page="page"
-      v-model:page-size="pageSize"
+      v-model:page="parsedQuery.page"
+      v-model:page-size="parsedQuery.size"
       :total="users?.total ?? (users?.users?.length || 0)"
+      :page-size-options="[5, 10]"
     />
   </div>
 </template>

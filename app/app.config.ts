@@ -33,14 +33,47 @@ export default defineAppConfig({
       ],
       adminNavigationItems: [
         {
-          label: 'Back to App',
-          to: '/app',
-          icon: 'i-lucide-arrow-left',
-        },
-        {
           label: 'Users',
           to: '/admin/users',
           icon: 'i-lucide-users',
+        },
+      ],
+      navigationFooterItems: [
+        {
+          label: 'Feedback',
+          icon: 'i-lucide-message-square',
+          // Nuxt: Doesn't support importing components in appConfig due to nitro
+          // Issue: https://github.com/nuxt/nuxt/issues/33109
+          // onClick: () => useOverlay().create(FeedbackForm).open(),
+        },
+        {
+          label: 'Docs',
+          // to: '/docs',
+          icon: 'i-lucide-book',
+          target: '_blank',
+        },
+        {
+          label: 'Support',
+          // to: '/support',
+          icon: 'i-lucide-life-buoy',
+          target: '_blank',
+        },
+      ],
+      themePreferences: [
+        {
+          label: 'System',
+          icon: 'i-lucide-monitor',
+          onSelect: () => useColorMode().preference = 'system',
+        },
+        {
+          label: 'Light',
+          icon: 'i-lucide-sun',
+          onSelect: () => useColorMode().preference = 'light',
+        },
+        {
+          label: 'Dark',
+          icon: 'i-lucide-moon',
+          onSelect: () => useColorMode().preference = 'dark',
         },
       ],
     },
