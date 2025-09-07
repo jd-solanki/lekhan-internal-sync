@@ -79,7 +79,7 @@ async function sendVerificationEmail(event: FormSubmitEvent<z.infer<typeof schem
             :disabled="userStore.isLoading"
             loading-auto
           >
-            Send Verification Mail - {{ String(userStore.isLoading) }}
+            Send Verification Mail
           </UButton>
         </UForm>
 

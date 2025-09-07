@@ -22,9 +22,12 @@
     "mermaid:generate": "tsx scripts/generateMermaidSVGs.ts",
     "prepare": "husky",
     "typecheck": "nuxt typecheck",
-    "release": "bumpp"
+    "release": "bumpp",
+    "mail:dev": "NODE_ENV=development NODE_OPTIONS='--experimental-transform-types' maizzle serve --config=emails/config.ts"
   },
   "dependencies": {
+    "@maizzle/framework": "next",
+    "@maizzle/tailwindcss": "latest",
     "@nuxt/eslint": "1.9.0",
     "@nuxt/image": "1.11.0",
     "@nuxt/scripts": "0.11.10",

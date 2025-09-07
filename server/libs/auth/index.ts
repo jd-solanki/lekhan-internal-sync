@@ -1,10 +1,10 @@
 import type { User } from 'better-auth'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
-import { render } from '@vue-email/render'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { admin, createAuthMiddleware, magicLink } from 'better-auth/plugins'
-import EmailTemplateVerifyEmail from '~~/server/emails/auth/verifyEmail.vue'
+import appConfig from '~~/app/app.config'
+import ButtonLinkEmailTemplate from '~~/emails/templates/button-link.html'
 import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
@@ -32,10 +32,16 @@ export const auth = betterAuth({
     }),
     magicLink({
       sendMagicLink: async ({ email, url }) => {
+        const { html } = await renderEmail(ButtonLinkEmailTemplate, {
+          btnText: 'Sign In',
+          btnUrl: url,
+          message: 'Please click on below button to sign in to your account.',
+        })
+
         await sendEmail({
           to: { email },
           subject: 'Magic Link',
-          text: `Click the link to sign in to your account: ${url}`,
+          html,
         })
       },
     }),
@@ -80,15 +86,16 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      const html = await render(EmailTemplateVerifyEmail, {
-        url,
-      }, {
-        pretty: true,
+      const { html } = await renderEmail(ButtonLinkEmailTemplate, {
+        user: user.name,
+        btnText: 'Verify Email',
+        btnUrl: url,
+        message: 'We\'re happy to have you on board! Please verify your email address in order to activate your account.',
       })
+
       await sendEmail({
         to: { email: user.email },
         subject: 'Verify your email address',
-        // text: `Click the link to verify your email: ${url}`,
         html,
       })
     },
@@ -99,10 +106,17 @@ export const auth = betterAuth({
     requireEmailVerification: runtimeConfig.public.shared.isEmailVerificationRequiredForAccess,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
+      const { html } = await renderEmail(ButtonLinkEmailTemplate, {
+        user: user.name,
+        btnText: 'Reset Password',
+        btnUrl: url,
+        message: `A request to reset your ${appConfig.app.title} password has been made. If you did not make this request, simply ignore this email. If you did make this request, please reset your password by clicking on below button.`,
+      })
+
       await sendEmail({
         to: { email: user.email },
         subject: 'Reset your password',
-        text: `Click the link to reset your password: ${url}`,
+        html,
       })
     },
   },

@@ -1,0 +1,68 @@
+---
+bodyClass: bg-slate-50
+preheader: Button link email template
+---
+
+<x-main>
+  <div class="bg-slate-50 sm:px-4 font-inter">
+    <table align="center" class="m-0 mx-auto">
+      <tr>
+        <td class="w-[552px] max-w-full">
+          <x-spacer height="24px" />
+
+          <table class="w-full">
+            <tr>
+              <td class="py-6 px-9 sm:p-6 bg-white [border:1px_solid_theme(colors.slate.200)] rounded-lg">
+                <a href="{{ env.APP_BASE_URL }}">
+                  <img src="{{ appConfig.app.logoUrl }}" width="40" alt="{{ appConfig.app.title }}" class="{{ appConfig.app.logoClass }}">
+                </a>
+
+                <x-spacer height="24px" />
+
+                <h1 class="m-0 mb-6 text-2xl/8 text-slate-900 font-semibold">
+                  Hi {{ page.user || 'There' }}!
+                </h1>
+
+                <p class="m-0 mb-6 text-base/6 text-slate-600">
+                  {{ page.message }}
+                </p>
+
+                <x-button
+                  href="{{ page.btnUrl }}"
+                  class="bg-slate-950"
+                >
+                  {{ page.btnText }}
+                </x-button>
+
+                <x-spacer height="24px" />
+
+                <p class="m-0 text-base/6 text-slate-600">
+                  Thanks,
+                  <br>
+                  <span class="font-semibold">{{ appConfig.app.title }}</span>
+                </p>
+
+                <x-divider />
+
+                <p class="m-0 text-xs/5 text-slate-600 mso-break-all">
+                  If you're having trouble clicking the "{{ page.btnText }}" button, copy and paste the following URL into your web browser:
+                  <a href="{{ page.btnUrl }}" class="text-slate-800 underline">{{ page.btnUrl }}</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <table class="w-full">
+            <tr>
+              <td class="py-6 px-9 sm:px-6">
+                <p class="m-0 text-xs text-slate-500">
+                  &copy; {{ new Date().getFullYear() }} {{ appConfig.app.title }}. All rights reserved.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</x-main>
