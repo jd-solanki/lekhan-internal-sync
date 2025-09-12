@@ -121,12 +121,12 @@ const lastSignInMethod = useCookie('lastSignInMethod')
         name="password"
       >
         <template #hint>
-          <NuxtLink
+          <ULink
             to="/auth/forgot-password"
             class="hover:underline"
           >
             Forgot Password?
-          </NuxtLink>
+          </ULink>
         </template>
         <UInput
           v-model="state.password"
@@ -153,12 +153,12 @@ const lastSignInMethod = useCookie('lastSignInMethod')
 
     <p class="text-sm text-center">
       <span class="text-muted">Don't have an account?</span>
-      <NuxtLink
+      <ULink
         to="/auth/sign-up"
         class="hover:underline"
       >
         Sign Up
-      </NuxtLink>
+      </ULink>
     </p>
   </div>
 </template>

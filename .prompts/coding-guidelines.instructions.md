@@ -152,7 +152,7 @@ DELETE /comments/{comment_id}     # Delete comment by id for task
 ### Routing & Navigation
 
 - Use `app/pages/` for routes.
-- Use `<NuxtLink>` for navigation.
+- Use `<ULink>` for navigation.
 - Read `index.d.ts`, `PageMeta` interface for additional meta we can use for route.
 
 ### Testing

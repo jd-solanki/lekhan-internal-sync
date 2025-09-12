@@ -80,12 +80,12 @@ async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {
 
     <p class="text-sm text-center">
       <span class="text-muted">Need new reset link?</span>
-      <NuxtLink
+      <ULink
         to="/auth/forgot-password"
         class="hover:underline"
       >
         Forgot Password
-      </NuxtLink>
+      </ULink>
     </p>
   </div>
 </template>

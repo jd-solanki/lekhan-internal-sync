@@ -75,12 +75,12 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
 
     <p class="text-sm">
       <span class="text-muted">Already have an account?</span>
-      <NuxtLink
+      <ULink
         to="/auth/sign-in"
         class="hover:underline"
       >
         Sign In
-      </NuxtLink>
+      </ULink>
     </p>
   </div>
 </template>

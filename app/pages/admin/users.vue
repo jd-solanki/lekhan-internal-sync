@@ -111,7 +111,7 @@ const columns: TableColumn<any>[] = [
       <template #actions>
         <div class="mb-4 flex items-center gap-2">
           <!-- Search Users -->
-          <UButtonGroup>
+          <UFieldGroup>
             <SearchInput
               v-model="q"
               placeholder="Search users"
@@ -123,7 +123,7 @@ const columns: TableColumn<any>[] = [
               v-model="parsedQuery.qField"
               :items="[...queryFields]"
             />
-          </UButtonGroup>
+          </UFieldGroup>
         </div>
       </template>
     </AppPageHeader>

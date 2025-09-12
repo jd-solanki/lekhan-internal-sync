@@ -60,6 +60,10 @@ export default withNuxt(
             message: 'Prefer <entity>_crud over manual db import & initiating transaction.',
           },
           {
+            regex: '</NuxtLink>',
+            message: 'Prefer <ULink> instead of <NuxtLink>.',
+          },
+          {
             regex: 'import { .*\bdb\b.* }',
             message: 'Do not directly use `db` outside crud directory.',
             files: { ignore: '.*\\/crud\\/.*' },
