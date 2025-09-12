@@ -21,9 +21,31 @@ export const useUserStore = defineStore('user', () => {
     session.value = data
   }
 
+  const refetchUserSessionData = async () => {
+    const { data } = await authClient.getSession()
+
+    if (!session.value)
+      return
+
+    session.value.data = data
+  }
+
   const user = computed(() => session.value?.data?.user)
+  const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
+
+  const impersonateUser = async (userId: number) => {
+    await authClient.admin.impersonateUser({ userId })
+    await refetchUserSessionData()
+    await navigateTo(runtimeConfig.public.app.routes.home)
+  }
+
+  const stopImpersonating = async () => {
+    await authClient.admin.stopImpersonating()
+    await refetchUserSessionData()
+    await navigateTo(runtimeConfig.public.app.routes.home)
+  }
 
   async function signUp(body: SchemaSignUp) {
     await withLoading(async () => {
@@ -198,7 +220,12 @@ export const useUserStore = defineStore('user', () => {
     // user session
     init,
     user,
+    userSession,
     isUserAdmin,
     isLoading,
+
+    // Admin action
+    impersonateUser,
+    stopImpersonating,
   }
 })

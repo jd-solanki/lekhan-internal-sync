@@ -11,7 +11,8 @@ defineShortcuts({
   meta_k: toggleCommandPalette,
 })
 
-const groups: CommandPaletteGroup[] = [
+// NOTE: Ensure it's computed to update the items when admin impersonate any user
+const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => [
   ...(userStore.isUserAdmin
     ? [
         {
@@ -44,7 +45,7 @@ const groups: CommandPaletteGroup[] = [
     label: 'Theme',
     items: appConfig.layout.default.themePreferences,
   },
-]
+])
 </script>
 
 <template>

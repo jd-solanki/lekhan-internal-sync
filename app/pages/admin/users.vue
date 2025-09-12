@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { TableColumn } from '@nuxt/ui'
+import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
+import type { UserWithId } from '~~/server/libs/auth'
 import { UIcon } from '#components'
 import * as z from 'zod'
 
@@ -9,6 +10,7 @@ definePageMeta({
 
 // Query
 const { q, qDebounced } = useSearchQuery()
+const userStore = useUserStore()
 
 // Query Field
 const queryFields = ['name', 'email'] as const
@@ -19,6 +21,36 @@ const parsedQuery = useParsedQuery(paginationSchema.extend({
 // Sorting state (TanStack Table sorting model)
 type Sorting = { id: string, desc: boolean }[]
 const sorting = ref<Sorting>([])
+
+// Build action items per-user so handlers can access the correct userId
+function getUserActionItems(user: UserWithId): DropdownMenuItem[] {
+  return [
+    {
+      label: 'Impersonate User',
+      icon: 'i-lucide-venetian-mask',
+      onSelect: async () => {
+        await userStore.impersonateUser(user.id)
+      },
+    },
+    {
+      label: 'Ban User',
+      icon: 'i-lucide-ban',
+      onSelect: () => {
+        // eslint-disable-next-line no-console
+        console.log('Banning user', user)
+      },
+    },
+    {
+      label: 'Delete User',
+      icon: 'i-lucide-trash',
+      color: 'error',
+      onSelect: () => {
+        // eslint-disable-next-line no-console
+        console.log('Deleting user', user)
+      },
+    },
+  ]
+}
 
 // Reactive server query using commented params
 const { data: users, pending: isLoading } = useLazyAsyncData(
@@ -36,8 +68,8 @@ const { data: users, pending: isLoading } = useLazyAsyncData(
         // filterField: effectiveFilter.value?.field,
         // filterOperator: effectiveFilter.value?.operator,
         // filterValue: effectiveFilter.value?.value as any,
-        limit: parsedQuery.value.size,
-        offset: (parsedQuery.value.page - 1) * parsedQuery.value.size,
+        limit: parsedQuery.value.size ?? 10,
+        offset: ((parsedQuery.value.page ?? 1) - 1) * (parsedQuery.value.size ?? 10),
       },
     })
     return res?.data
@@ -204,14 +236,8 @@ const columns: TableColumn<any>[] = [
       </template>
 
       <!-- Actions column cell slot: dropdown trigger/button -->
-      <template #actions-cell>
-        <UDropdownMenu
-          :items="[
-            { label: 'Impersonate User', icon: 'i-lucide-user-check', onSelect: () => {} },
-            { label: 'Ban User', icon: 'i-lucide-user-x', onSelect: () => {} },
-            { label: 'Delete User', icon: 'i-lucide-trash', onSelect: () => {} },
-          ]"
-        >
+      <template #actions-cell="{ row }">
+        <UDropdownMenu :items="getUserActionItems(toRaw(row?.original))">
           <UButton
             icon="i-lucide-more-horizontal"
             variant="ghost"

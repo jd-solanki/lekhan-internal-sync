@@ -4,7 +4,10 @@ const routeMeta = route.meta
 </script>
 
 <template>
-  <main :class="[routeMeta.mainClass]">
+  <main
+    class="grow"
+    :class="[routeMeta.mainClass]"
+  >
     <slot />
   </main>
 </template>

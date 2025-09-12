@@ -5,7 +5,7 @@ import appConfig from '~/app.config'
 
 definePageMeta({
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
   isEmailVerificationRequired: false,
   isAuthRequired: false,
   redirectIfEmailVerified: true,

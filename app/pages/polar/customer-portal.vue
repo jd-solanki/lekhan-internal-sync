@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
 })
 
 const appConfig = useAppConfig()

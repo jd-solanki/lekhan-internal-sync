@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
 })
 
 // // Commented out in case if you need to retrieve them

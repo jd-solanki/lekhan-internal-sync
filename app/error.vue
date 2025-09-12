@@ -11,7 +11,7 @@ const runtimeConfig = useRuntimeConfig()
 <template>
   <NuxtLayout
     name="blank"
-    class="grid place-items-center min-h-dvh"
+    class="grid place-items-center"
   >
     <div class="max-w-prose text-center space-y-12">
       <div>

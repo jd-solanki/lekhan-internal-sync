@@ -3,7 +3,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 definePageMeta({
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
   redirectIfSignedIn: true,
   isAuthRequired: false,
 })

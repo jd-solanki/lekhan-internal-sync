@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "@nuxt/ui";
+@import "./tailwind";
 
 :root {
   --ui-primary: black;
@@ -16,4 +16,8 @@
 */
 body {
   overflow-y: scroll;
+}
+
+#__nuxt {
+  @apply min-h-dvh flex flex-col last-of-type:grow;
 }

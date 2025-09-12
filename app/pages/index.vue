@@ -3,7 +3,7 @@ import type { ProductPriceFixed } from '@polar-sh/sdk/models/components/productp
 
 definePageMeta({
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
   isAuthRequired: false,
 })
 

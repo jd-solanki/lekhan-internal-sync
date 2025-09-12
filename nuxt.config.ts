@@ -11,6 +11,10 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/favicon-light.ico' },
       ],
     },
+    rootAttrs: {
+      // Add banner height CSS variable if app/global or impersonating banner is visible
+      class: 'has-[>_.banner]:[--app-banner-height:60px]',
+    },
   },
   runtimeConfig: {
     // INFO: Private config will be server only so no need to separate in app, server & shared

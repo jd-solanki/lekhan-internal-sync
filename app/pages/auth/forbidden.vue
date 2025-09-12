@@ -2,7 +2,7 @@
 definePageMeta({
   isAuthRequired: false,
   layout: 'blank',
-  mainClass: 'grid place-items-center min-h-dvh',
+  mainClass: 'grid place-items-center',
 })
 
 const runtimeConfig = useRuntimeConfig()

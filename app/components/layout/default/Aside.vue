@@ -3,49 +3,53 @@ import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
+const runtimeConfig = useRuntimeConfig()
 const { isAdminOnlyRoute } = useAdmin()
 const colorMode = useColorMode()
 
-const userDropdownItems = ref<DropdownMenuItem[][]>([
-  [
-    {
-      slot: 'profile',
-      label: userStore.user?.name,
-      avatar: {
-        src: userStore.user?.image ?? undefined,
-        alt: userStore.user?.name,
+// NOTE: Ensure it's computed to update the items when admin impersonate any user
+const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
+  return [
+    [
+      {
+        slot: 'profile',
+        label: userStore.user?.name,
+        avatar: {
+          src: userStore.user?.image ?? undefined,
+          alt: userStore.user?.name,
+        },
+        type: 'label',
       },
-      type: 'label',
-    },
-  ],
-  [
-    {
-      label: 'Theme',
-      icon: 'i-lucide-moon',
-      children: appConfig.layout.default.themePreferences,
-    },
-  ],
-  ...(userStore.isUserAdmin
-    ? [
-        [
-          {
-            label: 'Admin',
-            icon: 'i-lucide-shield',
-            to: '/admin/users',
-          },
-        ],
-      ]
-    : []
-  ),
-  [
-    {
-      label: 'Sign Out',
-      icon: 'i-lucide-log-out',
-      color: 'error',
-      onClick: userStore.signOut,
-    },
-  ],
-])
+    ],
+    [
+      {
+        label: 'Theme',
+        icon: 'i-lucide-moon',
+        children: appConfig.layout.default.themePreferences,
+      },
+    ],
+    ...(userStore.isUserAdmin
+      ? [
+          [
+            {
+              label: 'Admin',
+              icon: 'i-lucide-shield',
+              to: '/admin/users',
+            },
+          ],
+        ]
+      : []
+    ),
+    [
+      {
+        label: 'Sign Out',
+        icon: 'i-lucide-log-out',
+        color: 'error',
+        onClick: userStore.signOut,
+      },
+    ],
+  ]
+})
 
 const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
   isAdminOnlyRoute.value
@@ -66,16 +70,21 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
 
 <template>
   <aside class="w-[256px] flex flex-col">
-    <header class="flex gap-3 items-center py-4 px-5">
-      <NuxtImg
-        :src="appConfig.app.logoUrl"
-        alt="LaunchDayOne Logo"
-        class="size-6 dark:invert"
-        :class="appConfig.app.logoClass"
-      />
-      <h1 class="font-bold">
-        {{ appConfig.app.title }}
-      </h1>
+    <header>
+      <ULink
+        :to="runtimeConfig.public.app.routes.home"
+        class="flex gap-3 items-center py-4 px-5 text-highlighted"
+      >
+        <NuxtImg
+          :src="appConfig.app.logoUrl"
+          alt="LaunchDayOne Logo"
+          class="size-6 dark:invert"
+          :class="appConfig.app.logoClass"
+        />
+        <h1 class="font-bold">
+          {{ appConfig.app.title }}
+        </h1>
+      </ULink>
     </header>
     <UNavigationMenu
       orientation="vertical"
