@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 showFlashMessageFromCookie()
+showVersionUpdatedToast()
+
 const userStore = useUserStore()
 const bannerStore = useBannerStore()
 </script>
