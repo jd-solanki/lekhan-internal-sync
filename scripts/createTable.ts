@@ -44,12 +44,8 @@ export type DBInsert${capitalizedTableName} = InferInsertModel<typeof ${capitali
 
 const filesToCreate = [
   {
-    path: `server/database/schemas/tables/${tableName}.ts`,
+    path: `server/db/schemas/tables/${tableName}.ts`,
     content: getTableTemplate(tableName),
-  },
-  {
-    path: `server/database/crud/${tableName}.ts`,
-    content: ``,
   },
   {
     path: `shared/schemas/db/${tableName}.ts`,
@@ -57,7 +53,7 @@ const filesToCreate = [
   },
 ]
 
-const indexFilePath = `server/database/schemas/tables/index.ts`
+const indexFilePath = `server/db/schemas/tables/index.ts`
 const exportLine = `export * from './${tableName}';\n`
 
 // Create files

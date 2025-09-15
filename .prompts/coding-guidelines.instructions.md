@@ -198,14 +198,13 @@ DELETE /comments/{comment_id}     # Delete comment by id for task
 
 - Check `/server/db/schemas/index.ts` for existing tables and their schemas.
 - When creating a new database table, follow these steps:
-    1. Create new database/drizzle table, We create a new file in `server/database/schemas/table` directory and import it in `server/database/schemas/index.ts` file. E.g. If table is `users`, we create a file `server/database/schemas/table/users.ts` and import it in `server/database/schemas/index.ts` file.
-    2. Create CRUD operations file in `server/database/crud` directory. E.g. If table is `users`, we create a file `server/database/crud/users.ts`.
-    3. Create schema file in `shared/schemas/db` directory. E.g. If table is `users`, we create a file `shared/schemas/db/users.ts`.
-    4. Ensure we're not recreating columns for which we already have mixins in `server/database/schemas/mixins.ts`.
+    1. Create new database/drizzle table, We create a new file in `server/db/schemas/tables` directory and import it in `server/db/schemas/tables/index.ts` file. E.g. If table is `users`, we create a file `server/db/schemas/tables/users.ts` and import it in `server/db/schemas/tables/index.ts` file.
+    2. Create schema file in `shared/schemas/db` directory. E.g. If table is `users`, we create a file `shared/schemas/db/users.ts`.
+    3. Ensure we're not recreating columns for which we already have mixins in `server/db/schemas/mixins.ts`.
 
 - When defining the table, Always add cascade value to foreign keys.
 - Use transactions for multiple database operations that depends on each other to ensure atomicity. E.g. Adding new user in `users` table and creating a new account in `accounts` table.
-- Use CRUD methods in your API routes instead of directly using the database.
+- Use Drizzle's high-level APIs (like `db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) in your API routes for better type safety and readability.
 - zod schemas for database tables should be placed in `shared/schemas/db` directory so that they can be used in both client and server code.
 
 ## Drizzle

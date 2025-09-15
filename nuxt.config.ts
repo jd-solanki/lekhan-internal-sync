@@ -97,7 +97,6 @@ export default defineNuxtConfig({
     imports: {
       dirs: [
         'shared/schemas/**/*',
-        'server/db/crud/index.ts',
         'server/utils/**',
         'sever/db/index',
       ],
