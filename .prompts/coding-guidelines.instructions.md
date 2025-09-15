@@ -205,6 +205,7 @@ DELETE /comments/{comment_id}     # Delete comment by id for task
 - When defining the table, Always add cascade value to foreign keys.
 - Use transactions for multiple database operations that depends on each other to ensure atomicity. E.g. Adding new user in `users` table and creating a new account in `accounts` table.
 - Use Drizzle's high-level APIs (like `db.query.tableName.findMany()`, `db.query.tableName.findFirst()`) in your API routes for better type safety and readability.
+- Only write CRUD util if same query is written in multiple places or else Prefer using Drizzle's high-level APIs directly in API routes.
 - zod schemas for database tables should be placed in `shared/schemas/db` directory so that they can be used in both client and server code.
 
 ## Drizzle
