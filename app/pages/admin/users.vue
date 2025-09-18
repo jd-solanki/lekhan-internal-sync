@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
-import type { UserWithId } from '~~/server/libs/auth'
-import { UIcon } from '#components'
+import type { User } from '~~/server/libs/auth'
+import { ConfirmModal, PageAdminUsersBanUserModal, UIcon } from '#components'
 import * as z from 'zod'
 
 definePageMeta({
@@ -9,8 +9,10 @@ definePageMeta({
 })
 
 // Query
+const overlay = useOverlay()
 const { q, qDebounced } = useSearchQuery()
 const userStore = useUserStore()
+const { successToast, errorToast } = useToastMessage()
 
 // Query Field
 const queryFields = ['name', 'email'] as const
@@ -23,7 +25,81 @@ type Sorting = { id: string, desc: boolean }[]
 const sorting = ref<Sorting>([])
 
 // Build action items per-user so handlers can access the correct userId
-function getUserActionItems(user: UserWithId): DropdownMenuItem[] {
+function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnType<typeof useLazyAsyncData>['refresh']): DropdownMenuItem[] {
+  const banAction: DropdownMenuItem = {
+    label: 'Ban User',
+    icon: 'i-lucide-ban',
+    onSelect: async () => {
+      console.warn('Banning user', user)
+      const result = await overlay.create(PageAdminUsersBanUserModal).open()
+
+      console.warn('result :>> ', result)
+
+      if (!result)
+        return
+
+      // Call API to ban user
+      const banRes = await authClient.admin.banUser({
+        userId: user.id,
+        ...result,
+      })
+
+      if (banRes?.error) {
+        errorToast({
+          title: 'Failed to ban user',
+          description: banRes.error.message || 'You cannot ban this user.',
+        })
+        return
+      }
+
+      successToast({
+        title: `User "${user.name}" has been banned`,
+        description: result.banExpiresIn ? `Ban Expires at ${new Date(Date.now() + result.banExpiresIn * 1000).toLocaleString()}` : 'Ban is permanent',
+      })
+
+      // Refresh list to show updated ban status
+      await refresh()
+    },
+  }
+
+  const liftBanAction: DropdownMenuItem = {
+    label: 'Lift Ban',
+    icon: 'i-lucide-user-check',
+    onSelect: async () => {
+      console.warn('Lifting ban for user', user)
+      const result = await overlay.create(ConfirmModal, {
+        props: {
+          title: 'Lift Ban',
+          body: `Are you sure you want to lift the ban for user "${user.name}"?`,
+          confirmBtnProps: { color: 'primary', label: 'Lift Ban' },
+        },
+      }).open()
+
+      if (!result)
+        return
+
+      // Call API to lift ban
+      const unbanRes = await authClient.admin.unbanUser({
+        userId: user.id,
+      })
+
+      if (unbanRes?.error) {
+        errorToast({
+          title: 'Failed to lift ban',
+          description: unbanRes.error.message || 'Unable to lift ban for this user.',
+        })
+        return
+      }
+
+      successToast({
+        title: `Ban lifted for user "${user.name}"`,
+      })
+
+      // Refresh list to show updated ban status
+      await refresh()
+    },
+  }
+
   return [
     {
       label: 'Impersonate User',
@@ -32,14 +108,9 @@ function getUserActionItems(user: UserWithId): DropdownMenuItem[] {
         await userStore.impersonateUser(user.id)
       },
     },
-    {
-      label: 'Ban User',
-      icon: 'i-lucide-ban',
-      onSelect: () => {
-        // eslint-disable-next-line no-console
-        console.log('Banning user', user)
-      },
-    },
+    ...(userStore.user && userStore.user.id !== user.id
+      ? [user.banned ? liftBanAction : banAction]
+      : []),
     {
       label: 'Delete User',
       icon: 'i-lucide-trash',
@@ -53,7 +124,7 @@ function getUserActionItems(user: UserWithId): DropdownMenuItem[] {
 }
 
 // Reactive server query using commented params
-const { data: users, pending: isLoading } = useLazyAsyncData(
+const { data: users, pending: isLoading, refresh } = useLazyAsyncData(
   'authClient.admin.listUsers',
   async () => {
     const res = await authClient.admin.listUsers({
@@ -107,7 +178,10 @@ const columns: TableColumn<any>[] = [
   {
     accessorKey: 'banned',
     header: 'Banned',
-    cell: ({ row }) => row.getValue('banned') ? 'Yes' : 'No',
+    // cell: ({ row }) => row.getValue('banned') ? 'Yes' : 'No',
+    cell: ({ row }) => (row.getValue('banned')
+      ? h(UIcon, { name: 'i-lucide-ban', class: 'text-red-400 text-lg' })
+      : h(UIcon, { name: 'i-lucide-circle-x', class: 'text-lg' })),
   },
   {
     accessorKey: 'banReason',
@@ -237,7 +311,7 @@ const columns: TableColumn<any>[] = [
 
       <!-- Actions column cell slot: dropdown trigger/button -->
       <template #actions-cell="{ row }">
-        <UDropdownMenu :items="getUserActionItems(toRaw(row?.original))">
+        <UDropdownMenu :items="getUserActionItems(toRaw(row?.original), refresh)">
           <UButton
             icon="i-lucide-more-horizontal"
             variant="ghost"

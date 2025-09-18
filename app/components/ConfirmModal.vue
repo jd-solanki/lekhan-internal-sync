@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+import type { ButtonProps } from '@nuxt/ui'
+
 defineProps<{
   title: string
   body: string
+  confirmBtnProps?: ButtonProps
+  cancelBtnProps?: ButtonProps
 }>()
 
 defineEmits<{
@@ -21,14 +25,16 @@ defineEmits<{
     <template #footer>
       <div class="flex gap-2">
         <UButton
-          label="Confirm"
-          color="error"
+          v-bind="confirmBtnProps"
+          :label="confirmBtnProps?.label || 'Confirm'"
+          :color="confirmBtnProps?.color || 'error'"
           @click="$emit('close', true)"
         />
         <UButton
-          color="neutral"
-          label="Cancel"
-          variant="ghost"
+          v-bind="cancelBtnProps"
+          :label="cancelBtnProps?.label || 'Cancel'"
+          :color="cancelBtnProps?.color || 'neutral'"
+          :variant="cancelBtnProps?.variant || 'ghost'"
           @click="$emit('close', false)"
         />
       </div>

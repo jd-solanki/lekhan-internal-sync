@@ -1,4 +1,4 @@
-import type { User } from 'better-auth'
+import type { Simplify } from 'type-fest'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
@@ -9,8 +9,6 @@ import { polarClient } from '~~/server/libs/polar'
 import { sendEmail } from '~~/server/utils/email'
 import env from '~~/shared/libs/env'
 import { db } from '../../db'
-
-export type UserWithId = Omit<User, 'id'> & { id: number }
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -157,3 +155,5 @@ if (
 ) {
   throw new Error('Social Sign In is not allowed without email verification. Reason: Someone can hijack other users\' accounts.')
 }
+
+export type User = Simplify<Omit<typeof auth.$Infer.Session.user, 'id'> & { id: number }>

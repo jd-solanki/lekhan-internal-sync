@@ -1,10 +1,10 @@
 import type { H3Event, H3EventContext } from 'h3'
-import type { UserWithId } from '~~/server/libs/auth'
+import type { User } from '~~/server/libs/auth'
 import { auth } from '~~/server/libs/auth'
 
 type AuthenticatedEvent = H3Event & {
   context: H3EventContext & {
-    user: UserWithId
+    user: User
   }
 }
 
@@ -21,7 +21,7 @@ export function defineAuthenticatedEventHandler<T>(
     }
 
     // Assign user to event context so it can be accessed in the handler
-    event.context.user = session?.user as unknown as UserWithId
+    event.context.user = session?.user
 
     return handler(event as AuthenticatedEvent)
   })

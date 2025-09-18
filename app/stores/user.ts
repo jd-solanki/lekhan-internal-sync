@@ -2,7 +2,7 @@ import type { SchemaForgotPassword, SchemaResetPassword, SchemaSignUp } from '~~
 import { authClient } from '~/libs/auth'
 
 export const useUserStore = defineStore('user', () => {
-  const { errorToast, successToast } = useToastMessage()
+  const { errorToast, successToast, infoToast } = useToastMessage()
   const runtimeConfig = useRuntimeConfig()
 
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null)
@@ -36,13 +36,31 @@ export const useUserStore = defineStore('user', () => {
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
 
   const impersonateUser = async (userId: number) => {
-    await authClient.admin.impersonateUser({ userId })
+    const response = await authClient.admin.impersonateUser({ userId })
+
+    if (response.error) {
+      errorToast({
+        title: 'Impersonation Failed',
+        description: response.error.message,
+      })
+      return
+    }
+
     await refetchUserSessionData()
     await navigateTo(runtimeConfig.public.app.routes.home)
   }
 
   const stopImpersonating = async () => {
-    await authClient.admin.stopImpersonating()
+    const response = await authClient.admin.stopImpersonating()
+
+    if (response.error) {
+      errorToast({
+        title: 'Stop Impersonation Failed',
+        description: response.error.message,
+      })
+      return
+    }
+
     await refetchUserSessionData()
     await navigateTo(runtimeConfig.public.app.routes.home)
   }
@@ -102,9 +120,17 @@ export const useUserStore = defineStore('user', () => {
         onError: async (ctx) => {
           // Handle the error
           if (ctx.error.status === 403) {
-            useCookie('flash_message__error').value = 'Verify your email address to sign in'
-            await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?email=${body.email}`)
-            console.error(ctx.error.message)
+            if (ctx.error.code === 'BANNED_USER') {
+              errorToast({
+                title: 'Forbidden',
+                description: 'Your account has been banned. Please contact support for more information.',
+              })
+            }
+            else if (ctx.error.code === 'EMAIL_NOT_VERIFIED') {
+              infoToast({ title: 'Verify your email address to sign in' })
+              await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?email=${body.email}`)
+              console.error(ctx.error.message)
+            }
           }
           else {
             errorToast({
