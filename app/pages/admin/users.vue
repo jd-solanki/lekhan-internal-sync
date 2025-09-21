@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
+import type { Table as TanStackTable } from '@tanstack/vue-table'
 import type { FetchError } from 'ofetch'
 import type { User } from '~~/server/libs/auth'
 import { ConfirmModal, PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
@@ -320,6 +321,9 @@ async function createUser() {
   // Refresh list to show new user
   await refresh()
 }
+
+const refTable = useTemplateRef<{ tableApi?: TanStackTable<unknown> }>('refTable')
+const columnVisibility = useCookie('admin-users-table-column-visibility', { default: () => ({}) })
 </script>
 
 <template>
@@ -327,6 +331,12 @@ async function createUser() {
     <AppPageHeader title="Users">
       <template #actions>
         <div class="mb-4 flex items-center gap-2">
+          <!-- Column Visibility -->
+          <TableColumnVisibilityDropdown
+            :table-api="refTable?.tableApi"
+            :column-visibility
+          />
+
           <!-- Search Users -->
           <UFieldGroup>
             <SearchInput
@@ -351,6 +361,8 @@ async function createUser() {
     </AppPageHeader>
 
     <UTable
+      ref="refTable"
+      v-model:column-visibility="columnVisibility"
       v-model:sorting="sorting"
       :data="users?.users ?? []"
       :columns="columns"

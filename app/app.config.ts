@@ -107,5 +107,11 @@ export default defineAppConfig({
         thead: 'text-nowrap',
       },
     },
+    dropdownMenu: {
+      slots: {
+        // Set content width to trigger width for consistency & better UX
+        content: 'w-(--reka-dropdown-menu-trigger-width)',
+      },
+    },
   },
 })
