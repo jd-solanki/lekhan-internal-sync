@@ -18,6 +18,7 @@ const runtimeConfig = useRuntimeConfig()
 export const auth = betterAuth({
   user: {
     // TODO: Why this isn't working. We're not getting these fields in `admin.listUsers`
+    // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/66
     // Docs: https://www.better-auth.com/docs/concepts/database#extending-core-schema
     additionalFields: {
       lastSignInAt: {

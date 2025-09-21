@@ -180,6 +180,7 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       ? [user.banned ? liftBanAction : banAction]
       : []),
     // TODO: Conditionally show deactivate/reactivate based on user.deactivatedAt
+    // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/65
     reactivateUserAction,
     deactivateUserAction,
     {
