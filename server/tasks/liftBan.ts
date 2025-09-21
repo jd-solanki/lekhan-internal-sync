@@ -25,21 +25,21 @@ export default defineTask({
     // Perf: Instead of loop, use in bulk update via `inArray`
     const userIds = result.map(user => user.id)
 
-    if (userIds.length === 0) {
+    if (userIds.length > 0) {
+      // eslint-disable-next-line no-console
+      console.log('Lifting bans for users :>> ', userIds)
+
+      await db.update(tableUser).set({
+        banned: false,
+        banReason: null,
+        banExpires: null,
+      }).where(inArray(tableUser.id, userIds))
+    }
+    else {
       // eslint-disable-next-line no-console
       console.log('No due bans to lift')
-      return
     }
 
-    // eslint-disable-next-line no-console
-    console.log('Lifting bans for users :>> ', userIds)
-
-    await db.update(tableUser).set({
-      banned: false,
-      banReason: null,
-      banExpires: null,
-    }).where(inArray(tableUser.id, userIds))
-
-    return { result: 'Success' }
+    return { result: userIds }
   },
 })
