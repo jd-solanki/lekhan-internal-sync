@@ -24,6 +24,13 @@ export default defineTask({
     // Lift bans for users whose ban has expired
     // Perf: Instead of loop, use in bulk update via `inArray`
     const userIds = result.map(user => user.id)
+
+    if (userIds.length === 0) {
+      // eslint-disable-next-line no-console
+      console.log('No due bans to lift')
+      return
+    }
+
     // eslint-disable-next-line no-console
     console.log('Lifting bans for users :>> ', userIds)
 
