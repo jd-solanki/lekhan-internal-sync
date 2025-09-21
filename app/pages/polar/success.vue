@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useCounter, useIntervalFn, useTimeoutFn } from '@vueuse/core'
+
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center',
@@ -7,6 +9,13 @@ definePageMeta({
 // // Commented out in case if you need to retrieve them
 // const queryCheckoutId = getFirstQueryValue('checkout_id')
 // const consumer_session_token = getFirstQueryValue('consumer_session_token')
+
+const { count, dec } = useCounter(5, { min: 0 })
+useIntervalFn(dec)
+
+useTimeoutFn(async () => {
+  await navigateTo('/', { replace: true })
+}, 5000)
 </script>
 
 <template>
@@ -22,6 +31,9 @@ definePageMeta({
       </h1>
       <p class="mt-2">
         Thank you for your purchase
+      </p>
+      <p class="mt-6 text-muted text-sm">
+        Redirecting to home page in {{ count }}...
       </p>
     </div>
   </div>

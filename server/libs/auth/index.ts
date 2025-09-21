@@ -48,7 +48,7 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       use: [
         checkout({
-          successUrl: `/app?flash_message__success=${encodeURIComponent('Payment processed successfully')}`,
+          successUrl: '/app/polar/success',
           authenticatedUsersOnly: true,
         }),
         portal(),
