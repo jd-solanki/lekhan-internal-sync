@@ -6,6 +6,7 @@ export const userRoles = ['admin', 'user'] as const
 export type UserRole = (typeof userRoles)[number]
 export const userRoleEnum = pgEnum('user_roles', userRoles)
 
+// INFO: If you're adding more fields to user table, ensure to update better-auth's user.additionalFields in server/libs/auth/index.ts
 export const user = pgTable('user', {
   ...mixinId(),
   email: varchar({ length: 255 }).notNull(),

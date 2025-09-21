@@ -29,6 +29,8 @@ const state = reactive<Partial<Schema>>({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   emit('close', event.data)
 }
+
+const uniqueId = useId()
 </script>
 
 <template>
@@ -39,7 +41,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   >
     <template #body>
       <UForm
-        id="ban-user-form"
+        :id="uniqueId"
         :schema="schema"
         :state="state"
         class="space-y-4"
@@ -84,7 +86,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           label="Ban User"
           color="error"
           type="submit"
-          form="ban-user-form"
+          :form="uniqueId"
         />
         <UButton
           label="Cancel"

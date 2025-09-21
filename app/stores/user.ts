@@ -1,4 +1,5 @@
 import type { SchemaForgotPassword, SchemaResetPassword, SchemaSignUp } from '~~/shared/schemas/auth'
+import type { User } from '~/libs/auth'
 import { authClient } from '~/libs/auth'
 
 export const useUserStore = defineStore('user', () => {
@@ -30,7 +31,7 @@ export const useUserStore = defineStore('user', () => {
     session.value.data = data
   }
 
-  const user = computed(() => session.value?.data?.user)
+  const user = computed(() => session.value?.data?.user as User | undefined)
   const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)

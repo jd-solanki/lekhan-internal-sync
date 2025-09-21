@@ -26,5 +26,12 @@
             "const polarCustomerState = await getPolarCustomerState(event.context.user.id)"
         ],
         "description": "Get polar customer state"
+    },
+    "Import zod": {
+        "prefix": "iz",
+        "body": [
+            "import * as z from 'zod'"
+        ],
+        "description": "Import zod"
     }
 }

@@ -44,6 +44,10 @@ export default withNuxt(
       'harlanzw/vue-no-ref-access-in-templates': 'error',
       'harlanzw/vue-no-torefs-on-props': 'error',
       'regex/invalid': [
+        // NOTE: Regex rules are quickest way to add restrictions project-wide
+        // without needing to write custom rules or TS code.
+        // These should be used sparingly, as they can be brittle and cause false positives.
+        // INFO: We'll migrate these rules to AST based custom rules after couple of releases.
         'error',
         [
           {
@@ -67,6 +71,10 @@ export default withNuxt(
             regex: 'import { .*\bdb\b.* }',
             message: 'Do not directly use `db` outside crud directory.',
             files: { ignore: '.*\\/crud\\/.*' },
+          },
+          {
+            regex: 'z\.date()',
+            message: 'Use z.coerce.date() instead of z.date() for better parsing.',
           },
         ],
       ],

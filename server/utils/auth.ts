@@ -8,6 +8,8 @@ type AuthenticatedEvent = H3Event & {
   }
 }
 
+type AdminEvent = AuthenticatedEvent
+
 export function defineAuthenticatedEventHandler<T>(
   handler: (event: AuthenticatedEvent) => T,
 ) {
@@ -24,5 +26,20 @@ export function defineAuthenticatedEventHandler<T>(
     event.context.user = session?.user
 
     return handler(event as AuthenticatedEvent)
+  })
+}
+
+export function defineAdminEventHandler<T>(
+  handler: (event: AuthenticatedEvent) => T,
+) {
+  return defineAuthenticatedEventHandler(async (event) => {
+    const user = event.context.user
+
+    // If user is not admin throw 403 error
+    if (user.role !== 'admin') {
+      throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+    }
+
+    return handler(event as AdminEvent)
   })
 }

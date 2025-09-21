@@ -10,6 +10,11 @@ export const schemaSignUp = z.strictObject({
 })
 export type SchemaSignUp = z.infer<typeof schemaSignUp>
 
+export const schemaSignUpWithName = schemaSignUp.extend({
+  ...dbUserInsertSchema.pick({ name: true }).shape,
+})
+export type SchemaSignUpWithName = z.infer<typeof schemaSignUpWithName>
+
 // Sign In
 export const schemaSignIn = schemaSignUp
 export type SchemaSignIn = z.infer<typeof schemaSignIn>

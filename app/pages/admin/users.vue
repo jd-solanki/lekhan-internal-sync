@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
+import type { FetchError } from 'ofetch'
 import type { User } from '~~/server/libs/auth'
-import { ConfirmModal, PageAdminUsersBanUserModal, UIcon } from '#components'
+import { ConfirmModal, PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import * as z from 'zod'
 
 definePageMeta({
@@ -20,9 +21,10 @@ const parsedQuery = useParsedQuery(paginationSchema.extend({
   qField: z.enum(queryFields).default('name'),
 }), { page: 1, size: 10 })
 
-// Sorting state (TanStack Table sorting model)
+// Sorting state
+// INFO: Default sorting by createdAt desc
 type Sorting = { id: string, desc: boolean }[]
-const sorting = ref<Sorting>([])
+const sorting = ref<Sorting>([{ id: 'createdAt', desc: true }])
 
 // Build action items per-user so handlers can access the correct userId
 function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnType<typeof useLazyAsyncData>['refresh']): DropdownMenuItem[] {
@@ -100,6 +102,72 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     },
   }
 
+  const deactivateUserAction: DropdownMenuItem = {
+    label: 'Deactivate User',
+    icon: 'i-lucide-user-x',
+    onSelect: async () => {
+      const result = await overlay.create(ConfirmModal, {
+        props: {
+          title: 'Deactivate User',
+          body: `Are you sure you want to deactivate user "${user.name}"?. User can reactivate account by signing in.`,
+        },
+      }).open()
+
+      if (!result)
+        return
+
+      // Deactivate user by setting `deactivatedAt` col to current timestamp
+      // Call API to deactivate user
+      await $fetch(`/api/users/${user.id}`, {
+        method: 'PATCH',
+        body: {
+          deactivatedAt: new Date(),
+        },
+      }).then(async () => {
+        successToast({
+          title: `User "${user.name}" has been deactivated`,
+        })
+
+        // Refresh list to show updated user status
+        await refresh()
+      }).catch((e) => {
+        const error = e as FetchError
+        errorToast({
+          title: 'Failed to deactivate user',
+          description: error.statusMessage || 'Unable to deactivate this user.',
+        })
+      })
+    },
+  }
+
+  const reactivateUserAction: DropdownMenuItem = {
+    label: 'Reactivate User',
+    icon: 'i-lucide-user-plus',
+    onSelect: async () => {
+      // Reactivate user by setting `deactivatedAt` col to null
+      // Call API to reactivate user
+      await $fetch(`/api/users/${user.id}`, {
+        method: 'PATCH',
+        body: {
+          deactivatedAt: null,
+        },
+      }).then(async () => {
+        successToast({
+          title: `User "${user.name}" has been reactivated`,
+        })
+
+        // Refresh list to show updated user status
+        await refresh()
+      }).catch((e) => {
+        const error = e as FetchError
+        errorToast({
+          title: 'Error',
+          description: error.statusMessage || 'Unable to reactivate this user.',
+        })
+      })
+    },
+  }
+
   return [
     {
       label: 'Impersonate User',
@@ -111,13 +179,38 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     ...(userStore.user && userStore.user.id !== user.id
       ? [user.banned ? liftBanAction : banAction]
       : []),
+    // TODO: Conditionally show deactivate/reactivate based on user.deactivatedAt
+    reactivateUserAction,
+    deactivateUserAction,
     {
-      label: 'Delete User',
+      label: 'Hard Delete User',
       icon: 'i-lucide-trash',
       color: 'error',
-      onSelect: () => {
-        // eslint-disable-next-line no-console
-        console.log('Deleting user', user)
+      onSelect: async () => {
+        const result = await overlay.create(ConfirmModal, {
+          props: {
+            title: 'Hard Delete User',
+            body: `This action is irreversible. Are you sure you want to remove user ${user.name} and all their data permanently?`,
+            confirmBtnProps: { color: 'error', label: 'Delete Permanently' },
+          },
+        }).open()
+
+        if (!result)
+          return
+
+        const { data, error } = await authClient.admin.removeUser({
+          userId: user.id,
+        })
+
+        if (error || !data || !data.success) {
+          errorToast({ title: 'Error', description: error?.message || 'Failed to delete user' })
+          return
+        }
+
+        successToast({ title: `User "${user.name}" has been deleted` })
+
+        // Refresh list to remove deleted user
+        await refresh()
       },
     },
   ]
@@ -135,10 +228,6 @@ const { data: users, pending: isLoading, refresh } = useLazyAsyncData(
         // Sorting
         sortBy: sorting.value[0]?.id,
         sortDirection: sorting.value[0]?.desc ? 'desc' : sorting.value[0] ? 'asc' : undefined,
-        // Filtering (Better Auth supports a single filter at a time)
-        // filterField: effectiveFilter.value?.field,
-        // filterOperator: effectiveFilter.value?.operator,
-        // filterValue: effectiveFilter.value?.value as any,
         limit: parsedQuery.value.size ?? 10,
         offset: ((parsedQuery.value.page ?? 1) - 1) * (parsedQuery.value.size ?? 10),
       },
@@ -176,6 +265,16 @@ const columns: TableColumn<any>[] = [
   },
   { accessorKey: 'role', header: 'Role' },
   {
+    accessorKey: 'lastSignInAt',
+    header: 'Last Sign In At',
+    cell: ({ row }) => row.getValue('lastSignInAt') ? new Date(row.getValue('lastSignInAt')).toLocaleString() : '-',
+  },
+  {
+    accessorKey: 'deactivatedAt',
+    header: 'Deactivated At',
+    cell: ({ row }) => row.getValue('deactivatedAt') ? new Date(row.getValue('deactivatedAt')).toLocaleString() : '-',
+  },
+  {
     accessorKey: 'banned',
     header: 'Banned',
     // cell: ({ row }) => row.getValue('banned') ? 'Yes' : 'No',
@@ -195,12 +294,12 @@ const columns: TableColumn<any>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created',
+    header: 'Created At',
     cell: ({ row }) => new Date(row.getValue('createdAt')).toLocaleString(),
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated',
+    header: 'Updated At',
     cell: ({ row }) => new Date(row.getValue('updatedAt')).toLocaleString(),
   },
   {
@@ -209,6 +308,17 @@ const columns: TableColumn<any>[] = [
     // UI rendered via slot
   },
 ]
+
+async function createUser() {
+  // Open Modal to create user
+  const result = await overlay.create(PageAdminUsersCreateUserModal).open()
+
+  if (!result)
+    return
+
+  // Refresh list to show new user
+  await refresh()
+}
 </script>
 
 <template>
@@ -230,6 +340,11 @@ const columns: TableColumn<any>[] = [
               :items="[...queryFields]"
             />
           </UFieldGroup>
+
+          <!-- Create User -->
+          <UButton @click="createUser">
+            Create User
+          </UButton>
         </div>
       </template>
     </AppPageHeader>
