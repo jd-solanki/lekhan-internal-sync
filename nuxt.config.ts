@@ -1,5 +1,6 @@
 import vue from '@vitejs/plugin-vue'
 import env from './shared/libs/env'
+import { CRON_SCHEDULES_PRESET } from './shared/utils/constants'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -91,6 +92,12 @@ export default defineNuxtConfig({
     ],
   },
   nitro: {
+    experimental: {
+      tasks: true,
+    },
+    scheduledTasks: {
+      [CRON_SCHEDULES_PRESET.EVERY_DAY]: ['liftBan'],
+    },
     rollupConfig: {
       plugins: [vue()],
     },
