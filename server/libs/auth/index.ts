@@ -127,6 +127,12 @@ export const auth = betterAuth({
             },
           }
         },
+        async after(session, _ctx) {
+          // Update last sign in time on session create on user table
+          await db.update(userTable)
+            .set({ lastSignInAt: new Date() })
+            .where(eq(userTable.id, session.userId as unknown as number))
+        },
       },
     },
   },
