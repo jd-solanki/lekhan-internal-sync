@@ -17,13 +17,11 @@ const runtimeConfig = useRuntimeConfig()
 
 export const auth = betterAuth({
   user: {
-    // TODO: Why this isn't working. We're not getting these fields in `admin.listUsers`
-    // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/66
     // Docs: https://www.better-auth.com/docs/concepts/database#extending-core-schema
+    // NOTE: Don't add `fieldName` in `additionalFields` as its identifies DB col from schema. Adding `fieldName` will return `undefined`.
     additionalFields: {
       lastSignInAt: {
         type: 'date',
-        fieldName: 'last_sign_in_at',
         validator: {
           input: z.iso.datetime(),
         },
@@ -32,7 +30,6 @@ export const auth = betterAuth({
       },
       deactivatedAt: {
         type: 'date',
-        fieldName: 'deactivated_at',
         validator: {
           input: z.nullable(z.iso.datetime()),
         },

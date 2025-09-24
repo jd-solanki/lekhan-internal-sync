@@ -67,7 +67,7 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
 
   const liftBanAction: DropdownMenuItem = {
     label: 'Lift Ban',
-    icon: 'i-lucide-user-check',
+    icon: 'i-lucide-circle-play',
     onSelect: async () => {
       console.warn('Lifting ban for user', user)
       const result = await overlay.create(ConfirmModal, {
@@ -180,10 +180,7 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     ...(userStore.user && userStore.user.id !== user.id
       ? [user.banned ? liftBanAction : banAction]
       : []),
-    // TODO: Conditionally show deactivate/reactivate based on user.deactivatedAt
-    // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/65
-    reactivateUserAction,
-    deactivateUserAction,
+    user.deactivatedAt ? reactivateUserAction : deactivateUserAction,
     {
       label: 'Hard Delete User',
       icon: 'i-lucide-trash',
