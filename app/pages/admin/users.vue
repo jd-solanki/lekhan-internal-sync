@@ -4,12 +4,14 @@ import type { Table as TanStackTable } from '@tanstack/vue-table'
 import type { User } from '~~/server/libs/auth'
 import { PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import * as z from 'zod'
+import { encodeSortingQuery } from '~~/shared/utils/formatters'
 
 definePageMeta({
   isAdminOnly: true,
 })
 
 const overlay = useOverlay()
+const route = useRoute()
 const userStore = useUserStore()
 const { successToast, errorToast } = useToastMessage()
 
@@ -17,15 +19,40 @@ const { successToast, errorToast } = useToastMessage()
 const { q, qDebounced } = useSearchQuery()
 
 // Query Field
+// NOTE: Ensure your sortable cols are in sync with headers that have sorting UI
+const SORTABLE_COLS = ['id', 'name', 'role', 'createdAt', 'updatedAt'] as const
+const SORTING_DEFAULT = '-createdAt' // Default sorting query param
 const queryFields = ['name', 'email'] as const
 const parsedQuery = useParsedQuery(paginationSchema.extend({
   qField: z.enum(queryFields).default('name'),
+  sorting: z.string().regex(/^[\w-]+$/).default(SORTING_DEFAULT),
 }), { page: 1, size: 10 })
 
-// Sorting state
-// INFO: Default sorting by createdAt desc
-type Sorting = { id: string, desc: boolean }[]
-const sorting = ref<Sorting>([{ id: 'createdAt', desc: true }])
+// INFO: We need to convert sorting query param to the format that TanStack Table understands
+// WARNING: Do not use `z.preprocessor` to `useParsedQuery` as under the hood `useParsedQuery` uses `zod` to parse the query params
+//  and you may end up with `[object Object]` in query params.
+const sorting = computed({
+  get: () => {
+    return decodeSortingQuery(
+      parsedQuery.value.sorting,
+      {
+        validKeys: [...SORTABLE_COLS],
+        default: [{ id: 'createdAt', desc: true }],
+      },
+    )
+  },
+  set: async (val) => {
+    if (!val || val.length === 0)
+      return
+
+    await navigateTo({
+      query: {
+        ...route.query,
+        sorting: encodeSortingQuery(val),
+      },
+    })
+  },
+})
 
 // Build action items per-user so handlers can access the correct userId
 function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnType<typeof useLazyAsyncData>['refresh']): DropdownMenuItem[] {
@@ -138,24 +165,28 @@ const { data: users, pending: isLoading, refresh } = useLazyAsyncData(
   async () => {
     const res = await authClient.admin.listUsers({
       query: {
+        // Searching
         searchValue: qDebounced.value || undefined,
         searchField: parsedQuery.value.qField,
         searchOperator: 'contains',
+
         // Sorting
-        sortBy: sorting.value[0]?.id,
-        sortDirection: sorting.value[0]?.desc ? 'desc' : sorting.value[0] ? 'asc' : undefined,
+        sortBy: parsedQuery.value.sorting?.[0]?.id,
+        sortDirection: parsedQuery.value.sorting?.[0]?.desc ? 'desc' : parsedQuery.value.sorting?.[0] ? 'asc' : undefined,
+
+        // Pagination
         limit: parsedQuery.value.size ?? 10,
         offset: ((parsedQuery.value.page ?? 1) - 1) * (parsedQuery.value.size ?? 10),
       },
     })
     return res?.data
   },
-  { watch: [qDebounced, () => parsedQuery.value.qField, sorting, () => parsedQuery.value.page, () => parsedQuery.value.size], server: false, immediate: true },
+  { watch: [qDebounced, () => parsedQuery.value.qField, () => parsedQuery.value.sorting, () => parsedQuery.value.page, () => parsedQuery.value.size], server: false, immediate: true },
 )
 
 // Reset to first page when search/filter changes
 watch(
-  [qDebounced, () => parsedQuery.value.qField, sorting, () => parsedQuery.value.size],
+  [qDebounced, () => parsedQuery.value.qField, () => parsedQuery.value.sorting, () => parsedQuery.value.size],
   () => {
     if (parsedQuery.value.page !== 1)
       parsedQuery.value.page = 1
@@ -288,10 +319,10 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
       :loading="isTableLoading"
       class="w-full"
     >
+      <!-- NOTE: Ensure your sortable cols UI are in sync with SORTABLE_COLS constant -->
       <!-- Sortable headers for selected columns -->
       <template #id-header="{ column }">
         <UButton
-          color="neutral"
           variant="ghost"
           label="ID"
           class="-mx-2.5"
@@ -301,7 +332,6 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
       </template>
       <template #name-header="{ column }">
         <UButton
-          color="neutral"
           variant="ghost"
           label="User"
           class="-mx-2.5"
@@ -311,7 +341,6 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
       </template>
       <template #role-header="{ column }">
         <UButton
-          color="neutral"
           variant="ghost"
           label="Role"
           class="-mx-2.5"
@@ -321,7 +350,6 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
       </template>
       <template #createdAt-header="{ column }">
         <UButton
-          color="neutral"
           variant="ghost"
           label="Created"
           class="-mx-2.5"
@@ -331,7 +359,6 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
       </template>
       <template #updatedAt-header="{ column }">
         <UButton
-          color="neutral"
           variant="ghost"
           label="Updated"
           class="-mx-2.5"
