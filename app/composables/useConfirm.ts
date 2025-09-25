@@ -5,8 +5,9 @@ export function useConfirm(modalProps: ConfirmModalProps) {
   const overlay = useOverlay()
   const modalIns = overlay.create(ConfirmModal, { props: modalProps })
 
+  // Returns the resolved value from the ConfirmModal (truthy when confirmed, falsy when canceled)
   const confirm = async () => {
-    await modalIns.open()
+    return await modalIns.open()
   }
 
   return { confirm }

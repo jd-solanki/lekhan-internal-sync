@@ -2,7 +2,7 @@
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
 import type { Table as TanStackTable } from '@tanstack/vue-table'
 import type { User } from '~~/server/libs/auth'
-import { ConfirmModal, PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
+import { PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import * as z from 'zod'
 
 definePageMeta({
@@ -60,23 +60,16 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     icon: 'i-lucide-circle-play',
     onSelect: async () => {
       console.warn('Lifting ban for user', user)
-      const result = await overlay.create(ConfirmModal, {
-        props: {
-          title: 'Lift Ban',
-          body: `Are you sure you want to lift the ban for user "${user.name}"?`,
-          confirmBtnProps: { color: 'primary', label: 'Lift Ban' },
+      await useConfirm({
+        title: 'Lift Ban',
+        body: `Are you sure you want to lift the ban for user "${user.name}"?`,
+        confirmBtnProps: { color: 'primary', label: 'Lift Ban' },
+        async onConfirm() {
+          const liftBanResponse = await userStore.liftBan({ userId: user.id }, user.name)
+          if (!liftBanResponse.error)
+            await refresh()
         },
-      }).open()
-
-      if (!result)
-        return
-
-      const liftBanResponse = await userStore.liftBan({ userId: user.id }, user.name)
-
-      if (!liftBanResponse.error) {
-        // Refresh list to show updated ban status
-        await refresh()
-      }
+      }).confirm()
     },
   }
 
@@ -84,18 +77,14 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     label: 'Deactivate User',
     icon: 'i-lucide-user-x',
     onSelect: async () => {
-      const result = await overlay.create(ConfirmModal, {
-        props: {
-          title: 'Deactivate User',
-          body: `Are you sure you want to deactivate user "${user.name}"?. User can reactivate account by signing in.`,
+      await useConfirm({
+        title: 'Deactivate User',
+        body: `Are you sure you want to deactivate user "${user.name}"?. User can reactivate account by signing in.`,
+        async onConfirm() {
+          await userStore.deactivateUser(user.id, user.name)
+          await refresh()
         },
-      }).open()
-
-      if (!result)
-        return
-
-      userStore.deactivateUser(user.id, user.name)
-        .then(async () => await refresh())
+      }).confirm()
     },
   }
 
@@ -125,30 +114,22 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect: async () => {
-        const result = await overlay.create(ConfirmModal, {
-          props: {
-            title: 'Hard Delete User',
-            body: `This action is irreversible. Are you sure you want to remove user ${user.name} and all their data permanently?`,
-            confirmBtnProps: { color: 'error', label: 'Delete Permanently' },
+        await useConfirm({
+          title: 'Hard Delete User',
+          body: `This action is irreversible. Are you sure you want to remove user ${user.name} and all their data permanently?`,
+          confirmBtnProps: { color: 'error', label: 'Delete Permanently' },
+          async onConfirm() {
+            const { data, error } = await authClient.admin.removeUser({
+              userId: user.id,
+            })
+            if (error || !data || !data.success) {
+              errorToast({ title: 'Error', description: error?.message || 'Failed to delete user' })
+              return
+            }
+            successToast({ title: `User "${user.name}" has been deleted` })
+            await refresh()
           },
-        }).open()
-
-        if (!result)
-          return
-
-        const { data, error } = await authClient.admin.removeUser({
-          userId: user.id,
-        })
-
-        if (error || !data || !data.success) {
-          errorToast({ title: 'Error', description: error?.message || 'Failed to delete user' })
-          return
-        }
-
-        successToast({ title: `User "${user.name}" has been deleted` })
-
-        // Refresh list to remove deleted user
-        await refresh()
+        }).confirm()
       },
     },
   ]
