@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
 import type { Table as TanStackTable } from '@tanstack/vue-table'
-import type { FetchError } from 'ofetch'
 import type { User } from '~~/server/libs/auth'
 import { ConfirmModal, PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import * as z from 'zod'
@@ -41,27 +40,18 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       if (!result)
         return
 
-      // Call API to ban user
-      const banRes = await authClient.admin.banUser({
-        userId: user.id,
-        ...result,
-      })
+      const banResponse = await userStore.banUser(
+        {
+          userId: user.id,
+          ...result,
+        },
+        user.name,
+      )
 
-      if (banRes?.error) {
-        errorToast({
-          title: 'Failed to ban user',
-          description: banRes.error.message || 'You cannot ban this user.',
-        })
-        return
+      if (!banResponse.error) {
+        // Refresh list to show updated ban status
+        await refresh()
       }
-
-      successToast({
-        title: `User "${user.name}" has been banned`,
-        description: result.banExpiresIn ? `Ban Expires at ${new Date(Date.now() + result.banExpiresIn * 1000).toLocaleString()}` : 'Ban is permanent',
-      })
-
-      // Refresh list to show updated ban status
-      await refresh()
     },
   }
 
@@ -81,25 +71,12 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       if (!result)
         return
 
-      // Call API to lift ban
-      const unbanRes = await authClient.admin.unbanUser({
-        userId: user.id,
-      })
+      const liftBanResponse = await userStore.liftBan({ userId: user.id }, user.name)
 
-      if (unbanRes?.error) {
-        errorToast({
-          title: 'Failed to lift ban',
-          description: unbanRes.error.message || 'Unable to lift ban for this user.',
-        })
-        return
+      if (!liftBanResponse.error) {
+        // Refresh list to show updated ban status
+        await refresh()
       }
-
-      successToast({
-        title: `Ban lifted for user "${user.name}"`,
-      })
-
-      // Refresh list to show updated ban status
-      await refresh()
     },
   }
 
@@ -117,27 +94,8 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       if (!result)
         return
 
-      // Deactivate user by setting `deactivatedAt` col to current timestamp
-      // Call API to deactivate user
-      await $fetch(`/api/users/${user.id}`, {
-        method: 'PATCH',
-        body: {
-          deactivatedAt: new Date(),
-        },
-      }).then(async () => {
-        successToast({
-          title: `User "${user.name}" has been deactivated`,
-        })
-
-        // Refresh list to show updated user status
-        await refresh()
-      }).catch((e) => {
-        const error = e as FetchError
-        errorToast({
-          title: 'Failed to deactivate user',
-          description: error.statusMessage || 'Unable to deactivate this user.',
-        })
-      })
+      userStore.deactivateUser(user.id, user.name)
+        .then(async () => await refresh())
     },
   }
 
@@ -145,27 +103,8 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     label: 'Reactivate User',
     icon: 'i-lucide-user-plus',
     onSelect: async () => {
-      // Reactivate user by setting `deactivatedAt` col to null
-      // Call API to reactivate user
-      await $fetch(`/api/users/${user.id}`, {
-        method: 'PATCH',
-        body: {
-          deactivatedAt: null,
-        },
-      }).then(async () => {
-        successToast({
-          title: `User "${user.name}" has been reactivated`,
-        })
-
-        // Refresh list to show updated user status
-        await refresh()
-      }).catch((e) => {
-        const error = e as FetchError
-        errorToast({
-          title: 'Error',
-          description: error.statusMessage || 'Unable to reactivate this user.',
-        })
-      })
+      userStore.reactivateUser(user.id, user.name)
+        .then(async () => await refresh())
     },
   }
 

@@ -1,3 +1,4 @@
+import type { FetchError } from 'ofetch'
 import type { SchemaForgotPassword, SchemaResetPassword, SchemaSignUp } from '~~/shared/schemas/auth'
 import type { User } from '~/libs/auth'
 import { authClient } from '~/libs/auth'
@@ -234,6 +235,87 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  async function deactivateUser(userId: number, name?: string) {
+    // Deactivate user by setting `deactivatedAt` col to current timestamp
+    // Call API to deactivate user
+    return $fetch(`/api/users/${userId}`, {
+      method: 'PATCH',
+      body: {
+        deactivatedAt: new Date(),
+      },
+    }).then(async () => {
+      successToast({
+        title: `User "${name || userId}" has been deactivated`,
+      })
+    }).catch((e) => {
+      const error = e as FetchError
+      errorToast({
+        title: 'Failed to deactivate user',
+        description: error.statusMessage || 'Unable to deactivate this user.',
+      })
+    })
+  }
+
+  async function reactivateUser(userId: number, name?: string) {
+    // Reactivate user by setting `deactivatedAt` col to null
+    // Call API to reactivate user
+    return $fetch(`/api/users/${userId}`, {
+      method: 'PATCH',
+      body: {
+        deactivatedAt: null,
+      },
+    }).then(async () => {
+      successToast({
+        title: `User "${name || userId}" has been reactivated`,
+      })
+    }).catch((e) => {
+      const error = e as FetchError
+      errorToast({
+        title: 'Error',
+        description: error.statusMessage || 'Unable to reactivate this user.',
+      })
+    })
+  }
+
+  async function banUser(banOptions: Parameters<typeof authClient.admin.banUser>[0], name: string) {
+    const banRes = await authClient.admin.banUser(banOptions)
+
+    if (banRes?.error) {
+      errorToast({
+        title: 'Failed to ban user',
+        description: banRes.error.message || 'You cannot ban this user.',
+      })
+    }
+    else {
+      successToast({
+        title: `User "${name || banOptions.userId}" has been banned`,
+        description: banOptions.banExpiresIn ? `Ban Expires at ${new Date(Date.now() + banOptions.banExpiresIn * 1000).toLocaleString()}` : 'Ban is permanent',
+      })
+    }
+
+    return banRes
+  }
+
+  async function liftBan(unbanOptions: Parameters<typeof authClient.admin.unbanUser>[0], name: string) {
+    const unbanRes = await authClient.admin.unbanUser({
+      userId: unbanOptions.userId,
+    })
+
+    if (unbanRes?.error) {
+      errorToast({
+        title: 'Failed to lift ban',
+        description: unbanRes.error.message || 'Unable to lift ban for this user.',
+      })
+    }
+    else {
+      successToast({
+        title: `Ban lifted for user "${name || unbanOptions.userId}"`,
+      })
+    }
+
+    return unbanRes
+  }
+
   return {
     signUp,
     signIn,
@@ -254,5 +336,9 @@ export const useUserStore = defineStore('user', () => {
     // Admin action
     impersonateUser,
     stopImpersonating,
+    deactivateUser,
+    reactivateUser,
+    banUser,
+    liftBan,
   }
 })
