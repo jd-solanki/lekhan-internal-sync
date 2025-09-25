@@ -1,16 +1,26 @@
 <script lang="ts" setup>
 import type { ButtonProps } from '@nuxt/ui'
 
-defineProps<{
+export interface ConfirmModalProps {
   title: string
   body: string
   confirmBtnProps?: ButtonProps
   cancelBtnProps?: ButtonProps
-}>()
+  onConfirm?: () => Promise<void | false>
+}
 
-defineEmits<{
+const props = defineProps<ConfirmModalProps>()
+
+const emit = defineEmits<{
   close: [boolean]
 }>()
+
+async function _onConfirm() {
+  await props.onConfirm?.()
+
+  // Emit close with true to indicate confirmation
+  emit('close', true)
+}
 </script>
 
 <template>
@@ -28,7 +38,8 @@ defineEmits<{
           v-bind="confirmBtnProps"
           :label="confirmBtnProps?.label || 'Confirm'"
           :color="confirmBtnProps?.color || 'error'"
-          @click="$emit('close', true)"
+          loading-auto
+          @click="_onConfirm"
         />
         <UButton
           v-bind="cancelBtnProps"
