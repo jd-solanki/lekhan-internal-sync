@@ -5,8 +5,8 @@ export function useSearchQuery(options?: { debounceDuration: number, route: Retu
 
   const q = computed({
     get: () => getFirstQueryValue('q', { route }),
-    set: (value) => {
-      navigateTo({
+    set: async (value) => {
+      await navigateTo({
         query: {
           ...route.query,
           q: value || undefined,

@@ -48,7 +48,7 @@ export function useParsedQuery<T extends z.ZodRawShape, D extends Partial<z.infe
     }
   })
 
-  watch(value, (newValue) => {
+  watch(value, async (newValue) => {
     const newQueries = partialParse(zodSchema, newValue)
 
     // Iterate and exclude if query value is equal to default value via filter
@@ -56,7 +56,7 @@ export function useParsedQuery<T extends z.ZodRawShape, D extends Partial<z.infe
       Object.entries(newQueries).filter(([key, value]) => value !== queryDefaults[key]),
     )
 
-    navigateTo({ query: filteredQueries })
+    await navigateTo({ query: filteredQueries })
   }, { deep: true })
 
   return value
