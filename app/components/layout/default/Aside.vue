@@ -92,6 +92,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
       class="grow px-2 [&_ul]:last-of-type:mt-auto [&_div]:last-of-type:hidden"
       :style="colorMode.value === 'light' ? { '--ui-bg-elevated': 'color-mix(in oklch, var(--ui-color-neutral-200), white 40%)' } : {}"
       tooltip
+      :ui="{ label: 'py-2.5', link: 'py-2.5' }"
     />
     <footer class="py-4 px-5 space-y-4">
       <CommandPalette />
