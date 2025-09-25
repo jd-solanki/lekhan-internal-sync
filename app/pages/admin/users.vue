@@ -9,11 +9,12 @@ definePageMeta({
   isAdminOnly: true,
 })
 
-// Query
 const overlay = useOverlay()
-const { q, qDebounced } = useSearchQuery()
 const userStore = useUserStore()
 const { successToast, errorToast } = useToastMessage()
+
+// Search query
+const { q, qDebounced } = useSearchQuery()
 
 // Query Field
 const queryFields = ['name', 'email'] as const
@@ -32,10 +33,7 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     label: 'Ban User',
     icon: 'i-lucide-ban',
     onSelect: async () => {
-      console.warn('Banning user', user)
       const result = await overlay.create(PageAdminUsersBanUserModal).open()
-
-      console.warn('result :>> ', result)
 
       if (!result)
         return
@@ -59,7 +57,6 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
     label: 'Lift Ban',
     icon: 'i-lucide-circle-play',
     onSelect: async () => {
-      console.warn('Lifting ban for user', user)
       await useConfirm({
         title: 'Lift Ban',
         body: `Are you sure you want to lift the ban for user "${user.name}"?`,
@@ -158,11 +155,15 @@ const { data: users, pending: isLoading, refresh } = useLazyAsyncData(
 
 // Reset to first page when search/filter changes
 watch(
-  [qDebounced, () => parsedQuery.value.qField, sorting],
+  [qDebounced, () => parsedQuery.value.qField, sorting, () => parsedQuery.value.size],
   () => {
     if (parsedQuery.value.page !== 1)
       parsedQuery.value.page = 1
   },
+  // INFO: Important to use 'sync' here to avoid mis-fetching data
+  // Case: Set pageSize to 5; Go to 2nd page; Set pageSize to 10; => Doesn't render any data because above `useAsyncData` still gets old page (2) when size changes
+  // Which computes offset as 10 (for page size 10), which means even though we reset to page 1 and query reflects to page 1, we're fetching second page.
+  { flush: 'sync' },
 )
 
 // Ensure visible loading state on initial mount and during refetches
@@ -239,6 +240,7 @@ async function createUser() {
   await refresh()
 }
 
+// Column visibility
 const refTable = useTemplateRef<{ tableApi?: TanStackTable<unknown> }>('refTable')
 const columnVisibility = useCookie('admin-users-table-column-visibility', { default: () => ({}) })
 </script>
