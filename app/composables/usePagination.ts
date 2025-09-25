@@ -6,8 +6,8 @@ export function usePagination(options?: { defaultPage?: number, defaultSize?: nu
   // Separate computed for page to work with UPagination component
   const page = computed({
     get: () => paginationQuery.value.page,
-    set: (value) => {
-      navigateTo({
+    set: async (value) => {
+      await navigateTo({
         query: {
           ...route.query,
           page: value === defaultPage ? undefined : value,
@@ -20,8 +20,8 @@ export function usePagination(options?: { defaultPage?: number, defaultSize?: nu
   // Separate computed for page size to work with USelect component
   const pageSize = computed({
     get: () => paginationQuery.value.size,
-    set: (value) => {
-      navigateTo({
+    set: async (value) => {
+      await navigateTo({
         query: {
           ...route.query,
           page: undefined, // Reset to first page when changing page size
