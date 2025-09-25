@@ -3,6 +3,7 @@ import type { CommandPaletteGroup } from '@nuxt/ui'
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
+const commandPaletteStore = useCommandPalette()
 
 const isCommandPaletteOpen = ref(false)
 const toggleCommandPalette = () => isCommandPaletteOpen.value = !isCommandPaletteOpen.value
@@ -13,6 +14,15 @@ defineShortcuts({
 
 // NOTE: Ensure it's computed to update the items when admin impersonate any user
 const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => [
+  ...(
+    commandPaletteStore._pageActions
+      ? [{
+          id: 'pageActions',
+          label: 'Page Actions',
+          items: commandPaletteStore._pageActions,
+        }]
+      : []
+  ),
   ...(userStore.isUserAdmin
     ? [
         {

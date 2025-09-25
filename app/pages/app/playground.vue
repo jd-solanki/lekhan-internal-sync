@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const bannerStore = useBannerStore()
 const { errorToast } = useToastMessage()
+const commandPaletteStore = useCommandPalette()
 
 function toggleBanner() {
   bannerStore.props.title = bannerStore.props.title ? undefined : 'Hey there 👋🏻'
@@ -33,6 +34,13 @@ async function asyncOperation() {
     },
   }).confirm()
 }
+
+commandPaletteStore.setPageActions([
+  // eslint-disable-next-line no-console
+  { icon: 'i-lucide-award', label: 'Dummy Action', onSelect: () => console.log('dummy') },
+  { icon: 'i-lucide-bell', label: 'Toggle Banner', onSelect: () => toggleBanner() },
+  { icon: 'i-lucide-activity', label: 'Async Operation', onSelect: () => asyncOperation() },
+])
 </script>
 
 <template>
