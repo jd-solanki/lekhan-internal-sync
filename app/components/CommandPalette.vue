@@ -49,7 +49,10 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => [
 </script>
 
 <template>
-  <UModal v-model:open="isCommandPaletteOpen">
+  <UModal
+    v-model:open="isCommandPaletteOpen"
+    :ui="{ content: 'max-w-2xl' }"
+  >
     <UButton
       color="neutral"
       variant="outline"
@@ -67,7 +70,8 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => [
     <template #content>
       <UCommandPalette
         :groups="groups"
-        class="h-80"
+        class="h-[30rem]"
+        :ui="{ item: 'p-2', group: 'p-1.75' }"
         @update:model-value="toggleCommandPalette"
       />
     </template>

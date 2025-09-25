@@ -6,7 +6,7 @@ export interface ConfirmModalProps {
   body: string
   confirmBtnProps?: ButtonProps
   cancelBtnProps?: ButtonProps
-  onConfirm?: () => Promise<void | false>
+  onConfirm: () => Promise<void | false>
 }
 
 const props = defineProps<ConfirmModalProps>()
@@ -15,8 +15,9 @@ const emit = defineEmits<{
   close: [boolean]
 }>()
 
+const { isLoading: isFnProcessing, fnWithLoading } = useWithLoading(props.onConfirm)
 async function _onConfirm() {
-  await props.onConfirm?.()
+  await fnWithLoading()
 
   // Emit close with true to indicate confirmation
   emit('close', true)
@@ -26,8 +27,9 @@ async function _onConfirm() {
 <template>
   <UModal
     :title="title"
-    :close="{ onClick: () => $emit('close', false) }"
+    :close="false"
     :ui="{ content: 'divide-none', body: '!pt-0 !pb-1' }"
+    :dismissible="!isFnProcessing"
   >
     <template #body>
       <p>{{ body }}</p>
