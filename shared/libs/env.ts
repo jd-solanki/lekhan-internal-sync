@@ -7,7 +7,7 @@ const EnvSchema = z.object({
 
   // 🌐 App
   APP_SCHEME: z.enum(['http', 'https']).default('http'),
-  APP_DOMAIN: z.string().regex(/^[\w-]+(:\d+)?$/).default('localhost:3000'),
+  APP_DOMAIN: z.string().regex(/^[\\.\w-]+(:\d+)?$/).default('localhost:3000'),
   APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
   API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
 
