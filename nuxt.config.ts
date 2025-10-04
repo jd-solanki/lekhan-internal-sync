@@ -41,6 +41,16 @@ export default defineNuxtConfig({
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
         },
+
+        // NON-SENSITIVE values from env to consume in app context
+        // This is because we can't use `env.ts` in browser context directly as it contains sensitive values
+        env: {
+          NODE_ENV: env.NODE_ENV,
+          APP_SCHEME: env.APP_SCHEME,
+          APP_DOMAIN: env.APP_DOMAIN,
+          APP_BASE_URL: env.APP_BASE_URL,
+          API_BASE_URL: env.API_BASE_URL,
+        },
       },
 
       // Shared across server & app

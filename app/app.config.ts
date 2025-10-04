@@ -1,5 +1,3 @@
-import env from '~~/shared/libs/env'
-
 const APP_NAME = 'LaunchDayOne'
 
 export default defineAppConfig({
@@ -82,7 +80,7 @@ export default defineAppConfig({
   },
   mail: {
     // This will me mentioned as the sender in emails sent by the app
-    from: { email: `no-reply@${env.APP_DOMAIN}`, name: APP_NAME },
+    from: { email: process.env.NODE_ENV === 'development' ? 'no-reply@example.com' : `no-reply@${useRuntimeConfig().public.app.env.APP_DOMAIN}`, name: APP_NAME },
   },
   ui: {
     colors: {
