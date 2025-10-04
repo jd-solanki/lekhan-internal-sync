@@ -18,6 +18,12 @@ const EnvSchema = z.object({
   // 📦 Database
   DATABASE_URL: z.string(),
 
+  // Email
+  RESEND_API_KEY: z.string().optional(),
+  AWS_ACCESS_KEY: z.string().optional(),
+  AWS_SECRET_KEY: z.string().optional(),
+  AWS_REGION: z.string().optional(),
+
   // 🔒 AUTH
   BETTER_AUTH_SECRET: z.string(),
   BETTER_AUTH_URL: z.url(),
@@ -31,7 +37,14 @@ const EnvSchema = z.object({
   // 💰 Polar
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
-})
+}).refine(
+  data => data.NODE_ENV === 'production'
+    ? data.RESEND_API_KEY || (data.AWS_ACCESS_KEY && data.AWS_SECRET_KEY && data.AWS_REGION)
+    : true,
+  {
+    error: 'It seems you haven\'t configured Email service for production. Please set API Key or Credentials of your preferred email service provider in the environment variables.',
+  },
+)
 
 // eslint-disable-next-line ts/no-redeclare
 export type EnvSchema = z.infer<typeof EnvSchema>

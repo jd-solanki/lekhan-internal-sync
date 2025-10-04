@@ -1,5 +1,8 @@
 import { createEmailService } from 'unemail'
+import awsSesProvider from 'unemail/providers/aws-ses'
+import resendProvider from 'unemail/providers/resend'
 import smtpProvider from 'unemail/providers/smtp'
+import env from '~~/shared/libs/env'
 
 let emailService: ReturnType<typeof createEmailService> | null = null
 type EmailOptions = Parameters<(ReturnType<typeof getEmailService>)['sendEmail']>[0]
@@ -20,6 +23,35 @@ export function getEmailService() {
       secure: false, // typically false for development
     }),
   })
+
+  if (env.NODE_ENV === 'production') {
+    // Resend
+    if (env.RESEND_API_KEY) {
+      emailService = createEmailService({
+        provider: resendProvider({
+          apiKey: env.RESEND_API_KEY,
+        }),
+      })
+    }
+
+    // AWS SES
+    else if (env.AWS_ACCESS_KEY && env.AWS_SECRET_KEY && env.AWS_REGION) {
+      emailService = createEmailService({
+        provider: awsSesProvider({
+          accessKeyId: env.AWS_ACCESS_KEY,
+          secretAccessKey: env.AWS_SECRET_KEY,
+          region: env.AWS_REGION,
+        }),
+      })
+    }
+
+    // Add other providers here as else if blocks
+
+    // If not valid production email provider found raise error
+    else {
+      throw new Error('No valid email provider configured for production. Please set API Key or Credentials of your preferred email service provider in the environment variables.')
+    }
+  }
 
   return emailService
 }
