@@ -1,1 +1,2 @@
+sync-dotenv
 pnpm exec lint-staged
