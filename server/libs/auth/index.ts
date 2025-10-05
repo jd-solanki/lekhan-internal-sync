@@ -53,10 +53,21 @@ export const auth = betterAuth({
     }),
     magicLink({
       sendMagicLink: async ({ email, url }) => {
+        const emailSubject = 'Your Magic Link'
+
+        const emailHTML = await renderEmailActionButton({
+          emailPreview: `Here is your magic link to sign into ${env.APP_NAME}`,
+          emailSubject,
+          name: email.split('@')[0],
+          message: 'Click the button below to sign in to your account:',
+          btnText: 'Sign In',
+          btnUrl: url,
+        })
+
         await sendEmail({
           to: { email },
-          subject: 'Magic Link',
-          text: url,
+          subject: emailSubject,
+          html: emailHTML,
         })
       },
     }),
@@ -127,10 +138,21 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      const emailSubject = 'Verify your email address'
+
+      const emailHTML = await renderEmailActionButton({
+        emailPreview: `Verify your email address for ${env.APP_NAME}`,
+        emailSubject,
+        name: user.name,
+        message: 'Click the button below to verify your email address:',
+        btnText: 'Verify Email',
+        btnUrl: url,
+      })
+
       await sendEmail({
         to: { email: user.email },
-        subject: 'Verify your email address',
-        text: url,
+        subject: emailSubject,
+        html: emailHTML,
       })
     },
   },
@@ -140,10 +162,21 @@ export const auth = betterAuth({
     requireEmailVerification: runtimeConfig.public.shared.isEmailVerificationRequiredForAccess,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
+      const emailSubject = 'Reset your password'
+
+      const emailHTML = await renderEmailActionButton({
+        emailPreview: `Reset your password for ${env.APP_NAME}`,
+        emailSubject,
+        name: user.name,
+        message: 'Click the button below to reset your password:',
+        btnText: 'Reset Password',
+        btnUrl: url,
+      })
+
       await sendEmail({
         to: { email: user.email },
-        subject: 'Reset your password',
-        text: url,
+        subject: emailSubject,
+        html: emailHTML,
       })
     },
   },

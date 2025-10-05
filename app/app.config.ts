@@ -1,4 +1,4 @@
-const APP_NAME = 'LaunchDayOne'
+const APP_NAME = process.env.APP_NAME
 
 export default defineAppConfig({
   app: {

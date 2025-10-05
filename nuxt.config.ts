@@ -1,4 +1,3 @@
-import vue from '@vitejs/plugin-vue'
 import env from './shared/libs/env'
 import { CRON_SCHEDULES_PRESET } from './shared/utils/constants'
 
@@ -72,6 +71,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/ui',
     '@pinia/nuxt',
+    'nuxt-email-renderer',
   ],
   features: {
     devLogs: true,
@@ -98,14 +98,11 @@ export default defineNuxtConfig({
     scheduledTasks: {
       [CRON_SCHEDULES_PRESET.EVERY_DAY]: ['liftBan'],
     },
-    rollupConfig: {
-      plugins: [vue()],
-    },
     imports: {
       dirs: [
         'shared/schemas/**/*',
-        'server/utils/**',
-        'sever/db/index',
+        'server/utils/**/*',
+        'server/db/index',
       ],
     },
   },

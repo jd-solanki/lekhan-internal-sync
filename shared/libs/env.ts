@@ -6,6 +6,7 @@ const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
 
   // 🌐 App
+  APP_NAME: z.string(),
   APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
   API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
 
