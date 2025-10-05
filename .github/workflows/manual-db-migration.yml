@@ -11,6 +11,7 @@ on:
 jobs:
   run-migration:
     name: Run Production Migration
+    environment: prod
     runs-on: ubuntu-latest
 
     # This 'if' condition ensures the job only runs if the user types the exact confirmation phrase.

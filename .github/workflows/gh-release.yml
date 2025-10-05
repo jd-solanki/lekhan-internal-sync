@@ -32,9 +32,5 @@ jobs:
       - name: ⬇️ Checkout template
         uses: actions/checkout@v4
 
-      - name: ⬇️ Install packages in typescript full version
-        working-directory: ${{ env.BRAND_NAME }}/vue/typescript-version/full-version
-        run: pnpm install --no-frozen-lockfile
-
       - name: 🚀 Release
         run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "Please refer to live [changelog](${{ vars.WEBSITE_URL }}/changelog) for details." --verify-tag
