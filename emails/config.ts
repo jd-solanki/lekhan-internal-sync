@@ -13,12 +13,12 @@ export default {
   },
   build: {
     content: ['emails/**/*.html'],
-    static: {
-      source: ['images/**/*.*'],
-      destination: 'images',
-    },
+    // static: {
+    //   source: ['images/**/*.*'],
+    //   destination: 'images',
+    // },
   },
   locals: {
-    env,
+    APP_BASE_URL: env.APP_BASE_URL,
   },
 } satisfies Config

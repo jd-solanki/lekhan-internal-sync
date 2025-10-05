@@ -1,3 +1,9 @@
+import type { Config } from '@maizzle/framework'
+import { defu } from 'defu'
+
+// @ts-expect-error We're importing .ts files
+import baseConfig from './config.ts'
+
 /*
 |-------------------------------------------------------------------------------
 | Production config                       https://maizzle.com/docs/environments
@@ -9,17 +15,23 @@
 |
 */
 
-/** @type {import('@maizzle/framework').Config} */
-export default {
+export default defu(baseConfig, {
   build: {
+    content: ['emails/**/*.html'],
     output: {
-      path: 'build_production',
+      path: 'emails/dist',
+      extension: 'html',
+      from: 'emails/templates/*.html',
     },
   },
   css: {
-    inline: true,
-    purge: true,
+    // inline: true,
+    // purge: true,
+    purge: {
+      removeHTMLComments: true,
+      uglify: true,
+    },
     shorthand: true,
   },
   prettify: true,
-}
+} satisfies Config)
