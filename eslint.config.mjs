@@ -9,6 +9,7 @@ export default withNuxt(
   {
     ignores: [
       './.prompts/nuxt-ui.instructions.md',
+      './server/db/migrations/**/*',
     ],
   },
   antfu({

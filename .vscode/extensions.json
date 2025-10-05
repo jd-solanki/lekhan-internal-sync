@@ -12,6 +12,7 @@
     "vue.volar",
     "matijao.vue-nuxt-snippets",
     "github.vscode-github-actions",
-    "orta.vscode-twoslash-queries"
+    "orta.vscode-twoslash-queries",
+    "redhat.vscode-yaml"
   ]
 }
