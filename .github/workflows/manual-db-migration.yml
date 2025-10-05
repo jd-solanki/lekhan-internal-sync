@@ -18,14 +18,25 @@ jobs:
     if: ${{ github.event.inputs.confirm_run == 'migrate production' }}
 
     steps:
-      # Step 1: Check out the repository's code
+      # It converts all secrets to environment variables for subsequent steps.
+      - name: 🤫 Expose GitHub Secrets as Environment Variables for zod validation & usage
+        run: |
+          echo "Converting secrets to environment variables..."
+          # The toJSON(secrets) function serializes the secrets context into a JSON string.
+          # We pipe this to jq to parse it. For each key-value pair, it prints "KEY=VALUE".
+          # This output is then appended to the $GITHUB_ENV file.
+          # The runner automatically picks up these variables for all following steps.
+          echo '${{ toJSON(secrets) }}' | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' >> $GITHUB_ENV
+          echo "Secrets exposed."
+
+      # Step 2: Check out the repository's code
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      # Step 2: Set up pnpm
+      # Step 3: Set up pnpm
       - uses: pnpm/action-setup@v4
 
-      # Step 3: Set up Node.js environment
+      # Step 4: Set up Node.js environment
       # Uses actions/setup-node@v5 for the latest features and security.
       # Caching pnpm dependencies speeds up subsequent runs significantly.
       - name: Setup Node.js
@@ -34,11 +45,11 @@ jobs:
           node-version: 22.x # Specify your project's Node.js version
           cache: pnpm
 
-      # Step 4: Install dependencies
+      # Step 5: Install dependencies
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Step 5: Run the migration script
+      # Step 6: Run the migration script
       # The DATABASE_URL is securely passed from GitHub Secrets.
       # It is never logged or exposed in the workflow file.
       # NODE_ENV is set to 'production' to match script's logic for SSL.

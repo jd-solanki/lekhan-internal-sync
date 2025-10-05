@@ -23,6 +23,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # It converts all secrets to environment variables for subsequent steps.
+      - name: 🤫 Expose GitHub Secrets as Environment Variables for zod validation & usage
+        run: |
+          echo "Converting secrets to environment variables..."
+          # The toJSON(secrets) function serializes the secrets context into a JSON string.
+          # We pipe this to jq to parse it. For each key-value pair, it prints "KEY=VALUE".
+          # This output is then appended to the $GITHUB_ENV file.
+          # The runner automatically picks up these variables for all following steps.
+          echo '${{ toJSON(secrets) }}' | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' >> $GITHUB_ENV
+          echo "Secrets exposed."
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
