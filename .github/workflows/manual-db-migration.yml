@@ -1,4 +1,4 @@
-name: Manual Database Migration
+name: ⬆️ Manual Database Migration
 
 on:
   workflow_dispatch:
