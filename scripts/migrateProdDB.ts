@@ -24,7 +24,7 @@ async function runMigrations() {
   try {
     console.log('MIGRATIONS: Starting...')
 
-    await migrate(db, { migrationsFolder: '../server/db/migrations' })
+    await migrate(db, { migrationsFolder: 'server/db/migrations' })
 
     console.log('MIGRATIONS: Completed successfully!')
   }
