@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: ⚙️ Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: ⬇️ Checkout template
         uses: actions/checkout@v4

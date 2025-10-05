@@ -22,7 +22,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      # Step 2: Set up Node.js environment
+      # Step 2: Set up pnpm
+      - uses: pnpm/action-setup@v4
+
+      # Step 3: Set up Node.js environment
       # Uses actions/setup-node@v5 for the latest features and security.
       # Caching pnpm dependencies speeds up subsequent runs significantly.
       - name: Setup Node.js
@@ -31,11 +34,11 @@ jobs:
           node-version: 22.x # Specify your project's Node.js version
           cache: pnpm
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Step 4: Run the migration script
+      # Step 5: Run the migration script
       # The DATABASE_URL is securely passed from GitHub Secrets.
       # It is never logged or exposed in the workflow file.
       # NODE_ENV is set to 'production' to match script's logic for SSL.
