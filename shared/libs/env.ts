@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import 'dotenv/config'
 
+// NOTE: It isn't meant to be used in `app` directory/context because it contains sensitive & server only info.
+//       Even though if you try to import & use it in `app`, You'll get and error.
+//       It is placed inside `shared` so that it can be imported in both `server` & other server only contexts.
+
 const EnvSchema = z.object({
   // 🛠️ General
   NODE_ENV: z.enum(['development', 'production', 'test']),
