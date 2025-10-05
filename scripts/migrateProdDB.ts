@@ -16,7 +16,7 @@ async function runMigrations() {
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     // ssl: process.env.NODE_ENV === 'production', // Match your app's SSL setting
-    ssl: true,
+    ssl: false, // Carefully set to false for now because of GH Actions
   })
 
   const db = drizzle(pool)
