@@ -9,10 +9,8 @@ const route = useRoute()
 const paymentsStore = usePaymentsStore()
 
 const state = reactive<Partial<SchemaSignIn>>({
-  email: undefined,
-  password: undefined,
-  // email: 'admin@mail.com',
-  // password: 'adminadmin',
+  email: process.env.NODE_ENV === 'development' ? 'admin@mail.com' : undefined,
+  password: process.env.NODE_ENV === 'development' ? 'adminadmin' : undefined,
 })
 
 const parsedQuery = useParsedQuery(

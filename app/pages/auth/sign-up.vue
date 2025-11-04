@@ -12,10 +12,8 @@ const userStore = useUserStore()
 const appConfig = useAppConfig()
 
 const state = reactive<SchemaSignUp>({
-  email: '',
-  password: '',
-  // email: 'admin@mail.com',
-  // password: 'adminadmin',
+  email: process.env.NODE_ENV === 'development' ? 'admin@mail.com' : '',
+  password: process.env.NODE_ENV === 'development' ? 'adminadmin' : '',
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
