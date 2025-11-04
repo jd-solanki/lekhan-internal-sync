@@ -55,7 +55,7 @@ export const auth = betterAuth({
       sendMagicLink: async ({ email, url }) => {
         const emailSubject = 'Your Magic Link'
 
-        const emailHTML = await renderEmailActionButton({
+        const emailHTML = await renderEmailComponent('EmailActionButton', {
           emailPreview: `Here is your magic link to sign into ${env.APP_NAME}`,
           emailSubject,
           name: email.split('@')[0],
@@ -140,7 +140,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url }) => {
       const emailSubject = 'Verify your email address'
 
-      const emailHTML = await renderEmailActionButton({
+      const emailHTML = await renderEmailComponent('EmailActionButton', {
         emailPreview: `Verify your email address for ${env.APP_NAME}`,
         emailSubject,
         name: user.name,
@@ -164,7 +164,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url }) => {
       const emailSubject = 'Reset your password'
 
-      const emailHTML = await renderEmailActionButton({
+      const emailHTML = await renderEmailComponent('EmailActionButton', {
         emailPreview: `Reset your password for ${env.APP_NAME}`,
         emailSubject,
         name: user.name,
