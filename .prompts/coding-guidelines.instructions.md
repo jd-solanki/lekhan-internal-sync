@@ -19,7 +19,6 @@
 ### Composition API & TypeScript
 
 - Use `<script setup lang="ts">` and Composition API.
-- Always use TypeScript for type safety.
 - Organize logic via composables in `app/composables/` (auto-imported).
 
 ### Validation & Schemas
@@ -49,27 +48,6 @@
 
 - When using `UButton` if it's Async operation add `loading-auto` to it.
 - If extracting page specific components, place them in `app/components/pages/`. E.g. For `app/pages/dashboard.vue`, place components in `app/components/pages/dashboard/`.
-
-### Data Fetching
-
-- Use `useFetch()` or `useAsyncData()` for SSR-safe fetching. E.g. Fetching data from an API:
-
-  ```ts
-  const { data, error, isPending } = await useFetch('/api/data')
-  ```
-
-- Use `$fetch()` for client-side-only requests. E.g. Making post, requests:
-
-  ```ts
-  const { data, error } = await $fetch('/api/data', {
-    method: 'POST',
-    body: { key: 'value' }
-  })
-
-### Auto Imports
-
-- Only import components from `#components` when component is dynamically used in `<script>` block.
-- No need to import component if it's used in `<template>` block
 
 ### Server
 
@@ -151,7 +129,6 @@ DELETE /comments/{comment_id}     # Delete comment by id for task
 
 ### Routing & Navigation
 
-- Use `app/pages/` for routes.
 - Use `<ULink>` for navigation.
 - Read `index.d.ts`, `PageMeta` interface for additional meta we can use for route.
 

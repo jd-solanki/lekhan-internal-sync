@@ -5,13 +5,11 @@
   // Hide symlinked files in explorer
   // "files.exclude": {
   //   ".cursor": true,
-  //   ".windsurf": true,
   //   ".github/prompts": true
   // },
   // NOTE: Do not edit symlinked files manually. Prefer editing source files in `.prompts` directory
   "files.readonlyInclude": {
     ".cursor/**": true,
-    ".windsurf/**": true,
     ".github/prompts/**": true
   },
   // SECTION: antfu-eslint

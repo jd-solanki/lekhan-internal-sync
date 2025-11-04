@@ -31,7 +31,7 @@ LaunchDayOne is a production‑ready Nuxt.js SaaS boilerplate to help you ship f
 - Nuxt UI, Pinia, Vue Router, @unhead/vue
 - BetterAuth (+ @polar-sh/better-auth), Polar SDK
 - Drizzle ORM, Postgres, drizzle‑zod
-- Unemail, Vue Email
+- Unemail, Nuxt Email Renderer
 - TypeScript, ESLint, Husky, pnpm, tsx
 
 ## Configuration conventions
