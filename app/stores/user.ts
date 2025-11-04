@@ -168,10 +168,12 @@ export const useUserStore = defineStore('user', () => {
 
   async function sendMagicLink(email: string) {
     await withLoading(async () => {
-      await authClient.signIn.magicLink({
-        email,
-        errorCallbackURL: runtimeConfig.public.app.routes.signIn,
-      }).then(async () => {
+      try {
+        await authClient.signIn.magicLink({
+          email,
+          errorCallbackURL: runtimeConfig.public.app.routes.signIn,
+        })
+
         successToast({
           title: 'Magic link sent',
           description: 'Click on sent link to sign in',
@@ -179,12 +181,13 @@ export const useUserStore = defineStore('user', () => {
 
         // Send verification mail and redirect to verify email page
         await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?state=mail-sent`)
-      }).catch((error) => {
+      }
+      catch {
         errorToast({
           title: 'Failed to Send Magic Link',
-          description: error.data.message || error.message,
+          // description: error?.data?.message || error?.message || 'Unable to send magic link. Please try again.' },
         })
-      })
+      }
     })
   }
 

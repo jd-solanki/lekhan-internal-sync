@@ -10,7 +10,8 @@ function toggleBanner() {
 async function asyncOperation() {
   await useConfirm({
     title: 'Are you sure?',
-    body: 'This action cannot be undone.',
+    body: 'This modal won\'t get closed if there\'s an error during the operation. As DX perspective it won\'t close while its processing async operation.',
+    confirmBtnProps: { label: 'Random Success', color: 'primary' },
     async onConfirm() {
       await new Promise((resolve, reject) => {
         // Random success or failure
@@ -37,7 +38,7 @@ async function asyncOperation() {
 
 commandPaletteStore.setPageActions([
   // eslint-disable-next-line no-console
-  { icon: 'i-lucide-award', label: 'Dummy Action', onSelect: () => console.log('dummy') },
+  { icon: 'i-lucide-chrome', label: 'Log to Console', onSelect: () => console.log('Hey There!') },
   { icon: 'i-lucide-bell', label: 'Toggle Banner', onSelect: () => toggleBanner() },
   { icon: 'i-lucide-activity', label: 'Async Operation', onSelect: () => asyncOperation() },
 ])
@@ -47,7 +48,7 @@ commandPaletteStore.setPageActions([
   <div>
     <AppPageHeader
       title="Playground"
-      description="Experiment with your ideas here!"
+      description="Showcasing various components and functionalities we provide."
     />
     <div class="space-y-6 space-x-6">
       <UButton @click="toggleBanner">
@@ -60,7 +61,12 @@ commandPaletteStore.setPageActions([
 
       <UBanner title="Banner in page." />
 
-      <div class="bg-muted h-[900px] rounded-xl" />
+      <UAlert
+        title="Page Actions"
+        description="We also support page level actions in command palette. Press `cmd + k` to view available page actions."
+      />
+
+      <!-- <div class="bg-muted h-[900px] rounded-xl" /> -->
     </div>
   </div>
 </template>

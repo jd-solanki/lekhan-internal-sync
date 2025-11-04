@@ -9,10 +9,10 @@ const route = useRoute()
 const paymentsStore = usePaymentsStore()
 
 const state = reactive<Partial<SchemaSignIn>>({
-  // email: undefined,
-  // password: undefined,
-  email: 'admin@mail.com',
-  password: 'adminadmin',
+  email: undefined,
+  password: undefined,
+  // email: 'admin@mail.com',
+  // password: 'adminadmin',
 })
 
 const parsedQuery = useParsedQuery(
@@ -67,33 +67,37 @@ const lastSignInMethod = useCookie('lastSignInMethod')
         side="left"
         :open="lastSignInMethod === 'oauth:google'"
       >
-        <UButton
-          variant="outline"
-          icon="i-logos-google-icon"
-          block
-          :disabled="userStore.isLoading"
-          loading-auto
-          @click="userStore.socialSignIn('google')"
-        >
-          Google
-        </UButton>
+        <UTooltip text="This feature is disabled in demo">
+          <UButton
+            variant="outline"
+            icon="i-logos-google-icon"
+            block
+            :disabled="userStore.isLoading || true"
+            loading-auto
+            @click="userStore.socialSignIn('google')"
+          >
+            Google
+          </UButton>
+        </UTooltip>
       </AuthLastSignInIndicator>
 
       <AuthLastSignInIndicator
         side="right"
         :open="lastSignInMethod === 'oauth:github'"
       >
-        <UButton
-          :ui="{ leadingIcon: 'dark:invert' }"
-          variant="outline"
-          icon="i-logos-github-icon"
-          block
-          :disabled="userStore.isLoading"
-          loading-auto
-          @click="userStore.socialSignIn('github')"
-        >
-          GitHub
-        </UButton>
+        <UTooltip text="This feature is disabled in demo">
+          <UButton
+            :ui="{ leadingIcon: 'dark:invert' }"
+            variant="outline"
+            icon="i-logos-github-icon"
+            block
+            :disabled="userStore.isLoading || true"
+            loading-auto
+            @click="userStore.socialSignIn('github')"
+          >
+            GitHub
+          </UButton>
+        </UTooltip>
       </AuthLastSignInIndicator>
     </div>
 

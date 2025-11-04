@@ -13,7 +13,8 @@ const userStore = useUserStore()
 const route = useRoute()
 
 const state = reactive<Partial<SchemaForgotPassword>>({
-  email: 'admin@mail.com',
+  email: undefined,
+  // email: 'admin@mail.com',
 })
 const uiState = ref(route.query.state)
 

@@ -28,7 +28,8 @@ const userStore = useUserStore()
 
 const state = reactive<Partial<SchemaResetPassword>>({
   token,
-  password: 'adminadmin',
+  password: undefined,
+  // password: 'adminadmin',
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {

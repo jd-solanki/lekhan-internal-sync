@@ -5,7 +5,8 @@ const appConfig = useAppConfig()
 const userStore = useUserStore()
 
 const state = reactive<SchemaMagicLink>({
-  email: 'admin@mail.com',
+  email: '',
+  // email: 'admin@mail.com',
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {

@@ -94,6 +94,7 @@ async function cancelSubscription() {
         <UButton
           v-if="activeSubscription?.productId !== product.id"
           loading-auto
+          class="mt-4"
           :disabled="isSubscriptionProcessActive"
           :loading="isFetchingSubscriptions && !activeSubscriptions"
           @click="withLoading(async () => await handlePlanClick(product.id))"
@@ -113,5 +114,8 @@ async function cancelSubscription() {
         Cancel Subscription
       </UButton>
     </div>
+    <p class="italic mt-6">
+      Note: This is using sandbox environment so you can test without real payments using dummy credit card number.
+    </p>
   </div>
 </template>

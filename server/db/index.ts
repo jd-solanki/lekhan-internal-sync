@@ -1,13 +1,23 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
 import env from '~~/shared/libs/env'
 import * as schema from './schemas/tables'
 import 'dotenv/config'
 
-export const db = drizzle({
-  connection: {
-    connectionString: env.DATABASE_URL,
-    ssl: env.NODE_ENV === 'production',
+const client = postgres(
+  env.DATABASE_URL,
+  {
+    // ssl: env.NODE_ENV === 'production',
+    ssl: env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    // ssl: false,
+    // ssl: 'require'
+
+    // Disable prefetch as it is not supported for "Transaction" pool mode
+    prepare: false,
   },
+)
+
+export const db = drizzle(client, {
   schema,
   logger: false,
   casing: 'snake_case',

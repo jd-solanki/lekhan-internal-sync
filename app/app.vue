@@ -17,6 +17,7 @@ const bannerStore = useBannerStore()
 
       This will hide main banner behind impersonating when admin is impersonating user.
       When admin stop impersonating underlying banner will appear without managing any dynamic state & storing main banner state it in cookie.
+
       Also as we added v-if for userSession to impersonating banner, it automatically gets removed when admin sign out while impersonating.
     -->
     <UserImpersonatingBanner

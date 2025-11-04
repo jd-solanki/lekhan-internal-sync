@@ -12,8 +12,10 @@ const userStore = useUserStore()
 const appConfig = useAppConfig()
 
 const state = reactive<SchemaSignUp>({
-  email: 'admin@mail.com',
-  password: 'adminadmin',
+  email: '',
+  password: '',
+  // email: 'admin@mail.com',
+  // password: 'adminadmin',
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
@@ -22,16 +24,16 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
 </script>
 
 <template>
-  <div class="text-center w-80">
+  <div class="w-80">
     <NuxtImg
       :src="appConfig.app.logoUrl"
       class="mx-auto size-12 my-2"
       :class="appConfig.app.logoClass"
     />
-    <h1 class="font-bold text-2xl leading-10">
+    <h1 class="font-bold text-2xl leading-10 text-center">
       Create an account
     </h1>
-    <p class="text-muted">
+    <p class="text-muted text-center">
       Sign up to start with {{ appConfig.app.title }}
     </p>
 
@@ -73,7 +75,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
       </UButton>
     </UForm>
 
-    <p class="text-sm">
+    <p class="text-sm text-center">
       <span class="text-muted">Already have an account?</span>
       <ULink
         to="/auth/sign-in"

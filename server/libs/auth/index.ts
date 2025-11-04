@@ -23,7 +23,7 @@ export const auth = betterAuth({
         validator: {
           input: z.iso.datetime(),
         },
-        required: true,
+        required: false,
         input: false,
       },
       deactivatedAt: {
@@ -43,7 +43,7 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       use: [
         checkout({
-          successUrl: '/app/polar/success',
+          successUrl: '/polar/success',
           authenticatedUsersOnly: true,
         }),
         portal(),
@@ -180,16 +180,16 @@ export const auth = betterAuth({
       })
     },
   },
-  socialProviders: {
-    google: {
-      clientId: env.AUTH_GOOGLE_CLIENT_ID,
-      clientSecret: env.AUTH_GOOGLE_CLIENT_SECRET,
-    },
-    github: {
-      clientId: env.AUTH_GITHUB_CLIENT_ID,
-      clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
-    },
-  },
+  // socialProviders: {
+  //   google: {
+  //     clientId: env.AUTH_GOOGLE_CLIENT_ID,
+  //     clientSecret: env.AUTH_GOOGLE_CLIENT_SECRET,
+  //   },
+  //   github: {
+  //     clientId: env.AUTH_GITHUB_CLIENT_ID,
+  //     clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
+  //   },
+  // },
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),

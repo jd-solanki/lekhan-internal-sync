@@ -12,7 +12,7 @@ const lastSignInMethod = useCookie<string | undefined>('lastSignInMethod', {
   <div class="flex gap-2 items-center">
     <span class="text-muted text-nowrap">Sign in via</span>
     <USelect
-      :model-value="['email', 'oauth:github', 'oauth:google'].includes(lastSignInMethod ?? '') ? 'password' : 'magic_link'"
+      :model-value="lastSignInMethod === 'magic_link' ? 'magic_link' : 'password'"
       :items="signInMethods"
       class="w-36 text-muted"
       @update:model-value="v => lastSignInMethod = v"
