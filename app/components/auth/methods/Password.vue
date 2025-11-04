@@ -65,37 +65,33 @@ const lastSignInMethod = useCookie('lastSignInMethod')
         side="left"
         :open="lastSignInMethod === 'oauth:google'"
       >
-        <UTooltip text="This feature is disabled in demo">
-          <UButton
-            variant="outline"
-            icon="i-logos-google-icon"
-            block
-            :disabled="userStore.isLoading || true"
-            loading-auto
-            @click="userStore.socialSignIn('google')"
-          >
-            Google
-          </UButton>
-        </UTooltip>
+        <UButton
+          variant="outline"
+          icon="i-logos-google-icon"
+          block
+          :disabled="userStore.isLoading"
+          loading-auto
+          @click="userStore.socialSignIn('google')"
+        >
+          Google
+        </UButton>
       </AuthLastSignInIndicator>
 
       <AuthLastSignInIndicator
         side="right"
         :open="lastSignInMethod === 'oauth:github'"
       >
-        <UTooltip text="This feature is disabled in demo">
-          <UButton
-            :ui="{ leadingIcon: 'dark:invert' }"
-            variant="outline"
-            icon="i-logos-github-icon"
-            block
-            :disabled="userStore.isLoading || true"
-            loading-auto
-            @click="userStore.socialSignIn('github')"
-          >
-            GitHub
-          </UButton>
-        </UTooltip>
+        <UButton
+          :ui="{ leadingIcon: 'dark:invert' }"
+          variant="outline"
+          icon="i-logos-github-icon"
+          block
+          :disabled="userStore.isLoading"
+          loading-auto
+          @click="userStore.socialSignIn('github')"
+        >
+          GitHub
+        </UButton>
       </AuthLastSignInIndicator>
     </div>
 
