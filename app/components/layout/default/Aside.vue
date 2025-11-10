@@ -1,55 +1,15 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+
+defineProps<{
+  userDropdownItems: DropdownMenuItem[][]
+}>()
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 const { isAdminOnlyRoute } = useAdmin()
 const colorMode = useColorMode()
-
-// NOTE: Ensure it's computed to update the items when admin impersonate any user
-const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
-  return [
-    [
-      {
-        slot: 'profile',
-        label: userStore.user?.name,
-        avatar: {
-          src: userStore.user?.image ?? undefined,
-          alt: userStore.user?.name,
-        },
-        type: 'label',
-      },
-    ],
-    [
-      {
-        label: 'Theme',
-        icon: 'i-lucide-moon',
-        children: appConfig.layout.default.themePreferences,
-      },
-    ],
-    ...(userStore.isUserAdmin
-      ? [
-          [
-            {
-              label: 'Admin',
-              icon: 'i-lucide-shield',
-              to: '/admin/users',
-            },
-          ],
-        ]
-      : []
-    ),
-    [
-      {
-        label: 'Sign Out',
-        icon: 'i-lucide-log-out',
-        color: 'error',
-        onClick: userStore.signOut,
-      },
-    ],
-  ]
-})
 
 const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
   isAdminOnlyRoute.value
@@ -69,11 +29,21 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
 </script>
 
 <template>
-  <aside class="w-[256px] flex flex-col">
-    <header>
+  <UDashboardSidebar
+    :default-size="256"
+    toggle-side="right"
+    :ui="{
+      body: 'px-2 sm:px-2 pt-0',
+      header: 'h-14 px-4 sm:px-4',
+      root: 'border-none min-h-[calc(100svh-var(--app-banner-height,0px))]',
+      content: 'max-w-[256px] divide-none bg-(--ui-bg-muted) dark:bg-black',
+      footer: 'px-4 sm:px-4',
+    }"
+  >
+    <template #header>
       <ULink
         :to="runtimeConfig.public.app.routes.home"
-        class="flex gap-3 items-center py-4 px-5 text-highlighted"
+        class="flex gap-3 items-center text-highlighted"
       >
         <NuxtImg
           :src="appConfig.app.logoUrl"
@@ -85,36 +55,30 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
           {{ appConfig.app.title }}
         </h1>
       </ULink>
-    </header>
+    </template>
     <UNavigationMenu
       orientation="vertical"
-      :items="items"
-      class="grow px-2 [&_ul]:last-of-type:mt-auto [&_div]:last-of-type:hidden"
-      :style="colorMode.value === 'light' ? { '--ui-bg-elevated': 'color-mix(in oklch, var(--ui-color-neutral-200), white 40%)' } : {}"
+      :items="items[0]"
       tooltip
+      :style="colorMode.value === 'light' ? { '--ui-bg-elevated': 'color-mix(in oklch, var(--ui-color-neutral-200), white 40%)' } : {}"
       :ui="{ label: 'py-2.5', link: 'py-2.5' }"
     />
-    <footer class="py-4 px-5 space-y-4">
-      <CommandPalette />
-      <UDropdownMenu
-        :items="userDropdownItems"
-        :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width)' }"
+    <UNavigationMenu
+      orientation="vertical"
+      :items="items[1]"
+      tooltip
+      :style="colorMode.value === 'light' ? { '--ui-bg-elevated': 'color-mix(in oklch, var(--ui-color-neutral-200), white 40%)' } : {}"
+      class="mt-auto"
+      :ui="{ label: 'py-2.5', link: 'py-2.5' }"
+    />
+    <UDashboardSearchButton class="mx-2 max-lg:hidden" />
+
+    <template #footer>
+      <LayoutDefaultUserDropdown
+        :user-dropdown-items
+        class="max-lg:hidden"
       >
-        <template #profile>
-          <div class="flex items-center gap-2">
-            <UAvatar
-              :src="userStore.user?.image ?? undefined"
-              :alt="userStore.user?.name"
-              :text="getInitials(userStore.user?.name)"
-            />
-            <div>
-              <p> {{ userStore.user?.name }} </p>
-              <p class="text-xs text-muted font-normal">
-                {{ userStore.user?.email }}
-              </p>
-            </div>
-          </div>
-        </template>
+        <!-- Trigger -->
         <UButton
           class="flex items-center gap-x-3"
           block
@@ -134,7 +98,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
             class="shrink-0"
           />
         </UButton>
-      </UDropdownMenu>
-    </footer>
-  </aside>
+      </LayoutDefaultUserDropdown>
+    </template>
+  </UDashboardSidebar>
 </template>

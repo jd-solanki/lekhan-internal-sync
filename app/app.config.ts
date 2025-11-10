@@ -110,7 +110,7 @@ export default defineAppConfig({
     dropdownMenu: {
       slots: {
         // Set content width to trigger width for consistency & better UX
-        content: 'w-(--reka-dropdown-menu-trigger-width)',
+        content: 'min-w-(--reka-dropdown-menu-trigger-width)',
       },
     },
   },

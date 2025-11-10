@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     },
     rootAttrs: {
       // Add banner height CSS variable if app/global or impersonating banner is visible
-      class: 'has-[>_.banner]:[--app-banner-height:60px]',
+      class: 'has-[>_.banner]:[--app-banner-height:48px]',
     },
   },
   runtimeConfig: {

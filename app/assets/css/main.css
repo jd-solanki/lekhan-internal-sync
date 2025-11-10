@@ -8,16 +8,3 @@
 .dark {
   --ui-primary: white;
 }
-
-/*
-  Enable scroll even when content is not full width
-  Avoids flicks when switching between pages where one page content is shorter and other has scrollbar
-  As Nuxt UI adds padding to body when floating components open, we'll target body for this
-*/
-body {
-  overflow-y: scroll;
-}
-
-#__nuxt {
-  @apply min-h-dvh flex flex-col last-of-type:grow;
-}
