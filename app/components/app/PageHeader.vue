@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div>
-    <div class="flex items-center mb-6">
+    <div class="flex flex-wrap gap-6 items-center mb-6">
       <div class="space-y-1">
         <h1 class="text-xl font-bold">
           {{ title }}

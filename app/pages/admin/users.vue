@@ -3,6 +3,7 @@ import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
 import type { Table as TanStackTable } from '@tanstack/vue-table'
 import type { User } from '~~/server/libs/auth'
 import { PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
+import { createReusableTemplate } from '@vueuse/core'
 import * as z from 'zod'
 import { encodeSortingQuery } from '~~/shared/utils/formatters'
 
@@ -274,33 +275,39 @@ async function createUser() {
 // Column visibility
 const refTable = useTemplateRef<{ tableApi?: TanStackTable<unknown> }>('refTable')
 const columnVisibility = useCookie('admin-users-table-column-visibility', { default: () => ({}) })
+
+const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = createReusableTemplate()
 </script>
 
 <template>
   <div>
+    <DefineAdditionalActionsTemplate>
+      <div class="flex flex-wrap gap-2 items-center">
+        <!-- Column Visibility -->
+        <TableColumnVisibilityDropdown
+          :table-api="refTable?.tableApi"
+          :column-visibility
+        />
+        <!-- Search Users -->
+        <UFieldGroup>
+          <SearchInput
+            v-model="q"
+            placeholder="Search users"
+            class="w-[170px]"
+            icon="i-lucide-search"
+          />
+          <USelect
+            v-model="parsedQuery.qField"
+            :items="[...queryFields]"
+          />
+        </UFieldGroup>
+      </div>
+    </DefineAdditionalActionsTemplate>
+
     <AppPageHeader title="Users">
       <template #actions>
-        <div class="mb-4 flex items-center gap-2">
-          <!-- Column Visibility -->
-          <TableColumnVisibilityDropdown
-            :table-api="refTable?.tableApi"
-            :column-visibility
-          />
-
-          <!-- Search Users -->
-          <UFieldGroup>
-            <SearchInput
-              v-model="q"
-              placeholder="Search users"
-              class="max-w-md"
-              icon="i-lucide-search"
-            />
-
-            <USelect
-              v-model="parsedQuery.qField"
-              :items="[...queryFields]"
-            />
-          </UFieldGroup>
+        <div class="flex flex-wrap items-center gap-2">
+          <ReuseAdditionalActionsTemplate class="max-sm:hidden" />
 
           <!-- Create User -->
           <UButton @click="createUser">
@@ -309,6 +316,8 @@ const columnVisibility = useCookie('admin-users-table-column-visibility', { defa
         </div>
       </template>
     </AppPageHeader>
+
+    <ReuseAdditionalActionsTemplate class="sm:hidden justify-between" />
 
     <UTable
       ref="refTable"
