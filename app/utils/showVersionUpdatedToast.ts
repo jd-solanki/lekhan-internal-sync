@@ -4,8 +4,9 @@ export function showVersionUpdatedToast() {
 
   function showToast() {
     toast.add({
-      title: 'New version available.',
+      title: 'New version of this page is available, kindly refresh to view the new page.',
       progress: false,
+      duration: Infinity,
       actions: [{
         icon: 'i-lucide-refresh-cw',
         label: 'Refresh',
@@ -16,9 +17,7 @@ export function showVersionUpdatedToast() {
 
   watch(isNewVersionAvailable, (newVal) => {
     if (newVal) {
-      onMounted(() => {
-        showToast()
-      })
+      showToast()
     }
   }, { once: true })
 }

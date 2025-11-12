@@ -80,6 +80,7 @@ export default defineNuxtConfig({
   experimental: {
     cookieStore: true,
     typedPages: true,
+    checkOutdatedBuildInterval: 1000 * 60, // Check every minute
   },
   eslint: {
     config: {
