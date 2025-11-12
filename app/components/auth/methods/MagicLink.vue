@@ -2,6 +2,7 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 const appConfig = useAppConfig()
+const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 
 const state = reactive<SchemaMagicLink>({
@@ -24,7 +25,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
       Sign in to your account
     </h1>
     <p class="text-muted text-center">
-      Sign in to continue with {{ appConfig.app.title }}
+      Sign in to continue with {{ runtimeConfig.public.app.name }}
     </p>
 
     <UForm

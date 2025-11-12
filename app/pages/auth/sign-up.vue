@@ -10,6 +10,7 @@ definePageMeta({
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
+const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<SchemaSignUp>({
   email: process.env.NODE_ENV === 'development' ? 'admin@mail.com' : '',
@@ -32,7 +33,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
       Create an account
     </h1>
     <p class="text-muted text-center">
-      Sign up to start with {{ appConfig.app.title }}
+      Sign up to start with {{ runtimeConfig.public.app.name }}
     </p>
 
     <UForm

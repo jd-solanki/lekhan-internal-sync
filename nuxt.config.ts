@@ -23,17 +23,23 @@ export default defineNuxtConfig({
       // NOTE: We shouldn't make adminEmails public as it may contain personal information.
       // Add admin emails here to receive notifications about unexpected errors
       adminEmails: env.ADMIN_EMAILS,
+      from: {
+        email: process.env.NODE_ENV === 'development' ? 'no-reply@example.com' : `no-reply@${env.NUXT_PUBLIC_APP_DOMAIN}`,
+        name: env.NUXT_PUBLIC_APP_NAME,
+      },
     },
 
     public: {
       // Server Config
       server: {
-        apiBaseUrl: env.API_BASE_URL,
+        apiBaseUrl: env.NUXT_PUBLIC_API_BASE_URL,
       },
 
       // App Config
       app: {
-        baseUrl: env.APP_BASE_URL,
+        name: env.NUXT_PUBLIC_APP_NAME,
+        domain: env.NUXT_PUBLIC_APP_DOMAIN,
+        baseUrl: env.NUXT_PUBLIC_APP_BASE_URL,
         // NOTE: Ensure these are according to your app/pages directory
         routes: {
           home: '/app',

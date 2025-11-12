@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import env from '~~/shared/libs/env'
 import EmailComponentCard from '../components/EmailComponentCard.vue'
 
 interface Props {
@@ -7,8 +8,6 @@ interface Props {
 }
 
 defineProps<Props>()
-
-const ENV = process.env
 </script>
 
 <template>
@@ -39,8 +38,8 @@ const ENV = process.env
           <ERow style="margin-bottom: 28px;">
             <EColumn style="width: 36px;">
               <EImg
-                :src="`${ENV.APP_BASE_URL}/logo.png`"
-                :alt="`${ENV.APP_NAME} logo`"
+                :src="`${env.NUXT_PUBLIC_APP_BASE_URL}/logo.png`"
+                :alt="`${env.NUXT_PUBLIC_APP_NAME} logo`"
                 :width="24"
                 :height="24"
               />
@@ -54,13 +53,13 @@ const ENV = process.env
                 font-weight: bold;
               "
               >
-                {{ ENV.APP_NAME }}
+                {{ env.NUXT_PUBLIC_APP_NAME }}
               </EHeading>
             </EColumn>
           </ERow>
           <slot />
           <EText style="font-size: 12px; color: #999999; margin-top: 32px;">
-            &copy; {{ new Date().getFullYear() }} {{ ENV.APP_NAME }}. All rights reserved.
+            &copy; {{ new Date().getFullYear() }} {{ env.NUXT_PUBLIC_APP_NAME }}. All rights reserved.
           </EText>
         </EmailComponentCard>
       </EContainer>

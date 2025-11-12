@@ -8,6 +8,7 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
 
 const appConfig = useAppConfig()
+const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const route = useRoute()
 const paymentsStore = usePaymentsStore()
@@ -61,7 +62,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
       Sign in to your account
     </h1>
     <p class="text-muted text-center">
-      Sign in to continue with {{ appConfig.app.title }}
+      Sign in to continue with {{ runtimeConfig.public.app.name }}
     </p>
 
     <div class="flex items-center gap-4 my-10">

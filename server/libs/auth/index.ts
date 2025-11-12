@@ -47,7 +47,7 @@ export const auth = betterAuth({
           authenticatedUsersOnly: true,
         }),
         portal({
-          returnUrl: env.APP_BASE_URL + runtimeConfig.public.app.routes.billing,
+          returnUrl: env.NUXT_PUBLIC_APP_BASE_URL + runtimeConfig.public.app.routes.billing,
         }),
         usage(),
         // webhooks({ ... })
@@ -58,7 +58,7 @@ export const auth = betterAuth({
         const emailSubject = 'Your Magic Link'
 
         const emailHTML = await renderEmailComponent('EmailActionButton', {
-          emailPreview: `Here is your magic link to sign into ${env.APP_NAME}`,
+          emailPreview: `Here is your magic link to sign into ${env.NUXT_PUBLIC_APP_NAME}`,
           emailSubject,
           name: email.split('@')[0],
           message: 'Click the button below to sign in to your account:',
@@ -144,7 +144,7 @@ export const auth = betterAuth({
       const emailSubject = 'Verify your email address'
 
       const emailHTML = await renderEmailComponent('EmailActionButton', {
-        emailPreview: `Verify your email address for ${env.APP_NAME}`,
+        emailPreview: `Verify your email address for ${env.NUXT_PUBLIC_APP_NAME}`,
         emailSubject,
         name: user.name,
         message: 'Click the button below to verify your email address:',
@@ -168,7 +168,7 @@ export const auth = betterAuth({
       const emailSubject = 'Reset your password'
 
       const emailHTML = await renderEmailComponent('EmailActionButton', {
-        emailPreview: `Reset your password for ${env.APP_NAME}`,
+        emailPreview: `Reset your password for ${env.NUXT_PUBLIC_APP_NAME}`,
         emailSubject,
         name: user.name,
         message: 'Click the button below to reset your password:',

@@ -29,6 +29,30 @@ declare module 'nuxt/schema' {
       }
     }
   }
+
+  interface RuntimeConfig {
+    mail: {
+      adminEmails: string[]
+      from: {
+        email: string
+        name: string
+      }
+    }
+  }
+
+  interface PublicRuntimeConfig {
+    app: {
+      name: string
+      domain?: string
+      baseUrl: string
+      routes: {
+        home: string
+        signIn: string
+        verifyEmail: string
+        billing: string
+      }
+    }
+  }
 }
 
 // It is always important to ensure you import/export something when augmenting a type

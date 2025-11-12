@@ -10,9 +10,10 @@ const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
 
   // 🌐 App
-  APP_NAME: z.string(),
-  APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
-  API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
+  NUXT_PUBLIC_APP_NAME: z.string(),
+  NUXT_PUBLIC_APP_DOMAIN: z.string().optional(),
+  NUXT_PUBLIC_APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
+  NUXT_PUBLIC_API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
 
   // 🧙🏻 Admin
   ADMIN_EMAILS: z.preprocess((val) => {

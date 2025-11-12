@@ -52,7 +52,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
           :class="appConfig.app.logoClass"
         />
         <h1 class="font-bold">
-          {{ appConfig.app.title }}
+          {{ runtimeConfig.public.app.name }}
         </h1>
       </ULink>
     </template>

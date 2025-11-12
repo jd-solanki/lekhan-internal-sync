@@ -67,26 +67,26 @@ interface SendEmailOptions {
  * The 'from' field is set to the configured app email
  */
 export function sendEmail(emailOptions: Omit<EmailOptions, 'from'>, options?: SendEmailOptions) {
-  const { appConfig = useAppConfig() } = options || {}
+  const { runtimeConfig = useRuntimeConfig() } = options || {}
 
   const emailServiceInstance = getEmailService()
 
   return emailServiceInstance.sendEmail({
-    from: { email: appConfig.mail.from.email, name: appConfig.mail.from.name },
+    from: runtimeConfig.mail.from,
     ...emailOptions,
-    subject: `${appConfig.app.title} - ${emailOptions.subject}`,
+    subject: `${runtimeConfig.public.app.name} - ${emailOptions.subject}`,
   })
 }
 
 export function sendEmailToAdmins(emailOptions: Omit<EmailOptions, 'from' | 'to'>, options?: SendEmailOptions) {
-  const { runtimeConfig = useRuntimeConfig(), appConfig = useAppConfig() } = options || {}
+  const { runtimeConfig = useRuntimeConfig() } = options || {}
 
   const emailServiceInstance = getEmailService()
 
   return emailServiceInstance.sendEmail({
-    from: { email: appConfig.mail.from.email, name: appConfig.mail.from.name },
+    from: runtimeConfig.mail.from,
     ...emailOptions,
     to: runtimeConfig.mail.adminEmails.map(email => ({ email })),
-    subject: `${appConfig.app.title} - ${emailOptions.subject}`,
+    subject: `${runtimeConfig.public.app.name} - ${emailOptions.subject}`,
   })
 }

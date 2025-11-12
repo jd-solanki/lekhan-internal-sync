@@ -1,8 +1,5 @@
-const APP_NAME = process.env.APP_NAME
-
 export default defineAppConfig({
   app: {
-    title: APP_NAME,
     logoUrl: '/logo.svg',
     logoClass: 'dark:invert',
   },
@@ -77,10 +74,6 @@ export default defineAppConfig({
         },
       ],
     },
-  },
-  mail: {
-    // This will me mentioned as the sender in emails sent by the app
-    from: { email: process.env.NODE_ENV === 'development' ? 'no-reply@example.com' : `no-reply@${process.env.APP_DOMAIN}`, name: APP_NAME },
   },
   ui: {
     colors: {
