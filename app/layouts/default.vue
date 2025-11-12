@@ -60,9 +60,9 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
     ],
     [
       {
-        label: 'Theme',
-        icon: 'i-lucide-moon',
-        children: appConfig.layout.default.themePreferences,
+        label: 'Account Settings',
+        icon: 'i-lucide-cog',
+        to: '/app/account-settings',
       },
     ],
     ...(userStore.isUserAdmin
@@ -77,6 +77,13 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
         ]
       : []
     ),
+    [
+      {
+        label: 'Theme',
+        icon: 'i-lucide-moon',
+        children: appConfig.layout.default.themePreferences,
+      },
+    ],
     [
       {
         label: 'Sign Out',
