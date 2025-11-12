@@ -63,6 +63,8 @@ commandPaletteStore.setPageActions([
 
       <UAlert
         title="Page Actions"
+        color="info"
+        variant="subtle"
         description="We also support page level actions in command palette. Press `cmd + k` to view available page actions."
       />
 
