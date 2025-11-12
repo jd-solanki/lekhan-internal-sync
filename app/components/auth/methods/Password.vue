@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import * as z from 'zod'
 import { redirectUrlSchema } from '~~/shared/schemas'
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const largerThanLg = breakpoints.greater('lg')
 
 const appConfig = useAppConfig()
 const userStore = useUserStore()
@@ -63,35 +67,51 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
     <div class="flex items-center gap-4 my-10">
       <AuthLastSignInIndicator
         side="left"
-        :open="lastSignInMethod === 'google'"
+        :open="largerThanLg && lastSignInMethod === 'google'"
       >
-        <UButton
-          variant="outline"
-          icon="i-logos-google-icon"
-          block
-          :disabled="userStore.isLoading"
-          loading-auto
-          @click="userStore.socialSignIn('google')"
+        <UChip
+          text="Last Used"
+          :show="!largerThanLg && lastSignInMethod === 'google'"
+          size="3xl"
+          :ui="{ base: 'px-2 py-3', root: 'grow' }"
+          position="top-left"
         >
-          Google
-        </UButton>
+          <UButton
+            variant="outline"
+            icon="i-logos-google-icon"
+            block
+            :disabled="userStore.isLoading"
+            loading-auto
+            class="w-full"
+            @click="userStore.socialSignIn('google')"
+          >
+            Google
+          </UButton>
+        </UChip>
       </AuthLastSignInIndicator>
 
       <AuthLastSignInIndicator
         side="right"
-        :open="lastSignInMethod === 'github'"
+        :open="largerThanLg && lastSignInMethod === 'github'"
       >
-        <UButton
-          :ui="{ leadingIcon: 'dark:invert' }"
-          variant="outline"
-          icon="i-logos-github-icon"
-          block
-          :disabled="userStore.isLoading"
-          loading-auto
-          @click="userStore.socialSignIn('github')"
+        <UChip
+          text="Last Used"
+          :show="!largerThanLg && lastSignInMethod === 'github'"
+          size="3xl"
+          :ui="{ base: 'px-2 py-3', root: 'grow' }"
         >
-          GitHub
-        </UButton>
+          <UButton
+            :ui="{ leadingIcon: 'dark:invert' }"
+            variant="outline"
+            icon="i-logos-github-icon"
+            block
+            :disabled="userStore.isLoading"
+            loading-auto
+            @click="userStore.socialSignIn('github')"
+          >
+            GitHub
+          </UButton>
+        </UChip>
       </AuthLastSignInIndicator>
     </div>
 
@@ -135,17 +155,24 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
       </UFormField>
       <AuthLastSignInIndicator
         side="right"
-        :open="lastSignInMethod === 'email'"
+        :open="largerThanLg && lastSignInMethod === 'email'"
       >
-        <UButton
-          type="submit"
-          block
-          size="lg"
-          :disabled="userStore.isLoading"
-          loading-auto
+        <UChip
+          text="Last Used"
+          :show="!largerThanLg && lastSignInMethod === 'email'"
+          size="3xl"
+          :ui="{ base: 'px-2 py-3', root: 'w-full' }"
         >
-          Sign In
-        </UButton>
+          <UButton
+            type="submit"
+            block
+            size="lg"
+            :disabled="userStore.isLoading"
+            loading-auto
+          >
+            Sign In
+          </UButton>
+        </UChip>
       </AuthLastSignInIndicator>
     </UForm>
 
