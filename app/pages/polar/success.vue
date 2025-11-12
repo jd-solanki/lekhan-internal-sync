@@ -10,11 +10,13 @@ definePageMeta({
 // const queryCheckoutId = getFirstQueryValue('checkout_id')
 // const consumer_session_token = getFirstQueryValue('consumer_session_token')
 
+const runtimeConfig = useRuntimeConfig()
+
 const { count, dec } = useCounter(5, { min: 0 })
 useIntervalFn(dec)
 
 useTimeoutFn(async () => {
-  await navigateTo('/', { replace: true })
+  await navigateTo(runtimeConfig.public.app.routes.billing, { replace: true })
 }, 5000)
 </script>
 

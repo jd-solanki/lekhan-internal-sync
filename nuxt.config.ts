@@ -39,6 +39,7 @@ export default defineNuxtConfig({
           home: '/app',
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
+          billing: '/app/billing',
         },
       },
 

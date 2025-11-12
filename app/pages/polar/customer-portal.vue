@@ -5,7 +5,9 @@ definePageMeta({
 })
 
 const appConfig = useAppConfig()
-await authClient.customer.portal()
+onMounted(async () => {
+  await authClient.customer.portal()
+})
 </script>
 
 <template>

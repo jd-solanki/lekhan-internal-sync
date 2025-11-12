@@ -1,65 +1,37 @@
 <script lang="ts" setup>
 import type { ProductPriceFixed } from '@polar-sh/sdk/models/components/productpricefixed'
 
-const { data: products, pending } = useLazyFetch('/api/polar/products')
+const { data: products } = await useFetch('/api/polar/products')
 const paymentsStore = usePaymentsStore()
-const { successToast } = useToastMessage()
 
-// interface ProductMetaData {
-//   variant: 'lite' | 'pro'
-// }
-
-// const productsByVariant = computed(() => {
-//   if (!products.value)
-//     return {}
-//   return Object.groupBy(products.value?.result.items, p => (p.metadata as unknown as ProductMetaData).variant)
-// })
-
-const { data: activeSubscriptions, refresh: refreshActiveSubscriptions, pending: isFetchingSubscriptions } = await useLazyAsyncData(
-  'polar:customer:subscriptions:list',
-  () => authClient.customer.subscriptions.list(),
-)
-
-// NOTE: You'll have only single active subscription
-const activeSubscription = computed(() => {
-  const activeSubscription = activeSubscriptions.value?.data?.result.items[0]
-  return activeSubscription?.status === 'active' ? activeSubscription : null
+const { data: userOrders } = await useFetch('/api/polar/orders', {
+  query: {
+    productId: products.value?.result.items[0]?.id,
+  },
 })
 
-const isSubscriptionProcessActive = ref(false)
-const withLoading = createWithLoading(isSubscriptionProcessActive)
+const userOrder = computed(() => userOrders.value?.result.items[0])
 
-async function handlePlanClick(productId: string) {
-  if (activeSubscription.value) {
-    await $fetch(`/api/polar/subscriptions/${activeSubscription.value.id}`, {
-      method: 'PATCH',
-      body: {
-        productId,
-      },
-    })
+const isPaymentInProgress = ref(false)
+const withLoading = createWithLoading(isPaymentInProgress)
 
-    await refreshActiveSubscriptions()
-
-    successToast({
-      title: 'Subscription updated successfully!',
-    })
-  }
-  else {
-    await paymentsStore.createCheckoutSession(productId)
-  }
+async function buyProduct(productId: string) {
+  await paymentsStore.createCheckoutSession(productId)
 }
 
-async function cancelSubscription() {
-  await $fetch(`/api/polar/subscriptions/${activeSubscription.value?.id}`, {
-    method: 'DELETE',
-  })
-
-  successToast({
-    title: 'Subscription cancelled successfully!',
-  })
-
-  await refreshActiveSubscriptions()
+function extractProductFeaturesFromMetadata(metadata: any) {
+  // Loop over metadata keys and if key starts with 'feature_' then its a feature
+  return Object.keys(metadata).reduce((features: string[], key) => {
+    if (key.startsWith('feature_')) {
+      features.push(metadata[key])
+    }
+    return features
+  }, [])
 }
+
+const hasPurchasedProduct = computed(() => {
+  return !!userOrders.value?.result.items.length
+})
 </script>
 
 <template>
@@ -68,54 +40,137 @@ async function cancelSubscription() {
       title="Billing"
       description="Manage your billing information here."
     />
-    <p v-if="pending">
-      Loading...
-    </p>
+    <UAlert
+      v-if="!userOrder"
+      color="info"
+      icon="i-lucide-shopping-bag"
+      variant="subtle"
+      title="You haven't made a purchase yet."
+      class="mb-6"
+      description="Demo is using sandbox environment so you can test without real payments using dummy credit card number."
+    />
+    <div class="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
+      <UPricingPlans>
+        <UPricingPlan
+          v-for="product in products?.result.items"
+          :key="product.id"
+          :ui="{ title: 'text-2xl!', root: 'p-8!' }"
+          :title="product.name"
+          :description="product.description || undefined"
+          :price="formatPolarAmount((product.prices[0] as unknown as ProductPriceFixed).priceAmount)"
+          :features="extractProductFeaturesFromMetadata(product.metadata)"
+          :badge="hasPurchasedProduct ? 'Current Plan' : undefined"
+          v-bind="{
+            ...(
+              !hasPurchasedProduct ? {
+                button: {
+                  label: 'Buy Now',
+                  loadingAuto: true,
+                  disabled: isPaymentInProgress,
+                  onClick: async () => await withLoading(async () => await buyProduct(product.id)),
+                },
+              } : {}
+            ),
+          }"
+        >
+          <template #terms>
+            <div class="flex items-center gap-1 text-sm">
+              <UIcon name="i-lucide-shield-check" />
+              <p>Billing is securely managed via Polar Payment Platform.</p>
+            </div>
+          </template>
+        </UPricingPlan>
+      </UPricingPlans>
+    </div>
     <div
-      v-else
-      class="grid grid-cols-2 gap-6"
+      v-if="hasPurchasedProduct"
+      class="mt-10"
     >
-      <UCard
-        v-for="product in products?.result.items"
-        :key="product.id"
-      >
+      <UCard>
         <template #header>
-          <h2>{{ product.name }}</h2>
-          <UBadge
-            v-if="activeSubscription?.productId === product.id"
-            color="success"
-          >
-            Active
-          </UBadge>
+          <div class="flex flex-wrap gap-2 justify-between items-center">
+            <h4 class="text-lg font-semibold">
+              Payment Information
+            </h4>
+            <div class="flex items-center gap-2">
+              <UButton
+                variant="outline"
+                color="neutral"
+                icon="i-lucide-external-link"
+                trailing
+                label="Download Invoice & View Benefits"
+                to="/polar/customer-portal"
+                target="_blank"
+              />
+              <UTooltip
+                :delay-duration="0"
+                text="Download invoice from order details"
+                :content="{ sideOffset: 12 }"
+              >
+                <UIcon
+                  name="i-lucide-info"
+                  class="text-muted"
+                />
+              </UTooltip>
+            </div>
+          </div>
         </template>
 
-        <p>{{ formatPolarAmount((product.prices[0] as unknown as ProductPriceFixed).priceAmount) }}</p>
-
-        <UButton
-          v-if="activeSubscription?.productId !== product.id"
-          loading-auto
-          class="mt-4"
-          :disabled="isSubscriptionProcessActive"
-          :loading="isFetchingSubscriptions && !activeSubscriptions"
-          @click="withLoading(async () => await handlePlanClick(product.id))"
+        <div
+          v-if="userOrder"
+          class="grid sm:grid-cols-2 gap-8"
         >
-          {{ activeSubscription ? 'Update Plan' : 'Buy Now' }}
-        </UButton>
-      </UCard>
+          <!-- Left: Payment Details -->
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-muted">
+                Product Name
+              </p>
+              <p class="font-medium">
+                {{ userOrder.product?.name }}
+              </p>
+            </div>
 
-      <UButton
-        v-if="activeSubscription"
-        variant="soft"
-        color="error"
-        loading-auto
-        :disabled="isSubscriptionProcessActive"
-        @click="withLoading(async () => await cancelSubscription())"
-      >
-        Cancel Subscription
-      </UButton>
+            <div>
+              <p class="text-sm text-muted">
+                Purchase Date
+              </p>
+              <p class="font-medium">
+                {{ new Date(userOrder.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm text-muted">
+                Transaction ID
+              </p>
+              <p class="font-medium font-mono">
+                {{ userOrder.id }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Polar Benefits -->
+          <div>
+            <h5 class="font-semibold mb-4">
+              Product Features
+            </h5>
+            <ul class="space-y-3">
+              <li
+                v-for="feature in extractProductFeaturesFromMetadata(userOrder.product?.metadata)"
+                :key="feature"
+                class="flex items-start gap-2"
+              >
+                <UIcon
+                  name="i-lucide-check"
+                  class="text-green-500 mt-0.5 flex-shrink-0"
+                />
+                <span class="text-sm">{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </UCard>
     </div>
-    <p class="italic mt-6">
-      Note: This is using sandbox environment so you can test without real payments using dummy credit card number.
-    </p>
   </div>
 </template>

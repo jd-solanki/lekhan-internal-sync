@@ -46,7 +46,9 @@ export const auth = betterAuth({
           successUrl: '/polar/success',
           authenticatedUsersOnly: true,
         }),
-        portal(),
+        portal({
+          returnUrl: env.APP_BASE_URL + runtimeConfig.public.app.routes.billing,
+        }),
         usage(),
         // webhooks({ ... })
       ],
