@@ -1,6 +1,11 @@
 @import "@nuxt/ui";
 @import "./tailwind";
 
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
 :root {
   --ui-primary: black;
 }
