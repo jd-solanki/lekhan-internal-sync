@@ -11,3 +11,4 @@
 ## Coding Guidelines
 
 - Readable & Modular code
+- When building UI refer to `.prompts/nuxt-ui.instructions.md` file
