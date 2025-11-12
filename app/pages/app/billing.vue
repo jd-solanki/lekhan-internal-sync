@@ -54,7 +54,7 @@ const hasPurchasedProduct = computed(() => {
         <UPricingPlan
           v-for="product in products?.result.items"
           :key="product.id"
-          :ui="{ title: 'text-2xl!', root: 'p-8!' }"
+          :ui="{ title: 'text-2xl!', root: 'p-8!', footer: userOrder ? 'items-start' : '' }"
           :title="product.name"
           :description="product.description || undefined"
           :price="formatPolarAmount((product.prices[0] as unknown as ProductPriceFixed).priceAmount)"
@@ -74,9 +74,12 @@ const hasPurchasedProduct = computed(() => {
           }"
         >
           <template #terms>
-            <div class="flex items-center gap-1 text-sm">
-              <UIcon name="i-lucide-shield-check" />
-              <p>Billing is securely managed via Polar Payment Platform.</p>
+            <div class="flex gap-2 text-pretty text-start text-sm">
+              <UIcon
+                name="i-lucide-shield-check"
+                class="shrink-0 h-[1lh]"
+              />
+              <p>Billing is securely managed via Polar Payment Platform</p>
             </div>
           </template>
         </UPricingPlan>
