@@ -43,7 +43,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
   )
 }
 
-const lastSignInMethod = useCookie('lastSignInMethod')
+const lastSignInMethod = authClient.getLastUsedLoginMethod()
 </script>
 
 <template>
@@ -63,7 +63,7 @@ const lastSignInMethod = useCookie('lastSignInMethod')
     <div class="flex items-center gap-4 my-10">
       <AuthLastSignInIndicator
         side="left"
-        :open="lastSignInMethod === 'oauth:google'"
+        :open="lastSignInMethod === 'google'"
       >
         <UButton
           variant="outline"
@@ -79,7 +79,7 @@ const lastSignInMethod = useCookie('lastSignInMethod')
 
       <AuthLastSignInIndicator
         side="right"
-        :open="lastSignInMethod === 'oauth:github'"
+        :open="lastSignInMethod === 'github'"
       >
         <UButton
           :ui="{ leadingIcon: 'dark:invert' }"

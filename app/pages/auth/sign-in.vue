@@ -6,12 +6,12 @@ definePageMeta({
   isAuthRequired: false,
 })
 
-const lastSignInMethod = useCookie('lastSignInMethod')
+const lastSignInMethod = authClient.getLastUsedLoginMethod()
 </script>
 
 <template>
   <div>
-    <AuthMethodsMagicLink v-if="lastSignInMethod === 'magic_link'" />
+    <AuthMethodsMagicLink v-if="lastSignInMethod === 'magic-link'" />
     <AuthMethodsPassword v-else />
 
     <!-- This is demo only, Please remove it from your project -->

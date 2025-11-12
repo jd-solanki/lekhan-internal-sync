@@ -8,7 +8,6 @@ export const useUserStore = defineStore('user', () => {
   const runtimeConfig = useRuntimeConfig()
 
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null)
-  const lastSignInMethod = useCookie('lastSignInMethod')
 
   const isAuthInProgress = ref(false)
   const withLoading = createWithLoading(isAuthInProgress)
@@ -75,8 +74,6 @@ export const useUserStore = defineStore('user', () => {
         callbackURL: runtimeConfig.public.app.routes.signIn,
       }, {
         onSuccess: async (_ctx) => {
-          lastSignInMethod.value = 'email'
-
           if (runtimeConfig.public.shared.isEmailVerificationRequiredForAccess) {
             // Send verification mail and redirect to verify email page
             await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?state=mail-sent`)
@@ -107,8 +104,6 @@ export const useUserStore = defineStore('user', () => {
           // NOTE: We'll always watch for user even if there's no redirection to avoid
           //   executing code before user session is assigned
           watch(user, async () => {
-            lastSignInMethod.value = 'email'
-
             await options?.onSuccess?.()
 
             // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
@@ -162,8 +157,6 @@ export const useUserStore = defineStore('user', () => {
         callbackURL: runtimeConfig.public.app.routes.home,
       })
     })
-
-    lastSignInMethod.value = `oauth:${provider}`
   }
 
   async function sendMagicLink(email: string) {

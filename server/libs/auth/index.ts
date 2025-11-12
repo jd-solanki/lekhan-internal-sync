@@ -2,7 +2,7 @@ import type { Simplify } from 'type-fest'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { admin, createAuthMiddleware, magicLink } from 'better-auth/plugins'
+import { admin, createAuthMiddleware, lastLoginMethod, magicLink } from 'better-auth/plugins'
 import { eq } from 'drizzle-orm'
 import * as z from 'zod'
 import { polarClient } from '~~/server/libs/polar'
@@ -73,6 +73,7 @@ export const auth = betterAuth({
         })
       },
     }),
+    lastLoginMethod(),
   ],
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
@@ -182,16 +183,16 @@ export const auth = betterAuth({
       })
     },
   },
-  // socialProviders: {
-  //   google: {
-  //     clientId: env.AUTH_GOOGLE_CLIENT_ID,
-  //     clientSecret: env.AUTH_GOOGLE_CLIENT_SECRET,
-  //   },
-  //   github: {
-  //     clientId: env.AUTH_GITHUB_CLIENT_ID,
-  //     clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
-  //   },
-  // },
+  socialProviders: {
+    google: {
+      clientId: env.AUTH_GOOGLE_CLIENT_ID,
+      clientSecret: env.AUTH_GOOGLE_CLIENT_SECRET,
+    },
+    github: {
+      clientId: env.AUTH_GITHUB_CLIENT_ID,
+      clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
+    },
+  },
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),
