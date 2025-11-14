@@ -3,6 +3,7 @@ export default defineNuxtRouteMiddleware((to) => {
     return
 
   // TODO(@copilot): Add support for aliases of info & success messages like error message alias
+  // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/77
   const { flashMessageErrorQueryAlias } = to.meta as { flashMessageErrorQueryAlias?: string }
 
   const successMessage = getFirstQueryValue('flash_message__success', { route: to })
