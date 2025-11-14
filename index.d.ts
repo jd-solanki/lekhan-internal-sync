@@ -1,4 +1,5 @@
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { SocialProviderId } from './server/libs/auth'
 
 declare module '#app' {
   interface PageMeta {
@@ -30,6 +31,13 @@ declare module 'nuxt/schema' {
     }
   }
 
+  interface SocialProvider {
+    id: SocialProviderId
+    name: string
+    icon: string
+    iconClass?: string
+  }
+
   interface RuntimeConfig {
     mail: {
       adminEmails: string[]
@@ -51,6 +59,12 @@ declare module 'nuxt/schema' {
         verifyEmail: string
         billing: string
       }
+    }
+    shared: {
+      auth: {
+        socialProviders: SocialProvider[]
+      }
+      isEmailVerificationRequiredForAccess: boolean
     }
   }
 }

@@ -12,6 +12,8 @@ const userStore = useUserStore()
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
+const socialProviders = runtimeConfig.public.shared.auth.socialProviders
+
 const state = reactive<SchemaSignUp>({
   email: process.env.NODE_ENV === 'development' ? 'admin@mail.com' : '',
   password: process.env.NODE_ENV === 'development' ? 'adminadmin' : '',
@@ -36,10 +38,28 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
       Sign up to start with {{ runtimeConfig.public.app.name }}
     </p>
 
+    <div class="flex items-center gap-4 my-10">
+      <UButton
+        v-for="provider in socialProviders"
+        :key="provider.id"
+        :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
+        variant="outline"
+        :icon="provider.icon"
+        block
+        :disabled="userStore.isLoading"
+        loading-auto
+        @click="userStore.socialSignIn(provider.id)"
+      >
+        {{ provider.name }}
+      </UButton>
+    </div>
+
+    <USeparator label="Or continue With" />
+
     <UForm
       :schema="schemaSignUp"
       :state="state"
-      class="space-y-6 my-10"
+      class="space-y-6 my-8"
       @submit="onSubmit"
     >
       <UFormField

@@ -1,5 +1,7 @@
+import type { SocialProviderId } from './server/libs/auth'
 import env from './shared/libs/env'
 import { CRON_SCHEDULES_PRESET } from './shared/utils/constants'
+import { exhaustive } from './shared/utils/types'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -51,6 +53,23 @@ export default defineNuxtConfig({
 
       // Shared across server & app
       shared: {
+
+        // Auth Config
+        auth: {
+          socialProviders: exhaustive<SocialProviderId>()([
+            {
+              id: 'google' satisfies SocialProviderId,
+              name: 'Google',
+              icon: 'i-logos-google-icon',
+            },
+            {
+              id: 'github' satisfies SocialProviderId,
+              name: 'GitHub',
+              icon: 'i-logos-github-icon',
+              iconClass: 'dark:invert',
+            },
+          ]),
+        },
         /**
          * Determines if email verification is required for a user to access protected parts of the app.
          * This is controlled by the `NUXT_EMAIL_VERIFICATION_IS_REQUIRED_FOR_ACCESS` environment variable.

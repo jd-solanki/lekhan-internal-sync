@@ -183,6 +183,8 @@ export const auth = betterAuth({
       })
     },
   },
+  // Social providers configured here must match the list in nuxt.config.ts -> runtimeConfig.public.shared.auth.socialProviders
+  // nuxt.config.ts is the source of truth for which providers to display in the UI
   socialProviders: {
     google: {
       clientId: env.AUTH_GOOGLE_CLIENT_ID,
@@ -191,6 +193,11 @@ export const auth = betterAuth({
     github: {
       clientId: env.AUTH_GITHUB_CLIENT_ID,
       clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
     },
   },
   database: drizzleAdapter(db, {
@@ -224,3 +231,6 @@ if (
 export type Session = typeof auth.$Infer.Session
 export type User = Simplify<Omit<Session['user'], 'id'> & { id: number }>
 export type UserSession = Session['session']
+
+// Extract configured social provider IDs as literal union type
+export type SocialProviderId = keyof typeof auth.options.socialProviders

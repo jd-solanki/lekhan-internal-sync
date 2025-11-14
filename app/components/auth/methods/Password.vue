@@ -49,6 +49,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
 }
 
 const lastSignInMethod = authClient.getLastUsedLoginMethod()
+const socialProviders = runtimeConfig.public.shared.auth.socialProviders
 </script>
 
 <template>
@@ -67,50 +68,29 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
 
     <div class="flex items-center gap-4 my-10">
       <AuthLastSignInIndicator
-        side="left"
-        :open="largerThanLg && lastSignInMethod === 'google'"
+        v-for="(provider, index) in socialProviders"
+        :key="provider.id"
+        :side="index === 0 ? 'left' : 'right'"
+        :open="largerThanLg && lastSignInMethod === provider.id"
       >
         <UChip
           text="Last Used"
-          :show="!largerThanLg && lastSignInMethod === 'google'"
+          :show="!largerThanLg && lastSignInMethod === provider.id"
           size="3xl"
           :ui="{ base: 'px-2 py-3', root: 'grow' }"
-          position="top-left"
+          :position="index === 0 ? 'top-left' : undefined"
         >
           <UButton
+            :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
             variant="outline"
-            icon="i-logos-google-icon"
+            :icon="provider.icon"
             block
             :disabled="userStore.isLoading"
             loading-auto
             class="w-full"
-            @click="userStore.socialSignIn('google')"
+            @click="userStore.socialSignIn(provider.id)"
           >
-            Google
-          </UButton>
-        </UChip>
-      </AuthLastSignInIndicator>
-
-      <AuthLastSignInIndicator
-        side="right"
-        :open="largerThanLg && lastSignInMethod === 'github'"
-      >
-        <UChip
-          text="Last Used"
-          :show="!largerThanLg && lastSignInMethod === 'github'"
-          size="3xl"
-          :ui="{ base: 'px-2 py-3', root: 'grow' }"
-        >
-          <UButton
-            :ui="{ leadingIcon: 'dark:invert' }"
-            variant="outline"
-            icon="i-logos-github-icon"
-            block
-            :disabled="userStore.isLoading"
-            loading-auto
-            @click="userStore.socialSignIn('github')"
-          >
-            GitHub
+            {{ provider.name }}
           </UButton>
         </UChip>
       </AuthLastSignInIndicator>

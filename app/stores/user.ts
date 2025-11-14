@@ -1,4 +1,5 @@
 import type { FetchError } from 'ofetch'
+import type { SocialProviderId } from '~~/server/libs/auth'
 import type { SchemaForgotPassword, SchemaResetPassword, SchemaSignUp } from '~~/shared/schemas/auth'
 import type { User } from '~/libs/auth'
 import { authClient } from '~/libs/auth'
@@ -149,7 +150,7 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  async function socialSignIn(provider: 'google' | 'github') {
+  async function socialSignIn(provider: SocialProviderId) {
     await withLoading(async () => {
       await authClient.signIn.social({
         provider,
