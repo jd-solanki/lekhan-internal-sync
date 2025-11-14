@@ -90,7 +90,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
             :text="getInitials(userStore.user?.name)"
             :src="userStore.user?.image ?? undefined"
           />
-          <p class="text-ellipsis overflow-hidden">
+          <p class="text-ellipsis overflow-hidden text-start">
             {{ userStore.user?.name || userStore.user?.email }}
           </p>
           <div class="grow" />
