@@ -186,11 +186,13 @@ onMounted(async () => {
             >
               Unlink
             </UButton>
+
+            <!-- INFO: `light:invert` is added to handle light/dark for github icon on solid button -->
             <UButton
               v-else
               color="neutral"
               :icon="provider.icon"
-              :ui="provider.iconClass ? { leadingIcon: 'invert' } : undefined"
+              :ui="provider.iconClass ? { leadingIcon: 'light:invert' } : undefined"
               loading-auto
               @click="linkAccount(provider.id)"
             >
