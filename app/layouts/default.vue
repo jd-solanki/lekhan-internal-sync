@@ -4,45 +4,58 @@ import type { CommandPaletteGroup, DropdownMenuItem } from '@nuxt/ui'
 const userStore = useUserStore()
 const appConfig = useAppConfig()
 const commandPaletteStore = useCommandPalette()
+const searchableRoutes = useSearchableRoutes()
 
-const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => [
-  ...(
-    commandPaletteStore._pageActions
-      ? [{
-          id: 'pageActions',
-          label: 'Page Actions',
-          items: commandPaletteStore._pageActions,
-        }]
-      : []
-  ),
-  ...(userStore.isUserAdmin
-    ? [
-        {
-          id: 'adminPages',
-          label: 'Admin Pages',
-          items: appConfig.layout.default.adminNavigationItems.map(i => ({ ...i, active: false })),
-        },
-      ]
-    : []
-  ),
-  {
-    id: 'pages',
-    label: 'Pages',
-    // Don't mark current page items as active
-    items: appConfig.layout.default.navigationItems.map(i => ({ ...i, active: false })),
-  },
-  {
+const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
+  const routeGroups: CommandPaletteGroup[] = []
+
+  // Page Actions (if any)
+  if (commandPaletteStore._pageActions && commandPaletteStore._pageActions.length > 0) {
+    routeGroups.push({
+      id: 'pageActions',
+      label: 'Page Actions',
+      items: commandPaletteStore._pageActions,
+    })
+  }
+
+  // Auto-scanned routes grouped by admin/regular only
+  const autoRoutes = searchableRoutes.value
+  const adminRoutes = autoRoutes.filter(r => typeof r.to === 'string' && r.to.startsWith('/admin'))
+  const regularRoutes = autoRoutes.filter(r => typeof r.to === 'string' && !r.to.startsWith('/admin'))
+
+  // Admin Pages (only for admins)
+  if (userStore.isUserAdmin && adminRoutes.length > 0) {
+    routeGroups.push({
+      id: 'adminPages',
+      label: 'Admin Pages',
+      items: adminRoutes,
+    })
+  }
+
+  // Regular Pages
+  if (regularRoutes.length > 0) {
+    routeGroups.push({
+      id: 'pages',
+      label: 'Pages',
+      items: regularRoutes,
+    })
+  }
+
+  // Account actions
+  routeGroups.push({
     id: 'account',
     label: 'Account',
     items: [
       {
-        icon: 'lucide:log-out',
+        icon: 'i-lucide-log-out',
         label: 'Sign Out',
         onSelect: userStore.signOut,
       },
     ],
-  },
-])
+  })
+
+  return routeGroups
+})
 
 // NOTE: Ensure it's computed to update the items when admin impersonate any user
 const userDropdownItems = computed<DropdownMenuItem[][]>(() => {

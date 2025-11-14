@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+definePageMeta({
+  search: {
+    label: 'Playground',
+    icon: 'i-lucide-gamepad-2',
+  },
+})
+
 const bannerStore = useBannerStore()
 const { errorToast } = useToastMessage()
 const commandPaletteStore = useCommandPalette()

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import { adminNavigationItems, navigationFooterItems, navigationItems } from '~/constants/asideNavigation'
 
 defineProps<{
   userDropdownItems: DropdownMenuItem[][]
@@ -20,11 +21,11 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
             to: '/app',
             icon: 'i-lucide-arrow-left',
           },
-          ...appConfig.layout.default.adminNavigationItems,
+          ...adminNavigationItems,
         ]
       : []
-    : appConfig.layout.default.navigationItems,
-  appConfig.layout.default.navigationFooterItems,
+    : navigationItems,
+  navigationFooterItems,
 ])
 </script>
 

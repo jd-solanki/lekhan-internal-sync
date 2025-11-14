@@ -9,6 +9,10 @@ import { encodeSortingQuery } from '~~/shared/utils/formatters'
 
 definePageMeta({
   isAdminOnly: true,
+  search: {
+    label: 'Users',
+    icon: 'i-lucide-users',
+  },
 })
 
 const overlay = useOverlay()

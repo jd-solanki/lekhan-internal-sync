@@ -16,6 +16,10 @@ declare module '#app' {
         redirectOptions?: Parameters<typeof navigateTo>[1] /* Options for the middleware redirect */
       }
     }
+    search?: false | { /* Configure route appearance in command palette. Set to false to exclude from search */
+      label?: string /* Custom label for the route in command palette */
+      icon?: string /* Custom icon for the route in command palette */
+    }
     flashMessageErrorQueryAlias?: string /* Custom query param name to use as alias for error flash messages */
     flashMessageSuccessQueryAlias?: string /* Custom query param name to use as alias for success flash messages */
     flashMessageInfoQueryAlias?: string /* Custom query param name to use as alias for info flash messages */
@@ -26,8 +30,6 @@ declare module 'nuxt/schema' {
   interface AppConfigInput {
     layout?: {
       default?: {
-        navigationItems?: NavigationMenuItem[]
-        adminNavigationItems?: NavigationMenuItem[]
         navigationFooterItems?: NavigationMenuItem[]
         themePreferences?: DropdownMenuItem[]
       }

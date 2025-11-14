@@ -3,6 +3,10 @@ import type { SocialProviderId } from '~~/server/libs/auth'
 import { authClient } from '~/libs/auth'
 
 definePageMeta({
+  search: {
+    label: 'Linked Accounts',
+    icon: 'i-lucide-link',
+  },
   // Render betterAuth errors via toast
   flashMessageErrorQueryAlias: 'error',
 })

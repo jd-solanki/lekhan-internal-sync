@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-
+definePageMeta({
+  search: {
+    label: 'Profile',
+    icon: 'i-lucide-user',
+  },
+})
 </script>
 
 <template>

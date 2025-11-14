@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { TabsItem } from '#ui/types'
 
+definePageMeta({
+  search: false, // Parent route - not searchable
+})
+
 const route = useRoute()
 
 const DEFAULT_TAB = 'profile'

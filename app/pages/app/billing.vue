@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import type { ProductPriceFixed } from '@polar-sh/sdk/models/components/productpricefixed'
 
+definePageMeta({
+  search: {
+    label: 'Billing',
+    icon: 'i-lucide-credit-card',
+  },
+})
+
 const { data: products } = await useFetch('/api/polar/products')
 const paymentsStore = usePaymentsStore()
 

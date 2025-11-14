@@ -23,7 +23,7 @@ useTimeoutFn(async () => {
 <template>
   <div class="text-center space-y-6">
     <UAvatar
-      icon="lucide:check"
+      icon="i-lucide-check"
       size="2xl"
       :ui="{ root: 'bg-success/25', icon: 'text-success-500' }"
     />
