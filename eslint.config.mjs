@@ -61,6 +61,10 @@ export default withNuxt(
             message: 'Prefer `navigateTo()` instead of `router.replace()` or `router.push()`',
           },
           {
+            regex: 'authClient\.(signOut)\(\)',
+            message: 'Prefer `userStore.signOut()` instead of `authClient.signOut()`',
+          },
+          {
             regex: 'db.transaction\\(async ',
             message: 'Prefer <entity>_crud over manual db import & initiating transaction.',
           },

@@ -142,6 +142,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   async function signOut() {
+    // eslint-disable-next-line regex/invalid
     await authClient.signOut()
 
     // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
@@ -274,6 +275,31 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  async function deactivateCurrentAccount() {
+    try {
+      await $fetch('/api/users/deactivate', {
+        method: 'POST',
+      })
+
+      // Revoke all user sessions
+      await authClient.revokeSessions()
+
+      successToast({
+        title: 'Account deactivated',
+        description: 'Your account has been deactivated. You can reactivate it by signing in again.',
+      })
+
+      await signOut()
+    }
+    catch (e) {
+      const error = e as FetchError
+      errorToast({
+        title: 'Error',
+        description: error.statusMessage || 'Unable to deactivate your account.',
+      })
+    }
+  }
+
   async function banUser(banOptions: Parameters<typeof authClient.admin.banUser>[0], name: string) {
     const banRes = await authClient.admin.banUser(banOptions)
 
@@ -329,6 +355,9 @@ export const useUserStore = defineStore('user', () => {
     userSession,
     isUserAdmin,
     isLoading,
+
+    // Account management
+    deactivateCurrentAccount,
 
     // Admin action
     impersonateUser,
