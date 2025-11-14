@@ -16,6 +16,9 @@ declare module '#app' {
         redirectOptions?: Parameters<typeof navigateTo>[1] /* Options for the middleware redirect */
       }
     }
+    flashMessageErrorQueryAlias?: string /* Custom query param name to use as alias for error flash messages */
+    flashMessageSuccessQueryAlias?: string /* Custom query param name to use as alias for success flash messages */
+    flashMessageInfoQueryAlias?: string /* Custom query param name to use as alias for info flash messages */
   }
 }
 
