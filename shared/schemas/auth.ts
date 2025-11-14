@@ -33,3 +33,14 @@ export const schemaResetPassword = z.strictObject({
   ...schemaSignIn.pick({ password: true }).shape,
 })
 export type SchemaResetPassword = z.infer<typeof schemaResetPassword>
+
+// Change Password
+export const schemaChangePassword = z.strictObject({
+  currentPassword: plainPasswordSchema,
+  newPassword: plainPasswordSchema,
+  confirmNewPassword: plainPasswordSchema,
+}).refine(
+  data => data.newPassword === data.confirmNewPassword,
+  { message: 'Passwords don\'t match', path: ['confirmNewPassword'] },
+)
+export type SchemaChangePassword = z.infer<typeof schemaChangePassword>

@@ -47,6 +47,10 @@ export function useSearchableRoutes() {
       // Get icon from meta or use default
       const icon = meta.search?.icon || 'i-lucide-file'
 
+      if (!meta.search?.icon) {
+        console.warn(`[useSearchableRoutes] Route "${route.path}" is missing a search icon in its metadata.`)
+      }
+
       searchableRoutes.push({
         label,
         icon,

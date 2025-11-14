@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 const userStore = useUserStore()
 
+definePageMeta({
+  search: {
+    label: 'Security',
+    icon: 'i-lucide-shield',
+  },
+})
+
 async function handleDeactivate() {
   const { confirm } = useConfirm({
     title: 'Deactivate Account?',
@@ -20,17 +27,19 @@ async function handleDeactivate() {
 
 <template>
   <div>
-    <h2 class="text-2xl font-semibold mb-4">
+    <h2 class="text-2xl font-semibold mb-2">
       Security
     </h2>
-    <p class="text-muted">
-      You can manage your security settings here.
+    <p class="text-muted mb-6">
+      Manage your password and security settings
     </p>
+
+    <PageAppAccountSettingsSecurityChangePasswordForm class="mb-16" />
 
     <!-- Danger Zone -->
     <UCard
       :ui="{ body: 'space-y-4', root: 'ring-red-400 bg-red-100/20 dark:bg-red-100/4' }"
-      class="mt-6"
+      class="mt-2"
     >
       <template #header>
         <h3 class="text-lg font-semibold">
@@ -48,7 +57,6 @@ async function handleDeactivate() {
 
       <UButton
         color="error"
-        icon="i-lucide-user-x"
         variant="outline"
         @click="handleDeactivate"
       >
