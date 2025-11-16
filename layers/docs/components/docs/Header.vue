@@ -1,6 +1,11 @@
 <script lang="ts" setup>
+import type { ContentNavigationItem } from '@nuxt/content'
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
+defineProps<{
+  navigation: ContentNavigationItem[] | undefined
+}>()
 
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
@@ -64,7 +69,10 @@ const items = computed<NavigationMenuItem[]>(() => [
     </template>
 
     <template #body>
-      <DocsContentNavigation variant="link" />
+      <DocsContentNavigation
+        :navigation
+        variant="link"
+      />
     </template>
   </UHeader>
 </template>

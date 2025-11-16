@@ -21,7 +21,7 @@ provide('navigation', navigation)
 <template>
   <div>
     <!-- Header -->
-    <DocsHeader />
+    <DocsHeader :navigation />
 
     <!-- Main -->
     <UMain>
