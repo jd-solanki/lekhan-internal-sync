@@ -8,8 +8,9 @@ export default withNuxt(
   // Global ignores - applies to all configurations
   {
     ignores: [
-      './.prompts/nuxt-ui.instructions.md',
       './server/db/migrations/**/*',
+      // This is downloaded from remote source, we don't want to lint it.
+      './.ai/rules/nuxt-ui.instructions.md',
     ],
   },
   antfu({

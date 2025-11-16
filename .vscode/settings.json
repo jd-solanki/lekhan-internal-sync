@@ -1,12 +1,7 @@
 {
-  // Hide gitignored files in explorer
-  // "explorer.excludeGitIgnore": true,
-
-  // Hide symlinked files in explorer
-  // "files.exclude": {
-  //   ".cursor": true,
-  //   ".github/prompts": true
-  // },
+  "chat.instructionsFilesLocations": {
+    ".ai/rules": true
+  },
   // NOTE: Do not edit symlinked files manually. Prefer editing source files in `.prompts` directory
   "files.readonlyInclude": {
     ".cursor/**": true,
