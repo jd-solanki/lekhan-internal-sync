@@ -41,8 +41,8 @@ export const navigationFooterItems: NavigationMenuItem[] = [
     // onClick: () => useOverlay().create(FeedbackForm).open(),
   },
   {
-    label: 'Docs',
-    // to: '/docs',
+    label: 'Documentation',
+    to: '/docs',
     icon: 'i-lucide-book',
     target: '_blank',
   },
