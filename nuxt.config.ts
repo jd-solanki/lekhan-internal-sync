@@ -55,8 +55,8 @@ export default defineNuxtConfig({
       shared: {
         aws: {
           s3: {
-            bucketName: env.AWS_BUCKET_NAME,
-            region: env.AWS_REGION,
+            bucketName: env.APP_AWS_BUCKET_NAME,
+            region: env.APP_AWS_REGION,
           },
         },
 
@@ -141,11 +141,11 @@ export default defineNuxtConfig({
     storage: {
       file: {
         driver: 's3',
-        accessKeyId: env.AWS_ACCESS_KEY,
-        secretAccessKey: env.AWS_SECRET_KEY,
-        endpoint: env.AWS_ENDPOINT,
-        bucket: env.AWS_BUCKET_NAME,
-        region: env.AWS_REGION,
+        accessKeyId: env.APP_AWS_ACCESS_KEY,
+        secretAccessKey: env.APP_AWS_SECRET_KEY,
+        endpoint: env.APP_AWS_ENDPOINT,
+        bucket: env.APP_AWS_BUCKET_NAME,
+        region: env.APP_AWS_REGION,
       },
     },
     devStorage: {

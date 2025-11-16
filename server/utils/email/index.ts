@@ -35,12 +35,12 @@ export function getEmailService() {
     }
 
     // AWS SES
-    else if (env.AWS_ACCESS_KEY && env.AWS_SECRET_KEY && env.AWS_REGION) {
+    else if (env.APP_AWS_ACCESS_KEY && env.APP_AWS_SECRET_KEY && env.APP_AWS_REGION) {
       emailService = createEmailService({
         provider: awsSesProvider({
-          accessKeyId: env.AWS_ACCESS_KEY,
-          secretAccessKey: env.AWS_SECRET_KEY,
-          region: env.AWS_REGION,
+          accessKeyId: env.APP_AWS_ACCESS_KEY,
+          secretAccessKey: env.APP_AWS_SECRET_KEY,
+          region: env.APP_AWS_REGION,
         }),
       })
     }

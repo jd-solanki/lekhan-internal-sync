@@ -32,12 +32,12 @@ const EnvSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
 
   // Storage
-  AWS_ACCESS_KEY: z.string(),
-  AWS_SECRET_KEY: z.string(),
-  AWS_REGION: z.string(),
-  AWS_BUCKET_NAME: z.string(),
+  APP_AWS_ACCESS_KEY: z.string(),
+  APP_AWS_SECRET_KEY: z.string(),
+  APP_AWS_REGION: z.string(),
+  APP_AWS_BUCKET_NAME: z.string(),
   // Auto generate from `https://s3.[region].amazonaws.com/`
-  AWS_ENDPOINT: z.string().optional(),
+  APP_AWS_ENDPOINT: z.string().optional(),
 
   // 🔒 AUTH
   BETTER_AUTH_SECRET: z.string(),
@@ -55,7 +55,7 @@ const EnvSchema = z.object({
 })
   .refine(
     data => data.NODE_ENV === 'production'
-      ? data.RESEND_API_KEY || (data.AWS_ACCESS_KEY && data.AWS_SECRET_KEY && data.AWS_REGION)
+      ? data.RESEND_API_KEY || (data.APP_AWS_ACCESS_KEY && data.APP_AWS_SECRET_KEY && data.APP_AWS_REGION)
       : true,
     {
       error: 'It seems you haven\'t configured Email service for production. Please set API Key or Credentials of your preferred email service provider in the environment variables.',
@@ -63,7 +63,7 @@ const EnvSchema = z.object({
   )
   .transform(data => ({
     ...data,
-    AWS_ENDPOINT: data.AWS_ENDPOINT ?? `https://s3.${data.AWS_REGION}.amazonaws.com`,
+    APP_AWS_ENDPOINT: data.APP_AWS_ENDPOINT ?? `https://s3.${data.APP_AWS_REGION}.amazonaws.com`,
   }))
 
 // eslint-disable-next-line ts/no-redeclare
