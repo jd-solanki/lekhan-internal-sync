@@ -44,3 +44,9 @@ export const schemaChangePassword = z.strictObject({
   { message: 'Passwords don\'t match', path: ['confirmNewPassword'] },
 )
 export type SchemaChangePassword = z.infer<typeof schemaChangePassword>
+
+// Update Profile
+export const schemaUpdateProfile = z.strictObject({
+  ...dbUserInsertSchema.pick({ name: true }).shape,
+})
+export type SchemaUpdateProfile = z.infer<typeof schemaUpdateProfile>
