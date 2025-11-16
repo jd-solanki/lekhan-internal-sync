@@ -5,6 +5,9 @@ import { exhaustive } from './shared/utils/types'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  routeRules: {
+    '/docs/': { redirect: '/docs/getting-started/introduction' },
+  },
   app: {
     // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },
     head: {
@@ -104,6 +107,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@pinia/nuxt',
     'nuxt-email-renderer',
+    '@nuxt/content',
   ],
   features: {
     devLogs: true,

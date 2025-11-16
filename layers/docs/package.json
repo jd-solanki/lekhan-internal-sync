@@ -1,0 +1,12 @@
+{
+  "name": "docs",
+  "private": true,
+  "dependencies": {
+    "@nuxt/content": "3.8.2",
+    "better-sqlite3": "^12.4.1"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.73",
+    "@iconify-json/simple-icons": "^1.2.58"
+  }
+}

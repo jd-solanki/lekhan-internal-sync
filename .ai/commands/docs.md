@@ -19,8 +19,6 @@ Here are the four types of documentation you will create:
 
 By keeping these four types of documentation separate but interlinked, you cater to developers at every stage of their journey with the boilerplate.
 
----
-
 ### Part 2: Essential Sections to Include
 
 A well-organized documentation site is easily navigable. Here are the key sections your Nuxt.js boilerplate documentation should have:
@@ -72,8 +70,6 @@ This section should be purely factual and descriptive.
 
 Anticipate common problems and provide solutions. This will save developers time and reduce the need for support.
 
----
-
 ### Part 3: How to Describe Features Effectively
 
 How you write about the boilerplate's features is just as important as the features themselves.
@@ -87,8 +83,6 @@ How you write about the boilerplate's features is just as important as the featu
 * **Use Visuals:** Incorporate screenshots, diagrams, and flowcharts to illustrate complex concepts. A diagram of the authentication flow is much easier to grasp than a dense paragraph of text.
 * **Be Accurate and Up-to-Date:** Inaccurate documentation is worse than no documentation. Regularly review and update the docs, especially after code changes.
 
----
-
 ### Part 4: The Art of Writing: Conciseness and Accuracy
 
 Developers value their time. Your writing style should reflect that by being clear, direct, and unambiguous.
@@ -101,3 +95,26 @@ Developers value their time. Your writing style should reflect that by being cle
 * **Create Scannable Content:** Use headings, subheadings, bullet points, and numbered lists to break up text and make it easy to scan.
 * **Maintain a Consistent Tone and Terminology:** Establish a style guide to ensure consistency across all documentation. This builds trust and predictability. You can reference established guides from companies like Google or Microsoft for inspiration.
 * **Edit and Proofread:** Typos and grammatical errors erode credibility. Read your writing aloud to catch awkward phrasing.
+
+---
+
+### Notes
+
+* Nuxt Content, Nuxt UI & MDC syntax is available to use for structuring and styling the documentation.
+* Along with all Nuxt UI components, You'll mostly use Typography components for writing docs in markdown:
+  * Accordion
+  * Badge
+  * Callout
+  * Card
+  * CardGroup
+  * CodeCollapse
+  * CodeGroup
+  * CodePreview
+  * CodeTre
+  * Collapsible
+  * Field
+  * FieldGroup
+  * Icon
+  * Kbd
+  * Steps
+  * Tabs

@@ -23,6 +23,13 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
   const adminRoutes = autoRoutes.filter(r => typeof r.to === 'string' && r.to.startsWith('/admin'))
   const regularRoutes = autoRoutes.filter(r => typeof r.to === 'string' && !r.to.startsWith('/admin'))
 
+  // Add docs to regular routes
+  regularRoutes.push({
+    label: 'Documentation',
+    icon: 'i-lucide-book-open',
+    to: '/docs',
+  })
+
   // Admin Pages (only for admins)
   if (userStore.isUserAdmin && adminRoutes.length > 0) {
     routeGroups.push({

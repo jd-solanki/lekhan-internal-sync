@@ -56,4 +56,15 @@ export default defineAppConfig({
       },
     },
   },
+
+  // Docs
+  github: {
+    url: 'https://github.com/launchydayone/launchydayone',
+    branch: 'main',
+    rootDir: '/content/docs',
+  },
+  socials: {
+    x: 'https://x.com/me_jd_solanki',
+    discord: 'https://discord.gg/xXPJRpnv',
+  },
 })
