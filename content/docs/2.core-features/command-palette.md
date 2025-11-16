@@ -1,6 +1,7 @@
-# Auto-Scanned Routes in Command Palette
-
-The command palette now automatically scans and includes all routes using the default layout, making them searchable without manual configuration.
+---
+title: Auto-Scanned Routes in Command Palette
+description: How the command palette automatically scans and includes all routes using the default layout.
+---
 
 ## Features
 
