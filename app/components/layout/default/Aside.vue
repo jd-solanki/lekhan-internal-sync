@@ -48,7 +48,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
       >
         <NuxtImg
           :src="appConfig.app.logoUrl"
-          alt="LaunchDayOne Logo"
+          :alt="`${runtimeConfig.public.app.name} Logo`"
           class="size-6 dark:invert"
           :class="appConfig.app.logoClass"
         />
