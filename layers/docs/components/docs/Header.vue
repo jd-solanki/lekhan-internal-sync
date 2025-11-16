@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const largerThanLg = breakpoints.greater('lg')
 
 const links = computed(() => appConfig.github && appConfig.github.url
   ? [
@@ -42,8 +46,8 @@ const items = computed<NavigationMenuItem[]>(() => [
     <UNavigationMenu :items="items" />
 
     <template #right>
-      <UContentSearchButton :collapsed="false" />
       <ClientOnly>
+        <UContentSearchButton :collapsed="!largerThanLg" />
         <UColorModeButton />
         <template #fallback>
           <div class="h-8 w-8 animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded-md" />
