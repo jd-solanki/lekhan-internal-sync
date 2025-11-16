@@ -78,6 +78,11 @@ export default withNuxt(
             files: { ignore: '.*\\/crud\\/.*' },
           },
           {
+            regex: 'import env from',
+            message: 'You might not want to make this module server only in shared scope',
+            files: { inspect: 'shared\\/.*\\.ts' },
+          },
+          {
             regex: 'z\.date()',
             message: 'Use z.coerce.date() instead of z.date() for better parsing.',
           },

@@ -53,6 +53,12 @@ export default defineNuxtConfig({
 
       // Shared across server & app
       shared: {
+        aws: {
+          s3: {
+            bucketName: env.AWS_BUCKET_NAME,
+            region: env.AWS_REGION,
+          },
+        },
 
         // Auth Config
         auth: {
@@ -131,6 +137,23 @@ export default defineNuxtConfig({
         'server/utils/**/*',
         'server/db/index',
       ],
+    },
+    storage: {
+      file: {
+        driver: 's3',
+        accessKeyId: env.AWS_ACCESS_KEY,
+        secretAccessKey: env.AWS_SECRET_KEY,
+        endpoint: env.AWS_ENDPOINT,
+        bucket: env.AWS_BUCKET_NAME,
+        region: env.AWS_REGION,
+      },
+    },
+    devStorage: {
+      file: {
+        driver: 'fs',
+        // NOTE: Sync it with `shared/utils/file.ts`'s `genImgUrlFromKey`
+        base: 'public/.tmp/',
+      },
     },
   },
 })

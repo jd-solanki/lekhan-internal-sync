@@ -351,6 +351,7 @@ export const useUserStore = defineStore('user', () => {
 
     // user session
     init,
+    refetchUserSessionData,
     user,
     userSession,
     isUserAdmin,

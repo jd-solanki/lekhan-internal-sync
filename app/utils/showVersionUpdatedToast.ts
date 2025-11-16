@@ -4,7 +4,8 @@ export function showVersionUpdatedToast() {
 
   function showToast() {
     toast.add({
-      title: 'New version of this page is available, kindly refresh to view the new page.',
+      title: 'A new version of this page is available',
+      description: 'Refresh to see the latest changes.',
       progress: false,
       duration: Infinity,
       actions: [{

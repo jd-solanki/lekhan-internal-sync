@@ -25,4 +25,9 @@ logs
 
 
 # AI
-.claude
+.claude/*
+!.claude/commands
+
+
+# Dev storage files
+public/.tmp

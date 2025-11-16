@@ -28,10 +28,16 @@ const EnvSchema = z.object({
   DATABASE_URL: z.string(),
 
   // Email
+  // NOTE: Kept on top of AWS to get picked up as email service as AWS is configured for storage
   RESEND_API_KEY: z.string().optional(),
-  AWS_ACCESS_KEY: z.string().optional(),
-  AWS_SECRET_KEY: z.string().optional(),
-  AWS_REGION: z.string().optional(),
+
+  // Storage
+  AWS_ACCESS_KEY: z.string(),
+  AWS_SECRET_KEY: z.string(),
+  AWS_REGION: z.string(),
+  AWS_BUCKET_NAME: z.string(),
+  // Auto generate from `https://s3.[region].amazonaws.com/`
+  AWS_ENDPOINT: z.string().optional(),
 
   // 🔒 AUTH
   BETTER_AUTH_SECRET: z.string(),
@@ -46,14 +52,19 @@ const EnvSchema = z.object({
   // 💰 Polar
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
-}).refine(
-  data => data.NODE_ENV === 'production'
-    ? data.RESEND_API_KEY || (data.AWS_ACCESS_KEY && data.AWS_SECRET_KEY && data.AWS_REGION)
-    : true,
-  {
-    error: 'It seems you haven\'t configured Email service for production. Please set API Key or Credentials of your preferred email service provider in the environment variables.',
-  },
-)
+})
+  .refine(
+    data => data.NODE_ENV === 'production'
+      ? data.RESEND_API_KEY || (data.AWS_ACCESS_KEY && data.AWS_SECRET_KEY && data.AWS_REGION)
+      : true,
+    {
+      error: 'It seems you haven\'t configured Email service for production. Please set API Key or Credentials of your preferred email service provider in the environment variables.',
+    },
+  )
+  .transform(data => ({
+    ...data,
+    AWS_ENDPOINT: data.AWS_ENDPOINT ?? `https://s3.${data.AWS_REGION}.amazonaws.com`,
+  }))
 
 // eslint-disable-next-line ts/no-redeclare
 export type EnvSchema = z.infer<typeof EnvSchema>
