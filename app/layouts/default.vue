@@ -65,7 +65,7 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
         slot: 'profile',
         label: userStore.user?.name,
         avatar: {
-          src: userStore.user?.image ?? undefined,
+          src: userStore.avatarUrl,
           alt: userStore.user?.name,
         },
         type: 'label',

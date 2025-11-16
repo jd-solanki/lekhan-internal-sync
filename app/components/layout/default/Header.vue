@@ -19,7 +19,7 @@ const userStore = useUserStore()
       <LayoutDefaultUserDropdown :user-dropdown-items>
         <!-- Trigger -->
         <UAvatar
-          :src="userStore.user?.image ?? undefined"
+          :src="userStore.avatarUrl"
           :alt="userStore.user?.name"
           :text="getInitials(userStore.user?.name)"
         />

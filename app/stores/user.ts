@@ -35,6 +35,8 @@ export const useUserStore = defineStore('user', () => {
   const user = computed(() => session.value?.data?.user as User | undefined)
   const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
+  const avatarUrl = computed(() => genImgUrlFromKey(user.value?.image))
+
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
 
   const impersonateUser = async (userId: number) => {
@@ -355,6 +357,7 @@ export const useUserStore = defineStore('user', () => {
     user,
     userSession,
     isUserAdmin,
+    avatarUrl,
     isLoading,
 
     // Account management

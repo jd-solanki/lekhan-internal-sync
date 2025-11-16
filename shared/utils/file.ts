@@ -1,7 +1,13 @@
+import { parseURL } from 'ufo'
+
 export function genImgUrlFromKey(key: string | undefined | null): string | undefined {
   if (!key) {
     return undefined
   }
+
+  // If it's already a full URL, return as is
+  if (parseURL(key).protocol)
+    return key
 
   // Return nitro server asset URL in dev mode
   if (import.meta.dev)
@@ -22,7 +28,7 @@ export function validateFile(
   file: File,
   options?: { maxSizeMB?: number, allowedMimeTypes?: string[] },
 ): { isValid: boolean, error?: string } {
-  const { maxSizeMB = 2, allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif'] } = options || {}
+  const { maxSizeMB = 1, allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif'] } = options || {}
 
   // Validate file type
   if (!allowedMimeTypes.includes(file.type)) {

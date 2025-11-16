@@ -86,6 +86,10 @@ export default withNuxt(
             regex: 'z\.date()',
             message: 'Use z.coerce.date() instead of z.date() for better parsing.',
           },
+          {
+            regex: '(userStore\\.)?user\\??\\.image',
+            message: 'Use `userStore.avatarUrl` instead of `user.image` directly.',
+          },
         ],
       ],
     },

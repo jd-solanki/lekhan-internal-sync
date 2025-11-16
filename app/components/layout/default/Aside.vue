@@ -88,7 +88,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
           <UAvatar
             :alt="userStore.user?.name"
             :text="getInitials(userStore.user?.name)"
-            :src="userStore.user?.image ?? undefined"
+            :src="userStore.avatarUrl"
           />
           <p class="text-ellipsis overflow-hidden text-start">
             {{ userStore.user?.name || userStore.user?.email }}

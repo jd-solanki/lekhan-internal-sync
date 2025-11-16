@@ -14,7 +14,7 @@ const userStore = useUserStore()
     <template #profile>
       <div class="flex items-center gap-2">
         <UAvatar
-          :src="userStore.user?.image ?? undefined"
+          :src="userStore.avatarUrl"
           :alt="userStore.user?.name"
           :text="getInitials(userStore.user?.name)"
         />

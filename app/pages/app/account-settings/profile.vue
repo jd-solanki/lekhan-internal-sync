@@ -10,14 +10,13 @@ const userStore = useUserStore()
 const { errorToast, successToast } = useToastMessage()
 
 const user = computed(() => userStore.user)
-const avatarUrl = computed(() => genImgUrlFromKey(user.value?.image, { devStorageEndpoint: '/api/users/avatar/' }))
 
 async function _handleAvatarUpload(file: File | null | undefined) {
   if (!file)
     return
 
   const { isValid, error: validationError } = validateFile(file, {
-    maxSizeMB: 2,
+    maxSizeMB: 1,
     allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif'],
   })
 
@@ -83,7 +82,7 @@ const { isLoading: isRemoving, fnWithLoading: handleRemoveAvatar } = useWithLoad
     <div class="max-w-2xl">
       <div class="flex items-center gap-4">
         <UAvatar
-          :src="avatarUrl"
+          :src="userStore.avatarUrl"
           :alt="user?.name || 'Profile avatar'"
           :text="getInitials(user?.name)"
           size="3xl"
@@ -112,7 +111,7 @@ const { isLoading: isRemoving, fnWithLoading: handleRemoveAvatar } = useWithLoad
             </UFileUpload>
 
             <UButton
-              v-if="user?.image"
+              v-if="userStore.avatarUrl"
               color="neutral"
               variant="ghost"
               :loading="isRemoving"
