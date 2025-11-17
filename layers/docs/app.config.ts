@@ -6,6 +6,11 @@ export default defineAppConfig({
           root: 'bg-muted border border-(--ui-border-muted) ps-4 pe-4 rounded-lg',
         },
       },
+      pre: {
+        slots: {
+          base: 'whitespace-pre',
+        },
+      },
     },
   },
 })

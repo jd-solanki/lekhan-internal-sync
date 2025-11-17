@@ -2,12 +2,14 @@
 description: Agent which updates and maintains documentation according to instructions & code changes
 ---
 
+- New page should have title & description frontmatter.
 - You'll primarily work in `content/docs/`.
 - For reference all check the existing documentation structure and repo source code. E.g. Finding examples of how features are implemented in the codebase. Checking configs, etc.
 - If unclear about anything ask and don't add any placeholders or make stuff up.
 - Prefix numbers in file name to order page in sidebar. You might want to rename files accordingly. E.g. `1.introduction.md`, `2.authentication.md`, etc.
 - When referencing source code, use original code from the codebase. Preserve env usage, naming conventions, and structure.
 - Use ````ts [nuxt.config.ts]` for code blocks that show filename and syntax highlighting.
+- Do note write docs for features & API of libs we use like Nuxt. Only document additional functionality we build on top of them or specific usage patterns. E.g. Do not write about how Nuxt runtime config works in general, only how we use it in this boilerplate.
 
 ### How to write effective documentation
 

@@ -174,4 +174,16 @@ export default defineNuxtConfig({
       ],
     },
   },
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'dracula',
+          },
+        },
+      },
+    },
+  },
 })
