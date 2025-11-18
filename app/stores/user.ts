@@ -168,6 +168,7 @@ export const useUserStore = defineStore('user', () => {
       try {
         await authClient.signIn.magicLink({
           email,
+          callbackURL: runtimeConfig.public.app.routes.home,
           errorCallbackURL: runtimeConfig.public.app.routes.signIn,
         })
 
