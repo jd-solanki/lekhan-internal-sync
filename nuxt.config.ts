@@ -191,7 +191,8 @@ export default defineNuxtConfig({
       // Let netlify handle images from other domains like S3 bucket, Google Images, etc
       domains: [
         `${env.APP_AWS_BUCKET_NAME}.s3.${env.APP_AWS_REGION}.amazonaws.com`,
-        'lh3.googleusercontent.com', // Google profile pics
+        'lh3.googleusercontent.com', // Google profile pics [Google Social Sign In]
+        'avatars.githubusercontent.com', // GitHub profile pics [GitHub Social Sign In]
         // ...any other remote domains you use
       ],
     },
