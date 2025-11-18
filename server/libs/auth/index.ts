@@ -67,6 +67,7 @@ export const auth = betterAuth({
         })
 
         await sendEmail({
+          type: 'security',
           to: { email },
           subject: emailSubject,
           html: emailHTML,
@@ -153,6 +154,7 @@ export const auth = betterAuth({
       })
 
       await sendEmail({
+        type: 'security',
         to: { email: user.email },
         subject: emailSubject,
         html: emailHTML,
@@ -177,6 +179,7 @@ export const auth = betterAuth({
       })
 
       await sendEmail({
+        type: 'security',
         to: { email: user.email },
         subject: emailSubject,
         html: emailHTML,

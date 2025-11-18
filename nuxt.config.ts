@@ -28,9 +28,30 @@ export default defineNuxtConfig({
       // NOTE: We shouldn't make adminEmails public as it may contain personal information.
       // Add admin emails here to receive notifications about unexpected errors
       adminEmails: env.ADMIN_EMAILS,
-      from: {
-        email: process.env.NODE_ENV === 'development' ? 'no-reply@example.com' : `no-reply@${env.NUXT_PUBLIC_APP_DOMAIN}`,
-        name: env.NUXT_PUBLIC_APP_NAME,
+
+      // INFO: Update `index.d.ts` if you change sender types or add new ones
+      senders: {
+        // For high-trust, security-related emails (password resets, email verification, 2FA codes)
+        security: {
+          email: process.env.NODE_ENV === 'development'
+            ? 'security@example.com'
+            : `security@app.${env.NUXT_PUBLIC_APP_DOMAIN}`,
+          name: `${env.NUXT_PUBLIC_APP_NAME} Security`,
+        },
+        // For important system or user-initiated alerts (account deactivation, billing failures)
+        alerts: {
+          email: process.env.NODE_ENV === 'development'
+            ? 'alerts@example.com'
+            : `alerts@app.${env.NUXT_PUBLIC_APP_DOMAIN}`,
+          name: env.NUXT_PUBLIC_APP_NAME,
+        },
+        // For internal system notifications sent to admins (runtime errors, crash reports)
+        system: {
+          email: process.env.NODE_ENV === 'development'
+            ? 'system-alerts@example.com'
+            : `system-alerts@app.${env.NUXT_PUBLIC_APP_DOMAIN}`,
+          name: `${env.NUXT_PUBLIC_APP_NAME} [System Alert]`,
+        },
       },
     },
 

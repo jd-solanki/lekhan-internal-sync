@@ -46,9 +46,11 @@ declare module 'nuxt/schema' {
   interface RuntimeConfig {
     mail: {
       adminEmails: string[]
-      from: {
-        email: string
-        name: string
+      senders: {
+        [K in 'security' | 'alerts' | 'system']: {
+          email: string
+          name: string
+        }
       }
     }
   }

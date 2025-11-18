@@ -1,3 +1,4 @@
+import type { RuntimeConfig } from 'nuxt/schema'
 import { createEmailService } from 'unemail'
 import awsSesProvider from 'unemail/providers/aws-ses'
 import resendProvider from 'unemail/providers/resend'
@@ -6,6 +7,9 @@ import env from '~~/shared/libs/env'
 
 let emailService: ReturnType<typeof createEmailService> | null = null
 type EmailOptions = Parameters<(ReturnType<typeof getEmailService>)['sendEmail']>[0]
+
+// Infer SenderType from RuntimeConfig
+export type SenderType = keyof RuntimeConfig['mail']['senders']
 
 /**
  * Gets or creates the email service instance
@@ -64,17 +68,18 @@ interface SendEmailOptions {
 /**
  * Sends an email using the configured email service
  * Automatically prepends the app title to the subject
- * The 'from' field is set to the configured app email
+ * The 'from' field is set based on the sender type
  */
-export function sendEmail(emailOptions: Omit<EmailOptions, 'from'>, options?: SendEmailOptions) {
+export function sendEmail(emailOptions: Omit<EmailOptions, 'from'> & { type: SenderType }, options?: SendEmailOptions) {
   const { runtimeConfig = useRuntimeConfig() } = options || {}
+  const { type, ...restEmailOptions } = emailOptions
 
   const emailServiceInstance = getEmailService()
 
   return emailServiceInstance.sendEmail({
-    from: runtimeConfig.mail.from,
-    ...emailOptions,
-    subject: `${runtimeConfig.public.app.name} - ${emailOptions.subject}`,
+    from: runtimeConfig.mail.senders[type],
+    ...restEmailOptions,
+    subject: `${runtimeConfig.public.app.name} - ${restEmailOptions.subject}`,
   })
 }
 
@@ -84,7 +89,7 @@ export function sendEmailToAdmins(emailOptions: Omit<EmailOptions, 'from' | 'to'
   const emailServiceInstance = getEmailService()
 
   return emailServiceInstance.sendEmail({
-    from: runtimeConfig.mail.from,
+    from: runtimeConfig.mail.senders.system,
     ...emailOptions,
     to: runtimeConfig.mail.adminEmails.map(email => ({ email })),
     subject: `${runtimeConfig.public.app.name} - ${emailOptions.subject}`,
