@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 const route = useRoute()
-const routeMeta = route.meta
 </script>
 
 <template>
   <main
     class="grow"
-    :class="[routeMeta.mainClass]"
+    :class="[route.meta.mainClass]"
   >
     <slot />
   </main>
