@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { breakpointsTailwind, useBreakpoints, useToggle } from '@vueuse/core'
+import { breakpointsTailwind, useBreakpoints, useMounted, useToggle } from '@vueuse/core'
 import * as z from 'zod'
 import { redirectUrlSchema } from '~~/shared/schemas'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
+const isMounted = useMounted()
+
 const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 
 const appConfig = useAppConfig()
@@ -76,7 +78,7 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
       >
         <UChip
           text="Last Used"
-          :show="!largerThanLg && lastSignInMethod === provider.id"
+          :show="isMounted && !largerThanLg && lastSignInMethod === provider.id"
           size="3xl"
           :ui="{ base: 'px-2 py-3', root: 'grow' }"
           :position="index === 0 ? 'top-left' : undefined"
@@ -155,7 +157,7 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
       >
         <UChip
           text="Last Used"
-          :show="!largerThanLg && lastSignInMethod === 'email'"
+          :show="isMounted && !largerThanLg && lastSignInMethod === 'email'"
           size="3xl"
           :ui="{ base: 'px-2 py-3', root: 'w-full' }"
         >
