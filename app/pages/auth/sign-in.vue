@@ -6,15 +6,19 @@ definePageMeta({
   isAuthRequired: false,
 })
 
-const lastSignInMethod = authClient.getLastUsedLoginMethod()
+const lastSignInMethod = authClient.getLastUsedLoginMethod() || 'email'
+const selectedSignInMethod = ref(lastSignInMethod)
 </script>
 
 <template>
   <div>
-    <AuthMethodsMagicLink v-if="lastSignInMethod === 'magic-link'" />
+    <AuthMethodsMagicLink v-if="selectedSignInMethod === 'magic-link'" />
     <AuthMethodsPassword v-else />
 
     <!-- This is demo only, Please remove it from your project -->
-    <DemoSignInMethodSelector class="absolute left-1/2 -translate-x-1/2 bottom-6" />
+    <DemoSignInMethodSelector
+      v-model="selectedSignInMethod"
+      class="absolute left-1/2 -translate-x-1/2 bottom-6"
+    />
   </div>
 </template>
