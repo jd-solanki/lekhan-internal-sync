@@ -167,9 +167,10 @@ export default defineNuxtConfig({
       // INFO: Project is hosted on Netlify and we have to configure remote domains hence this config is needed
       //   If you're deploying elsewhere, adjust accordingly
       provider: 'netlify',
+      // Let netlify handle images from other domains like S3 bucket, Google Images, etc
       domains: [
-        // Let netlify handle images from S3 bucket
         `${env.APP_AWS_BUCKET_NAME}.s3.${env.APP_AWS_REGION}.amazonaws.com`,
+        'lh3.googleusercontent.com', // Google profile pics
         // ...any other remote domains you use
       ],
     },
