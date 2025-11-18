@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type * as z from 'zod'
+import { useToggle } from '@vueuse/core'
 
 const emit = defineEmits<{
   close: [boolean]
 }>()
+
+const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 
 const schema = schemaSignUpWithName
 type Schema = z.output<typeof schema>
@@ -75,10 +78,24 @@ const uniqueId = useId()
         >
           <UInput
             v-model="state.password"
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             size="xl"
             class="w-full"
-          />
+            :ui="{ trailing: 'pe-1' }"
+          >
+            <template #trailing>
+              <UButton
+                color="neutral"
+                variant="link"
+                size="sm"
+                :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+                :aria-pressed="isPasswordVisible"
+                aria-controls="password"
+                @click="togglePasswordVisibility()"
+              />
+            </template>
+          </UInput>
         </UFormField>
       </UForm>
     </template>

@@ -2,8 +2,13 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { SocialProviderId } from '~~/server/libs/auth'
 import type { SchemaChangePassword } from '~~/shared/schemas/auth'
+import { useToggle } from '@vueuse/core'
 import { schemaChangePassword } from '~~/shared/schemas/auth'
 import { authClient } from '~/libs/auth'
+
+const [isCurrentPasswordVisible, toggleCurrentPasswordVisibility] = useToggle(false)
+const [isNewPasswordVisible, toggleNewPasswordVisibility] = useToggle(false)
+const [isConfirmPasswordVisible, toggleConfirmPasswordVisibility] = useToggle(false)
 
 const { errorToast, successToast } = useToastMessage()
 const runtimeConfig = useRuntimeConfig()
@@ -109,11 +114,25 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
         >
           <UInput
             v-model="state.currentPassword"
-            type="password"
+            :type="isCurrentPasswordVisible ? 'text' : 'password'"
             size="xl"
             class="w-full"
             :disabled="isSubmitting"
-          />
+            :ui="{ trailing: 'pe-1' }"
+          >
+            <template #trailing>
+              <UButton
+                color="neutral"
+                variant="link"
+                size="sm"
+                :icon="isCurrentPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                :aria-label="isCurrentPasswordVisible ? 'Hide password' : 'Show password'"
+                :aria-pressed="isCurrentPasswordVisible"
+                aria-controls="currentPassword"
+                @click="toggleCurrentPasswordVisibility()"
+              />
+            </template>
+          </UInput>
         </UFormField>
 
         <UFormField
@@ -122,11 +141,25 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
         >
           <UInput
             v-model="state.newPassword"
-            type="password"
+            :type="isNewPasswordVisible ? 'text' : 'password'"
             size="xl"
             class="w-full"
             :disabled="isSubmitting"
-          />
+            :ui="{ trailing: 'pe-1' }"
+          >
+            <template #trailing>
+              <UButton
+                color="neutral"
+                variant="link"
+                size="sm"
+                :icon="isNewPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                :aria-label="isNewPasswordVisible ? 'Hide password' : 'Show password'"
+                :aria-pressed="isNewPasswordVisible"
+                aria-controls="newPassword"
+                @click="toggleNewPasswordVisibility()"
+              />
+            </template>
+          </UInput>
         </UFormField>
 
         <UFormField
@@ -135,11 +168,25 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
         >
           <UInput
             v-model="state.confirmNewPassword"
-            type="password"
+            :type="isConfirmPasswordVisible ? 'text' : 'password'"
             size="xl"
             class="w-full"
             :disabled="isSubmitting"
-          />
+            :ui="{ trailing: 'pe-1' }"
+          >
+            <template #trailing>
+              <UButton
+                color="neutral"
+                variant="link"
+                size="sm"
+                :icon="isConfirmPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                :aria-label="isConfirmPasswordVisible ? 'Hide password' : 'Show password'"
+                :aria-pressed="isConfirmPasswordVisible"
+                aria-controls="confirmNewPassword"
+                @click="toggleConfirmPasswordVisibility()"
+              />
+            </template>
+          </UInput>
         </UFormField>
 
         <UButton

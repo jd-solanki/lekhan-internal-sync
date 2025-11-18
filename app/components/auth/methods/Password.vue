@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { breakpointsTailwind, useBreakpoints, useToggle } from '@vueuse/core'
 import * as z from 'zod'
 import { redirectUrlSchema } from '~~/shared/schemas'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
+const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
@@ -129,10 +130,24 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
         </template>
         <UInput
           v-model="state.password"
-          type="password"
+          :type="isPasswordVisible ? 'text' : 'password'"
           size="xl"
           class="w-full"
-        />
+          :ui="{ trailing: 'pe-1' }"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="sm"
+              :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+              :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+              :aria-pressed="isPasswordVisible"
+              aria-controls="password"
+              @click="togglePasswordVisibility()"
+            />
+          </template>
+        </UInput>
       </UFormField>
       <AuthLastSignInIndicator
         side="right"

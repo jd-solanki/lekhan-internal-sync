@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { useToggle } from '@vueuse/core'
+
+const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 
 definePageMeta({
   layout: 'blank',
@@ -62,10 +65,24 @@ async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {
       >
         <UInput
           v-model="state.password"
-          type="password"
+          :type="isPasswordVisible ? 'text' : 'password'"
           size="xl"
           class="w-full"
-        />
+          :ui="{ trailing: 'pe-1' }"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="sm"
+              :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+              :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+              :aria-pressed="isPasswordVisible"
+              aria-controls="password"
+              @click="togglePasswordVisibility()"
+            />
+          </template>
+        </UInput>
       </UFormField>
       <UButton
         type="submit"
