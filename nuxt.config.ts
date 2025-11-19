@@ -151,6 +151,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/ui',
+    'nuxt-llms',
     '@pinia/nuxt',
     'nuxt-email-renderer',
     '@nuxt/content',
@@ -233,6 +234,15 @@ export default defineNuxtConfig({
           },
         },
       },
+    },
+  },
+  llms: {
+    domain: env.NUXT_PUBLIC_APP_BASE_URL,
+    title: env.NUXT_PUBLIC_APP_NAME,
+    description: `Documentation for ${env.NUXT_PUBLIC_APP_NAME}`,
+    full: {
+      title: `${env.NUXT_PUBLIC_APP_NAME} Full Documentation`,
+      description: `Comprehensive documentation of ${env.NUXT_PUBLIC_APP_NAME}`,
     },
   },
 })
