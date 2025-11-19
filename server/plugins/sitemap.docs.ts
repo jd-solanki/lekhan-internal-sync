@@ -1,6 +1,7 @@
 import type { DocsCollectionItem } from '@nuxt/content'
 
 // TODO: Is it possible to auto register this to sitemap from layers/docs?
+// Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/94
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('sitemap:sources', async (ctx) => {
     const docs: DocsCollectionItem[] = await queryCollection(ctx.event, 'docs').select('path').all()
