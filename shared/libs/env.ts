@@ -15,6 +15,9 @@ const EnvSchema = z.object({
   NUXT_PUBLIC_APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
   NUXT_PUBLIC_API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
 
+  // 💬 Contact Us
+  NUXT_PUBLIC_CONTACT_EMAIL: z.email(),
+
   // 🧙🏻 Admin
   ADMIN_EMAILS: z.preprocess((val) => {
     if (typeof val === 'string') {
@@ -52,6 +55,9 @@ const EnvSchema = z.object({
   // 💰 Polar
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
+
+  // Legal
+  NUXT_PUBLIC_OWNER_NAME: z.string(),
 })
   .refine(
     data => data.NODE_ENV === 'production'
