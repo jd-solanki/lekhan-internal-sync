@@ -7,6 +7,10 @@ import { exhaustive } from './shared/utils/types'
 export default defineNuxtConfig({
   routeRules: {
     '/docs/': { redirect: '/docs/getting-started/introduction' },
+    '/admin/**': { robots: false },
+    '/app/**': { robots: false },
+    '/polar/customer-portal': { robots: false },
+    '/polar/success': { robots: false },
   },
   app: {
     // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },
