@@ -5,9 +5,11 @@ import type { DocsCollectionItem } from '@nuxt/content'
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('sitemap:sources', async (ctx) => {
     const docs: DocsCollectionItem[] = await queryCollection(ctx.event, 'docs').select('path').all()
+    const legalDocs: DocsCollectionItem[] = await queryCollection(ctx.event, 'legal').select('path').all()
 
-    // Collect all doc paths
+    // Collect all paths
     const docs_urls = docs.map(doc => doc.path).filter(path => !!path)
+    const legal_docs_urls = legalDocs.map(doc => doc.path).filter(path => !!path)
 
     // Push as a sitemap source
     ctx.sources.push({
@@ -16,6 +18,15 @@ export default defineNitroPlugin((nitroApp) => {
         description: 'Documentation pages',
       },
       urls: docs_urls,
+      sourceType: 'app',
+    })
+
+    ctx.sources.push({
+      context: {
+        name: 'legal:urls',
+        description: 'Legal pages',
+      },
+      urls: legal_docs_urls,
       sourceType: 'app',
     })
   })
