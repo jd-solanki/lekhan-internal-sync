@@ -2,6 +2,7 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   const nuxtApp = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
   const userStore = useUserStore()
+  const paymentStore = usePaymentsStore()
 
   // If it's 404 page, don't perform any authentication checks
   if (!to.matched.length) {
@@ -11,7 +12,11 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   // Initialize user session on server & initial load
   // This will only fetch session once
   if ((import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered) || import.meta.server) {
-    await userStore.init()
+    // Perf: Wait for both init in parallel
+    await Promise.all([
+      userStore.init(),
+      paymentStore.init(),
+    ])
   }
 
   // Check if the route requires any specific query parameters

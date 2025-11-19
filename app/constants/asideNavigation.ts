@@ -1,4 +1,5 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
+import appConfig from '../app.config'
 
 export const navigationItems: NavigationMenuItem[] = [
   {
@@ -30,16 +31,21 @@ export const adminNavigationItems: NavigationMenuItem[] = [
     to: '/admin/users',
     icon: 'i-lucide-users',
   },
+  {
+    label: 'Orders',
+    to: '/admin/orders',
+    icon: 'i-lucide-shopping-bag',
+  },
 ]
 
 export const navigationFooterItems: NavigationMenuItem[] = [
-  {
-    label: 'Feedback',
-    icon: 'i-lucide-message-square',
-    // Nuxt: Doesn't support importing components in appConfig due to nitro
-    // Issue: https://github.com/nuxt/nuxt/issues/33109
-    // onClick: () => useOverlay().create(FeedbackForm).open(),
-  },
+  // {
+  //   label: 'Feedback',
+  //   icon: 'i-lucide-message-square',
+  //   // Nuxt: Doesn't support importing components in appConfig due to nitro
+  //   // Issue: https://github.com/nuxt/nuxt/issues/33109
+  //   // onClick: () => useOverlay().create(FeedbackForm).open(),
+  // },
   {
     label: 'Documentation',
     to: '/docs',
@@ -48,7 +54,7 @@ export const navigationFooterItems: NavigationMenuItem[] = [
   },
   {
     label: 'Support',
-    // to: '/support',
+    to: appConfig.socials.discord,
     icon: 'i-lucide-life-buoy',
     target: '_blank',
   },

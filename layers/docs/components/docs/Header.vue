@@ -40,6 +40,11 @@ const items = computed<NavigationMenuItem[]>(() => [
     to: `${appConfig.github.url}/releases`,
     target: '_blank',
   },
+  {
+    label: 'Support',
+    to: appConfig.socials.discord,
+    target: '_blank',
+  },
 ])
 </script>
 

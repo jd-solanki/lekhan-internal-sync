@@ -11,8 +11,18 @@ definePageMeta({
 const { data: products } = await useFetch('/api/polar/products')
 const paymentsStore = usePaymentsStore()
 
+// Ensure customer state is loaded and authenticated user is customer
+// This won't be the case because customer always gets created on sign up
+if (!paymentsStore.customerState?.id) {
+  throw createError({
+    statusCode: 400,
+    statusMessage: 'Customer not found. Please ensure you have a valid customer profile before accessing billing information.',
+  })
+}
+
 const { data: userOrders } = await useFetch('/api/polar/orders', {
   query: {
+    customerId: paymentsStore.customerState.id,
     productId: products.value?.result.items[0]?.id,
   },
 })

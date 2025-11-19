@@ -3,6 +3,7 @@ import { polarClient } from '~~/server/libs/polar'
 import { paginationSchema } from '~~/shared/schemas/pagination'
 
 const querySchema = paginationSchema.extend({
+  customerId: z.uuidv4().optional(),
   organizationId: z.uuidv4().optional(),
   productId: z.uuidv4().optional(),
   productBillingType: z.enum(['recurring', 'one_time']).optional(),
@@ -13,12 +14,9 @@ const querySchema = paginationSchema.extend({
 })
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const polarCustomerState = await getPolarCustomerState(event.context.user.id)
-
   const { page, size, ...rest } = await getValidatedQuery(event, querySchema.parse)
 
   const result = await polarClient.orders.list({
-    customerId: polarCustomerState.id,
     page,
     limit: size,
     ...rest,

@@ -31,7 +31,7 @@ const queryFields = ['name', 'email'] as const
 const parsedQuery = useParsedQuery(paginationSchema.extend({
   qField: z.enum(queryFields).default('name'),
   sorting: z.string().regex(/^[\w-]+$/).default(SORTING_DEFAULT),
-}), { page: 1, size: 10 })
+}))
 
 // INFO: We need to convert sorting query param to the format that TanStack Table understands
 // WARNING: Do not use `z.preprocessor` to `useParsedQuery` as under the hood `useParsedQuery` uses `zod` to parse the query params
@@ -413,7 +413,6 @@ const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = create
       v-model:page="parsedQuery.page"
       v-model:page-size="parsedQuery.size"
       :total="users?.total ?? (users?.users?.length || 0)"
-      :page-size-options="[5, 10]"
     />
   </div>
 </template>
