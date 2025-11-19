@@ -2,8 +2,25 @@
 showFlashMessageFromCookie()
 showVersionUpdatedToast()
 
+const route = useRoute()
 const userStore = useUserStore()
 const bannerStore = useBannerStore()
+
+const seoTitle = computed(() => {
+  const routePath = route.path
+
+  return genPageTitleFromRoutePath(routePath)
+})
+
+useSeoMeta({
+  title: () => seoTitle.value.pageTitle,
+})
+
+defineOgImageComponent('NuxtSeo', {
+  title: () => seoTitle.value.ogImageTitle,
+  theme: '#ffffff',
+  colorMode: 'dark',
+})
 </script>
 
 <template>

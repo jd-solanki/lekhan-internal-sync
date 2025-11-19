@@ -11,14 +11,39 @@ export default defineNuxtConfig({
   app: {
     // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },
     head: {
+      bodyAttrs: {
+        // Add banner height CSS variable if app/global or impersonating banner is visible
+        class: 'has-[>div>_.banner]:[--app-banner-height:48px]',
+      },
+      title: env.NUXT_PUBLIC_APP_NAME,
+      titleTemplate: `%s | ${env.NUXT_PUBLIC_APP_NAME}`,
+      htmlAttrs: {
+        lang: 'en',
+      },
       link: [
         { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/favicon-light.ico' },
+
+        // Apple Devices Icons
+        { rel: 'apple-touch-icon', href: '/favicon.ico', sizes: '180x180', media: '(prefers-color-scheme: light)' },
+        { rel: 'apple-touch-icon', href: '/favicon-light.ico', sizes: '180x180', media: '(prefers-color-scheme: dark)' },
       ],
     },
-    rootAttrs: {
-      // Add banner height CSS variable if app/global or impersonating banner is visible
-      class: 'has-[>_.banner]:[--app-banner-height:48px]',
+  },
+  // Docs: https://nuxtseo.com/docs/site-config/guides/setting-site-config
+  site: {
+    url: env.NUXT_PUBLIC_APP_BASE_URL,
+    name: env.NUXT_PUBLIC_APP_NAME,
+    env: env.NODE_ENV,
+  },
+  seo: {
+    meta: {
+      description: 'Production ready Nuxt.js SaaS boilerplate to launch your SaaS app faster.',
+      themeColor: [
+        { content: '#fff', media: '(prefers-color-scheme: dark)' },
+        { content: '#000', media: '(prefers-color-scheme: light)' },
+      ],
+      colorScheme: 'dark light',
     },
   },
   runtimeConfig: {
