@@ -129,6 +129,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-email-renderer',
     '@nuxt/content',
+    '@nuxtjs/seo',
   ],
   features: {
     devLogs: true,
