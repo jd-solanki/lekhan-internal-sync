@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { breakpointsTailwind, useBreakpoints, useMounted } from '@vueuse/core'
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const largerThanLg = breakpoints.greater('lg')
+const isMounted = useMounted()
 
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
@@ -14,6 +19,8 @@ const state = reactive<SchemaMagicLink>({
 async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
   await userStore.sendMagicLink(event.data.email)
 }
+
+const lastSignInMethod = authClient.getLastUsedLoginMethod()
 </script>
 
 <template>
@@ -31,19 +38,33 @@ async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
     </p>
 
     <div class="flex items-center gap-4 my-10">
-      <UButton
-        v-for="provider in socialProviders"
+      <AuthLastSignInIndicator
+        v-for="(provider, index) in socialProviders"
         :key="provider.id"
-        :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
-        variant="outline"
-        :icon="provider.icon"
-        block
-        :disabled="userStore.isLoading"
-        loading-auto
-        @click="userStore.socialSignIn(provider.id)"
+        :side="index === 0 ? 'left' : 'right'"
+        :open="largerThanLg && lastSignInMethod === provider.id"
       >
-        {{ provider.name }}
-      </UButton>
+        <UChip
+          text="Last Used"
+          :show="isMounted && !largerThanLg && lastSignInMethod === provider.id"
+          size="3xl"
+          :ui="{ base: 'px-2 py-3', root: 'grow' }"
+          :position="index === 0 ? 'top-left' : undefined"
+        >
+          <UButton
+            :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
+            variant="outline"
+            :icon="provider.icon"
+            block
+            :disabled="userStore.isLoading"
+            loading-auto
+            class="w-full"
+            @click="userStore.socialSignIn(provider.id)"
+          >
+            {{ provider.name }}
+          </UButton>
+        </UChip>
+      </AuthLastSignInIndicator>
     </div>
 
     <USeparator label="Or continue With" />
@@ -65,15 +86,27 @@ async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
           class="w-full"
         />
       </UFormField>
-      <UButton
-        type="submit"
-        block
-        size="lg"
-        :disabled="userStore.isLoading"
-        loading-auto
+      <AuthLastSignInIndicator
+        side="right"
+        :open="largerThanLg && lastSignInMethod === 'magiclink'"
       >
-        Send Magic Link
-      </UButton>
+        <UChip
+          text="Last Used"
+          :show="isMounted && !largerThanLg && lastSignInMethod === 'magiclink'"
+          size="3xl"
+          :ui="{ base: 'px-2 py-3', root: 'w-full' }"
+        >
+          <UButton
+            type="submit"
+            block
+            size="lg"
+            :disabled="userStore.isLoading"
+            loading-auto
+          >
+            Send Magic Link
+          </UButton>
+        </UChip>
+      </AuthLastSignInIndicator>
     </UForm>
   </div>
 </template>

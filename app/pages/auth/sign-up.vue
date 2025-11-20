@@ -25,6 +25,8 @@ const state = reactive<SchemaSignUp>({
 async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
   await userStore.signUp(event.data)
 }
+
+const lastSignInMethod = authClient.getLastUsedLoginMethod()
 </script>
 
 <template>
@@ -111,7 +113,29 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
       </UButton>
     </UForm>
 
-    <p class="text-sm text-center">
+    <UAlert
+      v-if="lastSignInMethod"
+      color="primary"
+      variant="subtle"
+      title="Welcome back!"
+      description="Looks like you've used our site before. Try signing in instead."
+      :ui="{ description: 'mt-1' }"
+    >
+      <template #actions>
+        <UButton
+          to="/auth/sign-in"
+          color="primary"
+          variant="link"
+          size="xs"
+        >
+          Sign In
+        </UButton>
+      </template>
+    </UAlert>
+    <p
+      v-else
+      class="text-sm text-center"
+    >
       <span class="text-muted">Already have an account?</span>
       <ULink
         to="/auth/sign-in"
