@@ -5,7 +5,7 @@ defineProps<{
   error: NuxtError
 }>()
 
-const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const runtimeConfig = useRuntimeConfig()
   >
     <UError
       :error="error"
-      :redirect="runtimeConfig.public.app.routes.home"
+      :redirect="userStore.userHomeRoute"
     />
   </NuxtLayout>
 </template>

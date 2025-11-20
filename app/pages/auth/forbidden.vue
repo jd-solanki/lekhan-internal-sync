@@ -5,7 +5,7 @@ definePageMeta({
   mainClass: 'grid place-items-center',
 })
 
-const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const runtimeConfig = useRuntimeConfig()
     </div>
 
     <UButton
-      :to="runtimeConfig.public.app.routes.home"
+      :to="userStore.userHomeRoute"
       class="ms-auto"
     >
       Go back home

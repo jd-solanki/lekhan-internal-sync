@@ -43,7 +43,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
   >
     <template #header>
       <ULink
-        :to="runtimeConfig.public.app.routes.home"
+        :to="userStore.userHomeRoute"
         class="flex gap-3 items-center text-highlighted"
       >
         <NuxtImg

@@ -50,7 +50,7 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
       // Check if redirectIfEmailVerified is set
       if (to.meta.redirectIfEmailVerified && userStore.user.emailVerified) {
         // Redirect to home page
-        return navigateTo(runtimeConfig.public.app.routes.home)
+        return navigateTo(userStore.userHomeRoute)
       }
 
       // Check if route is admin only
@@ -62,7 +62,7 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     else {
       // Redirect to sign in page if not logged in
       let redirectUrl = runtimeConfig.public.app.routes.signIn
-      if (to.fullPath !== runtimeConfig.public.app.routes.home) { // Don't add query param for root path
+      if (to.fullPath !== userStore.userHomeRoute) { // Don't add query param for root path
         redirectUrl += `?redirectUrl=${encodeURIComponent(to.fullPath)}`
       }
       return navigateTo(redirectUrl)
@@ -72,7 +72,7 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   if (to.meta.redirectIfSignedIn) {
     if (userStore.user) {
       // Redirect to home page if already logged in
-      return navigateTo(runtimeConfig.public.app.routes.home)
+      return navigateTo(userStore.userHomeRoute)
     }
   }
 })

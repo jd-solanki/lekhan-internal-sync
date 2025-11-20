@@ -36,6 +36,7 @@ export const useUserStore = defineStore('user', () => {
   const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
   const avatarUrl = computed(() => genImgUrlFromKey(user.value?.image))
+  const userHomeRoute = computed(() => isUserAdmin.value ? runtimeConfig.public.app.routes.adminHome : runtimeConfig.public.app.routes.home)
 
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
 
@@ -51,7 +52,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     await refetchUserSessionData()
-    await navigateTo(runtimeConfig.public.app.routes.home)
+    await navigateTo(userHomeRoute.value)
   }
 
   const stopImpersonating = async () => {
@@ -66,7 +67,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     await refetchUserSessionData()
-    await navigateTo(runtimeConfig.public.app.routes.home)
+    await navigateTo(userHomeRoute.value)
   }
 
   async function signUp(body: SchemaSignUp) {
@@ -83,7 +84,7 @@ export const useUserStore = defineStore('user', () => {
           }
           else {
             // If email verification is optional, redirect to home page
-            await navigateTo(runtimeConfig.public.app.routes.home)
+            await navigateTo(userHomeRoute.value)
           }
         },
         onError: (ctx) => {
@@ -100,7 +101,7 @@ export const useUserStore = defineStore('user', () => {
   // It can either be redirect URL or false to prevent redirection
   // When nothing is passed it'll be default to redirection to default home URL
   async function signIn(body: SchemaSignIn, options?: { redirectUrl?: string | false, onSuccess?: () => Promise<void> }) {
-    const { redirectUrl = runtimeConfig.public.app.routes.home } = options || {}
+    const { redirectUrl = userHomeRoute.value } = options || {}
     await withLoading(async () => {
       await authClient.signIn.email(body, {
         onSuccess: async (_ctx) => {
@@ -158,7 +159,7 @@ export const useUserStore = defineStore('user', () => {
       await authClient.signIn.social({
         provider,
         errorCallbackURL: runtimeConfig.public.app.routes.signIn,
-        callbackURL: runtimeConfig.public.app.routes.home,
+        callbackURL: userHomeRoute.value,
       })
     })
   }
@@ -168,7 +169,7 @@ export const useUserStore = defineStore('user', () => {
       try {
         await authClient.signIn.magicLink({
           email,
-          callbackURL: runtimeConfig.public.app.routes.home,
+          callbackURL: userHomeRoute.value,
           errorCallbackURL: runtimeConfig.public.app.routes.signIn,
         })
 
@@ -359,6 +360,7 @@ export const useUserStore = defineStore('user', () => {
     userSession,
     isUserAdmin,
     avatarUrl,
+    userHomeRoute,
     isLoading,
 
     // Account management

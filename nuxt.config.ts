@@ -98,6 +98,7 @@ export default defineNuxtConfig({
         // NOTE: Ensure these are according to your app/pages directory
         routes: {
           home: '/app',
+          adminHome: '/admin',
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
           billing: '/app/billing',
