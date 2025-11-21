@@ -5,11 +5,12 @@ showVersionUpdatedToast()
 const route = useRoute()
 const userStore = useUserStore()
 const bannerStore = useBannerStore()
+const runtimeConfig = useRuntimeConfig()
 
 const seoTitle = computed(() => {
   const routePath = route.path
 
-  return genPageTitleFromRoutePath(routePath)
+  return genPageTitleFromRoutePath(routePath, runtimeConfig.public.app.name, runtimeConfig.public.app.name)
 })
 
 useSeoMeta({

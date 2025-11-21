@@ -1,8 +1,8 @@
 import { titleCase } from 'scule'
 
-export function genPageTitleFromRoutePath(routePath: string): { ogImageTitle: string | undefined, pageTitle: string | undefined } {
-  if (!routePath)
-    return { ogImageTitle: undefined, pageTitle: undefined }
+export function genPageTitleFromRoutePath(routePath: string, defaultOgImageTitle: string, defaultPageTitle: string): { ogImageTitle: string | undefined, pageTitle: string | undefined } {
+  if (!routePath || routePath === '/')
+    return { ogImageTitle: defaultOgImageTitle, pageTitle: defaultPageTitle }
 
   if (routePath === '/app')
     return { ogImageTitle: 'Dashboard', pageTitle: 'Dashboard' }
