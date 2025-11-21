@@ -61,6 +61,7 @@ declare module 'nuxt/schema' {
       domain?: string
       baseUrl: string
       routes: {
+        adminHome: string
         home: string
         signIn: string
         verifyEmail: string
