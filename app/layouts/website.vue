@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-
+const route = useRoute()
 </script>
 
 <template>
   <div>
     <WebsiteHeader />
 
-    <UMain>
+    <UMain :class="[route.meta.mainClass]">
       <UContainer>
         <slot />
       </UContainer>

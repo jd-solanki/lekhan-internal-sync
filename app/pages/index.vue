@@ -1,26 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'blank',
+  layout: 'website',
   isAuthRequired: false,
+  mainClass: 'bg-(--ui-bg-muted) top-(--app-banner-height,0) dark:bg-black',
 })
 </script>
 
 <template>
-  <UContainer class="space-x-4">
-    <UPageHeader
-      title="Landing Page"
-      description="🏗️ WIP"
-    />
-    <div class="mt-12 flex flex-wrap gap-4">
-      <UButton to="/auth/sign-in">
-        Sign In
-      </UButton>
-      <UButton to="/app">
-        App
-      </UButton>
-      <UButton to="/docs">
-        Docs
-      </UButton>
-    </div>
-  </UContainer>
+  <UPage class="space-x-4">
+    <WebsiteHero />
+  </UPage>
 </template>
