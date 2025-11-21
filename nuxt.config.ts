@@ -95,6 +95,7 @@ export default defineNuxtConfig({
         name: env.NUXT_PUBLIC_APP_NAME,
         domain: env.NUXT_PUBLIC_APP_DOMAIN,
         baseUrl: env.NUXT_PUBLIC_APP_BASE_URL,
+        polarDashboardUrl: env.POLAR_DASHBOARD_URL,
         // NOTE: Ensure these are according to your app/pages directory
         routes: {
           home: '/app',

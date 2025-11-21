@@ -53,6 +53,7 @@ const EnvSchema = z.object({
   NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS: z.stringbool().default(true),
 
   // 💰 Polar
+  POLAR_DASHBOARD_URL: z.url(),
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
 
