@@ -9,5 +9,7 @@ definePageMeta({
 <template>
   <UPage class="space-x-4">
     <WebsiteHero />
+    <WebsiteLandingTestimonial />
+    <WebsiteLandingFeatures />
   </UPage>
 </template>
