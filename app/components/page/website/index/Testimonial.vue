@@ -6,7 +6,7 @@
     <div class="w-full flex justify-center items-center py-6">
       <div class="max-w-[1248px] w-full flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 px-4 xl:px-0">
         <!-- Image -->
-        <div class="w-full md:w-[360px] h-[360px] shrink-0 rounded-lg overflow-hidden shadow-sm">
+        <div class="w-full md:w-[360px] h-[360px] shrink-0 rounded-lg overflow-hidden">
           <img
             src="/images/ajaybhai-and-vrushankbhai.png"
             alt="Testimonial"
