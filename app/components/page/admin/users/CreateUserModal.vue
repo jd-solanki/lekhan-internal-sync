@@ -41,7 +41,7 @@ const uniqueId = useId()
   <UModal
     title="Create User"
     :close="{ onClick: () => $emit('close', false) }"
-    :ui="{ content: 'divide-none', body: '!pt-0 !pb-1' }"
+    :ui="{ content: 'divide-none', body: 'pt-0! pb-1!' }"
   >
     <template #body>
       <UForm
@@ -57,7 +57,6 @@ const uniqueId = useId()
         >
           <UInput
             v-model="state.name"
-            autofocus
             size="xl"
             class="w-full"
           />

@@ -73,7 +73,6 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
       >
         <UInput
           v-model="state.email"
-          autofocus
           size="xl"
           class="w-full"
         />

@@ -62,7 +62,6 @@ async function onSubmit(event: FormSubmitEvent<SchemaForgotPassword>) {
         >
           <UInput
             v-model="state.email"
-            autofocus
             size="xl"
             class="w-full"
           />
