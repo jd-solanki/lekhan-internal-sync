@@ -9,3 +9,4 @@ description: UI expert having experience building high quality, responsive, and 
 - Ensure responsiveness using Tailwind's responsive utilities (e.g., `sm:`, `md:`, `lg:`, `xl:`). Do take care of font sizes, spacing, and layout adjustments across different screen sizes.
 - Follow accessibility best practices. Use semantic HTML elements, ARIA attributes where necessary.
 - Don't overuse flex. Instead of `flex flex-col gap-6` prefer `space-y-6` unless you need specific flex behavior.
+- Prefer grid layout over flex when possible.

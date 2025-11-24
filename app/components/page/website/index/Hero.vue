@@ -9,19 +9,21 @@ const avatars = [
 ]
 
 const carouselImages = [
-  'https://placehold.co/552x340',
-  'https://placehold.co/552x340',
-  'https://placehold.co/552x340',
+  { light: '/images/landing/users-page-ss.png', dark: '/images/landing/users-page-ss-dark.png' },
+  { light: '/images/landing/command-palette.png', dark: '/images/landing/command-palette-dark.png' },
+  { light: '/images/landing/billing-page-ss.png', dark: '/images/landing/billing-page-ss-dark.png' },
+  { light: '/images/landing/account-settings-security-ss.png', dark: '/images/landing/account-settings-security-ss-dark.png' },
+  { light: '/images/landing/sign-in.png', dark: '/images/landing/sign-in-dark.png' },
 ]
 </script>
 
 <template>
-  <div class="relative flex flex-col xl:flex-row items-center gap-12 lg:gap-24 py-12 lg:py-24 overflow-hidden">
+  <div class="relative flex flex-col xl:flex-row items-center gap-12 lg:gap-12 overflow-hidden">
     <!-- Left Content -->
-    <div class="flex flex-col gap-8 lg:gap-10 w-full xl:w-1/2 max-xl:text-center max-xl:items-center">
-      <div class="flex flex-col gap-4 lg:gap-6 max-xl:max-w-2xl text-balance">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight lg:leading-[58px] text-highlighted">
-          Bloat-free, Modular, Layer Focused, Best Nuxt boilerplate
+    <div class="flex flex-col gap-8 lg:gap-10 w-full xl:w-1/2 max-xl:text-center md:py-24 py-12 max-xl:items-center">
+      <div class="flex flex-col gap-4 lg:gap-6 max-xl:max-w-3xl text-balance">
+        <h1 class="text-4xl sm:text-4xl lg:text-5xl font-bold leading-tight lg:leading-[58px] text-highlighted">
+          Bloat-free, Modular, Layer Focused, Best Nuxt Boilerplate
         </h1>
         <h2 class="sm:text-base lg:text-lg text-muted">
           The best Nuxt boilerplate that provides auth, payments, emails, SEO and more. Save months of work and launch faster than your competitors.
@@ -73,22 +75,22 @@ const carouselImages = [
     </div>
 
     <!-- Right Content (Images) -->
-    <div class="relative w-full xl:w-1/2 flex justify-center items-center">
+    <div class="relative w-full xl:w-1/2 flex justify-center items-center xl:rotate-x-50 xl:rotate-z-15">
       <!-- Mobile Carousel -->
       <UCarousel
         v-slot="{ item }"
         class-names
         :items="carouselImages"
-        :ui="{ item: 'md:basis-[50%] basis-[70%]' }"
+        :ui="{ item: 'lg:basis-[50%] md:basis-[60%] basis-[80%]' }"
         class="xl:hidden w-full"
-        auto-height
         loop
-        :autoplay="{ delay: 5000 }"
+        :autoplay="{ delay: 2000 }"
       >
-        <img
-          :src="item"
-          class="rounded-lg w-[70dvw] md:w-[50dvw]"
-        >
+        <UColorModeImage
+          :light="item.light"
+          :dark="item.dark"
+          class="rounded-lg size-full"
+        />
       </UCarousel>
 
       <!-- Desktop Vertical Carousel -->
@@ -100,15 +102,17 @@ const carouselImages = [
           v-slot="{ item }"
           orientation="vertical"
           loop
-          :ui="{ container: 'h-[min(600px,50dvh)]', item: 'basis-[60%]' }"
+          auto-scroll
+          :ui="{ container: 'h-[800px]', item: 'basis-[70%]' }"
           :items="carouselImages"
           class="w-full"
         >
-          <img
-            :src="item"
-            height="340"
+          <UColorModeImage
+            :light="item.light"
+            :dark="item.dark"
             class="rounded-lg"
-          >
+            width="600"
+          />
         </UCarousel>
       </div>
     </div>
