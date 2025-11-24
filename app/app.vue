@@ -3,6 +3,7 @@ showFlashMessageFromCookie()
 showVersionUpdatedToast()
 
 const route = useRoute()
+const colorMode = useColorMode()
 const userStore = useUserStore()
 const bannerStore = useBannerStore()
 const runtimeConfig = useRuntimeConfig()
@@ -27,7 +28,7 @@ defineOgImageComponent('NuxtSeo', {
 <template>
   <UApp>
     <NuxtRouteAnnouncer />
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator :color="colorMode.value === 'dark' ? 'white' : 'black'" />
 
     <!--
       Clever way to show existing banner and impersonating banner without adding complexity
