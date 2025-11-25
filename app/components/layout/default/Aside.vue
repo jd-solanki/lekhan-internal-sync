@@ -1,10 +1,6 @@
 <script lang="ts" setup>
-import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@nuxt/ui'
 import { adminNavigationItems, navigationFooterItems, navigationItems } from '~/constants/asideNavigation'
-
-defineProps<{
-  userDropdownItems: DropdownMenuItem[][]
-}>()
 
 const userStore = useUserStore()
 const appConfig = useAppConfig()
@@ -75,10 +71,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
     <UDashboardSearchButton class="mx-2 max-lg:hidden" />
 
     <template #footer>
-      <LayoutDefaultUserDropdown
-        :user-dropdown-items
-        class="max-lg:hidden"
-      >
+      <LayoutDefaultUserDropdown class="max-lg:hidden">
         <!-- Trigger -->
         <UButton
           class="flex items-center gap-x-3"

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { CommandPaletteGroup, DropdownMenuItem } from '@nuxt/ui'
+import type { CommandPaletteGroup } from '@nuxt/ui'
 
 const userStore = useUserStore()
-const appConfig = useAppConfig()
 const commandPaletteStore = useCommandPalette()
 const searchableRoutes = useSearchableRoutes()
 
@@ -63,57 +62,6 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
 
   return routeGroups
 })
-
-// NOTE: Ensure it's computed to update the items when admin impersonate any user
-const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
-  return [
-    [
-      {
-        slot: 'profile',
-        label: userStore.user?.name,
-        avatar: {
-          src: userStore.avatarUrl,
-          alt: userStore.user?.name,
-        },
-        type: 'label',
-      },
-    ],
-    [
-      {
-        label: 'Account Settings',
-        icon: 'i-lucide-cog',
-        to: '/app/account-settings',
-      },
-    ],
-    ...(userStore.isUserAdmin
-      ? [
-          [
-            {
-              label: 'Admin',
-              icon: 'i-lucide-shield',
-              to: '/admin/users',
-            },
-          ],
-        ]
-      : []
-    ),
-    [
-      {
-        label: 'Theme',
-        icon: 'i-lucide-moon',
-        children: appConfig.layout.default.themePreferences,
-      },
-    ],
-    [
-      {
-        label: 'Sign Out',
-        icon: 'i-lucide-log-out',
-        color: 'error',
-        onClick: userStore.signOut,
-      },
-    ],
-  ]
-})
 </script>
 
 <template>
@@ -121,7 +69,7 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
     unit="px"
     class="bg-(--ui-bg-muted) top-(--app-banner-height,0) dark:bg-black"
   >
-    <LayoutDefaultAside :user-dropdown-items />
+    <LayoutDefaultAside />
 
     <!-- INFO: We remove 1rem from 100svh due to `m-2`. -->
     <UDashboardPanel
@@ -131,10 +79,7 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
       <!-- Page Header -->
       <!-- Hide in desktop devices -->
       <template #header>
-        <LayoutDefaultHeader
-          :user-dropdown-items
-          class="lg:hidden bg-(--ui-bg)"
-        />
+        <LayoutDefaultHeader class="lg:hidden bg-(--ui-bg)" />
       </template>
 
       <!-- Page content -->

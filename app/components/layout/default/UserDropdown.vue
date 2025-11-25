@@ -1,11 +1,74 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem } from '@nuxt/ui'
 
-defineProps<{
-  userDropdownItems: DropdownMenuItem[][]
-}>()
-
+const appConfig = useAppConfig()
 const userStore = useUserStore()
+const route = useRoute()
+
+// NOTE: Ensure it's computed to update the items when admin impersonate any user
+const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
+  return [
+    [
+      {
+        slot: 'profile',
+        label: userStore.user?.name,
+        avatar: {
+          src: userStore.avatarUrl,
+          alt: userStore.user?.name,
+        },
+        type: 'label',
+      },
+    ],
+    // Render Dashboard link if not already in /app route
+    ...(
+      !route.path.startsWith('/app')
+        ? [
+            [
+              {
+                label: 'Dashboard',
+                icon: 'i-lucide-home',
+                to: '/app',
+              },
+            ],
+          ]
+        : []
+    ),
+    [
+      {
+        label: 'Account Settings',
+        icon: 'i-lucide-cog',
+        to: '/app/account-settings',
+      },
+    ],
+    ...(userStore.isUserAdmin
+      ? [
+          [
+            {
+              label: 'Admin',
+              icon: 'i-lucide-shield',
+              to: '/admin/users',
+            },
+          ],
+        ]
+      : []
+    ),
+    [
+      {
+        label: 'Theme',
+        icon: 'i-lucide-moon',
+        children: appConfig.layout.default.themePreferences,
+      },
+    ],
+    [
+      {
+        label: 'Sign Out',
+        icon: 'i-lucide-log-out',
+        color: 'error',
+        onClick: userStore.signOut,
+      },
+    ],
+  ]
+})
 </script>
 
 <template>

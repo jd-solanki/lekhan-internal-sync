@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import type { DropdownMenuItem } from '@nuxt/ui'
-
-defineProps<{
-  userDropdownItems: DropdownMenuItem[][]
-}>()
-
 const userStore = useUserStore()
 </script>
 
@@ -16,7 +10,7 @@ const userStore = useUserStore()
         class="rounded-full"
       />
 
-      <LayoutDefaultUserDropdown :user-dropdown-items>
+      <LayoutDefaultUserDropdown>
         <!-- Trigger -->
         <UAvatar
           :src="userStore.avatarUrl"
