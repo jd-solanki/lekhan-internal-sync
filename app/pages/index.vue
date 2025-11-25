@@ -13,5 +13,6 @@ definePageMeta({
     <PageWebsiteIndexFeatures />
     <PageWebsiteIndexComingSoon class="my-30" />
     <PageWebsiteIndexPricing />
+    <PageWebsiteIndexFAQs class="my-20" />
   </UPage>
 </template>
