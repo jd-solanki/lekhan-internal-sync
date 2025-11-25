@@ -1,5 +1,5 @@
 import { polarClient } from '~~/server/libs/polar'
 
-export default defineAuthenticatedEventHandler(() => {
+export default defineEventHandler(() => {
   return polarClient.products.list({ isArchived: false })
 })
