@@ -14,6 +14,52 @@ export const usePaymentsStore = defineStore('payments', () => {
     customerState.value = data.value
   }
 
+  const fetchUserOrdersForProduct = async (productId: string) => {
+    if (!customerState.value?.id) {
+      return null
+    }
+
+    const { data } = await useFetch('/api/polar/orders', {
+      query: {
+        customerId: customerState.value.id,
+        productId,
+      },
+    })
+
+    return data.value
+  }
+
+  const hasPurchasedProduct = async (productId: string) => {
+    if (!customerState.value?.id) {
+      return false
+    }
+
+    const response = await fetchUserOrdersForProduct(productId)
+
+    if (response && response.result.items.length > 0) {
+      return true
+    }
+
+    return false
+  }
+
+  const buyProduct = async (productId: string) => {
+    await refreshCustomerState()
+    const _hasPurchasedProduct = await hasPurchasedProduct(productId)
+
+    if (!_hasPurchasedProduct) {
+      await createCheckoutSession(productId)
+    }
+    else {
+      // Navigate to home if already purchased
+      await navigateTo(runtimeConfig.public.app.routes.billing, { replace: true })
+      infoToast({
+        title: 'You have already purchased this product',
+        description: 'Redirected to billing page',
+      })
+    }
+  }
+
   /*
     This function initializes the user session by fetching it from the authClient
     With this, our nuxt app won't re-fetch the user session on client side
@@ -39,7 +85,10 @@ export const usePaymentsStore = defineStore('payments', () => {
 
   return {
     init,
+    buyProduct,
     refreshCustomerState,
+    hasPurchasedProduct,
+    fetchUserOrdersForProduct,
     createCheckoutSession,
 
     customerState,

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const paymentsStore = usePaymentsStore()
+
 const avatars = [
   'https://i.pravatar.cc/150?u=1',
   'https://i.pravatar.cc/150?u=2',
@@ -15,6 +17,16 @@ const carouselImages = [
   { light: '/images/landing/account-settings-security-ss.png', dark: '/images/landing/account-settings-security-ss-dark.png' },
   { light: '/images/landing/sign-in.png', dark: '/images/landing/sign-in-dark.png' },
 ]
+
+const { data: products } = await useFetch('/api/polar/products')
+const product = computed(() => products.value?.result.items[0])
+
+if (!product.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'No products found',
+  })
+}
 </script>
 
 <template>
@@ -60,9 +72,9 @@ const carouselImages = [
 
       <div class="flex items-center gap-4">
         <UButton
-          color="neutral"
           size="lg"
           label="Reserve Your Spot at $89"
+          @click="paymentsStore.buyProduct(product!.id)"
         />
         <UButton
           variant="outline"

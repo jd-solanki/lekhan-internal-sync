@@ -34,6 +34,7 @@ if (!product.value) {
   })
 }
 
+// INFO: As we're already checking product is purchased we can directly call `createCheckoutSession`
 const hasPurchasedProduct = await paymentsStore.hasPurchasedProduct(product.value.id)
 </script>
 

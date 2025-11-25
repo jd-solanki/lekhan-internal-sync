@@ -11,5 +11,7 @@ definePageMeta({
     <PageWebsiteIndexHero />
     <PageWebsiteIndexTestimonial />
     <PageWebsiteIndexFeatures />
+    <PageWebsiteIndexComingSoon class="my-30" />
+    <PageWebsiteIndexPricing />
   </UPage>
 </template>

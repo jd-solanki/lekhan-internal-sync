@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { ProductPriceFixed } from '@polar-sh/sdk/models/components/productpricefixed'
-
 definePageMeta({
   search: {
     label: 'Billing',
@@ -9,6 +7,15 @@ definePageMeta({
 })
 
 const { data: products } = await useFetch('/api/polar/products')
+const product = computed(() => products.value?.result.items[0])
+
+if (!product.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'No products found',
+  })
+}
+
 const paymentsStore = usePaymentsStore()
 
 // Ensure customer state is loaded and authenticated user is customer
@@ -20,34 +27,10 @@ if (!paymentsStore.customerState?.id) {
   })
 }
 
-const { data: userOrders } = await useFetch('/api/polar/orders', {
-  query: {
-    customerId: paymentsStore.customerState.id,
-    productId: products.value?.result.items[0]?.id,
-  },
-})
-
-const userOrder = computed(() => userOrders.value?.result.items[0])
-
-const isPaymentInProgress = ref(false)
-const withLoading = createWithLoading(isPaymentInProgress)
-
-async function buyProduct(productId: string) {
-  await paymentsStore.createCheckoutSession(productId)
-}
-
-function extractProductFeaturesFromMetadata(metadata: any) {
-  // Loop over metadata keys and if key starts with 'feature_' then its a feature
-  return Object.keys(metadata).reduce((features: string[], key) => {
-    if (key.startsWith('feature_')) {
-      features.push(metadata[key])
-    }
-    return features
-  }, [])
-}
-
-const hasPurchasedProduct = computed(() => {
-  return !!userOrders.value?.result.items.length
+const hasPurchasedProduct = await paymentsStore.hasPurchasedProduct(product.value.id)
+const userOrders = await paymentsStore.fetchUserOrdersForProduct(product.value.id)
+const userOrder = computed(() => {
+  return userOrders?.result.items[0] || null
 })
 </script>
 
@@ -58,7 +41,7 @@ const hasPurchasedProduct = computed(() => {
       description="Manage your billing information here."
     />
     <UAlert
-      v-if="!userOrder"
+      v-if="!hasPurchasedProduct"
       color="info"
       icon="i-lucide-shopping-bag"
       variant="subtle"
@@ -67,40 +50,7 @@ const hasPurchasedProduct = computed(() => {
       description="Demo is using sandbox environment so you can test without real payments using dummy credit card number."
     />
     <div class="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
-      <UPricingPlans>
-        <UPricingPlan
-          v-for="product in products?.result.items"
-          :key="product.id"
-          :ui="{ title: 'text-2xl!', root: 'p-8!', footer: userOrder ? 'items-start' : '' }"
-          :title="product.name"
-          :description="product.description || undefined"
-          :price="formatPolarAmount((product.prices[0] as unknown as ProductPriceFixed).priceAmount)"
-          :features="extractProductFeaturesFromMetadata(product.metadata)"
-          :badge="hasPurchasedProduct ? 'Current Plan' : undefined"
-          v-bind="{
-            ...(
-              !hasPurchasedProduct ? {
-                button: {
-                  label: 'Buy Now',
-                  loadingAuto: true,
-                  disabled: isPaymentInProgress,
-                  onClick: async () => await withLoading(async () => await buyProduct(product.id)),
-                },
-              } : {}
-            ),
-          }"
-        >
-          <template #terms>
-            <div class="flex gap-2 text-pretty text-start text-sm">
-              <UIcon
-                name="i-lucide-shield-check"
-                class="shrink-0 h-[1lh]"
-              />
-              <p>Billing is securely managed via Polar Payment Platform</p>
-            </div>
-          </template>
-        </UPricingPlan>
-      </UPricingPlans>
+      <PaymentPlan />
     </div>
     <div
       v-if="hasPurchasedProduct"
@@ -183,7 +133,7 @@ const hasPurchasedProduct = computed(() => {
               >
                 <UIcon
                   name="i-lucide-check"
-                  class="text-green-500 mt-0.5 flex-shrink-0"
+                  class="text-green-500 mt-0.5 shrink-0"
                 />
                 <span class="text-sm">{{ feature }}</span>
               </li>

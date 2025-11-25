@@ -42,8 +42,12 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignIn>) {
         // If nextAction is checkout & productId is present create checkout session
         if (nextAction) {
           const productId = parsedQuery.value.productId
-          if (nextAction === 'checkout' && productId) {
-            await paymentsStore.createCheckoutSession(productId)
+
+          if (!productId)
+            return
+
+          if (nextAction === 'checkout') {
+            await paymentsStore.buyProduct(productId)
           }
         }
       },
