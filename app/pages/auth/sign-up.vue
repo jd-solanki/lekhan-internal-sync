@@ -114,7 +114,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
 
     <UAlert
       v-if="lastSignInMethod"
-      color="primary"
+      color="info"
       variant="subtle"
       title="Welcome back!"
       description="Looks like you've used our site before. Try signing in instead."
@@ -123,9 +123,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
       <template #actions>
         <UButton
           to="/auth/sign-in"
-          color="primary"
-          variant="link"
-          size="xs"
+          size="sm"
         >
           Sign In
         </UButton>
