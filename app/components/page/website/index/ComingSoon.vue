@@ -4,9 +4,7 @@
 
 <template>
   <div>
-    <h3 class="font-['Kalam'] font-bold text-4xl text-highlighted mb-8">
-      Coming Soon
-    </h3>
+    <WebsiteLandingHeading title="Coming Soon" />
     <div class="grid grid-cols-2 gap-x-16 gap-y-8">
       <UPageFeature
         title="Basic Analytics"

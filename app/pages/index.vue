@@ -2,7 +2,7 @@
 definePageMeta({
   layout: 'website',
   isAuthRequired: false,
-  mainClass: 'bg-(--ui-bg-muted) top-(--app-banner-height,0) dark:bg-black',
+  mainClass: 'top-(--app-banner-height,0)',
 })
 </script>
 

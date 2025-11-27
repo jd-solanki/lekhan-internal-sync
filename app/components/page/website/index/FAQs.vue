@@ -68,9 +68,10 @@ const items: AccordionItem[] = [
 <template>
   <section class="py-16 lg:py-24">
     <div class="container">
-      <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12">
-        FAQs
-      </h2>
+      <WebsiteLandingHeading
+        title="FAQs"
+        class="text-center"
+      />
 
       <div class="max-w-3xl mx-auto">
         <UAccordion
