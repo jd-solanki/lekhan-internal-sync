@@ -5,6 +5,7 @@ import { exhaustive } from './shared/utils/types'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  extends: ['./layers/@launchdayone/core'],
   routeRules: {
     '/docs/': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false },
