@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import env from '~~/shared/libs/env'
+import env from '~~/layers/launchdayone-core/shared/libs/env'
 import EmailComponentCard from '../components/EmailComponentCard.vue'
 
 interface Props {

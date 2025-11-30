@@ -1,0 +1,45 @@
+import type { User } from '~~/layers/launchdayone-auth/server/libs/auth'
+import type { H3Event, H3EventContext } from 'h3'
+import { auth } from '~~/layers/launchdayone-auth/server/libs/auth'
+
+type AuthenticatedEvent = H3Event & {
+  context: H3EventContext & {
+    user: User
+  }
+}
+
+type AdminEvent = AuthenticatedEvent
+
+export function defineAuthenticatedEventHandler<T>(
+  handler: (event: AuthenticatedEvent) => T,
+) {
+  return defineEventHandler(async (event) => {
+    // Fetch session
+    const session = await auth.api.getSession({ headers: event.headers })
+
+    // If user is not authenticated throw 401 error
+    if (!session?.user) {
+      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+    }
+
+    // Assign user to event context so it can be accessed in the handler
+    event.context.user = session?.user
+
+    return handler(event as AuthenticatedEvent)
+  })
+}
+
+export function defineAdminEventHandler<T>(
+  handler: (event: AuthenticatedEvent) => T,
+) {
+  return defineAuthenticatedEventHandler(async (event) => {
+    const user = event.context.user
+
+    // If user is not admin throw 403 error
+    if (user.role !== 'admin') {
+      throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+    }
+
+    return handler(event as AdminEvent)
+  })
+}

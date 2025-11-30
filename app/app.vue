@@ -39,7 +39,7 @@ defineOgImageComponent('NuxtSeo', {
 
       Also as we added v-if for userSession to impersonating banner, it automatically gets removed when admin sign out while impersonating.
     -->
-    <UserImpersonatingBanner v-if="userStore.userSession?.impersonatedBy" />
+    <AuthUserImpersonatingBanner v-if="userStore.userSession?.impersonatedBy" />
     <UBanner
       v-else-if="bannerStore.props.title"
       v-bind="bannerStore.props"

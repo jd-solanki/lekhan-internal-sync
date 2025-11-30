@@ -1,11 +1,9 @@
 import type { SocialProviderId } from './server/libs/auth'
-import env from './shared/libs/env'
-import { CRON_SCHEDULES_PRESET } from './shared/utils/constants'
-import { exhaustive } from './shared/utils/types'
+import env from './layers/launchdayone-core/shared/libs/env'
+import { exhaustive } from './layers/launchdayone-core/shared/utils/types'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  extends: ['./layers/@launchdayone/core'],
   routeRules: {
     '/docs/': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false },
@@ -144,15 +142,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css', '~/assets/css/routerTransitions.css'],
-  icon: {
-    customCollections: [
-      {
-        prefix: 'arrows',
-        dir: './app/assets/icons/arrows',
-      },
-    ],
-  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
@@ -179,17 +168,12 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
+      '../layers/*/app/stores/*.ts', // INFO: We added this because nuxt was not auto importing stores from layers
       '../shared/schemas/**',
       './libs/auth/index.ts',
     ],
   },
   nitro: {
-    experimental: {
-      tasks: true,
-    },
-    scheduledTasks: {
-      [CRON_SCHEDULES_PRESET.EVERY_DAY]: ['liftBan'],
-    },
     imports: {
       dirs: [
         'shared/schemas/**/*',

@@ -1,4 +1,4 @@
-import env from '../../shared/libs/env'
+import env from '../launchdayone-core/shared/libs/env'
 
 export default defineNuxtConfig({
   runtimeConfig: {

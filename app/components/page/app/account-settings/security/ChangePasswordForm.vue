@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
-import type { SocialProviderId } from '~~/server/libs/auth'
+import type { SocialProviderId } from '~~/layers/launchdayone-auth/server/libs/auth'
 import type { SchemaChangePassword } from '~~/shared/schemas/auth'
 import { useToggle } from '@vueuse/core'
 import { schemaChangePassword } from '~~/shared/schemas/auth'

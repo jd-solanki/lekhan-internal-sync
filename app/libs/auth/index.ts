@@ -1,5 +1,5 @@
 import type { Simplify } from 'type-fest'
-import type { auth } from '~~/server/libs/auth'
+import type { auth } from '~~/layers/launchdayone-auth/server/libs/auth'
 import { polarClient } from '@polar-sh/better-auth'
 import { adminClient, inferAdditionalFields, lastLoginMethodClient, magicLinkClient } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/vue'

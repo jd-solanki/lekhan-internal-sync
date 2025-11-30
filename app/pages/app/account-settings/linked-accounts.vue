@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SocialProviderId } from '~~/server/libs/auth'
+import type { SocialProviderId } from '~~/layers/launchdayone-auth/server/libs/auth'
 import { authClient } from '~/libs/auth'
 
 definePageMeta({

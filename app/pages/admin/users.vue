@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
 import type { Table as TanStackTable } from '@tanstack/vue-table'
-import type { User } from '~~/server/libs/auth'
+import type { User } from '~~/layers/launchdayone-auth/server/libs/auth'
 import { PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import { createReusableTemplate } from '@vueuse/core'
 import * as z from 'zod'
-import { encodeSortingQuery } from '~~/shared/utils/formatters'
+import { encodeSortingQuery } from '~~/layers/launchdayone-core/shared/utils/formatters'
 
 definePageMeta({
   isAdminOnly: true,

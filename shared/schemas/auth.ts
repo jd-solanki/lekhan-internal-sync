@@ -1,7 +1,7 @@
 import { z } from 'zod/v4'
-import { plainPasswordSchema } from '.'
 import { dbUserInsertSchema } from './db/user'
 import { dbVerificationInsertSchema } from './db/verification'
+import { plainPasswordSchema } from './index'
 
 // Sign Up
 export const schemaSignUp = z.strictObject({

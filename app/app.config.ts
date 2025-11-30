@@ -32,9 +32,9 @@ export default defineAppConfig({
     card: {
       slots: {
         root: 'py-4 sm:*:py-6',
-        header: '!py-0',
-        body: '!py-0',
-        footer: '!py-0',
+        header: 'py-0!',
+        body: 'py-0!',
+        footer: 'py-0!',
       },
       variants: {
         variant: {
