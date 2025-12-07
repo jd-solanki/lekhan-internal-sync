@@ -1,6 +1,6 @@
-import { partialParse } from '~~/layers/launchdayone-core/shared/utils/validation'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import * as z from 'zod'
+import { partialParse } from '~~/layers/base/shared/utils/validation'
 
 describe('partialParse', () => {
   describe('runtime behavior', () => {

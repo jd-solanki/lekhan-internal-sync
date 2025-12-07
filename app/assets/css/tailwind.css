@@ -1,0 +1,3 @@
+/* NOTE: We created separate tailwind.css because when using @source we can't have other styles in same file */
+@import "tailwindcss";
+@source "../../../layers/**";

@@ -2,7 +2,7 @@
     "Import EnvSchema": {
         "prefix": "ienvschema",
         "body": [
-            "import env from '~~/layers/launchdayone-core/shared/libs/env'"
+            "import env from '~~/shared/libs/env'"
         ],
         "description": "Import EnvSchema"
     },

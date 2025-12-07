@@ -1,6 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
   const runtimeConfig = useRuntimeConfig()
 
+  // TODO: Create generic middleware which accepts defaults from runtimeConfig in base layer
   // Set default values for route meta properties
   if (to.meta) {
     to.meta.isAdminOnly = to.meta.isAdminOnly ?? false

@@ -1,7 +1,7 @@
-import env from '~~/layers/launchdayone-core/shared/libs/env'
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import * as schema from './schemas/tables'
+import env from '~~/shared/libs/env'
+import * as schema from '../../layers/auth/server/db/schemas/tables'
 import 'dotenv/config'
 
 const client = postgres(

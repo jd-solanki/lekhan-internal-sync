@@ -1,5 +1,5 @@
-import env from '~~/layers/launchdayone-core/shared/libs/env'
 import { defineConfig } from 'drizzle-kit'
+import env from '~~/shared/libs/env'
 import 'dotenv/config'
 
 export default defineConfig({

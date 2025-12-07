@@ -1,9 +1,10 @@
 import type { SocialProviderId } from './server/libs/auth'
-import env from './layers/launchdayone-core/shared/libs/env'
-import { exhaustive } from './layers/launchdayone-core/shared/utils/types'
+import { exhaustive } from './layers/base/shared/utils/types'
+import env from './shared/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  css: ['~/assets/css/main.css'],
   routeRules: {
     '/docs/': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false },
@@ -83,6 +84,7 @@ export default defineNuxtConfig({
       },
     },
 
+    // INFO: Types are defined in `index.d.ts`
     public: {
       // Server Config
       server: {
@@ -118,12 +120,12 @@ export default defineNuxtConfig({
         auth: {
           socialProviders: exhaustive<SocialProviderId>()([
             {
-              id: 'google' satisfies SocialProviderId,
+              id: 'google',
               name: 'Google',
               icon: 'i-logos-google-icon',
             },
             {
-              id: 'github' satisfies SocialProviderId,
+              id: 'github',
               name: 'GitHub',
               icon: 'i-logos-github-icon',
               iconClass: 'dark:invert',
@@ -168,17 +170,26 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
-      '../layers/*/app/stores/*.ts', // INFO: We added this because nuxt was not auto importing stores from layers
+      // Shared schemas of app & layers
       '../shared/schemas/**',
-      './libs/auth/index.ts',
+      '../layers/*/shared/schemas/**',
+
+      // INFO: We added this because nuxt was not auto importing stores from layers
+      '../layers/*/app/stores/*.ts',
     ],
   },
   nitro: {
     imports: {
       dirs: [
-        'shared/schemas/**/*',
-        'server/utils/**/*',
         'server/db/index',
+
+        // Utils of app & layers
+        'server/utils/**/*',
+        'layers/*/server/utils/**/*',
+
+        // Shared schemas of app & layers
+        'shared/schemas/**/*',
+        'layers/*/shared/schemas/**/*',
       ],
     },
     storage: {
