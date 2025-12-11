@@ -56,7 +56,7 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
       {
         label: 'Theme',
         icon: 'i-lucide-moon',
-        children: appConfig.layout.default.themePreferences,
+        children: appConfig.themePreferences,
       },
     ],
     [
