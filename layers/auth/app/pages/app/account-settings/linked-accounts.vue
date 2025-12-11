@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { SocialProviderId } from '~~/layers/auth/server/libs/auth'
-import { authClient } from '~/libs/auth'
 
 definePageMeta({
   search: {

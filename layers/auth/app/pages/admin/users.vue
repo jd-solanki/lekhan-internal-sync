@@ -5,7 +5,6 @@ import type { User } from '~~/layers/auth/server/libs/auth'
 import { PageAdminUsersBanUserModal, PageAdminUsersCreateUserModal, UIcon } from '#components'
 import { createReusableTemplate } from '@vueuse/core'
 import * as z from 'zod'
-import { encodeSortingQuery } from '~~/layers/base/shared/utils/formatters'
 
 definePageMeta({
   isAdminOnly: true,

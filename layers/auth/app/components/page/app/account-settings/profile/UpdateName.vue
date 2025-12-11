@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
-import type { SchemaUpdateProfile } from '~~/shared/schemas/auth'
-import { schemaUpdateProfile } from '~~/shared/schemas/auth'
-import { authClient } from '~/libs/auth'
 
 const { errorToast, successToast } = useToastMessage()
 const userStore = useUserStore()

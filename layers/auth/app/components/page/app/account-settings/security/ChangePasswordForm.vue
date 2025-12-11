@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
-import type { SchemaChangePassword } from '~~/shared/schemas/auth'
 import { useToggle } from '@vueuse/core'
-import { schemaChangePassword } from '~~/shared/schemas/auth'
-import { authClient } from '~/libs/auth'
 
 const [isCurrentPasswordVisible, toggleCurrentPasswordVisibility] = useToggle(false)
 const [isNewPasswordVisible, toggleNewPasswordVisibility] = useToggle(false)

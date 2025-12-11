@@ -1,7 +1,4 @@
-import type { SocialProviderId } from '~~/layers/auth/server/libs/auth'
-import type { SchemaForgotPassword, SchemaResetPassword, SchemaSignUp } from '~~/shared/schemas/auth'
-import type { User } from '~/libs/auth'
-import { authClient } from '~/libs/auth'
+import type { SocialProviderId, User } from '~~/layers/auth/server/libs/auth'
 
 export const useUserStore = defineStore('user', () => {
   const { errorToast, successToast, infoToast } = useToastMessage()

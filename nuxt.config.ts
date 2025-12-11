@@ -1,4 +1,4 @@
-import type { SocialProviderId } from './server/libs/auth'
+import type { SocialProviderId } from './layers/auth/server/libs/auth'
 import { exhaustive } from './layers/base/shared/utils/types'
 import env from './shared/libs/env'
 

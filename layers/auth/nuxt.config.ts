@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
+      'libs/auth', // authClient
       '../shared/schemas/**', // Shared schemas
     ],
   },
