@@ -22,8 +22,11 @@ import { partialParse } from '~~/layers/base/shared/utils/validation'
  * // Reactive query object that updates with route changes
  * ```
  */
-export function useParsedQuery<T extends z.ZodRawShape, D extends Partial<z.infer<z.ZodObject<T>>>>(
-  zodSchema: z.ZodObject<T>,
+export function useParsedQuery<
+  S extends z.ZodRawShape,
+  D extends Partial<z.input<z.ZodObject<S>>>,
+>(
+  zodSchema: z.ZodObject<S>,
   defaults?: D,
   options?: { route?: ReturnType<typeof useRoute> },
 ) {

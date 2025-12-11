@@ -1,4 +1,4 @@
-import type { MergeDeep, OptionalKeysOf, SimplifyDeep } from 'type-fest'
+import type { OptionalKeysOf, Simplify } from 'type-fest'
 import type * as z from 'zod'
 
 /**
@@ -58,17 +58,19 @@ import type * as z from 'zod'
  * // { page: 1 } - runtime default used because 'invalid' failed validation
  * ```
  */
-export function partialParse<T extends z.ZodRawShape, D extends Partial<z.input<z.ZodObject<T>>>>(
-  schema: z.ZodObject<T>,
+export function partialParse<
+  S extends z.ZodRawShape,
+  D extends Partial<z.input<z.ZodObject<S>>>,
+>(
+  schema: z.ZodObject<S>,
   data: Record<string, unknown>,
   defaults?: D,
-): SimplifyDeep<MergeDeep<
-  Partial<z.infer<z.ZodObject<T>>>,
-  MergeDeep<
-    { [x in keyof D]: D[x] },
-    Pick<z.infer<z.ZodObject<T>>, OptionalKeysOf<z.input<z.ZodObject<T>>>>
-  >
->> {
+): Simplify<
+  Partial<z.infer<z.ZodObject<S>>>
+  & D
+  & Pick<z.infer<z.ZodObject<S>>, OptionalKeysOf<z.input<z.ZodObject<S>>
+  >>
+> {
   const result: Record<string, unknown> = {}
 
   // Get the shape of the schema to iterate over each field
@@ -106,7 +108,7 @@ export function partialParse<T extends z.ZodRawShape, D extends Partial<z.input<
     }
   }
 
-  return result as MergeDeep<Partial<z.infer<z.ZodObject<T>>>, { [x in keyof D]: D[x] }>
+  return result
 }
 
 export function extractDefaultValuesFromSchema<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
