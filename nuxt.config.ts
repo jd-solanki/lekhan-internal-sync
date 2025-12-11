@@ -105,6 +105,20 @@ export default defineNuxtConfig({
           verifyEmail: '/auth/verify-email',
           billing: '/app/billing',
         },
+        /*
+        Default values for route meta properties.
+        Based on runtime configuration of `isEmailVerificationRequiredForAccess`,
+        set the default value for `isEmailVerificationRequired` in route meta.
+
+        If `isEmailVerificationRequiredForAccess` is true, then `isEmailVerificationRequired` will also be true by default.
+        If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
+        */
+        routeMetaDefaults: {
+          isAdminOnly: false,
+          isAuthRequired: true,
+          redirectIfSignedIn: false,
+          isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
+        },
       },
 
       // Shared across server & app

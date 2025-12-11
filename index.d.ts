@@ -46,6 +46,12 @@ declare module 'nuxt/schema' {
         verifyEmail: string
         billing: string
       }
+      routeMetaDefaults: {
+        isAdminOnly: boolean
+        isAuthRequired: boolean
+        redirectIfSignedIn: boolean
+        isEmailVerificationRequired: boolean
+      }
     }
     shared: {
       aws: {

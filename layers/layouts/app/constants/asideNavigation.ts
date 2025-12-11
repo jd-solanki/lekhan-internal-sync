@@ -1,5 +1,5 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
-import appConfig from '../app.config'
+import appConfig from '~~/app/app.config'
 
 export const navigationItems: NavigationMenuItem[] = [
   {
