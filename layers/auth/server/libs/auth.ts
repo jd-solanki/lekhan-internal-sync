@@ -9,7 +9,7 @@ import { sendEmail } from '~~/layers/email/server/utils/email'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
 import { db } from '~~/server/db'
 import { user as userTable } from '~~/server/db/schemas/tables'
-import env from '~~/shared/libs/env'
+import env from '~~/server/libs/env'
 
 const runtimeConfig = useRuntimeConfig()
 

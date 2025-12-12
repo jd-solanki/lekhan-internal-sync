@@ -1,4 +1,4 @@
-import env from '../../shared/libs/env'
+import env from '../../server/libs/env'
 
 export default defineNuxtConfig({
   runtimeConfig: {

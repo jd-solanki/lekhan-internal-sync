@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import env from '~~/shared/libs/env'
+import env from '~~/server/libs/env'
 import EmailComponentCard from '../components/EmailComponentCard.vue'
 
 interface Props {

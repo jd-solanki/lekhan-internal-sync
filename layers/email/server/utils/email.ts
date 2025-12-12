@@ -3,7 +3,7 @@ import { createEmailService } from 'unemail'
 import awsSesProvider from 'unemail/providers/aws-ses'
 import resendProvider from 'unemail/providers/resend'
 import smtpProvider from 'unemail/providers/smtp'
-import env from '~~/shared/libs/env'
+import env from '~~/server/libs/env'
 
 let emailService: ReturnType<typeof createEmailService> | null = null
 type EmailOptions = Parameters<(ReturnType<typeof getEmailService>)['sendEmail']>[0]

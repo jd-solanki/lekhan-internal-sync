@@ -1,6 +1,6 @@
 import type { SocialProviderId } from './layers/auth/server/libs/auth'
 import { exhaustive } from './layers/base/shared/utils/types'
-import env from './shared/libs/env'
+import env from './server/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
