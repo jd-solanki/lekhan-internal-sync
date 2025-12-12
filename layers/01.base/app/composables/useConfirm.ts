@@ -1,4 +1,4 @@
-import type { ConfirmModalProps } from '~~/layers/base/app/components/ConfirmModal.vue'
+import type { ConfirmModalProps } from '~~/layers/01.base/app/components/ConfirmModal.vue'
 import { ConfirmModal } from '#components'
 
 export function useConfirm(modalProps: ConfirmModalProps) {

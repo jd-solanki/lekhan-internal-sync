@@ -8,7 +8,7 @@
         <!-- Image -->
         <div class="w-full md:w-[360px] h-[360px] shrink-0 rounded-lg overflow-hidden">
           <img
-            src="/images/ajaybhai-and-vrushankbhai.png"
+            src="/images/landing/ajaybhai-and-vrushankbhai.png"
             alt="Testimonial"
             class="w-full mask-radial-farthest-side mask-radial-from-100% mask-radial-at-[30%_30%] h-full object-cover"
           >

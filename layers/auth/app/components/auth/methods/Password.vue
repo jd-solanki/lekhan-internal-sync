@@ -2,7 +2,7 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { breakpointsTailwind, useBreakpoints, useMounted, useToggle } from '@vueuse/core'
 import * as z from 'zod'
-import { redirectUrlSchema } from '~~/layers/base/shared/schemas'
+import { redirectUrlSchema } from '~~/layers/01.base/shared/schemas'
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')

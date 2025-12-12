@@ -1,4 +1,4 @@
-import { CRON_SCHEDULES_PRESET } from '../base/shared/utils/constants'
+import { CRON_SCHEDULES_PRESET } from '../01.base/shared/utils/constants'
 
 export default defineNuxtConfig({
   icon: {

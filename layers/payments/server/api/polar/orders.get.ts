@@ -1,5 +1,4 @@
 import * as z from 'zod'
-import { paginationSchema } from '~~/layers/base/shared/schemas/pagination'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
 
 const querySchema = paginationSchema.extend({

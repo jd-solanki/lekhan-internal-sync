@@ -1,5 +1,5 @@
 import { inet, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '~~/layers/base/server/db/schemas/mixins'
+import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '~~/layers/01.base/server/db/schemas/mixins'
 import { user } from '.'
 
 export const session = pgTable('session', {
