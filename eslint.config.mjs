@@ -1,5 +1,6 @@
 // @ts-check
 import antfu from '@antfu/eslint-config'
+import pluginCasePolice from 'eslint-plugin-case-police'
 import harlanzw from 'eslint-plugin-harlanzw'
 import regexPlugin from 'eslint-plugin-regex'
 import withNuxt from './.nuxt/eslint.config.mjs'
@@ -25,10 +26,13 @@ export default withNuxt(
   // Add regex plugin for custom rules
   {
     plugins: {
-      regex: regexPlugin,
+      'case-police': pluginCasePolice,
+      'regex': regexPlugin,
       harlanzw,
     },
     rules: {
+      'case-police/string-check': 'warn',
+
       'harlanzw/link-ascii-only': 'error',
       'harlanzw/link-lowercase': 'error',
       'harlanzw/link-no-double-slashes': 'error',

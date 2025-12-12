@@ -144,6 +144,9 @@ importers:
       drizzle-kit:
         specifier: ^0.31.8
         version: 0.31.8
+      eslint-plugin-case-police:
+        specifier: ^2.1.1
+        version: 2.1.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-harlanzw:
         specifier: ^0.1.0
         version: 0.1.0(eslint@9.39.1(jiti@2.6.1))
@@ -4080,6 +4083,10 @@ packages:
   caniuse-lite@1.0.30001755:
     resolution: {integrity: sha512-44V+Jm6ctPj7R52Na4TLi3Zri4dWUljJd+RDm+j8LtNCc/ihLCT+X1TzoOAkRETEWqjuLnh9581Tl80FvK7jVA==}
 
+  case-police@2.1.1:
+    resolution: {integrity: sha512-b7ntnoig2aVgKDi/OiziUPmbUQO4lVS0qxspY4Fu+U/N8q2iOU2TpsJjHu94S3GDWEjYnmOOQH7PAgt2ColTPQ==}
+    hasBin: true
+
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
 
@@ -4990,6 +4997,11 @@ packages:
     resolution: {integrity: sha512-7Q+NhwLfHJFvopI2HBZbSxWXngTwBLKxW1AGXLr2lEGxcEIK/AsDs8pn8fvIizl5aZjBbVbVK5ujmMpBe4Tvdg==}
     peerDependencies:
       eslint: '*'
+
+  eslint-plugin-case-police@2.1.1:
+    resolution: {integrity: sha512-DAQJUJOSUZ5Z8BXLb4E6ZUcyWJq6jWcpKNuGQ4cgLa6MlXVJs6smajkKZyyQwG9pXomOwnn6JKfUfy8JrM6+BA==}
+    peerDependencies:
+      eslint: ^9.9.0
 
   eslint-plugin-command@3.3.1:
     resolution: {integrity: sha512-fBVTXQ2y48TVLT0+4A6PFINp7GcdIailHAXbvPBixE7x+YpYnNQhFZxTdvnb+aWk+COgNebQKen/7m4dmgyWAw==}
@@ -13359,6 +13371,8 @@ snapshots:
 
   caniuse-lite@1.0.30001755: {}
 
+  case-police@2.1.1: {}
+
   ccount@2.0.1: {}
 
   chai@6.2.1: {}
@@ -14149,6 +14163,16 @@ snapshots:
   eslint-plugin-antfu@3.1.1(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.1(jiti@2.6.1)
+
+  eslint-plugin-case-police@2.1.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@typescript-eslint/utils': 8.49.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      case-police: 2.1.1
+      eslint: 9.39.1(jiti@2.6.1)
+      synckit: 0.11.11
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   eslint-plugin-command@3.3.1(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
