@@ -168,6 +168,7 @@ export default defineNuxtConfig({
     'nuxt-email-renderer',
     '@nuxt/content',
     '@nuxtjs/seo',
+    '@nuxt/hints',
   ],
   features: {
     devLogs: true,
