@@ -1,7 +1,7 @@
 import type { Simplify } from 'type-fest'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
-import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { betterAuth } from 'better-auth/minimal'
 import { admin, createAuthMiddleware, lastLoginMethod, magicLink } from 'better-auth/plugins'
 import { eq } from 'drizzle-orm'
 import * as z from 'zod'
@@ -219,7 +219,7 @@ export const auth = betterAuth({
   }),
   advanced: {
     database: {
-      useNumberId: true,
+      generateId: 'serial', // Use serial for auto incrementing integer IDs
     },
   },
 })
