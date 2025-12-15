@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     customCollections: [
       {
         prefix: 'arrows',
-        dir: './app/assets/icons/arrows',
+        dir: 'layers/auth/app/assets/icons/arrows', // Requires path from root dir
       },
     ],
   },
