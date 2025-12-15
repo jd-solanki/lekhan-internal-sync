@@ -1,7 +1,8 @@
 import type { Simplify } from 'type-fest'
 import type { auth } from '~~/layers/auth/server/libs/auth'
-import { polarClient } from '@polar-sh/better-auth'
+import { polarClient } from '@polar-sh/better-auth/client' // https://github.com/better-auth/better-auth/issues/5539#issuecomment-3646695288
 import { adminClient, inferAdditionalFields, lastLoginMethodClient, magicLinkClient } from 'better-auth/client/plugins'
+
 import { createAuthClient } from 'better-auth/vue'
 
 export const authClient = createAuthClient({
