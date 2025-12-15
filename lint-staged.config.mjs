@@ -4,5 +4,5 @@
  */
 export default {
   '*': stagedFiles => `eslint ${stagedFiles.join(' ')}`,
-  '*.{vue,js,jsx,ts,tsx}': () => 'pnpm typecheck',
+  // '*.{vue,js,jsx,ts,tsx}': () => 'pnpm typecheck', // Disabled due to several vue-tsc issues with nuxt layers
 }
