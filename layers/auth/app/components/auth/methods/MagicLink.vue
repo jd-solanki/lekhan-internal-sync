@@ -55,6 +55,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
             :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
             variant="outline"
             :icon="provider.icon"
+            color="neutral"
             block
             :disabled="userStore.isLoading"
             loading-auto

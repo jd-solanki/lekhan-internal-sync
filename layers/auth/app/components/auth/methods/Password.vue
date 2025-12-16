@@ -91,6 +91,7 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
             :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
             variant="outline"
             :icon="provider.icon"
+            color="neutral"
             block
             :disabled="userStore.isLoading"
             loading-auto
