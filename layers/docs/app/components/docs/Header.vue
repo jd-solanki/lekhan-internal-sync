@@ -1,51 +1,22 @@
 <script lang="ts" setup>
 import type { ContentNavigationItem } from '@nuxt/content'
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { ButtonProps } from '@nuxt/ui'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 defineProps<{
   navigation: ContentNavigationItem[] | undefined
 }>()
 
-const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
 
-const links = computed(() => appConfig.github && appConfig.github.url
-  ? [
-      {
-        'icon': 'i-simple-icons-github',
-        'to': appConfig.github.url,
-        'target': '_blank',
-        'aria-label': 'GitHub',
-      },
-    ]
-  : [])
-
-const items = computed<NavigationMenuItem[]>(() => [
-  {
-    label: 'App',
-    to: '/app',
-    target: '_blank',
-  },
-  {
-    label: 'Changelog',
-    to: '/docs/changelog',
-    // target: '_blank',
-  },
-  {
-    label: 'Releases',
-    to: `${appConfig.github.url}/releases`,
-    target: '_blank',
-  },
-  {
-    label: 'Support',
-    to: appConfig.socials.discord,
-    target: '_blank',
-  },
-])
+// INFO: You can use computed to dynamically generate links based on props or other state.
+//  E.g. DIsplaying GitHub link if provided in appConfig.
+const links: ButtonProps[] = [
+  // Your links here
+]
 </script>
 
 <template>
@@ -53,7 +24,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     :title="runtimeConfig.public.app.name"
     to="/docs/getting-started"
   >
-    <UNavigationMenu :items="items" />
+    <UNavigationMenu />
 
     <template #right>
       <ClientOnly>
