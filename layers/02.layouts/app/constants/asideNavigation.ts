@@ -8,11 +8,6 @@ export const navigationItems: NavigationMenuItem[] = [
     icon: 'lucide:home',
   },
   {
-    label: 'Playground',
-    to: '/app/playground',
-    icon: 'lucide:gamepad-2',
-  },
-  {
     label: 'Billing',
     to: '/app/billing',
     icon: 'lucide:credit-card',

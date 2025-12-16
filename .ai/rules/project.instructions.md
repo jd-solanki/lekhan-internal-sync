@@ -24,7 +24,7 @@ LaunchDayOne is a production‑ready Nuxt.js SaaS boilerplate to help you ship f
   - Compatible with managed Postgres (Neon, Vercel Postgres, Supabase). Turso/SQLite is possible with Drizzle, but this template targets Postgres.
 - App structure & UX
   - Nuxt 4, typed pages, route middleware for auth and redirects, Pinia stores, and Nuxt UI components.
-  - Example pages for auth and an app area (dashboard, billing, payments, playground).
+  - Example pages for auth and an app area (dashboard, billing, payments).
 
 ## Tech stack snapshot
 - Nuxt 4, Vue 3, Nitro, Vite
