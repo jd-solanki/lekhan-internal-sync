@@ -28,7 +28,7 @@ jobs:
           # Insert issue URLs into comments
           INSERT_ISSUE_URLS: 'true'
 
-          # allow issues to be closed when a TODO is removed
+          # allow issues to be closed when a it is removed
           CLOSE_ISSUES: 'true'
 
           # Automatically assign new issues to the user who triggered the action
