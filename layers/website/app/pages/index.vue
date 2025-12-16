@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'blank',
+  layout: 'website',
   isAuthRequired: false,
+  search: false,
 })
 </script>
 
