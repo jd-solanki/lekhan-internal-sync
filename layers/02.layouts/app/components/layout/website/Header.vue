@@ -6,6 +6,5 @@ const runtimeConfig = useRuntimeConfig()
   <UHeader
     :title="runtimeConfig.public.app.name"
     to="/"
-    :ui="{ right: 'gap-3' }"
   />
 </template>
