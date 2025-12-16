@@ -4,8 +4,6 @@ definePageMeta({
   isAuthRequired: false,
 })
 
-const runtimeConfig = useRuntimeConfig()
-
 const route = useRoute()
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('legal').path(route.path).first()
@@ -21,9 +19,6 @@ if (!page.value) {
     <UPageHeader :title="page.title" />
 
     <!-- INFO: Pass runtimeConfig to markdown  -->
-    <ContentRenderer
-      :value="page"
-      :data="{ runtimeConfig }"
-    />
+    <ContentRenderer :value="page" />
   </UPage>
 </template>
