@@ -56,9 +56,6 @@ const EnvSchema = z.object({
   POLAR_DASHBOARD_URL: z.url(),
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
-
-  // Legal
-  NUXT_PUBLIC_OWNER_NAME: z.string(),
 })
   .refine(
     data => data.NODE_ENV === 'production'
