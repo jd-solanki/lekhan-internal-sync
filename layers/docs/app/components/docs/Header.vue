@@ -21,6 +21,7 @@ const links: ButtonProps[] = [
 
 <template>
   <!-- TODO: Why `routeRules.appMiddleware['auth-global'] = false` doesn't work? -->
+  <!-- Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/113 -->
   <!-- NOTE: Avoid using "/docs" as home to prevent auth middleware redirecting to sign in page for unauthenticated users -->
   <UHeader
     :title="runtimeConfig.public.app.name"
