@@ -78,6 +78,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
       <UFormField
         label="Email"
         name="email"
+        help="Sign in link will be sent to this email"
       >
         <UInput
           v-model="state.email"
@@ -102,7 +103,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
             :disabled="userStore.isLoading"
             loading-auto
           >
-            Send Magic Link
+            Continue with Email
           </UButton>
         </UChip>
       </AuthLastSignInIndicator>
