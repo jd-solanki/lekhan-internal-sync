@@ -20,9 +20,11 @@ const links: ButtonProps[] = [
 </script>
 
 <template>
+  <!-- TODO: Why `routeRules.appMiddleware['auth-global'] = false` doesn't work? -->
+  <!-- NOTE: Avoid using "/docs" as home to prevent auth middleware redirecting to sign in page for unauthenticated users -->
   <UHeader
     :title="runtimeConfig.public.app.name"
-    to="/docs/getting-started"
+    to="/docs/getting-started/introduction"
   >
     <UNavigationMenu />
 
