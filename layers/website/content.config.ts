@@ -5,7 +5,7 @@ export default defineContentConfig({
     legal: defineCollection({
       type: 'page',
       source: {
-        include: 'legal/**.md',
+        include: 'legal/**',
       },
     }),
   },
