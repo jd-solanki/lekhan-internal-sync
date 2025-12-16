@@ -6,7 +6,7 @@ import env from './server/libs/env'
 export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   routeRules: {
-    '/docs/': { redirect: '/docs/getting-started/introduction' },
+    '/docs': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false },
     '/app/**': { robots: false },
     '/polar/customer-portal': { robots: false },

@@ -7,7 +7,6 @@ definePageMeta({
   isAuthRequired: false,
 })
 
-const appConfig = useAppConfig()
 const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
 const route = useRoute()
@@ -29,24 +28,6 @@ if (!page.value) {
 const headline = ref(findPageHeadline(navigation?.value, page.value?.path))
 watch(() => navigation?.value, () => {
   headline.value = findPageHeadline(navigation?.value, page.value?.path) || headline.value
-})
-
-// Edit & Report Issue Links
-const github = computed(() => appConfig.github ? appConfig.github : null)
-
-const editLink = computed(() => {
-  if (!github.value) {
-    return
-  }
-
-  return [
-    github.value.url,
-    'edit',
-    github.value.branch,
-    github.value.rootDir,
-    'content',
-    `${page.value?.stem}.${page.value?.extension}`,
-  ].filter(Boolean).join('/')
 })
 </script>
 
@@ -77,35 +58,6 @@ const editLink = computed(() => {
         v-if="page"
         :value="page"
       />
-
-      <USeparator>
-        <div
-          v-if="github"
-          class="flex items-center gap-2 text-sm text-muted"
-        >
-          <UButton
-            variant="link"
-            color="neutral"
-            :to="editLink"
-            target="_blank"
-            icon="i-lucide-pen"
-            :ui="{ leadingIcon: 'size-4' }"
-          >
-            Edit this page
-          </UButton>
-          <span>or</span>
-          <UButton
-            variant="link"
-            color="neutral"
-            :to="`${github.url}/issues/new/choose`"
-            target="_blank"
-            icon="i-lucide-alert-circle"
-            :ui="{ leadingIcon: 'size-4' }"
-          >
-            Report an issue
-          </UButton>
-        </div>
-      </USeparator>
       <UContentSurround :surround="surround" />
     </UPageBody>
 

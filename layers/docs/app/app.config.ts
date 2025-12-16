@@ -13,4 +13,7 @@ export default defineAppConfig({
       },
     },
   },
+  socials: {
+    x: 'https://x.com/me_jd_solanki',
+  },
 })
