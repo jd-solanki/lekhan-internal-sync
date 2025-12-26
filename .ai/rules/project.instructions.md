@@ -1,7 +1,7 @@
-# LaunchDayOne — Project Introduction & Goals
+# NuxtStart — Project Introduction & Goals
 
 ## What this project is
-LaunchDayOne is a production‑ready Nuxt.js SaaS boilerplate to help you ship fast. It gives you a secure, opinionated foundation for auth, billing, data, UI, and developer workflows so you can focus on product value instead of setup.
+NuxtStart is a production‑ready Nuxt.js SaaS boilerplate to help you ship fast. It gives you a secure, opinionated foundation for auth, billing, data, UI, and developer workflows so you can focus on product value instead of setup.
 
 ## Primary goals
 - Accelerate new SaaS projects with a ready‑to‑use Nuxt codebase and clear patterns.
@@ -41,4 +41,4 @@ LaunchDayOne is a production‑ready Nuxt.js SaaS boilerplate to help you ship f
 - Simple provider swaps for email and database hosting without changing calling code.
 - Guardrails around auth (e.g., email verification before enabling social sign‑in) and sensible redirects.
 
-In short: LaunchDayOne is a secure, batteries‑included Nuxt SaaS baseline—auth, billing, data, and UI—so day one can be about your product, not setup.
+In short: NuxtStart is a secure, batteries‑included Nuxt SaaS baseline—auth, billing, data, and UI—so day one can be about your product, not setup.
