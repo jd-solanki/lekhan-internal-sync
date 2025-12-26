@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '/polar/success': { robots: false },
   },
   // TODO: Avoid copying public `logo.svg` to `app/assets/icons/app`
+  // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/122
   icon: {
     customCollections: [
       {
