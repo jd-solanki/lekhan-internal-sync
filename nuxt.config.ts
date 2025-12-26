@@ -43,6 +43,7 @@ export default defineNuxtConfig({
   seo: {
     meta: {
       description: 'Production ready Nuxt.js SaaS boilerplate to launch your SaaS app faster.',
+      // INFO: It's recommended to update these colors to match your brand identity
       themeColor: [
         { content: '#fff', media: '(prefers-color-scheme: dark)' },
         { content: '#000', media: '(prefers-color-scheme: light)' },
@@ -113,7 +114,7 @@ export default defineNuxtConfig({
         If `isEmailVerificationRequiredForAccess` is true, then `isEmailVerificationRequired` will also be true by default.
         If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
         */
-        routeMetaDefaults: {
+        pageMetaDefaults: {
           isAdminOnly: false,
           isAuthRequired: true,
           redirectIfSignedIn: false,

@@ -46,7 +46,7 @@ declare module 'nuxt/schema' {
         verifyEmail: string
         billing: string
       }
-      routeMetaDefaults: {
+      pageMetaDefaults: {
         isAdminOnly: boolean
         isAuthRequired: boolean
         redirectIfSignedIn: boolean
