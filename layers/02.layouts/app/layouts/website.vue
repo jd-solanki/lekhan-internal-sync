@@ -7,9 +7,7 @@ const route = useRoute()
     <LayoutWebsiteHeader />
 
     <UMain :class="[route.meta.mainClass]">
-      <UContainer>
-        <slot />
-      </UContainer>
+      <slot />
     </UMain>
 
     <LayoutWebsiteFooter />

@@ -22,6 +22,9 @@ export default withNuxt(
     },
     typescript: true,
     stylistic: {},
+
+    // Disable md linting
+    markdown: false,
   }),
   // Add regex plugin for custom rules
   {

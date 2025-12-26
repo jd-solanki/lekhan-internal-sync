@@ -1,11 +1,15 @@
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { CRON_SCHEDULES_PRESET } from '../01.base/shared/utils/constants'
+
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
   icon: {
     customCollections: [
       {
         prefix: 'arrows',
-        dir: 'layers/auth/app/assets/icons/arrows', // Requires path from root dir
+        dir: join(currentDir, './app/assets/icons/arrows'),
       },
     ],
   },
