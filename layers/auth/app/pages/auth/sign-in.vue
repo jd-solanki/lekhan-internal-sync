@@ -11,6 +11,6 @@ definePageMeta({
 
 <template>
   <div>
-    <AuthMethodsMagicLink />
+    <AuthMethodsPassword />
   </div>
 </template>
