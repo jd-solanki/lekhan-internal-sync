@@ -4,14 +4,10 @@ import env from '~~/server/libs/env'
 import * as schema from '../../layers/auth/server/db/schemas/tables'
 import 'dotenv/config'
 
+// Docs: https://supabase.com/docs/guides/database/drizzle
 const client = postgres(
   env.DATABASE_URL,
   {
-    // ssl: env.NODE_ENV === 'production',
-    ssl: env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-    // ssl: false,
-    // ssl: 'require'
-
     // Disable prefetch as it is not supported for "Transaction" pool mode
     prepare: false,
   },
