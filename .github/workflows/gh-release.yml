@@ -33,4 +33,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🚀 Release
-        run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "Please refer to live [changelog](${{ vars.WEBSITE_URL }}/changelog) for details." --verify-tag
+        run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "Please refer to live [changelog](${{ vars.WEBSITE_URL }}/docs/resources/changelog) for details." --verify-tag

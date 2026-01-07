@@ -2,7 +2,7 @@
 import { withoutTrailingSlash } from 'ufo'
 
 definePageMeta({
-  layout: 'website',
+  layout: 'blog',
   isAuthRequired: false,
 })
 
