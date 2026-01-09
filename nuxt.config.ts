@@ -7,8 +7,8 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   routeRules: {
     '/docs': { redirect: '/docs/getting-started/introduction' },
-    '/admin/**': { robots: false },
-    '/app/**': { robots: false },
+    '/admin/**': { robots: false, ssr: false },
+    '/app/**': { robots: false, ssr: false },
     '/polar/customer-portal': { robots: false },
     '/polar/success': { robots: false },
   },

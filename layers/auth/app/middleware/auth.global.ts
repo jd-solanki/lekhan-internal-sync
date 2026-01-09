@@ -1,5 +1,4 @@
 export default defineNuxtRouteMiddleware(async (to, _) => {
-  const nuxtApp = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
   const userStore = useUserStore()
   const paymentStore = usePaymentsStore()
@@ -9,15 +8,13 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     return
   }
 
-  // Initialize user session on server & initial load
-  // This will only fetch session once
-  if ((import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered) || import.meta.server) {
+  await callOnce(async () => {
     // Perf: Wait for both init in parallel
     await Promise.all([
       userStore.init(),
       paymentStore.init(),
     ])
-  }
+  })
 
   if (to.meta.isAuthRequired) {
     if (userStore.user) {
