@@ -15,10 +15,11 @@ if (!page.value) {
 </script>
 
 <template>
-  <UPage v-if="page">
-    <UPageHeader :title="page.title" />
-
-    <!-- INFO: Pass runtimeConfig to markdown  -->
-    <ContentRenderer :value="page" />
-  </UPage>
+  <UContainer>
+    <UPage v-if="page">
+      <UPageHeader :title="page.title" />
+      <!-- INFO: Pass runtimeConfig to markdown  -->
+      <ContentRenderer :value="page" />
+    </UPage>
+  </UContainer>
 </template>
