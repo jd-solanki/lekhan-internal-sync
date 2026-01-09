@@ -1062,7 +1062,7 @@ pnpm test:ui        # UI dashboard
 
 **Coming Soon**:
 - AI app layer (API endpoints + UI for AI-first projects)
-- Wishlist layer (pre-launch waitlist & email collection)
+- Wait list layer (pre-launch waitlist & email collection)
 - OTP verification (two-factor authentication)
 
 **Planned**:

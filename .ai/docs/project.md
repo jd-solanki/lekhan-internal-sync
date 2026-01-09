@@ -115,6 +115,6 @@ Building a SaaS from scratch requires months of setup: auth systems, payment pro
 ## Project Status & Roadmap
 
 **Available**: Auth, billing, user management, email, docs, blog, admin panel, SEO
-**Coming Soon**: AI-based app layer, wishlist feature, OTP verification
+**Coming Soon**: AI-based app layer, wait list feature, OTP verification
 **Planned**: Advanced analytics, enhanced payment flows
 
