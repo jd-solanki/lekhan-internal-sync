@@ -8,8 +8,12 @@ const route = useRoute()
 
     <UMain :class="[route.meta.mainClass]">
       <slot />
-    </UMain>
 
-    <LayoutDocsFooter />
+      <!--
+        Moved footer inside main as a workaround for NuxtUI layout issue
+        Issue Link: https://github.com/nuxt/ui/issues/4955#issuecomment-3728543855
+      -->
+      <LayoutDocsFooter />
+    </UMain>
   </div>
 </template>

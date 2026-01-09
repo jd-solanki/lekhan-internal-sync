@@ -13,15 +13,16 @@ const { data: posts } = await useAsyncData(
 </script>
 
 <template>
-  <UPage>
-    <UPageBody>
-      <UContainer>
-        <UPageHeader
-          :title="`The ${runtimeConfig.public.app.name} Blog`"
-          description="Read the latest news, releases, tutorials, and more."
-          :ui="{ root: 'border-none' }"
-          class="mb-12"
-        />
+  <UContainer>
+    <UPage>
+      <UPageHeader
+        :title="`The ${runtimeConfig.public.app.name} Blog`"
+        description="Read the latest news, releases, tutorials, and more."
+        :ui="{ root: 'border-none' }"
+        class="mb-12"
+      />
+
+      <UPageBody class="pb-0">
         <UBlogPosts>
           <UBlogPost
             v-for="(post, index) in posts"
@@ -30,7 +31,7 @@ const { data: posts } = await useAsyncData(
             :to="post.path"
           />
         </UBlogPosts>
-      </UContainer>
-    </UPageBody>
-  </UPage>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>
