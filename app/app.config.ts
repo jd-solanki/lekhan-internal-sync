@@ -3,8 +3,7 @@ import { outlineCardWOBorders } from '../layers/01.base/config/nuxt-ui'
 
 export default defineAppConfig({
   app: {
-    logoUrl: '/logo.svg',
-    logoClass: 'dark:invert', // For black & white logo in dark mode
+    logo: '/logo.png',
   },
   ui: defu({
     /* Write your Nuxt UI config */

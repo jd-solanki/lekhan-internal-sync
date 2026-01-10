@@ -26,7 +26,6 @@ definePageMeta({
 // Because we already defined the requiredQueryParamsOrRedirect in definePageMeta
 const token = getFirstQueryValue('token')!
 
-const appConfig = useAppConfig()
 const userStore = useUserStore()
 
 const state = reactive<Partial<SchemaResetPassword>>({
@@ -41,11 +40,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {
 
 <template>
   <div class="w-80">
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      class="mx-auto size-12 my-2"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="mx-auto size-12 my-2" />
     <h1 class="font-bold text-2xl leading-10 text-center">
       Reset Password
     </h1>

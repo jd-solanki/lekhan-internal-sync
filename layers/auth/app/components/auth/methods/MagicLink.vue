@@ -6,7 +6,6 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
 const isMounted = useMounted()
 
-const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 
@@ -25,11 +24,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
 
 <template>
   <div class="w-80">
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      class="mx-auto size-12 my-2"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="mx-auto size-12 my-2" />
     <h1 class="font-bold text-2xl leading-10 text-center">
       Sign in to your account
     </h1>

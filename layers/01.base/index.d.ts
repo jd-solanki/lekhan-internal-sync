@@ -1,3 +1,14 @@
+interface AppLogoAppConfig {
+  app: {
+    logo: Logo
+  }
+}
+
+declare module 'nuxt/schema' {
+  interface AppConfigInput extends AppLogoAppConfig {}
+  interface AppConfig extends AppLogoAppConfig {}
+}
+
 declare module '#app' {
   interface PageMeta {
     requiredQueryParamsOrRedirect?: { /* If present, the page requires these query params or redirects */
@@ -12,3 +23,6 @@ declare module '#app' {
     flashMessageInfoQueryAlias?: string /* Custom query param name to use as alias for info flash messages */
   }
 }
+
+// It is always important to ensure you import/export something when augmenting a type
+export {}

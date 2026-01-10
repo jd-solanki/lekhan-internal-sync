@@ -44,10 +44,7 @@ const navMenuItemsWOIcons = computed<NavigationMenuItem[]>(() => navMenuItems.va
   >
     <template #title>
       <div class="flex items-center gap-2">
-        <UIcon
-          name="i-app-logo"
-          class="size-6"
-        />
+        <AppLogo class="size-6" />
         <h1>{{ runtimeConfig.public.app.name }}</h1>
       </div>
     </template>

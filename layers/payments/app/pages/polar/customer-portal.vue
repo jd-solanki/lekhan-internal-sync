@@ -4,7 +4,6 @@ definePageMeta({
   mainClass: 'grid place-items-center',
 })
 
-const appConfig = useAppConfig()
 onMounted(async () => {
   await authClient.customer.portal()
 })
@@ -12,11 +11,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      class="mx-auto size-12 my-2"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="mx-auto size-12 my-2" />
     <p>You'll get redirected to customer portal shortly...</p>
   </div>
 </template>

@@ -12,7 +12,6 @@ definePageMeta({
 })
 
 const userStore = useUserStore()
-const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
 const socialProviders = runtimeConfig.public.shared.auth.socialProviders
@@ -31,11 +30,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
 
 <template>
   <div class="w-80">
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      class="mx-auto size-12 my-2"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="mx-auto size-12 my-2" />
     <h1 class="font-bold text-2xl leading-10 text-center">
       Create an account
     </h1>

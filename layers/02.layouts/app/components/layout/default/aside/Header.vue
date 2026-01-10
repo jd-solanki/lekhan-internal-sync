@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 </script>
@@ -9,12 +8,7 @@ const userStore = useUserStore()
     :to="userStore.userHomeRoute"
     class="flex gap-3 items-center text-highlighted"
   >
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      :alt="`${runtimeConfig.public.app.name} Logo`"
-      class="size-6 dark:invert"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="size-6" />
     <h1 class="font-bold">
       {{ runtimeConfig.public.app.name }}
     </h1>

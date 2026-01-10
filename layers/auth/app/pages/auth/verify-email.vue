@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
-import appConfig from '~/app.config'
 
 definePageMeta({
   layout: 'blank',
@@ -36,11 +35,7 @@ async function sendVerificationEmail(event: FormSubmitEvent<z.infer<typeof schem
 
 <template>
   <div class="text-center w-80">
-    <NuxtImg
-      :src="appConfig.app.logoUrl"
-      class="mx-auto size-12 my-2"
-      :class="appConfig.app.logoClass"
-    />
+    <AppLogo class="mx-auto size-12 my-2" />
     <h1 class="font-bold text-2xl leading-10">
       {{ uiState === 'mail-sent' ? 'Verification email sent' : 'Verify your account' }}
     </h1>
