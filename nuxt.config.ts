@@ -35,12 +35,23 @@ export default defineNuxtConfig({
         lang: 'en',
       },
       link: [
-        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/favicon.ico' },
-        { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/favicon-light.ico' },
+        // SECTION Favicon
+        // Single Color Scheme favicon
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
 
-        // Apple Devices Icons
-        { rel: 'apple-touch-icon', href: '/favicon.ico', sizes: '180x180', media: '(prefers-color-scheme: light)' },
-        { rel: 'apple-touch-icon', href: '/favicon-light.ico', sizes: '180x180', media: '(prefers-color-scheme: dark)' },
+        // Light/Dark Color Scheme favicon
+        // { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: light)', href: '/favicon.ico' },
+        // { rel: 'icon', type: 'image/x-icon', media: '(prefers-color-scheme: dark)', href: '/favicon-dark.ico' },
+        // !SECTION
+
+        // SECTION Apple Devices Icons
+        // Single Color Scheme favicon
+        { rel: 'apple-touch-icon', href: '/favicon.ico' },
+
+        // Single Color Apple Devices Icons
+        // { rel: 'apple-touch-icon', href: '/favicon.ico', sizes: '180x180', media: '(prefers-color-scheme: light)' },
+        // { rel: 'apple-touch-icon', href: '/favicon-light.ico', sizes: '180x180', media: '(prefers-color-scheme: dark)' },
+        // !SECTION
       ],
     },
   },
@@ -55,8 +66,9 @@ export default defineNuxtConfig({
       description: 'Production ready Nuxt.js SaaS boilerplate to launch your SaaS app faster.',
       // INFO: It's recommended to update these colors to match your brand identity
       themeColor: [
-        { content: '#fff', media: '(prefers-color-scheme: dark)' },
-        { content: '#000', media: '(prefers-color-scheme: light)' },
+        // Light/Dark Color Scheme (From https://nuxt.com/design-kit)
+        { content: '#020420', media: '(prefers-color-scheme: dark)' },
+        { content: '#fff', media: '(prefers-color-scheme: light)' },
       ],
       colorScheme: 'dark light',
     },
