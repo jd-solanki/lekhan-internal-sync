@@ -1,6 +1,6 @@
 interface AppLogoAppConfig {
   app: {
-    logo: Logo
+    logo: string | { light: string, dark: string }
   }
 }
 
