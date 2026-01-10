@@ -8,5 +8,5 @@ definePageMeta({
 </script>
 
 <template>
-  <NuxtWelcome class="min-h-auto!" />
+  <NuxtWelcome class="min-h-auto! bg-transparent!" />
 </template>
