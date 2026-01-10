@@ -6,7 +6,9 @@ definePageMeta({
   },
 })
 
-const { data: products } = await useFetch('/api/polar/products')
+const paymentsStore = usePaymentsStore()
+
+const { data: products } = await paymentsStore.fetchProducts()
 const product = computed(() => products.value?.result.items[0])
 
 if (!product.value) {
@@ -15,8 +17,6 @@ if (!product.value) {
     statusMessage: 'No products found',
   })
 }
-
-const paymentsStore = usePaymentsStore()
 
 // Ensure customer state is loaded and authenticated user is customer
 // This won't be the case because customer always gets created on sign up

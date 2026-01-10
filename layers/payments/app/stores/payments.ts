@@ -7,6 +7,10 @@ export const usePaymentsStore = defineStore('payments', () => {
 
   const customerState = ref<InternalApi['/api/polar/customers/state']['get'] | undefined>(undefined)
 
+  const fetchProducts = async () => {
+    return await useFetch('/api/polar/products')
+  }
+
   // INFO: We don't have any requirement to refetch the customer state but exposing this function
   // in case we need to refresh the state in future without reloading the app
   const refreshCustomerState = async () => {
@@ -85,6 +89,7 @@ export const usePaymentsStore = defineStore('payments', () => {
 
   return {
     init,
+    fetchProducts,
     buyProduct,
     refreshCustomerState,
     hasPurchasedProduct,
