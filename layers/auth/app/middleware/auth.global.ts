@@ -8,13 +8,11 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     return
   }
 
-  await callOnce(async () => {
-    // Perf: Wait for both init in parallel
-    await Promise.all([
-      userStore.init(),
-      paymentStore.init(),
-    ])
-  })
+  // Initialize user session & fetch payment customer state
+  await Promise.all([
+    userStore.init(),
+    paymentStore.init(),
+  ])
 
   if (to.meta.isAuthRequired) {
     if (userStore.user) {

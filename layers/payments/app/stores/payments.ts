@@ -64,11 +64,7 @@ export const usePaymentsStore = defineStore('payments', () => {
     }
   }
 
-  /*
-    This function initializes the user session by fetching it from the authClient
-    With this, our nuxt app won't re-fetch the user session on client side
-    // NOTE: We've to call init() on app start
-  */
+  // NOTE: We've to call init() on app start
   async function init() {
     await refreshCustomerState()
   }
