@@ -179,7 +179,7 @@ export default defineNuxtConfig({
     'nuxt-email-renderer',
     '@nuxt/content',
     '@nuxtjs/seo',
-    '@nuxt/hints',
+    // '@nuxt/hints', // INFO: Disabled until it reaches stable release
   ],
   features: {
     devLogs: true,
