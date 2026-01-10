@@ -7,7 +7,7 @@ definePageMeta({
   isAuthRequired: false,
 })
 
-const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
+const navigation = inject<Ref<ContentNavigationItem[]>>('navigation_docs')
 
 const route = useRoute()
 
@@ -33,6 +33,12 @@ watch(() => navigation?.value, () => {
 
 <template>
   <UPage v-if="page">
+    <template #left>
+      <UPageAside>
+        <LayoutDocsContentNavigation :navigation="navigation" />
+      </UPageAside>
+    </template>
+
     <UPageHeader
       :title="page.title"
       :description="page.description"

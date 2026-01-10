@@ -79,12 +79,12 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
       <!-- Page Header -->
       <!-- Hide in desktop devices -->
       <template #header>
-        <LayoutDefaultHeader class="lg:hidden bg-(--ui-bg)" />
+        <LayoutDefaultHeader class="lg:hidden bg-default" />
       </template>
 
       <!-- Page content -->
       <template #body>
-        <main class="grow p-6 bg-(--ui-bg) lg:rounded-lg lg:m-2 ring ring-(--ui-border)">
+        <main class="grow p-6 bg-default lg:rounded-lg lg:m-2 ring ring-default">
           <slot />
         </main>
       </template>

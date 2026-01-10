@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+const route = useRoute()
+const isBlogPage = computed(() => route.path.startsWith('/blog'))
+
 const [{ data: navigation_docs }, { data: navigation_blog }] = await Promise.all([
   useAsyncData(
     () => `navigation_docs`,
@@ -35,25 +38,25 @@ const { data: files_blog } = useLazyAsyncData(
     default: () => [],
   },
 )
+
+provide('navigation_docs', navigation_docs)
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col min-h-svh">
     <!-- Header -->
-    <LayoutDocsHeader :navigation="navigation_docs" />
+    <LayoutDocsHeader :navigation="isBlogPage ? [] : navigation_docs" />
 
-    <!-- Main -->
-    <UMain>
+    <!--
+      Added `min-h-auto` to remove calculated min-height
+      Related: https://github.com/nuxt/ui/issues/4955
+    -->
+    <UMain
+      :class="[route.meta.mainClass]"
+      class="min-h-auto grow"
+    >
       <UContainer>
-        <UPage>
-          <!-- Navigation -->
-          <template #left>
-            <UPageAside>
-              <LayoutDocsContentNavigation :navigation="navigation_docs" />
-            </UPageAside>
-          </template>
-          <slot />
-        </UPage>
+        <slot />
       </UContainer>
     </UMain>
 

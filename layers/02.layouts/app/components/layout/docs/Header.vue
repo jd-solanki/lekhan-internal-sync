@@ -9,23 +9,30 @@ defineProps<{
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 
-const items = computed<NavigationMenuItem[]>(() => [
+const navMenuItems = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Home',
     to: '/',
+    icon: 'i-lucide-home',
   },
   {
     label: 'Docs',
     to: '/docs',
+    icon: 'i-lucide-book-open',
     active: route.path.startsWith('/docs'),
   },
   {
     label: 'Blog',
     to: '/blog',
+    icon: 'i-lucide-newspaper',
     active: route.path.startsWith('/blog'),
   },
-  // ...Add more items as needed
 ])
+
+const navMenuItemsWOIcons = computed<NavigationMenuItem[]>(() => navMenuItems.value.map(item => ({
+  ...item,
+  icon: undefined,
+})))
 </script>
 
 <template>
@@ -45,7 +52,7 @@ const items = computed<NavigationMenuItem[]>(() => [
       </div>
     </template>
 
-    <UNavigationMenu :items />
+    <UNavigationMenu :items="navMenuItemsWOIcons" />
 
     <template #right>
       <ClientOnly>
@@ -61,12 +68,30 @@ const items = computed<NavigationMenuItem[]>(() => [
         class="h-4 mx-2"
       />
 
-      <UButton to="/#pricing">
+      <UButton
+        to="/#pricing"
+        class="text-nowrap"
+      >
         Get {{ runtimeConfig.public.app.name }}
       </UButton>
     </template>
 
     <template #body>
+      <UNavigationMenu
+        :items="navMenuItems"
+        orientation="vertical"
+        :external-icon="false"
+      />
+
+      <!--
+        Only render separator if there is sidebar to show
+        E.g. Blog page has no sidebar
+      -->
+      <USeparator
+        v-if="navigation && navigation.length"
+        class="my-6"
+        type="dashed"
+      />
       <LayoutDocsContentNavigation
         :navigation
         variant="link"
