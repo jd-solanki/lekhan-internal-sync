@@ -12,16 +12,6 @@ export default defineNuxtConfig({
     '/polar/customer-portal': { robots: false },
     '/polar/success': { robots: false },
   },
-  // TODO: Avoid copying public `logo.svg` to `app/assets/icons/app`
-  // Issue URL: https://github.com/LaunchDayOne/LaunchDayOne/issues/122
-  icon: {
-    customCollections: [
-      {
-        prefix: 'app',
-        dir: './app/assets/icons/app',
-      },
-    ],
-  },
   app: {
     // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },
     head: {
