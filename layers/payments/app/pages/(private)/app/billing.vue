@@ -38,16 +38,7 @@ const userOrder = computed(() => {
   <div>
     <AppPageHeader
       title="Billing"
-      description="Manage your billing information here."
-    />
-    <UAlert
-      v-if="!hasPurchasedProduct"
-      color="info"
-      icon="i-lucide-shopping-bag"
-      variant="subtle"
-      title="You haven't made a purchase yet."
-      class="mb-6"
-      description="Demo is using sandbox environment so you can test without real payments using dummy credit card number."
+      description="Manage your billing information here"
     />
     <div class="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
       <PaymentPlan />
