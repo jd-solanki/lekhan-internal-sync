@@ -171,6 +171,22 @@ export const auth = betterAuth({
         html: emailHTML,
       })
     },
+    async afterEmailVerification(user, _) {
+      // Send welcome email after user creation
+      const emailSubject = `Welcome to ${env.NUXT_PUBLIC_APP_NAME} 👋 Let's get you set up`
+
+      const emailHTML = await renderEmailComponent('Welcome', {
+        subject: emailSubject,
+        name: user.name,
+      })
+
+      await sendEmail({
+        type: 'events',
+        to: { email: user.email },
+        subject: emailSubject,
+        html: emailHTML,
+      })
+    },
   },
   emailAndPassword: {
     enabled: true,

@@ -40,8 +40,8 @@ defineProps<Props>()
               <EImg
                 :src="`${env.NUXT_PUBLIC_APP_BASE_URL}/logo.png`"
                 :alt="`${env.NUXT_PUBLIC_APP_NAME} logo`"
-                :width="24"
-                :height="24"
+                :width="30"
+                :height="30"
               />
             </EColumn>
             <EColumn>

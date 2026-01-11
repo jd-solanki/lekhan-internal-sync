@@ -25,7 +25,7 @@ declare module 'nuxt/schema' {
     mail: {
       adminEmails: string[]
       senders: {
-        [K in 'security' | 'alerts' | 'system']: {
+        [K in 'security' | 'events' | 'alerts' | 'system']: {
           email: string
           name: string
         }

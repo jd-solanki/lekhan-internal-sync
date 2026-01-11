@@ -132,6 +132,13 @@ export default defineNuxtConfig({
             : `security@app.${env.NUXT_PUBLIC_APP_DOMAIN}`,
           name: `${env.NUXT_PUBLIC_APP_NAME} Security`,
         },
+        // For informational, non-critical account activity
+        events: {
+          email: process.env.NODE_ENV === 'development'
+            ? 'events@example.com'
+            : `events@app.${env.NUXT_PUBLIC_APP_DOMAIN}`,
+          name: env.NUXT_PUBLIC_APP_NAME,
+        },
         // For important system or user-initiated alerts (account deactivation, billing failures)
         alerts: {
           email: process.env.NODE_ENV === 'development'
