@@ -44,6 +44,7 @@ declare module 'nuxt/schema' {
         home: string
         signIn: string
         verifyEmail: string
+        accountSettingsLinkedAccounts: string
         billing: string
       }
       pageMetaDefaults: {

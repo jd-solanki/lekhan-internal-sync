@@ -5,6 +5,7 @@ import { betterAuth } from 'better-auth/minimal'
 import { admin, createAuthMiddleware, lastLoginMethod, magicLink } from 'better-auth/plugins'
 import { eq } from 'drizzle-orm'
 import * as z from 'zod'
+import { handleOAuthAccountLinkEmailMismatch } from '~~/layers/auth/server/utils/auth'
 import { sendEmail } from '~~/layers/email/server/utils/email'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
 import { db } from '~~/server/db'
@@ -87,6 +88,9 @@ export const auth = betterAuth({
     }),
   ],
   hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      handleOAuthAccountLinkEmailMismatch(ctx, runtimeConfig.public.app.routes.accountSettingsLinkedAccounts)
+    }),
     after: createAuthMiddleware(async (ctx) => {
       // console.log('[hook:after] ctx.path :>> ', ctx.path)
 

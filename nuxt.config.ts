@@ -175,6 +175,7 @@ export default defineNuxtConfig({
           adminHome: '/admin/users',
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
+          accountSettingsLinkedAccounts: '/app/account-settings/linked-accounts',
           billing: '/app/billing',
         },
       },

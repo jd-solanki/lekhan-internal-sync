@@ -37,12 +37,11 @@ const connectedSocialAccountsCount = computed(() => {
 
 async function linkAccount(provider: SocialProviderId) {
   try {
-    const callbackURL = `${runtimeConfig.public.app.baseUrl}/app/account-settings/linked-accounts?flash_message__success=${encodeURIComponent('Account linked successfully')}`
+    const callbackURL = `${runtimeConfig.public.app.baseUrl}/app/account-settings/linked-accounts`
 
     await authClient.linkSocial({
       provider,
       callbackURL,
-      errorCallbackURL: `${runtimeConfig.public.app.baseUrl}/app/account-settings/linked-accounts`,
     })
   }
   catch (error: any) {

@@ -1,3 +1,4 @@
+import type { createAuthMiddleware } from 'better-auth/plugins'
 import type { H3Event, H3EventContext } from 'h3'
 import type { User } from '~~/layers/auth/server/libs/auth'
 import { auth } from '~~/layers/auth/server/libs/auth'
@@ -42,4 +43,29 @@ export function defineAdminEventHandler<T>(
 
     return handler(event as AdminEvent)
   })
+}
+
+type MiddlewareHandlerCtx = Parameters<Parameters<typeof createAuthMiddleware>[0]>[0]
+export function handleOAuthAccountLinkEmailMismatch(ctx: MiddlewareHandlerCtx, redirectUrl: string) {
+  // NOTE: When OAuth provider email doesn't match existing user email betterAuth still marks it as successful
+  //       due to that we can't catch error on client and had to use this workaround to show proper error message to user
+  if (ctx.path === '/error') {
+    // Get error from query params
+    const error = ctx.query?.error
+    if (!error || error !== 'email_doesn\'t_match')
+      return
+
+    // Set error cookie
+    ctx.setCookie(
+      'flash_message__error',
+      'The email from the social provider doesn\'t match your account email. Please use the correct social account or sign in with email and password to link your social account.',
+      {
+        path: '/',
+        httpOnly: false,
+      },
+    )
+
+    // Redirect to your page without error param
+    throw ctx.redirect(redirectUrl)
+  }
 }
