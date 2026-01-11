@@ -6,38 +6,54 @@ import env from './server/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  /*
+    Default values for page meta properties.
+    Based on runtime configuration of `isEmailVerificationRequiredForAccess`,
+    set the default value for `isEmailVerificationRequired` in page meta.
+
+    If `isEmailVerificationRequiredForAccess` is true, then `isEmailVerificationRequired` will also be true by default.
+    If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
+  */
+  pageMetaDefaults: {
+    defaults: {
+      isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
+    },
+  },
   hooks: {
     'pages:resolved': function (pages) {
-      function setMiddleware(pages: NuxtPage[]) {
+      function setMiddleware(page: NuxtPage) {
+        /*
+          WARNING: Order matters here! So ensure private middleware is added first and admin afterwards
+          So that while checking for admin, we are sure that user is already authenticated
+        */
+
+        // Handle private group
+        if (page.meta?.groups?.includes('private')) {
+          addMiddlewareToPage(page, 'private')
+        }
+
+        // Handle guest group
+        if (page.meta?.groups?.includes('guest')) {
+          addMiddlewareToPage(page, 'guest')
+        }
+
+        // Handle admin group
+        if (page.meta?.groups?.includes('admin')) {
+          addMiddlewareToPage(page, 'admin')
+        }
+      }
+
+      function processPages(pages: NuxtPage[]) {
         for (const page of pages) {
-          /*
-            WARNING: Order matters here! So ensure private middleware is added first and admin afterwards
-            So that while checking for admin, we are sure that user is already authenticated
-          */
+          setMiddleware(page)
 
-          // Handle private group
-          if (page.meta?.groups?.includes('private')) {
-            addMiddlewareToPage(page, 'private')
-          }
-
-          // Handle guest group
-          if (page.meta?.groups?.includes('guest')) {
-            addMiddlewareToPage(page, 'guest')
-          }
-
-          // Handle admin group
-          if (page.meta?.groups?.includes('admin')) {
-            addMiddlewareToPage(page, 'admin')
-          }
-
-          // Handle public group - no middleware needed, but recurse children
-          // Recurse into children
           if (page.children) {
-            setMiddleware(page.children)
+            processPages(page.children)
           }
         }
       }
-      setMiddleware(pages)
+
+      processPages(pages)
     },
   },
   css: ['~/assets/css/main.css'],
@@ -153,17 +169,6 @@ export default defineNuxtConfig({
           signIn: '/auth/sign-in',
           verifyEmail: '/auth/verify-email',
           billing: '/app/billing',
-        },
-        /*
-        Default values for route meta properties.
-        Based on runtime configuration of `isEmailVerificationRequiredForAccess`,
-        set the default value for `isEmailVerificationRequired` in route meta.
-
-        If `isEmailVerificationRequiredForAccess` is true, then `isEmailVerificationRequired` will also be true by default.
-        If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
-        */
-        pageMetaDefaults: {
-          isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
         },
       },
 
