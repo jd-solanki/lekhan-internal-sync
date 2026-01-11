@@ -4,7 +4,6 @@ import type { UnwrapRef } from 'vue'
 import { UBadge } from '#components'
 
 definePageMeta({
-  isAdminOnly: true,
   search: {
     label: 'Orders',
     icon: 'i-lucide-shopping-bag',

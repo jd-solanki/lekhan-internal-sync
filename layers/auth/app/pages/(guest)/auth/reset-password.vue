@@ -7,8 +7,6 @@ const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center',
-  redirectIfSignedIn: true,
-  isAuthRequired: false,
   requiredQueryParamsOrRedirect: {
     token: {
       // Redirect to forgot password page if token is not present in query params

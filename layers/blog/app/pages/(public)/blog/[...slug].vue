@@ -3,7 +3,6 @@ import { withoutTrailingSlash } from 'ufo'
 
 definePageMeta({
   layout: 'docs',
-  isAuthRequired: false,
 })
 
 const route = useRoute()

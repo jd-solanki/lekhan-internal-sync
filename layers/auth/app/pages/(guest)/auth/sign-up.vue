@@ -7,8 +7,6 @@ const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center',
-  redirectIfSignedIn: true,
-  isAuthRequired: false,
 })
 
 const userStore = useUserStore()

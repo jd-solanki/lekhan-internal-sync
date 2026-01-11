@@ -4,7 +4,6 @@ import { findPageHeadline } from '@nuxt/content/utils'
 
 definePageMeta({
   layout: 'docs',
-  isAuthRequired: false,
 })
 
 const navigation = inject<Ref<ContentNavigationItem[]>>('navigation_docs')

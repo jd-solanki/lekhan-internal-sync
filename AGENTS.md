@@ -12,3 +12,4 @@
 
 - Readable & Modular code
 - When building UI refer to `.prompts/nuxt-ui.instructions.md` file
+- Use `na nuxt prepare` before checking type issues to regenerate types

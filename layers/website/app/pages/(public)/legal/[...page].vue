@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'website',
-  isAuthRequired: false,
 })
 
 const route = useRoute()

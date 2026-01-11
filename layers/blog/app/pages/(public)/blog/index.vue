@@ -1,7 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'docs',
-  isAuthRequired: false,
 })
 
 const runtimeConfig = useRuntimeConfig()

@@ -2,7 +2,6 @@
 definePageMeta({
   mainClass: 'grid place-items-center',
   layout: 'website',
-  isAuthRequired: false,
   search: false,
 })
 </script>

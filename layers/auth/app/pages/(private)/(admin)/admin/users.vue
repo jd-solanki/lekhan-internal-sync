@@ -7,7 +7,6 @@ import { createReusableTemplate } from '@vueuse/core'
 import * as z from 'zod'
 
 definePageMeta({
-  isAdminOnly: true,
   search: {
     label: 'Users',
     icon: 'i-lucide-users',

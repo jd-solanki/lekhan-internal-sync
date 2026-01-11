@@ -1,14 +1,50 @@
+import type { NuxtPage } from 'nuxt/schema'
 import type { SocialProviderId } from './layers/auth/server/libs/auth'
+import { addMiddlewareToPage } from './layers/01.base/config/utils'
 import { exhaustive } from './layers/01.base/shared/utils/types'
 import env from './server/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  hooks: {
+    'pages:resolved': function (pages) {
+      function setMiddleware(pages: NuxtPage[]) {
+        for (const page of pages) {
+          /*
+            WARNING: Order matters here! So ensure private middleware is added first and admin afterwards
+            So that while checking for admin, we are sure that user is already authenticated
+          */
+
+          // Handle private group
+          if (page.meta?.groups?.includes('private')) {
+            addMiddlewareToPage(page, 'private')
+          }
+
+          // Handle guest group
+          if (page.meta?.groups?.includes('guest')) {
+            addMiddlewareToPage(page, 'guest')
+          }
+
+          // Handle admin group
+          if (page.meta?.groups?.includes('admin')) {
+            addMiddlewareToPage(page, 'admin')
+          }
+
+          // Handle public group - no middleware needed, but recurse children
+          // Recurse into children
+          if (page.children) {
+            setMiddleware(page.children)
+          }
+        }
+      }
+      setMiddleware(pages)
+    },
+  },
   css: ['~/assets/css/main.css'],
   routeRules: {
     '/docs': { redirect: '/docs/getting-started/introduction' },
-    '/admin/**': { robots: false, ssr: false, appMiddleware: { auth: true } },
-    '/app/**': { robots: false, ssr: false, appMiddleware: { auth: true } },
+    '/admin/**': { robots: false, ssr: false },
+    '/app/**': { robots: false, ssr: false },
     '/polar/customer-portal': { robots: false },
     '/polar/success': { robots: false },
   },
@@ -127,9 +163,6 @@ export default defineNuxtConfig({
         If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
         */
         pageMetaDefaults: {
-          isAdminOnly: false,
-          isAuthRequired: true,
-          redirectIfSignedIn: false,
           isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
         },
       },

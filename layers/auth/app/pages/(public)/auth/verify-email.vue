@@ -6,7 +6,6 @@ definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center',
   isEmailVerificationRequired: false,
-  isAuthRequired: false,
   redirectIfEmailVerified: true,
 })
 
