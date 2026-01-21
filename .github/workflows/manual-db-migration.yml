@@ -14,6 +14,54 @@ jobs:
     environment: prod
     runs-on: ubuntu-latest
 
+    env:
+      NODE_ENV: ${{ vars.NODE_ENV }}
+
+      # App global variables
+      NUXT_PUBLIC_APP_NAME: ${{ vars.NUXT_PUBLIC_APP_NAME }}
+      NUXT_PUBLIC_APP_BASE_URL: ${{ vars.NUXT_PUBLIC_APP_BASE_URL }}
+      NUXT_PUBLIC_API_BASE_URL: ${{ vars.NUXT_PUBLIC_API_BASE_URL }}
+
+      # 💬 Contact Us
+      NUXT_PUBLIC_CONTACT_EMAIL: ${{ vars.NUXT_PUBLIC_CONTACT_EMAIL }}
+
+      # 💾 Database
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # ✉️ Email (Any one provider required to be configured for production)
+      # In dev env it'll be default to SMTP at localhost:1025
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+
+      # 💾 Storage
+      # Prefix `APP_` to avoid conflict with third party services like Vercel/Netlify which uses `AWS_` prefixed env vars
+      APP_AWS_ACCESS_KEY: ${{ secrets.APP_AWS_ACCESS_KEY }}
+      APP_AWS_SECRET_KEY: ${{ secrets.APP_AWS_SECRET_KEY }}
+      APP_AWS_REGION: ${{ vars.APP_AWS_REGION }}
+      APP_AWS_BUCKET_NAME: ${{ vars.APP_AWS_BUCKET_NAME }}
+
+      # 🧙🏻‍♂️ Admin
+      # For receiving unexpected errors and alerts
+      # Use CSV format to add multiple emails
+      ADMIN_EMAILS: ${{ secrets.ADMIN_EMAILS }}
+
+      # 🔒 BetterAuth
+      # You can generate a random secret using `openssl rand -base64 32`
+      BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+      BETTER_AUTH_URL: ${{ vars.BETTER_AUTH_URL }}
+
+      # Prefix `AUTH_` because GitHub secrets don't allow secret having `GITHUB_` prefix
+      AUTH_GOOGLE_CLIENT_ID: ${{ secrets.AUTH_GOOGLE_CLIENT_ID }}
+      AUTH_GOOGLE_CLIENT_SECRET: ${{ secrets.AUTH_GOOGLE_CLIENT_SECRET }}
+      AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+      AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+
+      # 💰 Polar
+      # Dashboard URL link will be available in admin navigation for quick access
+      POLAR_DASHBOARD_URL: ${{ vars.POLAR_DASHBOARD_URL }}
+      POLAR_ACCESS_TOKEN: ${{ secrets.POLAR_ACCESS_TOKEN }}
+      POLAR_SERVER: ${{ vars.POLAR_SERVER }}
+      POLAR_WEBHOOK_SECRET: ${{ secrets.POLAR_WEBHOOK_SECRET }}
+
     # This 'if' condition ensures the job only runs if the user types the exact confirmation phrase.
     # This prevents accidental clicks from running the migration.
     if: ${{ github.event.inputs.confirm_run == 'migrate production' }}
