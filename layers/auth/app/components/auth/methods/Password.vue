@@ -24,7 +24,7 @@ const parsedQuery = useParsedQuery(
   z.object({
     redirectUrl: redirectUrlSchema.optional(),
     nextAction: z.string().optional(),
-    productId: z.string().optional(),
+    productId: z.coerce.number().optional(),
   }),
   {},
   { route },

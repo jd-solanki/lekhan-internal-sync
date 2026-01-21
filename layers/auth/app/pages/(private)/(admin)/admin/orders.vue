@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BadgeProps, TableColumn } from '@nuxt/ui'
-import type { UnwrapRef } from 'vue'
+import type { InternalApi } from 'nitropack'
 import { UBadge } from '#components'
 
 definePageMeta({
@@ -15,14 +15,10 @@ const parsedQuery = useParsedQuery(paginationSchema)
 
 // Optimized fetch with computed query parameter mapping
 const { data: orders, status } = await useFetch('/api/polar/orders', {
-  query: {
-    page: parsedQuery.value.page,
-    size: parsedQuery.value.size,
-  },
-  watch: [() => parsedQuery.value.page, () => parsedQuery.value.size],
+  query: parsedQuery,
 })
 
-type Order = NonNullable<UnwrapRef<typeof orders>>['result']['items'][number]
+type Order = InternalApi['/api/polar/orders']['get']['orders'][number]
 
 const columns: TableColumn<Order>[] = [
   {
@@ -30,7 +26,7 @@ const columns: TableColumn<Order>[] = [
     cell: ({ row }) => h(
       'span',
       { class: 'font-semibold' },
-      row.original.product!.name,
+      row.original.items[0]?.label,
     ),
   },
   {
@@ -66,16 +62,13 @@ const columns: TableColumn<Order>[] = [
     cell: ({ row }) => row.original.items[0]?.createdAt ? new Date(row.original.items[0].createdAt).toLocaleString() : '',
   },
 ]
-
-// Pagination computed properties
-const totalItems = computed(() => orders.value?.result?.pagination?.totalCount || 0)
 </script>
 
 <template>
   <div>
     <AppPageHeader title="Orders" />
     <UTable
-      :data="orders?.result.items || []"
+      :data="orders?.orders || []"
       :columns="columns"
       :loading="status === 'pending'"
       class="flex-1"
@@ -85,7 +78,7 @@ const totalItems = computed(() => orders.value?.result?.pagination?.totalCount |
     <TablePagination
       v-model:page="parsedQuery.page"
       v-model:page-size="parsedQuery.size"
-      :total="totalItems"
+      :total="orders?.total || 0"
     />
   </div>
 </template>

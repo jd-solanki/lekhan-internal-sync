@@ -7,9 +7,13 @@
 ## Feature Development/Plans
 
 - At the end of each plan, give me list of unresolved questions to answer, if any. Make the question extremely concise. Sacrifice grammar for the sake of the concision.
+- Always use relevant <skill>/SKILL.md files to guide your plans and implementations.
 
 ## Coding Guidelines
 
 - Readable & Modular code
+- Follow KISS principle
 - When building UI refer to `.prompts/nuxt-ui.instructions.md` file
 - Use `na nuxt prepare` before checking type issues to regenerate types
+- Add comments for What & Why. Avoid comments which I can infer from code (How)
+- Minimal code changes to achieve the goal

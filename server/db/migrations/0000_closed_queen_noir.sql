@@ -35,13 +35,15 @@ CREATE TABLE "user" (
 	"name" varchar(255) NOT NULL,
 	"image" text,
 	"last_sign_in_at" timestamp with time zone,
+	"polar_customer_id" uuid,
 	"role" "user_roles" DEFAULT 'user',
 	"banned" boolean DEFAULT false NOT NULL,
 	"ban_reason" text,
 	"ban_expires" date,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"deactivated_at" timestamp with time zone
+	"deactivated_at" timestamp with time zone,
+	CONSTRAINT "user_polar_customer_id_unique" UNIQUE("polar_customer_id")
 );
 --> statement-breakpoint
 CREATE TABLE "verification" (
@@ -51,6 +53,29 @@ CREATE TABLE "verification" (
 	"expires_at" timestamp with time zone NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "polar_product" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"polar_id" text NOT NULL,
+	"polar_created_at" timestamp with time zone NOT NULL,
+	"polar_modified_at" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"trial_interval" text,
+	"trial_interval_count" integer,
+	"name" text NOT NULL,
+	"description" text,
+	"recurring_interval" text,
+	"recurring_interval_count" integer,
+	"is_recurring" boolean DEFAULT false NOT NULL,
+	"is_archived" boolean DEFAULT false NOT NULL,
+	"organization_id" text NOT NULL,
+	"metadata" jsonb DEFAULT '{}'::jsonb NOT NULL,
+	"benefits" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"medias" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"prices" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	CONSTRAINT "polar_product_polarId_unique" UNIQUE("polar_id")
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

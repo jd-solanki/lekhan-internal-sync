@@ -34,7 +34,7 @@ export function useSearchableRoutes() {
         continue
 
       // Skip admin routes for non-admin users
-      if (meta.isAdminOnly === true && userStore.user?.role !== 'admin')
+      if (userStore.user?.role !== 'admin' && isAdminRoute(route.meta))
         continue
 
       // Generate a human-readable label from the route path

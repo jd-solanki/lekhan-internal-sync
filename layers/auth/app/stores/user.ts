@@ -32,7 +32,12 @@ export const useUserStore = defineStore('user', () => {
   const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
   const avatarUrl = computed(() => genImgUrlFromKey(user.value?.image))
-  const userHomeRoute = computed(() => isUserAdmin.value ? runtimeConfig.public.app.routes.adminHome : runtimeConfig.public.app.routes.home)
+  const userHomeRoute = computed(() => {
+    if (!user.value)
+      return runtimeConfig.public.app.routes.signIn
+
+    return isUserAdmin.value ? runtimeConfig.public.app.routes.adminHome : runtimeConfig.public.app.routes.home
+  })
 
   const isLoading = computed(() => session.value?.isPending || isAuthInProgress.value)
 
@@ -97,7 +102,11 @@ export const useUserStore = defineStore('user', () => {
   // It can either be redirect URL or false to prevent redirection
   // When nothing is passed it'll be default to redirection to default home URL
   async function signIn(body: SchemaSignIn, options?: { redirectUrl?: string | false, onSuccess?: () => Promise<void> }) {
-    const { redirectUrl = userHomeRoute.value } = options || {}
+    // WARNING: Don't assign `userHomeRoute.value` as default value to `redirectUrl` here
+    // Setting default value here will lock the value at the time of function call which is probably sign in page
+    // `userHomeRoute` is reactive and its value will change after user session is set
+    const { redirectUrl } = options || {}
+
     await withLoading(async () => {
       await authClient.signIn.email(body, {
         onSuccess: async (_ctx) => {
@@ -107,11 +116,8 @@ export const useUserStore = defineStore('user', () => {
             await options?.onSuccess?.()
 
             // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
-            // Only redirect if redirectTo is given
-            if (redirectUrl) {
-              // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
-              await navigateTo(redirectUrl, { replace: true })
-            }
+            // UX: Replace current route to avoid redirect back to "/" if user goes back after sign in
+            await navigateTo(redirectUrl || userHomeRoute.value, { replace: true })
           }, { once: true })
         },
         onError: async (ctx) => {

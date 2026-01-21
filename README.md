@@ -16,3 +16,11 @@
     docker rm -f nuxtstart_postgres
     docker volume rm nuxtstart_pg_data
     ```
+
+- Remove database & create again:
+
+    ```shell
+    docker exec launchdayone_postgres sh -c \
+    'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS nuxtstart" && \
+    psql -U postgres -d postgres -c "CREATE DATABASE nuxtstart"'
+    ```

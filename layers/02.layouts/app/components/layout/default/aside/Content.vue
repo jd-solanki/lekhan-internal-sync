@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
-import { adminNavigationItems, navigationFooterItems, navigationItems } from '~/constants/asideNavigation'
+import { adminNavigationItems, navigationFooterItems, navigationItems } from '~~/layers/02.layouts/app/constants/asideNavigation'
 
 const userStore = useUserStore()
-const { isAdminOnlyRoute } = useAdmin()
+const { isAdminRoute } = useAdmin()
 const colorMode = useColorMode()
 
 const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
-  isAdminOnlyRoute.value
+  isAdminRoute.value
     ? userStore.isUserAdmin
       ? [
           {

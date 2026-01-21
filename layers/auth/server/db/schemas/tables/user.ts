@@ -1,6 +1,7 @@
-import { boolean, date, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
-import { lower } from '~~/layers/01.base/server/db/schemas/functions'
-import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '~~/layers/01.base/server/db/schemas/mixins'
+// NOTE: Use relative path so Drizzle CLI can find the schema files
+import { boolean, date, pgEnum, pgTable, text, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core'
+import { lower } from '../../../../../../layers/01.base/server/db/schemas/functions'
+import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../../../../../../layers/01.base/server/db/schemas/mixins'
 
 export const userRoles = ['admin', 'user'] as const
 export type UserRole = (typeof userRoles)[number]
@@ -14,6 +15,7 @@ export const user = pgTable('user', {
   name: varchar({ length: 255 }).notNull(),
   image: text(),
   lastSignInAt: timestamp({ withTimezone: true }),
+  polarCustomerId: uuid('polar_customer_id').unique(),
   role: userRoleEnum().default('user'),
   banned: boolean().default(false).notNull(),
   banReason: text(),

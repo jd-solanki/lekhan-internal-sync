@@ -1,5 +1,5 @@
 import type { Simplify } from 'type-fest'
-import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
+import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { betterAuth } from 'better-auth/minimal'
 import { admin, createAuthMiddleware, lastLoginMethod, magicLink } from 'better-auth/plugins'
@@ -44,14 +44,17 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       use: [
         checkout({
-          successUrl: '/polar/success',
+          // WARNING: `?checkout_id={CHECKOUT_ID}` is required to receive checkout_id on success page
+          successUrl: '/polar/success?checkout_id={CHECKOUT_ID}',
           authenticatedUsersOnly: true,
         }),
         portal({
           returnUrl: env.NUXT_PUBLIC_APP_BASE_URL + runtimeConfig.public.app.routes.billing,
         }),
         usage(),
-        // webhooks({ ... })
+        webhooks({
+          secret: env.POLAR_WEBHOOK_SECRET,
+        }),
       ],
     }),
     magicLink({

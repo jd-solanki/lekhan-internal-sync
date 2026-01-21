@@ -116,6 +116,11 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    webhook: {
+      polar: {
+        secretKey: env.POLAR_WEBHOOK_SECRET,
+      },
+    },
     // INFO: Private config will be server only so no need to separate in app, server & shared
 
     mail: {
@@ -226,8 +231,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-email-renderer',
     '@nuxt/content',
-    '@nuxtjs/seo',
     // '@nuxt/hints', // INFO: Disabled until it reaches stable release
+    '@nuxtjs/seo',
+    'nuxt-webhook-validators',
   ],
   features: {
     devLogs: true,

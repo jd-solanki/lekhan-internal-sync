@@ -1,5 +1,6 @@
+// NOTE: Use relative path so Drizzle CLI can find the schema files
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '~~/layers/01.base/server/db/schemas/mixins'
+import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../../../../../../layers/01.base/server/db/schemas/mixins'
 
 export const verification = pgTable('verification', {
   ...mixinId(),

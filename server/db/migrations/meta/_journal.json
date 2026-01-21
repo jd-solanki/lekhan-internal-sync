@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1759654331968,
-      "tag": "0000_legal_deathstrike",
+      "when": 1768556431983,
+      "tag": "0000_closed_queen_noir",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768563858431,
+      "tag": "0001_odd_silver_centurion",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768651447519,
+      "tag": "0002_complete_white_queen",
       "breakpoints": true
     }
   ]

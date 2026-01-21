@@ -1,25 +1,31 @@
-import * as z from 'zod'
-import { polarClient } from '~~/layers/payments/server/libs/polar'
-
-const querySchema = paginationSchema.extend({
-  customerId: z.uuidv4().optional(),
-  organizationId: z.uuidv4().optional(),
-  productId: z.uuidv4().optional(),
-  productBillingType: z.enum(['recurring', 'one_time']).optional(),
-  discountId: z.uuidv4().optional(),
-  checkoutId: z.uuidv4().optional(),
-  sorting: z.array(z.enum(['created_at', '-created_at', 'status', '-status', 'invoice_number', '-invoice_number', 'amount', '-amount', 'net_amount', '-net_amount', 'customer', '-customer', 'product', '-product', 'discount', '-discount', 'subscription', '-subscription'])).optional(),
-  metadata: z.record(z.string(), z.any()).optional(),
-})
+import { count, eq } from 'drizzle-orm'
+import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
+import { dbTableOrder } from '~~/layers/payments/server/db/schemas/tables'
+import { dbSchemaOrderSelect } from '~~/layers/payments/shared/schemas/db'
+import { db } from '~~/server/db'
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const { page, size, ...rest } = await getValidatedQuery(event, querySchema.parse)
+  const { page, size } = await getValidatedQuery(event, paginationSchema.parse)
 
-  const result = await polarClient.orders.list({
-    page,
-    limit: size,
-    ...rest,
-  })
+  // Admins can see all orders, regular users only their own
+  const whereClause = event.context.user.role === 'admin' ? undefined : eq(dbTableOrder.userId, event.context.user.id)
 
-  return result
+  const orders = await db
+    .select()
+    .from(dbTableOrder)
+    .where(whereClause)
+    .limit(size)
+    .offset((page - 1) * size)
+
+  const countRows = await db
+    .select({ count: count() })
+    .from(dbTableOrder)
+    .where(whereClause)
+
+  const total = countRows[0]?.count ?? 0
+
+  return {
+    orders: dbSchemaOrderSelect.array().parse(orders),
+    total,
+  }
 })

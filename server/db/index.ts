@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
+import * as schema from '~~/server/db/schemas/tables'
 import env from '~~/server/libs/env'
-import * as schema from '../../layers/auth/server/db/schemas/tables'
 import 'dotenv/config'
 
 // Docs: https://supabase.com/docs/guides/database/drizzle
@@ -18,7 +18,3 @@ export const db = drizzle(client, {
   logger: false,
   casing: 'snake_case',
 })
-
-export type DB = typeof db
-export type DBTx = Parameters<Parameters<(DB)['transaction']>[0]>[0]
-export type DBOrTx = DB | DBTx

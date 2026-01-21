@@ -3,7 +3,10 @@ import env from './server/libs/env'
 import 'dotenv/config'
 
 export default defineConfig({
-  schema: './server/db/schemas/tables/',
+  schema: [
+    './server/db/schemas/tables/**/*.ts',
+    './layers/**/server/db/schemas/tables/**/*.ts',
+  ],
   out: './server/db/migrations',
   dialect: 'postgresql',
   dbCredentials: {
