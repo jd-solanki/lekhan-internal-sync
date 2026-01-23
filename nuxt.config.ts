@@ -27,6 +27,11 @@ export default defineNuxtConfig({
           So that while checking for admin, we are sure that user is already authenticated
         */
 
+        // Handle public group
+        if (page.meta?.groups?.includes('public')) {
+          addMiddlewareToPage(page, 'public')
+        }
+
         // Handle private group
         if (page.meta?.groups?.includes('private')) {
           addMiddlewareToPage(page, 'private')

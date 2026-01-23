@@ -142,8 +142,13 @@ export const usePaymentsStore = defineStore('payments', () => {
   async function init() {
     await Promise.all([
       fetchProducts(),
-      fetchSubscriptions(),
-      fetchOrders(),
+      // Only fetch subscriptions and orders if user is authenticated
+      ...(userStore.user
+        ? [
+            fetchSubscriptions(),
+            fetchOrders(),
+          ]
+        : []),
     ])
   }
 
