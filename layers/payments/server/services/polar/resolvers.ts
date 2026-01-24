@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { db } from '#server/db'
+
 import { dbTableProduct, dbTableSubscription, user as dbTableUser } from '#server/db/schemas/tables'
 import { eq } from 'drizzle-orm'
 

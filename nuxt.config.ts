@@ -266,7 +266,7 @@ export default defineNuxtConfig({
   nitro: {
     imports: {
       dirs: [
-        'server/db/index',
+        'server/db/*',
 
         // Utils of app & layers
         'server/utils/**/*',

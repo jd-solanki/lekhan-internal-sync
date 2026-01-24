@@ -1,5 +1,5 @@
 import type { Simplify } from 'type-fest'
-import { db } from '#server/db'
+
 import { user as userTable } from '#server/db/schemas/tables'
 import env from '#server/libs/env'
 import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'

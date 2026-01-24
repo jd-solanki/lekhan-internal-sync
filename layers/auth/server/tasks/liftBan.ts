@@ -1,4 +1,3 @@
-import { db } from '#server/db'
 import { user as tableUser } from '#server/db/schemas/tables'
 import { and, eq, inArray, isNotNull, lt } from 'drizzle-orm'
 

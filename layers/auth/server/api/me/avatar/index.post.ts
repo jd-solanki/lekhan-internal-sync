@@ -1,5 +1,5 @@
 import { randomUUID as uuidV4 } from 'node:crypto'
-import { db } from '#server/db'
+
 import { eq } from 'drizzle-orm'
 import { user } from '~~/layers/auth/server/db/schemas/tables/user'
 

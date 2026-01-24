@@ -1,4 +1,3 @@
-import { db } from '#server/db'
 import { and, count, eq } from 'drizzle-orm'
 import * as z from 'zod'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'

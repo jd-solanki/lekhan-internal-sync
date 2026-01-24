@@ -2,7 +2,7 @@
 import type { Order } from '@polar-sh/sdk/models/components/order'
 import type { H3Event } from 'h3'
 import type { DBOrderSelect } from '~~/layers/payments/shared/schemas/db'
-import { db } from '#server/db'
+
 import { dbTableOrder } from '#server/db/schemas/tables'
 import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
 import { eq } from 'drizzle-orm'

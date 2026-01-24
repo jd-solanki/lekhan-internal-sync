@@ -1,4 +1,3 @@
-import { db } from '#server/db'
 import { eq } from 'drizzle-orm'
 import { account } from '~~/layers/auth/server/db/schemas/tables/account'
 
