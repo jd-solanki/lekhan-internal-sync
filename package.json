@@ -51,7 +51,7 @@
     "nuxt": "^4.3.0",
     "nuxt-email-renderer": "^2.1.2",
     "nuxt-llms": "^0.1.4",
-    "nuxt-webhook-validators": "0.2.6",
+    "nuxt-webhook-validators": "^0.2.7",
     "pinia": "^3.0.4",
     "postgres": "^3.4.8",
     "typescript": "^5.9.3",

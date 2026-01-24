@@ -5,9 +5,7 @@
   // NOTE: Do not edit symlinked files manually. Prefer editing source files in `.prompts` directory
   "files.readonlyInclude": {
     ".cursor/**": true,
-    ".github/prompts/**": true,
-    "layers/payments/server/utils/polar/webhookValidationHelper.ts": true,
-    "layers/payments/server/utils/polar/validator.ts": true
+    ".github/prompts/**": true
   },
   // SECTION: antfu-eslint
   // Disable the default formatter, use eslint instead
