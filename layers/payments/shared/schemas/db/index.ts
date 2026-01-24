@@ -1,26 +1,23 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
-import { dbTableOrder, dbTableProduct, dbTableSubscription } from '#server/db/schemas/tables'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 
-// Pattern: dbSchema<entity><operation>
-export const dbSchemaProductSelect = createSelectSchema(dbTableProduct)
-export const dbSchemaProductInsert = createInsertSchema(dbTableProduct)
-export const dbSchemaProductUpdate = createUpdateSchema(dbTableProduct)
+export const dbSchemaPolarProductSelect = createSelectSchema(dbTablePolarProduct)
+export const dbSchemaPolarProductInsert = createInsertSchema(dbTablePolarProduct)
+export const dbSchemaPolarProductUpdate = createUpdateSchema(dbTablePolarProduct)
 
-export const dbSchemaSubscriptionSelect = createSelectSchema(dbTableSubscription)
-export const dbSchemaSubscriptionInsert = createInsertSchema(dbTableSubscription)
-export const dbSchemaSubscriptionUpdate = createUpdateSchema(dbTableSubscription)
+export const dbSchemaPolarSubscriptionSelect = createSelectSchema(dbTablePolarSubscription)
+export const dbSchemaPolarSubscriptionInsert = createInsertSchema(dbTablePolarSubscription)
+export const dbSchemaPolarSubscriptionUpdate = createUpdateSchema(dbTablePolarSubscription)
 
-export const dbSchemaOrderSelect = createSelectSchema(dbTableOrder)
-export const dbSchemaOrderInsert = createInsertSchema(dbTableOrder)
-export const dbSchemaOrderUpdate = createUpdateSchema(dbTableOrder)
+export const dbSchemaPolarOrderSelect = createSelectSchema(dbTablePolarOrder)
+export const dbSchemaPolarOrderInsert = createInsertSchema(dbTablePolarOrder)
+export const dbSchemaPolarOrderUpdate = createUpdateSchema(dbTablePolarOrder)
 
-// Pattern: DB<entity><operation>
-export type DBProductSelect = InferSelectModel<typeof dbTableProduct>
-export type DBProductInsert = InferInsertModel<typeof dbTableProduct>
+export type DBSelectPolarProduct = InferSelectModel<typeof dbTablePolarProduct>
+export type DBInsertPolarProduct = InferInsertModel<typeof dbTablePolarProduct>
 
-export type DBSSubscriptionSelect = InferSelectModel<typeof dbTableSubscription>
-export type DBSubscriptionInsert = InferInsertModel<typeof dbTableSubscription>
+export type DBSelectPolarSubscription = InferSelectModel<typeof dbTablePolarSubscription>
+export type DBInsertPolarSubscription = InferInsertModel<typeof dbTablePolarSubscription>
 
-export type DBOrderSelect = InferSelectModel<typeof dbTableOrder>
-export type DBOrderInsert = InferInsertModel<typeof dbTableOrder>
+export type DBSelectPolarOrder = InferSelectModel<typeof dbTablePolarOrder>
+export type DBInsertPolarOrder = InferInsertModel<typeof dbTablePolarOrder>

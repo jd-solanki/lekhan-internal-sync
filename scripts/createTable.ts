@@ -13,32 +13,38 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+function to_pascalCase(str: string) {
+  return str
+    .split(/_|-|\s+/)
+    .map(word => capitalize(word))
+    .join('')
+}
+
 function getTableTemplate(tableName: string) {
   return `
 import { relations } from 'drizzle-orm'
 import { boolean, integer, pgEnum, pgTable, primaryKey, text, varchar } from 'drizzle-orm/pg-core'
 import { mixinCreatedAt, mixinDeletedAt, mixinId, mixinUpdatedAt } from '../mixins'
 
-export const ${capitalize(tableName)}Table = pgTable('${tableName}', {
+export const dbTable${to_pascalCase(tableName)} = pgTable('${tableName}', {
   ...mixinId(),
 }
 `.trim()
 }
 
 function getSchemaTemplate(tableName: string) {
-  const capitalizedTableName = capitalize(tableName)
+  const formattedTableName = to_pascalCase(tableName)
 
   return `
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'  
-import { ${capitalizedTableName}Table } from '#server/db/schemas/tables'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 
-export const db${capitalizedTableName}SelectSchema = createSelectSchema(${capitalizedTableName}Table)
-export const db${capitalizedTableName}InsertSchema = createInsertSchema(${capitalizedTableName}Table)
-export const db${capitalizedTableName}UpdateSchema = createUpdateSchema(${capitalizedTableName}Table)
+export const dbSchema${formattedTableName}Select = createSelectSchema(dbTable${formattedTableName})
+export const dbSchema${formattedTableName}Insert = createInsertSchema(dbTable${formattedTableName})
+export const dbSchema${formattedTableName}Update = createUpdateSchema(dbTable${formattedTableName})
 
-export type DBSelect${capitalizedTableName} = InferSelectModel<typeof ${capitalizedTableName}Table>
-export type DBInsert${capitalizedTableName} = InferInsertModel<typeof ${capitalizedTableName}Table>
+export type DBSelect${formattedTableName} = InferSelectModel<typeof ${formattedTableName}Table>
+export type DBInsert${formattedTableName} = InferInsertModel<typeof ${formattedTableName}Table>
 `.trim()
 }
 

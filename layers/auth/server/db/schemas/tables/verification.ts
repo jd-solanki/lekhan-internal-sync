@@ -2,7 +2,7 @@
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../../../../../../layers/01.base/server/db/schemas/mixins'
 
-export const verification = pgTable('verification', {
+export const dbTableVerification = pgTable('verification', {
   ...mixinId(),
   identifier: text().notNull(),
   value: text().notNull(),

@@ -1,10 +1,9 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
-import { account } from '#server/db/schemas/tables'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 
-export const dbAccountSelectSchema = createSelectSchema(account)
-export const dbAccountInsertSchema = createInsertSchema(account)
-export const dbAccountUpdateSchema = createUpdateSchema(account)
+export const dbSchemaAccountSelect = createSelectSchema(dbTableAccount)
+export const dbSchemaAccountInsert = createInsertSchema(dbTableAccount)
+export const dbSchemaAccountUpdate = createUpdateSchema(dbTableAccount)
 
-export type DBSelectAccount = InferSelectModel<typeof account>
-export type DBInsertAccount = InferInsertModel<typeof account>
+export type DBSelectAccount = InferSelectModel<typeof dbTableAccount>
+export type DBInsertAccount = InferInsertModel<typeof dbTableAccount>

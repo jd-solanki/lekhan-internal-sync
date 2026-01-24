@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import type { Order } from '@polar-sh/sdk/models/components/order'
 import type { H3Event } from 'h3'
-import type { DBOrderSelect } from '~~/layers/payments/shared/schemas/db'
 
-import { dbTableOrder } from '#server/db/schemas/tables'
 import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
 import { eq } from 'drizzle-orm'
 import { resolveProductId, resolveSubscriptionId, resolveUserIdFromExternalId } from './resolvers'
@@ -34,8 +32,8 @@ export function parseOrderPayload(rawData: unknown, eventType: string): Order | 
 }
 
 export async function isOrderStale(orderPayload: Order): Promise<boolean> {
-  const existingOrder = await db.query.dbTableOrder.findFirst({
-    where: eq(dbTableOrder.polarId, orderPayload.id),
+  const existingOrder = await db.query.dbTablePolarOrder.findFirst({
+    where: eq(dbTablePolarOrder.polarId, orderPayload.id),
   })
 
   if (!existingOrder) {
@@ -86,7 +84,7 @@ export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event)
   }
 
   const [order] = await db
-    .insert(dbTableOrder)
+    .insert(dbTablePolarOrder)
     .values({
       ...updateFields,
       polarId: orderPayload.id,
@@ -101,7 +99,7 @@ export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event)
       polarCheckoutId: orderPayload.checkoutId,
     })
     .onConflictDoUpdate({
-      target: dbTableOrder.polarId,
+      target: dbTablePolarOrder.polarId,
       set: updateFields,
     })
     .returning()

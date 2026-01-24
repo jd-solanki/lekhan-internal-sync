@@ -255,6 +255,12 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
+      // DB Tables of app & layers
+      '../server/db/schemas/tables/*',
+      '!../server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
+      '../layers/*/server/db/schemas/tables/*',
+      '!../layers/*/server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
+
       // Shared schemas of app & layers
       '../shared/schemas/**',
       '../layers/*/shared/schemas/**',
@@ -266,7 +272,13 @@ export default defineNuxtConfig({
   nitro: {
     imports: {
       dirs: [
-        'server/db/*',
+        'server/db/*', // Allow db const auto import
+
+        // DB Tables of app & layers
+        'server/db/schemas/tables/*',
+        '!server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
+        'layers/*/server/db/schemas/tables/*',
+        '!layers/*/server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
 
         // Utils of app & layers
         'server/utils/**/*',

@@ -2,7 +2,6 @@
 import type { Customer } from '@polar-sh/sdk/models/components/customer'
 import type { PolarWebhookEvent } from '../types'
 
-import { user as dbTableUser } from '#server/db/schemas/tables'
 import { Customer$inboundSchema } from '@polar-sh/sdk/models/components/customer'
 import { eq } from 'drizzle-orm'
 import { lower } from '~~/layers/01.base/server/db/schemas/functions'
@@ -55,7 +54,7 @@ export async function handleCustomerCreated(event: PolarWebhookEvent): Promise<v
 
   const normalizedEmail = customerPayload.email.trim().toLowerCase()
 
-  const existingUser = await db.query.user.findFirst({
+  const existingUser = await db.query.dbTableUser.findFirst({
     where: eq(lower(dbTableUser.email), normalizedEmail),
   })
 

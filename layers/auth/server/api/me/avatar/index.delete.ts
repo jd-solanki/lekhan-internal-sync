@@ -1,11 +1,10 @@
 import { eq } from 'drizzle-orm'
-import { user } from '~~/layers/auth/server/db/schemas/tables/user'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id
 
-  const currentUser = await db.query.user.findFirst({
-    where: eq(user.id, userId),
+  const currentUser = await db.query.dbTableUser.findFirst({
+    where: eq(dbTableUser.id, userId),
     columns: { image: true },
   })
 
@@ -20,9 +19,9 @@ export default defineAuthenticatedEventHandler(async (event) => {
   await storage.removeItem(currentUser.image).catch(() => {})
 
   await db
-    .update(user)
+    .update(dbTableUser)
     .set({ image: null })
-    .where(eq(user.id, userId))
+    .where(eq(dbTableUser.id, userId))
 
   setResponseStatus(event, 204)
 })

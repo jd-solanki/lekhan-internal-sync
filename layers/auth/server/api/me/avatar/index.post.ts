@@ -1,7 +1,6 @@
 import { randomUUID as uuidV4 } from 'node:crypto'
 
 import { eq } from 'drizzle-orm'
-import { user } from '~~/layers/auth/server/db/schemas/tables/user'
 
 const MAX_SIZE_MB = 1
 const ALLOWED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/gif']
@@ -24,8 +23,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const storage = useStorage('file')
   await storage.setItemRaw(filePath, fileData.data)
 
-  const currentUser = await db.query.user.findFirst({
-    where: eq(user.id, userId),
+  const currentUser = await db.query.dbTableUser.findFirst({
+    where: eq(dbTableUser.id, userId),
     columns: { image: true },
   })
 
@@ -34,9 +33,9 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
 
   await db
-    .update(user)
+    .update(dbTableUser)
     .set({ image: filePath })
-    .where(eq(user.id, userId))
+    .where(eq(dbTableUser.id, userId))
 
   return {
     filePath,

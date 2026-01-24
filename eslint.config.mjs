@@ -31,7 +31,6 @@ export default withNuxt(
     // Disable md linting
     markdown: false,
   }),
-  // Add regex plugin for custom rules
   {
     plugins: {
       'local': { rules },
@@ -43,8 +42,33 @@ export default withNuxt(
       // Local rules
       'local/no-statuscode-in-create-error': 'error',
       'local/no-statusmessage-in-create-error': 'error',
+      'local/db-table-naming': 'error',
+      'local/db-zod-schema-naming': 'error',
+      'local/db-type-naming': 'error',
 
       'case-police/string-check': 'warn',
+
+      // Import rules
+      'no-restricted-imports': ['error', {
+        patterns: [
+          {
+            group: [
+              '**/shared/schemas/db',
+              '**/shared/schemas/db/**',
+            ],
+            message: 'Database table schemas & its types are auto imported, do not import them manually.',
+          },
+          {
+            group: [
+              '*server/db/schemas/tables',
+              '*server/db/schemas/tables/**',
+              '**/server/db/schemas/tables',
+              '**/server/db/schemas/tables/**',
+            ],
+            message: 'Database tables are auto imported, do not import them manually.',
+          },
+        ],
+      }],
 
       'harlanzw/link-ascii-only': 'error',
       'harlanzw/link-lowercase': 'error',

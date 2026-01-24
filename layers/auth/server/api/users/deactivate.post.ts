@@ -1,5 +1,4 @@
 import { eq } from 'drizzle-orm'
-import { user } from '~~/layers/auth/server/db/schemas/tables/user'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id
@@ -7,9 +6,9 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     // Set deactivatedAt timestamp
     const [updatedUser] = await db
-      .update(user)
+      .update(dbTableUser)
       .set({ deactivatedAt: new Date() })
-      .where(eq(user.id, userId))
+      .where(eq(dbTableUser.id, userId))
       .returning()
 
     return {

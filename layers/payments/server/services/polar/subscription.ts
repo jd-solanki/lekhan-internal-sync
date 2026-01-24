@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import type { Subscription } from '@polar-sh/sdk/models/components/subscription'
-import type { DBSSubscriptionSelect } from '~~/layers/payments/shared/schemas/db'
 
-import { dbTableSubscription } from '#server/db/schemas/tables'
 import { Subscription$inboundSchema } from '@polar-sh/sdk/models/components/subscription'
 import { eq } from 'drizzle-orm'
 import { resolveProductId, resolveUserIdFromExternalId } from './resolvers'
@@ -33,8 +31,8 @@ export function parseSubscriptionPayload(rawData: unknown, eventType: string): S
 }
 
 export async function isSubscriptionStale(subscriptionPayload: Subscription): Promise<boolean> {
-  const existingSubscription = await db.query.dbTableSubscription.findFirst({
-    where: eq(dbTableSubscription.polarId, subscriptionPayload.id),
+  const existingSubscription = await db.query.dbTablePolarSubscription.findFirst({
+    where: eq(dbTablePolarSubscription.polarId, subscriptionPayload.id),
   })
 
   if (!existingSubscription) {
@@ -80,7 +78,7 @@ export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscript
   }
 
   const [subscription] = await db
-    .insert(dbTableSubscription)
+    .insert(dbTablePolarSubscription)
     .values({
       ...updateFields,
       polarId: subscriptionPayload.id,
@@ -93,7 +91,7 @@ export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscript
       polarCheckoutId: subscriptionPayload.checkoutId,
     })
     .onConflictDoUpdate({
-      target: dbTableSubscription.polarId,
+      target: dbTablePolarSubscription.polarId,
       set: updateFields,
     })
     .returning()

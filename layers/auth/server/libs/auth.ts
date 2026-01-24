@@ -1,6 +1,5 @@
 import type { Simplify } from 'type-fest'
 
-import { user as userTable } from '#server/db/schemas/tables'
 import env from '#server/libs/env'
 import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
@@ -15,7 +14,16 @@ import { polarClient } from '~~/layers/payments/server/libs/polar'
 const runtimeConfig = useRuntimeConfig()
 
 export const auth = betterAuth({
+  account: {
+    modelName: 'dbTableAccount',
+    accountLinking: {
+      enabled: true,
+    },
+  },
+  verification: { modelName: 'dbTableVerification' },
+  session: { modelName: 'dbTableSession' },
   user: {
+    modelName: 'dbTableUser',
     // Docs: https://www.better-auth.com/docs/concepts/database#extending-core-schema
     // NOTE: Don't add `fieldName` in `additionalFields` as its identifies DB col from schema. Adding `fieldName` will return `undefined`.
     additionalFields: {
@@ -124,9 +132,9 @@ export const auth = betterAuth({
         const newSession = ctx.context.newSession
         if (newSession && newSession.user.deactivatedAt) {
           await db
-            .update(userTable)
+            .update(dbTableUser)
             .set({ deactivatedAt: null })
-            .where(eq(userTable.id, newSession.user.id as unknown as number))
+            .where(eq(dbTableUser.id, newSession.user.id as unknown as number))
           // eslint-disable-next-line no-console
           console.log(`♻️  Reactivated user id=${newSession.user.id} by setting deactivatedAt to null`)
         }
@@ -150,9 +158,9 @@ export const auth = betterAuth({
         },
         async after(session, _ctx) {
           // Update last sign in time on session create on user table
-          await db.update(userTable)
+          await db.update(dbTableUser)
             .set({ lastSignInAt: new Date() })
-            .where(eq(userTable.id, session.userId as unknown as number))
+            .where(eq(dbTableUser.id, session.userId as unknown as number))
         },
       },
     },
@@ -230,11 +238,6 @@ export const auth = betterAuth({
     github: {
       clientId: env.AUTH_GITHUB_CLIENT_ID,
       clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
-    },
-  },
-  account: {
-    accountLinking: {
-      enabled: true,
     },
   },
   database: drizzleAdapter(db, {

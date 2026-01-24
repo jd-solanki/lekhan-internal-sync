@@ -1,4 +1,3 @@
-import { user as tableUser } from '#server/db/schemas/tables'
 import { and, eq, inArray, isNotNull, lt } from 'drizzle-orm'
 
 export default defineTask({
@@ -10,12 +9,12 @@ export default defineTask({
     // eslint-disable-next-line no-console
     console.log('Running liftBan task...')
 
-    const result = await db.query.user.findMany({
+    const result = await db.query.dbTableUser.findMany({
       where: (
         and(
-          eq(tableUser.banned, true),
-          isNotNull(tableUser.banExpires),
-          lt(tableUser.banExpires, new Date().toISOString()),
+          eq(dbTableUser.banned, true),
+          isNotNull(dbTableUser.banExpires),
+          lt(dbTableUser.banExpires, new Date().toISOString()),
         )
       ),
     })

@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import type { Product } from '@polar-sh/sdk/models/components/product'
 
-import { dbTableProduct } from '#server/db/schemas/tables'
 import { Product$inboundSchema } from '@polar-sh/sdk/models/components/product'
 import { eq } from 'drizzle-orm'
 
@@ -63,8 +62,8 @@ export function parseProductPayload(rawData: unknown, eventType: string): Produc
  * Returns true if webhook should be skipped.
  */
 export async function isStaleWebhook(productPayload: Product): Promise<boolean> {
-  const existingDBProduct = await db.query.dbTableProduct.findFirst({
-    where: eq(dbTableProduct.polarId, productPayload.id),
+  const existingDBProduct = await db.query.dbTablePolarProduct.findFirst({
+    where: eq(dbTablePolarProduct.polarId, productPayload.id),
   })
 
   if (!existingDBProduct) {
@@ -119,7 +118,7 @@ export async function upsertProduct(productPayload: Product): Promise<void> {
   }
 
   const [product] = await db
-    .insert(dbTableProduct)
+    .insert(dbTablePolarProduct)
     .values({
       ...updateFields,
       polarId: productPayload.id,
@@ -127,7 +126,7 @@ export async function upsertProduct(productPayload: Product): Promise<void> {
       organizationId: productPayload.organizationId,
     })
     .onConflictDoUpdate({
-      target: dbTableProduct.polarId,
+      target: dbTablePolarProduct.polarId,
       set: updateFields,
     })
     .returning()

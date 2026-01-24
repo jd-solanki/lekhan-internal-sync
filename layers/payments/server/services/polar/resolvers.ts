@@ -1,6 +1,5 @@
 import type { H3Event } from 'h3'
 
-import { dbTableProduct, dbTableSubscription, user as dbTableUser } from '#server/db/schemas/tables'
 import { eq } from 'drizzle-orm'
 
 export async function resolveUserIdFromExternalId(externalId: string | null, entityLabel: string): Promise<number> {
@@ -15,7 +14,7 @@ export async function resolveUserIdFromExternalId(externalId: string | null, ent
   }
 
   // Ensure we only sync data for users that exist locally.
-  const existingUser = await db.query.user.findFirst({
+  const existingUser = await db.query.dbTableUser.findFirst({
     where: eq(dbTableUser.id, userId),
   })
 
@@ -31,8 +30,8 @@ export async function resolveProductId(polarProductId: string | null, entityLabe
     throw new Error(`Missing product id for ${entityLabel}`)
   }
 
-  const existingProduct = await db.query.dbTableProduct.findFirst({
-    where: eq(dbTableProduct.polarId, polarProductId),
+  const existingProduct = await db.query.dbTablePolarProduct.findFirst({
+    where: eq(dbTablePolarProduct.polarId, polarProductId),
   })
 
   if (!existingProduct) {
@@ -47,8 +46,8 @@ export async function resolveSubscriptionId(polarSubscriptionId: string | null, 
     return null
   }
 
-  const existingSubscription = await db.query.dbTableSubscription.findFirst({
-    where: eq(dbTableSubscription.polarId, polarSubscriptionId),
+  const existingSubscription = await db.query.dbTablePolarSubscription.findFirst({
+    where: eq(dbTablePolarSubscription.polarId, polarSubscriptionId),
   })
 
   // If subscription not found, try to sync it from Polar if we have an event context

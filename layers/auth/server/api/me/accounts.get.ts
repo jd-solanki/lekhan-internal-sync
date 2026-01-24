@@ -1,5 +1,4 @@
 import { eq } from 'drizzle-orm'
-import { account } from '~~/layers/auth/server/db/schemas/tables/account'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id
@@ -11,12 +10,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
   // Fetch all accounts for current user
   const allAccounts = await db
     .select({
-      providerId: account.providerId,
-      accountId: account.accountId,
-      createdAt: account.createdAt,
+      providerId: dbTableAccount.providerId,
+      accountId: dbTableAccount.accountId,
+      createdAt: dbTableAccount.createdAt,
     })
-    .from(account)
-    .where(eq(account.userId, userId))
+    .from(dbTableAccount)
+    .where(eq(dbTableAccount.userId, userId))
 
   // Check if user has email/password account
   const hasEmailAccount = allAccounts.some(acc => acc.providerId === 'credential')
