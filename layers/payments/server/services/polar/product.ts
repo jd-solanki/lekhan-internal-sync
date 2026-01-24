@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import type { Product } from '@polar-sh/sdk/models/components/product'
+import { db } from '#server/db'
+import { dbTableProduct } from '#server/db/schemas/tables'
 import { Product$inboundSchema } from '@polar-sh/sdk/models/components/product'
 import { eq } from 'drizzle-orm'
-import { db } from '~~/server/db'
-import { dbTableProduct } from '~~/server/db/schemas/tables'
 
 /**
  * Computes the latest product-related change time.

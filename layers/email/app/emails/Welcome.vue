@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import env from '~~/server/libs/env'
+import env from '#server/libs/env'
 import EmailLayoutDefault from './layouts/EmailLayoutDefault.vue'
 
 export interface Props {

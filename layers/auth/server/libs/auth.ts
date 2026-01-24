@@ -1,4 +1,7 @@
 import type { Simplify } from 'type-fest'
+import { db } from '#server/db'
+import { user as userTable } from '#server/db/schemas/tables'
+import env from '#server/libs/env'
 import { checkout, polar, portal, usage, webhooks } from '@polar-sh/better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { betterAuth } from 'better-auth/minimal'
@@ -8,9 +11,6 @@ import * as z from 'zod'
 import { handleOAuthAccountLinkEmailMismatch } from '~~/layers/auth/server/utils/auth'
 import { sendEmail } from '~~/layers/email/server/utils/email'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
-import { db } from '~~/server/db'
-import { user as userTable } from '~~/server/db/schemas/tables'
-import env from '~~/server/libs/env'
 
 const runtimeConfig = useRuntimeConfig()
 

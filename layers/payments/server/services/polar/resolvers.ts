@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
+import { db } from '#server/db'
+import { dbTableProduct, dbTableSubscription, user as dbTableUser } from '#server/db/schemas/tables'
 import { eq } from 'drizzle-orm'
-import { db } from '~~/server/db'
-import { dbTableProduct, dbTableSubscription, user as dbTableUser } from '~~/server/db/schemas/tables'
 
 export async function resolveUserIdFromExternalId(externalId: string | null, entityLabel: string): Promise<number> {
   if (!externalId) {

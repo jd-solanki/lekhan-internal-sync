@@ -1,8 +1,8 @@
+import { db } from '#server/db'
 import { count, eq } from 'drizzle-orm'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
 import { dbTableSubscription } from '~~/layers/payments/server/db/schemas/tables'
 import { dbSchemaSubscriptionSelect } from '~~/layers/payments/shared/schemas/db'
-import { db } from '~~/server/db'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const { page, size } = await getValidatedQuery(event, paginationSchema.parse)

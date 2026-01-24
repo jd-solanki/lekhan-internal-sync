@@ -1,6 +1,6 @@
+import { db } from '#server/db'
 import { eq } from 'drizzle-orm'
 import { user } from '~~/layers/auth/server/db/schemas/tables/user'
-import { db } from '~~/server/db'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id

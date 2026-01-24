@@ -1,6 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
+import { verification } from '#server/db/schemas/tables'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
-import { verification } from '~~/server/db/schemas/tables'
 
 export const dbVerificationSelectSchema = createSelectSchema(verification)
 export const dbVerificationInsertSchema = createInsertSchema(verification)

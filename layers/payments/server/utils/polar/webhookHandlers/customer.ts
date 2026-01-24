@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import type { Customer } from '@polar-sh/sdk/models/components/customer'
 import type { PolarWebhookEvent } from '../types'
+import { db } from '#server/db'
+import { user as dbTableUser } from '#server/db/schemas/tables'
 import { Customer$inboundSchema } from '@polar-sh/sdk/models/components/customer'
 import { eq } from 'drizzle-orm'
 import { lower } from '~~/layers/01.base/server/db/schemas/functions'
-import { db } from '~~/server/db'
-import { user as dbTableUser } from '~~/server/db/schemas/tables'
 
 /**
  * Parse and validate the customer payload from Polar.

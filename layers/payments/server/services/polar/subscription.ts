@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import type { Subscription } from '@polar-sh/sdk/models/components/subscription'
 import type { DBSSubscriptionSelect } from '~~/layers/payments/shared/schemas/db'
+import { db } from '#server/db'
+import { dbTableSubscription } from '#server/db/schemas/tables'
 import { Subscription$inboundSchema } from '@polar-sh/sdk/models/components/subscription'
 import { eq } from 'drizzle-orm'
-import { db } from '~~/server/db'
-import { dbTableSubscription } from '~~/server/db/schemas/tables'
 import { resolveProductId, resolveUserIdFromExternalId } from './resolvers'
 
 export function parseSubscriptionPayload(rawData: unknown, eventType: string): Subscription | null {
