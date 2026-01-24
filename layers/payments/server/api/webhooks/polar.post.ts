@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import type { PolarWebhookEvent } from '~~/layers/payments/server/utils/polar/types'
-import { isValidPolarWebhook } from '~~/layers/payments/server/utils/polar/validator'
+import { isValidPolarWebhookPatched } from '~~/layers/payments/server/utils/polar/validator'
 import { handleCustomerCreated } from '~~/layers/payments/server/utils/polar/webhookHandlers/customer'
 import { handleOrderEvent } from '~~/layers/payments/server/utils/polar/webhookHandlers/order'
 import { handleProductCreated } from '~~/layers/payments/server/utils/polar/webhookHandlers/product'
@@ -25,7 +25,7 @@ const handlers: Record<string, PolarEventHandler> = {
 }
 
 export default defineEventHandler(async (event) => {
-  const { isValidWebhook, rawBody } = await isValidPolarWebhook(event)
+  const { isValidWebhook, rawBody } = await isValidPolarWebhookPatched(event)
 
   if (!isValidWebhook) {
     throw createError({ statusCode: 401, message: 'Unauthorized: webhook is not valid' })

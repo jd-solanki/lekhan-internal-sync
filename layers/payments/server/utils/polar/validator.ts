@@ -16,7 +16,7 @@ const DEFAULT_TOLERANCE = 300 // 5 minutes
  * @param event H3Event
  * @returns {boolean} `true` if the webhook is valid, `false` otherwise
  */
-export async function isValidPolarWebhook(event: H3Event): Promise<{ isValidWebhook: boolean, rawBody: string | undefined }> {
+export async function isValidPolarWebhookPatched(event: H3Event): Promise<{ isValidWebhook: boolean, rawBody: string | undefined }> {
   const config = ensureConfiguration('polar', event)
 
   const headers = getRequestHeaders(event)
