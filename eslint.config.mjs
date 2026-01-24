@@ -3,7 +3,12 @@ import antfu from '@antfu/eslint-config'
 import pluginCasePolice from 'eslint-plugin-case-police'
 import harlanzw from 'eslint-plugin-harlanzw'
 import regexPlugin from 'eslint-plugin-regex'
+import { createJiti } from 'jiti'
 import withNuxt from './.nuxt/eslint.config.mjs'
+
+// INFO: We're planning to create separate package for custom rules in future.
+const jiti = createJiti(import.meta.url)
+const { rules } = jiti('./eslint/index.ts')
 
 export default withNuxt(
   // Global ignores - applies to all configurations
@@ -29,11 +34,16 @@ export default withNuxt(
   // Add regex plugin for custom rules
   {
     plugins: {
+      'local': { rules },
       'case-police': pluginCasePolice,
       'regex': regexPlugin,
       harlanzw,
     },
     rules: {
+      // Local rules
+      'local/no-statuscode-in-create-error': 'error',
+      'local/no-statusmessage-in-create-error': 'error',
+
       'case-police/string-check': 'warn',
 
       'harlanzw/link-ascii-only': 'error',

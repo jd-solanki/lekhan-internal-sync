@@ -19,8 +19,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
   catch (error) {
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to deactivate account',
+      status: 500,
+      statusText: 'Failed to deactivate account',
       data: error,
     })
   }

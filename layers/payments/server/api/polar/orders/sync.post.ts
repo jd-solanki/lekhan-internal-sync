@@ -19,11 +19,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const order = response.result.items?.[0]
 
   if (!order) {
-    throw createError({ statusCode: 404, message: 'Order not found for checkout.' })
+    throw createError({ status: 404, message: 'Order not found for checkout.' })
   }
 
   if (order.customer.externalId !== String(user.id)) {
-    throw createError({ statusCode: 403, message: 'Order does not belong to this user.' })
+    throw createError({ status: 403, message: 'Order does not belong to this user.' })
   }
 
   const syncedOrder = await upsertOrderFromPolar(order, event)

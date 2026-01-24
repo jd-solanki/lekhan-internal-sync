@@ -5,7 +5,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['tests/**/*.{test,spec}.{js,ts}'],
+    include: [
+      'eslint/tests/**/*.test.ts',
+      'tests/**/*.{test,spec}.{js,ts}',
+    ],
     typecheck: {
       enabled: true,
     },
@@ -13,6 +16,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': fileURLToPath(new URL('./', import.meta.url)),
+      '~~': fileURLToPath(new URL('./', import.meta.url)),
       '@': fileURLToPath(new URL('./', import.meta.url)),
     },
   },

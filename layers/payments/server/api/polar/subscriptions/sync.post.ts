@@ -16,7 +16,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   })
 
   if (subscription.customer.externalId !== String(user.id)) {
-    throw createError({ statusCode: 403, message: 'Subscription does not belong to this user.' })
+    throw createError({ status: 403, message: 'Subscription does not belong to this user.' })
   }
 
   const syncedSubscription = await upsertSubscriptionFromPolar(subscription)

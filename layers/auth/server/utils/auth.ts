@@ -20,7 +20,7 @@ export function defineAuthenticatedEventHandler<T>(
 
     // If user is not authenticated throw 401 error
     if (!session?.user) {
-      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+      throw createError({ status: 401, statusText: 'Unauthorized' })
     }
 
     // Assign user to event context so it can be accessed in the handler
@@ -38,7 +38,7 @@ export function defineAdminEventHandler<T>(
 
     // If user is not admin throw 403 error
     if (user.role !== 'admin') {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+      throw createError({ status: 403, statusText: 'Forbidden' })
     }
 
     return handler(event as AdminEvent)

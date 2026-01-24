@@ -11,8 +11,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
   if (!currentUser?.image) {
     throw createError({
-      statusCode: 404,
-      statusMessage: 'No avatar to delete',
+      status: 404,
+      statusText: 'No avatar to delete',
     })
   }
 

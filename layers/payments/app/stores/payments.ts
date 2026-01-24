@@ -181,7 +181,7 @@ export const usePaymentsStore = defineStore('payments', () => {
     // Get polar product id or throw
     const polarProductId = getPolarProductId(productId)
     if (!polarProductId) {
-      throw createError({ statusCode: 404, message: `Product with id=${productId} not found` })
+      throw createError({ status: 404, message: `Product with id=${productId} not found` })
     }
 
     await authClient.checkout({
@@ -192,12 +192,12 @@ export const usePaymentsStore = defineStore('payments', () => {
   const changePlan = async (productId: number, isDowngrade: boolean) => {
     const subscription = activeSubscription.value
     if (!subscription) {
-      throw createError({ statusCode: 400, message: 'No active subscription' })
+      throw createError({ status: 400, message: 'No active subscription' })
     }
 
     const polarProductId = getPolarProductId(productId)
     if (!polarProductId) {
-      throw createError({ statusCode: 404, message: `Product with id=${productId} not found` })
+      throw createError({ status: 404, message: `Product with id=${productId} not found` })
     }
 
     const executeChangePlan = async () => {
@@ -239,7 +239,7 @@ export const usePaymentsStore = defineStore('payments', () => {
   const resumeSubscription = async () => {
     const subscription = activeSubscription.value
     if (!subscription) {
-      throw createError({ statusCode: 400, message: 'No active subscription' })
+      throw createError({ status: 400, message: 'No active subscription' })
     }
 
     // Uncancel subscription that is scheduled to end.

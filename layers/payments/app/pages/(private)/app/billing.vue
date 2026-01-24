@@ -21,8 +21,8 @@ const cancelDateLabel = computed(() => {
 
 if (!product.value) {
   throw createError({
-    statusCode: 404,
-    statusMessage: 'No products found',
+    status: 404,
+    statusText: 'No products found',
   })
 }
 

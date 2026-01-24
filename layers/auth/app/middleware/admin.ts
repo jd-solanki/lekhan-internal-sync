@@ -18,6 +18,6 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   // Now check if user is admin
   if (userStore.user?.role !== 'admin') {
     // User is not admin, abort navigation with 403 error
-    return abortNavigation(createError({ statusCode: 403, statusMessage: 'Forbidden' }))
+    return abortNavigation(createError({ status: 403, statusText: 'Forbidden' }))
   }
 })
