@@ -46,7 +46,7 @@ export async function isOrderStale(orderPayload: Order): Promise<boolean> {
   return existingModifiedAt >= payloadModifiedAt
 }
 
-export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event): Promise<DBOrderSelect> {
+export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event): Promise<DBSelectPolarOrder> {
   const orderLabel = `order ${orderPayload.id}`
   const userId = await resolveUserIdFromExternalId(orderPayload.customer.externalId, orderLabel)
   const [productId, subscriptionId] = await Promise.all([

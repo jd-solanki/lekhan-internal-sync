@@ -31,7 +31,12 @@ export const useUserStore = defineStore('user', () => {
   const user = computed(() => session.value?.data?.user as User | undefined)
   const userSession = computed(() => session.value?.data?.session)
   const isUserAdmin = computed(() => user.value?.role === 'admin')
+
   const avatarUrl = computed(() => genImgUrlFromKey(user.value?.image))
+  const getAvatarUrl = (image: string | null | undefined) => {
+    return genImgUrlFromKey(image)
+  }
+
   const userHomeRoute = computed(() => {
     if (!user.value)
       return runtimeConfig.public.app.routes.signIn
@@ -363,6 +368,7 @@ export const useUserStore = defineStore('user', () => {
     userSession,
     isUserAdmin,
     avatarUrl,
+    getAvatarUrl,
     userHomeRoute,
     isLoading,
 

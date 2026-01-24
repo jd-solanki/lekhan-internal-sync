@@ -1,4 +1,4 @@
-import { and, count, eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import * as z from 'zod'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
 
@@ -19,22 +19,18 @@ export default defineEventHandler(async (event) => {
 
   const whereClause = filters.length > 1 ? and(...filters) : filters[0]
 
-  const products = await db
-    .select()
-    .from(dbTablePolarProduct)
-    .where(whereClause)
-    .limit(size)
-    .offset((page - 1) * size)
-
-  const countRows = await db
-    .select({ count: count() })
-    .from(dbTablePolarProduct)
-    .where(whereClause)
-
-  const total = countRows[0]?.count ?? 0
+  // const total = countRows[0]?.count ?? 0
+  const [products, totalResult] = await Promise.all([
+    db.query.dbTablePolarProduct.findMany({
+      where: whereClause,
+      limit: size,
+      offset: (page - 1) * size,
+    }),
+    db.$count(dbTablePolarProduct, whereClause),
+  ])
 
   return {
-    products: dbSchemaPolarProductSelect.array().parse(products),
-    total,
+    products,
+    total: totalResult,
   }
 })

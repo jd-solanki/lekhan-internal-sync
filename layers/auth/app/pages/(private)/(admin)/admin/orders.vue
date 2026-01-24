@@ -10,6 +10,8 @@ definePageMeta({
   },
 })
 
+const userStore = useUserStore()
+
 // Query Field
 const parsedQuery = useParsedQuery(paginationSchema)
 
@@ -21,6 +23,10 @@ const { data: orders, status } = await useFetch('/api/polar/orders', {
 type Order = InternalApi['/api/polar/orders']['get']['orders'][number]
 
 const columns: TableColumn<Order>[] = [
+  {
+    accessorKey: 'customer',
+    header: 'Customer',
+  },
   {
     header: 'Product',
     cell: ({ row }) => h(
@@ -72,7 +78,25 @@ const columns: TableColumn<Order>[] = [
       :columns="columns"
       :loading="status === 'pending'"
       class="flex-1"
-    />
+    >
+      <!-- Customer column cell slot: avatar + name + email -->
+      <template #customer-cell="{ row }">
+        <div class="flex items-center gap-3">
+          <!-- eslint-disable regex/invalid -->
+          <UAvatar
+            :src="userStore.getAvatarUrl(row.original.user.image)"
+            :text="getInitials(row.original.user.name)"
+            :alt="`${row.original.user.name} avatar`"
+            size="sm"
+          />
+          <!-- eslint-enable regex/invalid -->
+          <div class="flex flex-col">
+            <span class="font-medium text-highlighted">{{ row.original.user.name }}</span>
+            <span class="text-sm text-muted">{{ row.original.user.email }}</span>
+          </div>
+        </div>
+      </template>
+    </UTable>
 
     <!-- Pagination -->
     <TablePagination

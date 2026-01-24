@@ -45,7 +45,7 @@ export async function isSubscriptionStale(subscriptionPayload: Subscription): Pr
   return existingModifiedAt >= payloadModifiedAt
 }
 
-export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscription): Promise<DBSSubscriptionSelect> {
+export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscription): Promise<DBSelectPolarSubscription> {
   const subscriptionLabel = `subscription ${subscriptionPayload.id}`
   const userId = await resolveUserIdFromExternalId(subscriptionPayload.customer.externalId, subscriptionLabel)
   const productId = await resolveProductId(subscriptionPayload.productId, subscriptionLabel)
