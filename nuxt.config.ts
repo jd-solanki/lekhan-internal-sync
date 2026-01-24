@@ -1,6 +1,4 @@
-import type { NuxtPage } from 'nuxt/schema'
 import type { SocialProviderId } from './layers/auth/server/libs/auth'
-import { addMiddlewareToPage } from './layers/01.base/config/utils'
 import { exhaustive } from './layers/01.base/shared/utils/types'
 import env from './server/libs/env'
 
@@ -17,48 +15,6 @@ export default defineNuxtConfig({
   pageMetaDefaults: {
     defaults: {
       isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
-    },
-  },
-  hooks: {
-    'pages:resolved': function (pages) {
-      function setMiddleware(page: NuxtPage) {
-        /*
-          WARNING: Order matters here! So ensure private middleware is added first and admin afterwards
-          So that while checking for admin, we are sure that user is already authenticated
-        */
-
-        // Handle public group
-        if (page.meta?.groups?.includes('public')) {
-          addMiddlewareToPage(page, 'public')
-        }
-
-        // Handle private group
-        if (page.meta?.groups?.includes('private')) {
-          addMiddlewareToPage(page, 'private')
-        }
-
-        // Handle guest group
-        if (page.meta?.groups?.includes('guest')) {
-          addMiddlewareToPage(page, 'guest')
-        }
-
-        // Handle admin group
-        if (page.meta?.groups?.includes('admin')) {
-          addMiddlewareToPage(page, 'admin')
-        }
-      }
-
-      function processPages(pages: NuxtPage[]) {
-        for (const page of pages) {
-          setMiddleware(page)
-
-          if (page.children) {
-            processPages(page.children)
-          }
-        }
-      }
-
-      processPages(pages)
     },
   },
   css: ['~/assets/css/main.css'],
