@@ -12,7 +12,7 @@
 ## Coding Guidelines
 
 - Readable & Modular code
-- Follow KISS principle
+- Follow DRY & KISS principle
 - When building UI refer to `.prompts/nuxt-ui.instructions.md` file
 - Use `na nuxt prepare` before checking type issues to regenerate types
 - Add comments for What & Why. Avoid comments which I can infer from code (How)
