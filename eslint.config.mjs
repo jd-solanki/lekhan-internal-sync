@@ -128,12 +128,6 @@ export default withNuxt(
             regex: 'z\.date()',
             message: 'Use z.coerce.date() instead of z.date() for better parsing.',
           },
-          // TODO: This fails for cases like `:src="row.original.user.image"` or `userStore.getAvatarUrl(row.original.user.image)`
-          // Issue URL: https://github.com/nuxtstart/nuxtstart/issues/139
-          {
-            regex: '(userStore\\.)?user\\??\\.image',
-            message: 'Use `userStore.avatarUrl` or `userStore.getAvatarUrl` instead of `user.image` directly.',
-          },
         ],
       ],
     },

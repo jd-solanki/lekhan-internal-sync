@@ -82,14 +82,12 @@ const columns: TableColumn<Order>[] = [
       <!-- Customer column cell slot: avatar + name + email -->
       <template #customer-cell="{ row }">
         <div class="flex items-center gap-3">
-          <!-- eslint-disable regex/invalid -->
           <UAvatar
             :src="userStore.getAvatarUrl(row.original.user.image)"
             :text="getInitials(row.original.user.name)"
             :alt="`${row.original.user.name} avatar`"
             size="sm"
           />
-          <!-- eslint-enable regex/invalid -->
           <div class="flex flex-col">
             <span class="font-medium text-highlighted">{{ row.original.user.name }}</span>
             <span class="text-sm text-muted">{{ row.original.user.email }}</span>
