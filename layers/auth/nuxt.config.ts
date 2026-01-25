@@ -64,17 +64,10 @@ export default defineNuxtConfig({
     scheduledTasks: {
       [CRON_SCHEDULES_PRESET.EVERY_DAY]: ['liftBan'],
     },
-    imports: {
-      dirs: [
-        'server/utils/**/*', // Server utils
-        'shared/schemas/**/*', // Shared schemas
-      ],
-    },
   },
   imports: {
     dirs: [
       'libs/auth', // authClient
-      '../shared/schemas/**', // Shared schemas
     ],
   },
 })

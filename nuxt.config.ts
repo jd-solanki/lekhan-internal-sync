@@ -232,12 +232,12 @@ export default defineNuxtConfig({
         'layers/*/server/db/schemas/tables/!(index).ts',
 
         // Utils of app & layers
-        'server/utils/**/*',
-        'layers/*/server/utils/**/*',
+        'server/utils/**',
+        'layers/*/server/utils/**',
 
         // Shared schemas of app & layers
-        'shared/schemas/**/*',
-        'layers/*/shared/schemas/**/*',
+        'shared/schemas/**',
+        'layers/*/shared/schemas/**',
       ],
     },
     storage: {
