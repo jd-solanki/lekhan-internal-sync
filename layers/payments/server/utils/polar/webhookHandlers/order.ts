@@ -4,7 +4,7 @@ import { isOrderStale, parseOrderPayload, upsertOrderFromPolar } from '~~/layers
 
 export async function handleOrderEvent(event: PolarWebhookEvent): Promise<void> {
   // Parse and transform the raw payload (snake_case → camelCase, string dates → Date)
-  const orderPayload = parseOrderPayload(event.data, event.type)
+  const orderPayload = await parseOrderPayload(event.data, event.type)
 
   if (!orderPayload) {
     console.error(`⏭️  Skipping ${event.type} due to validation failure`)

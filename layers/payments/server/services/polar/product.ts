@@ -32,7 +32,7 @@ function getLatestProductChangeAt(payload: {
  * The SDK schema transforms snake_case to camelCase and string dates to Date objects.
  * Returns the transformed Product or null if validation fails.
  */
-export function parseProductPayload(rawData: unknown, eventType: string): Product | null {
+export async function parseProductPayload(rawData: unknown, eventType: string): Promise<Product | null> {
   const result = Product$inboundSchema.safeParse(rawData)
 
   if (!result.success) {
@@ -42,7 +42,7 @@ export function parseProductPayload(rawData: unknown, eventType: string): Produc
     const runtimeConfig = useRuntimeConfig()
 
     // Alert admins - Polar API may have changed
-    sendEmailToAdmins({
+    await sendEmailToAdmins({
       subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
       text: JSON.stringify({
         error: result.error,

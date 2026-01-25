@@ -3,7 +3,7 @@ import type { PolarWebhookEvent } from '../types'
 import { isSubscriptionStale, parseSubscriptionPayload, upsertSubscriptionFromPolar } from '~~/layers/payments/server/services/polar/subscription'
 
 export async function handleSubscriptionEvent(event: PolarWebhookEvent): Promise<void> {
-  const subscriptionPayload = parseSubscriptionPayload(event.data, event.type)
+  const subscriptionPayload = await parseSubscriptionPayload(event.data, event.type)
 
   if (!subscriptionPayload) {
     console.error(`Skipping ${event.type} due to validation failure`)

@@ -6,7 +6,7 @@ import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
 import { eq } from 'drizzle-orm'
 import { resolveProductId, resolveSubscriptionId, resolveUserIdFromExternalId } from './resolvers'
 
-export function parseOrderPayload(rawData: unknown, eventType: string): Order | null {
+export async function parseOrderPayload(rawData: unknown, eventType: string): Promise<Order | null> {
   const result = Order$inboundSchema.safeParse(rawData)
 
   // If parsing fails, it probably means Polar changed the payload structure and we need to update our SDK or webhook handler.
@@ -16,7 +16,7 @@ export function parseOrderPayload(rawData: unknown, eventType: string): Order | 
 
     const runtimeConfig = useRuntimeConfig()
 
-    sendEmailToAdmins({
+    await sendEmailToAdmins({
       subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
       text: JSON.stringify({
         error: result.error,

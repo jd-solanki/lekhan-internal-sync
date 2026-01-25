@@ -4,7 +4,7 @@ import { isStaleWebhook, parseProductPayload, upsertProduct } from '~~/layers/pa
 
 export async function handleProductCreated(event: PolarWebhookEvent): Promise<void> {
   // Parse and transform the raw payload (snake_case → camelCase, string dates → Date)
-  const productPayload = parseProductPayload(event.data, event.type)
+  const productPayload = await parseProductPayload(event.data, event.type)
 
   if (!productPayload) {
     console.error(`⏭️  Skipping ${event.type} due to validation failure`)

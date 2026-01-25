@@ -10,7 +10,7 @@ import { lower } from '~~/layers/01.base/server/db/schemas/functions'
  * Parse and validate the customer payload from Polar.
  * Example usage: safely access `payload.id` and `payload.email` after validation.
  */
-function parseCustomerPayload(rawData: unknown, eventType: string): Customer | null {
+async function parseCustomerPayload(rawData: unknown, eventType: string): Promise<Customer | null> {
   const result = Customer$inboundSchema.safeParse(rawData)
 
   if (!result.success) {
@@ -20,7 +20,7 @@ function parseCustomerPayload(rawData: unknown, eventType: string): Customer | n
     const runtimeConfig = useRuntimeConfig()
 
     // Alert admins - Polar API may have changed
-    sendEmailToAdmins({
+    await sendEmailToAdmins({
       subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
       text: JSON.stringify({
         error: result.error,
@@ -40,7 +40,7 @@ function parseCustomerPayload(rawData: unknown, eventType: string): Customer | n
  * Example usage: event.data.email -> match user -> set `polarCustomerId`.
  */
 export async function handleCustomerCreated(event: PolarWebhookEvent): Promise<void> {
-  const customerPayload = parseCustomerPayload(event.data, event.type)
+  const customerPayload = await parseCustomerPayload(event.data, event.type)
 
   if (!customerPayload) {
     console.error(`Skipping ${event.type} due to validation failure`)
