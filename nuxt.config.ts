@@ -22,8 +22,6 @@ export default defineNuxtConfig({
     '/docs': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false, ssr: false },
     '/app/**': { robots: false, ssr: false },
-    '/polar/customer-portal': { robots: false },
-    '/polar/success': { robots: false },
   },
   app: {
     // pageTransition: { name: 'page-transition-zoom-fade', mode: 'out-in' },

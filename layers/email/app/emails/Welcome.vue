@@ -73,7 +73,7 @@ const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/in
       for support & questions
     </EText>
     <EText style="margin: 0px;">
-      • Download invoice and purchase key at <ELink href="http://nuxtstart.com/polar/customer-portal">
+      • Download invoice and purchase key at <ELink href="https://nuxtstart.com/polar/customer-portal">
         Polar customer portal
       </ELink>
     </EText>
