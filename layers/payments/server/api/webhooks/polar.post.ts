@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const webhookEvent: PolarWebhookEvent = await readBody(event)
-  console.log(`Received event [${webhookEvent.type}] ${webhookEvent}`)
+  console.log(`Received event [${webhookEvent.type}]:\n${JSON.stringify(webhookEvent, null, 4)}\n\n`)
 
   const eventType = webhookEvent.type
 
