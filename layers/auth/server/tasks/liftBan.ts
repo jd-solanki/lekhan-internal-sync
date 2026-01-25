@@ -1,5 +1,3 @@
-import { and, eq, inArray, isNotNull, lt } from 'drizzle-orm'
-
 export default defineTask({
   meta: {
     name: 'liftBan',
@@ -9,35 +7,11 @@ export default defineTask({
     // eslint-disable-next-line no-console
     console.log('Running liftBan task...')
 
-    const result = await db.query.dbTableUser.findMany({
-      where: (
-        and(
-          eq(dbTableUser.banned, true),
-          isNotNull(dbTableUser.banExpires),
-          lt(dbTableUser.banExpires, new Date().toISOString()),
-        )
-      ),
-    })
+    const affectedUserIds = await liftBan()
 
-    // Lift bans for users whose ban has expired
-    // Perf: Instead of loop, use in bulk update via `inArray`
-    const userIds = result.map(user => user.id)
+    // eslint-disable-next-line no-console
+    console.log('Lifted bans for users :>> ', affectedUserIds)
 
-    if (userIds.length > 0) {
-      // eslint-disable-next-line no-console
-      console.log('Lifting bans for users :>> ', userIds)
-
-      await db.update(tableUser).set({
-        banned: false,
-        banReason: null,
-        banExpires: null,
-      }).where(inArray(tableUser.id, userIds))
-    }
-    else {
-      // eslint-disable-next-line no-console
-      console.log('No due bans to lift')
-    }
-
-    return { result: userIds }
+    return { result: affectedUserIds }
   },
 })

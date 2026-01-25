@@ -57,6 +57,9 @@ const EnvSchema = z.object({
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
   POLAR_WEBHOOK_SECRET: z.string(),
+
+  // 🕒 Cron
+  CRON_SECRET: z.string(),
 })
   .refine(
     data => data.NODE_ENV === 'production'

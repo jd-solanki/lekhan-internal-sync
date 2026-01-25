@@ -77,6 +77,7 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    cronSecret: env.CRON_SECRET,
     webhook: {
       polar: {
         secretKey: env.POLAR_WEBHOOK_SECRET,
