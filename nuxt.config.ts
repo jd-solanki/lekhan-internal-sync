@@ -210,11 +210,9 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
-      // DB Tables of app & layers
-      '../server/db/schemas/tables/*',
-      '!../server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
-      '../layers/*/server/db/schemas/tables/*',
-      '!../layers/*/server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
+      // DB Tables of app & layers (exclude index.ts using glob pattern)
+      '../server/db/schemas/tables/!(index).ts',
+      '../layers/*/server/db/schemas/tables/!(index).ts',
 
       // Shared schemas of app & layers
       '../shared/schemas/**',
@@ -229,11 +227,9 @@ export default defineNuxtConfig({
       dirs: [
         'server/db/*', // Allow db const auto import
 
-        // DB Tables of app & layers
-        'server/db/schemas/tables/*',
-        '!server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
-        'layers/*/server/db/schemas/tables/*',
-        '!layers/*/server/db/schemas/tables/index.ts', // Exclude index.ts to avoid re-exporting issues
+        // DB Tables of app & layers (exclude index.ts using glob pattern)
+        'server/db/schemas/tables/!(index).ts',
+        'layers/*/server/db/schemas/tables/!(index).ts',
 
         // Utils of app & layers
         'server/utils/**/*',
