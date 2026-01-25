@@ -62,6 +62,9 @@ jobs:
       POLAR_SERVER: ${{ vars.POLAR_SERVER }}
       POLAR_WEBHOOK_SECRET: ${{ secrets.POLAR_WEBHOOK_SECRET }}
 
+      # 🕒 Cron
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+
     # This 'if' condition ensures the job only runs if the user types the exact confirmation phrase.
     # This prevents accidental clicks from running the migration.
     if: ${{ github.event.inputs.confirm_run == 'migrate production' }}
