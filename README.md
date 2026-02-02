@@ -24,3 +24,9 @@
     'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS nuxtstart" && \
     psql -U postgres -d postgres -c "CREATE DATABASE nuxtstart"'
     ```
+
+- Run tunnel
+
+```shell
+while true; do lt --port 3000 --subdomain nuxtstart; sleep 1; done
+```
