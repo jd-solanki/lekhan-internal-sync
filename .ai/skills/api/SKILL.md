@@ -1,6 +1,6 @@
 ---
-name: API Development
-description: Skills related to designing and developing APIs, including RESTful services, GraphQL, authentication, and best practices for scalability and security.
+name: Nuxt/Nitro API
+description: How to design and develop APIs, including authentication, best practices, etc for scalability and security.
 ---
 
 - Use h3 validation utils:

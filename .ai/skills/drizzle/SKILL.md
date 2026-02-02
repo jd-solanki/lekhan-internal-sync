@@ -12,7 +12,3 @@ description: Skills related to using Drizzle ORM for database interactions, incl
 - Prefer relational query pattern
 - Use `Promise.all` for parallel queries. E.g. query records & counts
 - Use `$count` over `count()` for minimal code with where clause
-
-## Project Specific
-
-- Tables via `dbTable<EntityInPascal>`, schemas via `dbSchema<EntityInPascal><Select|Insert|Update>` & type via `DB<Select|Insert><EntityInPascal>` are auto imported by nuxt
