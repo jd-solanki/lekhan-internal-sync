@@ -10,6 +10,7 @@ import * as z from 'zod'
 import { handleOAuthAccountLinkEmailMismatch } from '~~/layers/auth/server/utils/auth'
 import { sendEmail } from '~~/layers/email/server/utils/email'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
+import { dbTableUser } from '~~/server/db/schemas/tables'
 
 const runtimeConfig = useRuntimeConfig()
 

@@ -16,7 +16,7 @@
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "db:push": "drizzle-kit push",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "tsx --env-file=.env --tsconfig ./.nuxt/tsconfig.server.json node_modules/drizzle-kit/bin.cjs generate",
     "db:migrate": "drizzle-kit migrate",
     "db:up": "drizzle-kit up",
     "db:drop": "drizzle-kit drop",

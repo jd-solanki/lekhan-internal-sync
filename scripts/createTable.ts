@@ -38,6 +38,7 @@ function getSchemaTemplate(tableName: string) {
   return `
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'  
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
+import { dbTable${formattedTableName} } from '#server/db/schemas/tables'
 
 export const dbSchema${formattedTableName}Select = createSelectSchema(dbTable${formattedTableName})
 export const dbSchema${formattedTableName}Insert = createInsertSchema(dbTable${formattedTableName})

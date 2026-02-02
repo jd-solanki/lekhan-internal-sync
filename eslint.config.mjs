@@ -58,15 +58,15 @@ export default withNuxt(
             ],
             message: 'Database table schemas & its types are auto imported, do not import them manually.',
           },
-          {
-            group: [
-              '*server/db/schemas/tables',
-              '*server/db/schemas/tables/**',
-              '**/server/db/schemas/tables',
-              '**/server/db/schemas/tables/**',
-            ],
-            message: 'Database tables are auto imported, do not import them manually.',
-          },
+          // {
+          //   group: [
+          //     '*server/db/schemas/tables',
+          //     '*server/db/schemas/tables/**',
+          //     '**/server/db/schemas/tables',
+          //     '**/server/db/schemas/tables/**',
+          //   ],
+          //   message: 'Database tables are auto imported, do not import them manually.',
+          // },
         ],
       }],
 
@@ -122,7 +122,17 @@ export default withNuxt(
           {
             regex: 'import env from',
             message: 'You might not want to make this module server only in shared scope',
-            files: { inspect: 'shared\\/.*\\.ts' },
+            files: { inspect: '.*\\/shared\\/.*\\.ts' },
+          },
+          {
+            regex: 'import env from',
+            message: 'Avoid using env in database schemas as it\'ll get used by shared schema which may leak your env vars in app context. Use process.env.* directly if needed.',
+            files: { inspect: '.*\\/db\\/schemas\\/tables\\/.*\\.ts' },
+          },
+          {
+            regex: 'useRuntimeConfig\\(\\)',
+            message: 'drizzle CLI won\'t have access to nuxt\'s runtime config so prefer process.env.*',
+            files: { inspect: '.*\\/db\\/schemas\\/tables\\/.*\\.ts' },
           },
           {
             regex: 'z\.date()',
@@ -135,4 +145,5 @@ export default withNuxt(
   },
 ).overrideRules({
   'node/prefer-global/process': ['error', 'always'],
+  'pnpm/yaml-enforce-settings': 'off',
 })

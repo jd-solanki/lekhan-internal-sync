@@ -1,6 +1,7 @@
 import { and, eq } from 'drizzle-orm'
 import * as z from 'zod'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
+import { dbTablePolarProduct } from '~~/server/db/schemas/tables'
 
 const querySchema = paginationSchema.extend({
   is_recurring: z.enum(['true', 'false']).optional(),

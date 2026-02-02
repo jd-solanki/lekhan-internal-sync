@@ -3,6 +3,7 @@ import type { Subscription } from '@polar-sh/sdk/models/components/subscription'
 
 import { Subscription$inboundSchema } from '@polar-sh/sdk/models/components/subscription'
 import { eq } from 'drizzle-orm'
+import { dbTablePolarSubscription } from '~~/server/db/schemas/tables'
 import { resolveProductId, resolveUserIdFromExternalId } from './resolvers'
 
 export async function parseSubscriptionPayload(rawData: unknown, eventType: string): Promise<Subscription | null> {
@@ -13,10 +14,8 @@ export async function parseSubscriptionPayload(rawData: unknown, eventType: stri
     const errorTitle = `Invalid '${eventType}' Payload Structure`
     console.error(`${errorTitle}:`, result.error)
 
-    const runtimeConfig = useRuntimeConfig()
-
     await sendEmailToAdmins({
-      subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
+      subject: errorTitle,
       text: JSON.stringify({
         error: result.error,
         payload: rawData,

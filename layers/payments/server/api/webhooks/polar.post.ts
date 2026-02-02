@@ -52,6 +52,21 @@ export default defineEventHandler(async (event) => {
     if (error instanceof Error && error.stack) {
       console.error(`Stack trace: ${error.stack}`)
     }
+
+    const runtimeConfig = useRuntimeConfig()
+    const errorTitle = `Invalid '${eventType}' Payload Structure`
+    console.error(`${errorTitle}:`, error)
+
+    // Inform admin about the failure
+    await sendEmailToAdmins({
+      subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
+      text: JSON.stringify({
+        timestamp: new Date().toISOString(),
+        error,
+        webhookEvent,
+      }, null, 2),
+    })
+
     // Don't throw - webhooks are fire-and-forget
   }
 })

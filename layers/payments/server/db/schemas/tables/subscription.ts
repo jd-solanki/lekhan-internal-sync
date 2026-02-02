@@ -1,4 +1,5 @@
 import { boolean, integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { dbTablePolarProduct, dbTableUser } from '~~/server/db/schemas/tables'
 import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../../../../../../layers/01.base/server/db/schemas/mixins'
 
 export const dbTablePolarSubscription = pgTable('polar_subscription', {

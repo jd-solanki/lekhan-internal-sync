@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
+import { dbTablePolarSubscription } from '~~/server/db/schemas/tables'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const { page, size } = await getValidatedQuery(event, paginationSchema.parse)

@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm'
 import { paginationSchema } from '~~/layers/01.base/shared/schemas/pagination'
+import { dbTablePolarOrder } from '~~/server/db/schemas/tables'
 
 // INFO: Return paginated orders with customer data for each order's userId
 export default defineAuthenticatedEventHandler(async (event) => {

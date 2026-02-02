@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm'
 import * as z from 'zod'
+import { dbTableUser } from '~~/server/db/schemas/tables'
 
 const schemaRouterParams = z.object({
   id: idSchema,

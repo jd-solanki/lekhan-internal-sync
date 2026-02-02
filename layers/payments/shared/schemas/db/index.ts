@@ -1,5 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
+import { dbTablePolarOrder, dbTablePolarProduct, dbTablePolarSubscription } from '~~/server/db/schemas/tables'
 
 export const dbSchemaPolarProductSelect = createSelectSchema(dbTablePolarProduct)
 export const dbSchemaPolarProductInsert = createInsertSchema(dbTablePolarProduct)

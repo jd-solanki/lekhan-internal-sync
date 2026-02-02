@@ -1,5 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
+import { dbTableSession } from '~~/server/db/schemas/tables'
 
 export const dbSchemaSessionSelect = createSelectSchema(dbTableSession)
 export const dbSchemaSessionInsert = createInsertSchema(dbTableSession)

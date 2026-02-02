@@ -1,6 +1,6 @@
 import { randomUUID as uuidV4 } from 'node:crypto'
-
 import { eq } from 'drizzle-orm'
+import { dbTableUser } from '~~/server/db/schemas/tables'
 
 const MAX_SIZE_MB = 1
 const ALLOWED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/gif']

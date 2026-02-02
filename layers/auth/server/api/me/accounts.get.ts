@@ -1,4 +1,5 @@
 import { eq } from 'drizzle-orm'
+import { dbTableAccount } from '~~/server/db/schemas/tables'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id

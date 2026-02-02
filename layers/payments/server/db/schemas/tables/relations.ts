@@ -1,4 +1,10 @@
+import {
+  dbTablePolarOrder,
+  dbTablePolarProduct,
+  dbTableUser,
+} from '#server/db/schemas/tables'
 import { relations } from 'drizzle-orm'
+import { dbTablePolarSubscription } from '~~/layers/payments/server/db/schemas/tables/subscription'
 
 export const dbTablePolarOrderRelations = relations(dbTablePolarOrder, ({ one }) => ({
   user: one(dbTableUser, {

@@ -4,6 +4,7 @@ import type { H3Event } from 'h3'
 
 import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
 import { eq } from 'drizzle-orm'
+import { dbTablePolarOrder } from '~~/server/db/schemas/tables'
 import { resolveProductId, resolveSubscriptionId, resolveUserIdFromExternalId } from './resolvers'
 
 export async function parseOrderPayload(rawData: unknown, eventType: string): Promise<Order | null> {
@@ -14,10 +15,8 @@ export async function parseOrderPayload(rawData: unknown, eventType: string): Pr
     const errorTitle = `Invalid '${eventType}' Payload Structure`
     console.error(`${errorTitle}:`, result.error)
 
-    const runtimeConfig = useRuntimeConfig()
-
     await sendEmailToAdmins({
-      subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
+      subject: errorTitle,
       text: JSON.stringify({
         error: result.error,
         payload: rawData,

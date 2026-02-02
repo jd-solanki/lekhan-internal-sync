@@ -3,6 +3,7 @@ import type { Product } from '@polar-sh/sdk/models/components/product'
 
 import { Product$inboundSchema } from '@polar-sh/sdk/models/components/product'
 import { eq } from 'drizzle-orm'
+import { dbTablePolarProduct } from '~~/server/db/schemas/tables'
 
 /**
  * Computes the latest product-related change time.
@@ -39,11 +40,9 @@ export async function parseProductPayload(rawData: unknown, eventType: string): 
     const errorTitle = `Invalid '${eventType}' Payload Structure`
     console.error(`${errorTitle}:`, result.error)
 
-    const runtimeConfig = useRuntimeConfig()
-
     // Alert admins - Polar API may have changed
     await sendEmailToAdmins({
-      subject: `[${runtimeConfig.public.app.name}] ${errorTitle}`,
+      subject: errorTitle,
       text: JSON.stringify({
         error: result.error,
         payload: rawData,

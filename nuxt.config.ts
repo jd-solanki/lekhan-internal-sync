@@ -213,9 +213,9 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
-      // DB Tables of app & layers (exclude index.ts using glob pattern)
-      '../server/db/schemas/tables/!(index).ts',
-      '../layers/*/server/db/schemas/tables/!(index).ts',
+      // // DB Tables of app & layers (exclude index.ts using glob pattern)
+      // '../server/db/schemas/tables/!(index).ts',
+      // '../layers/*/server/db/schemas/tables/!(index).ts',
 
       // Shared schemas of app & layers
       '../shared/schemas/**',

@@ -2,6 +2,7 @@ import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 import * as z from 'zod'
 import { emailSchema } from '~~/layers/auth/shared/schemas'
+import { dbTableUser } from '~~/server/db/schemas/tables'
 
 const userTableNameSchema = z.string({ error: 'Name is required' }).max(255)
 
