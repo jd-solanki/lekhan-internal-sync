@@ -4,10 +4,8 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   const paymentStore = usePaymentsStore()
 
   // Initialize user session & fetch payment customer state
-  await Promise.all([
-    userStore.init(),
-    paymentStore.init(),
-  ])
+  await userStore.init()
+  await paymentStore.init()
 
   if (userStore.user) {
     // Check if email verification is required
