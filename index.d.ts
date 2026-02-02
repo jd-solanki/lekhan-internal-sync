@@ -43,6 +43,7 @@ declare module 'nuxt/schema' {
         adminHome: string
         home: string
         signIn: string
+        signUp: string
         verifyEmail: string
         accountSettingsLinkedAccounts: string
         billing: string
@@ -51,23 +52,33 @@ declare module 'nuxt/schema' {
         isEmailVerificationRequired: boolean
       }
     }
-    shared: {
-      aws: {
-        s3: {
-          bucketName: string
-          region: string
-        }
+    shared: SharedPublicRuntimeConfig
+  }
+
+  /*
+    INFO: We've separated SharedPublicRuntimeConfig so that other layers can extend it easily
+
+    For example, payments layer extends it to add `polarCheckoutForAuthenticatedUsersOnly` flag
+
+    Note that due to the limitation of typescript even though we've extended SharedPublicRuntimeConfig in payments layer
+    we have to define it in root `nuxt.config.ts` instead of `layers/payments/nuxt.config.ts` to avoid missing property error
+  */
+  interface SharedPublicRuntimeConfig {
+    aws: {
+      s3: {
+        bucketName: string
+        region: string
       }
-      auth: {
-        socialProviders: {
-          id: SocialProviderId
-          name: string
-          icon: string
-          iconClass?: string
-        }[]
-      }
-      isEmailVerificationRequiredForAccess: boolean
     }
+    auth: {
+      socialProviders: {
+        id: SocialProviderId
+        name: string
+        icon: string
+        iconClass?: string
+      }[]
+    }
+    isEmailVerificationRequiredForAccess: boolean
   }
 }
 

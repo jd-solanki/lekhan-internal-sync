@@ -142,6 +142,9 @@ export default defineNuxtConfig({
           verifyEmail: '/auth/verify-email',
           accountSettingsLinkedAccounts: '/app/account-settings/linked-accounts',
           billing: '/app/billing',
+
+          // When magic link auth is enabled instead of email, sign up page will be /auth/sign-in and that page will render magic link form
+          signUp: '/auth/sign-up',
         },
       },
 
