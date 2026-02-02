@@ -5,7 +5,16 @@ defineProps<{
   error: NuxtError
 }>()
 
+const route = useRoute()
 const userStore = useUserStore()
+
+const errorRedirectRoute = computed(() => {
+  // If error occurs on docs page (E.g. 404), redirect back to docs
+  if (route.path.startsWith('/docs'))
+    return '/docs'
+
+  return userStore.userHomeRoute
+})
 </script>
 
 <template>
@@ -15,7 +24,7 @@ const userStore = useUserStore()
   >
     <UError
       :error="error"
-      :redirect="userStore.userHomeRoute"
+      :redirect="errorRedirectRoute"
     />
   </NuxtLayout>
 </template>
