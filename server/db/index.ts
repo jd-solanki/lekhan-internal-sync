@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-restricted-imports
 import * as schema from '#server/db/schemas/tables'
 import env from '#server/libs/env'
 import { drizzle } from 'drizzle-orm/postgres-js'
@@ -14,7 +13,8 @@ const client = postgres(
   },
 )
 
-export const db = drizzle(client, {
+export const db = drizzle({
+  client,
   schema,
   logger: false,
   casing: 'snake_case',

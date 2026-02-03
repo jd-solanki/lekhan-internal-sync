@@ -1,4 +1,4 @@
-export { dbTableAccount } from './account'
-export { dbTableSession } from './session'
-export { dbTableUser } from './user'
-export { dbTableVerification } from './verification'
+export * from './account'
+export * from './session'
+export * from './user'
+export * from './verification'

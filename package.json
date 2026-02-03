@@ -18,8 +18,6 @@
     "db:push": "drizzle-kit push",
     "db:generate": "tsx --env-file=.env --tsconfig ./.nuxt/tsconfig.server.json node_modules/drizzle-kit/bin.cjs generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:up": "drizzle-kit up",
-    "db:drop": "drizzle-kit drop",
     "mermaid:generate": "tsx scripts/generateMermaidSVGs.ts",
     "prepare": "husky",
     "typecheck": "nuxt typecheck",

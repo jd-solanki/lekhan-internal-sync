@@ -15,7 +15,7 @@ export const dbTableUser = pgTable('user', {
   name: varchar({ length: 255 }).notNull(),
   image: text(),
   lastSignInAt: timestamp({ withTimezone: true }),
-  polarCustomerId: uuid('polar_customer_id').unique(),
+  polarCustomerId: uuid().unique(),
   role: userRoleEnum().default('user'),
   banned: boolean().default(false).notNull(),
   banReason: text(),

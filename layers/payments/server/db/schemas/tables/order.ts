@@ -2,7 +2,6 @@ import { boolean, integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/p
 import { dbTablePolarProduct, dbTablePolarSubscription, dbTableUser } from '~~/server/db/schemas/tables'
 import { mixinCreatedAt, mixinId, mixinUpdatedAt } from '../../../../../../layers/01.base/server/db/schemas/mixins'
 
-// SECTION Order
 export const dbTablePolarOrder = pgTable('polar_order', {
   ...mixinId(),
   polarId: text().notNull().unique(),
@@ -54,4 +53,3 @@ export const dbTablePolarOrder = pgTable('polar_order', {
   metadata: jsonb().$type<Record<string, unknown>>().notNull().default({}),
   customFieldData: jsonb(),
 })
-// !SECTION
