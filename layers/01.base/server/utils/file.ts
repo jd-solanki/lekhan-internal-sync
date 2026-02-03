@@ -8,7 +8,7 @@ export async function extractUploadedFiles(event: H3Event) {
   if (!formData || formData.length === 0) {
     throw createError({
       status: 400,
-      statusText: 'No file provided',
+      message: 'No file provided',
     })
   }
 
@@ -25,7 +25,7 @@ export async function validateUploadedFile(
   if (fileData.data.length > maxSizeBytes) {
     throw createError({
       status: 400,
-      statusText: `File size exceeds ${maxSizeMB}MB limit`,
+      message: `File size exceeds ${maxSizeMB}MB limit`,
     })
   }
 
@@ -35,7 +35,7 @@ export async function validateUploadedFile(
     const types = allowedMimeTypes.map(type => type.split('/')[1].toUpperCase()).join(', ')
     throw createError({
       status: 400,
-      statusText: `File type not supported. Allowed types: ${types}`,
+      message: `File type not supported. Allowed types: ${types}`,
     })
   }
 

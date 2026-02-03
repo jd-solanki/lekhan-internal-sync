@@ -9,7 +9,7 @@ const { data: page } = await useAsyncData(route.path, () => {
 })
 
 if (!page.value) {
-  throw createError({ status: 404, statusText: 'Page not found' })
+  throw createError({ status: 404, message: 'Page not found' })
 }
 </script>
 

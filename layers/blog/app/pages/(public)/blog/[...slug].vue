@@ -20,7 +20,7 @@ const [{ data: post }, { data: surround }] = await Promise.all([
 ])
 
 if (!post.value) {
-  throw createError({ status: 404, statusText: 'Blog Post not found' })
+  throw createError({ status: 404, message: 'Blog Post not found' })
 }
 
 // SEO
