@@ -94,11 +94,20 @@ export const usePaymentsStore = defineStore('payments', () => {
 
   const syncSubscriptionByPolarSubscriptionIdWithPolar = async (polarSubscriptionId: string) => {
     // Pull latest subscription from Polar to avoid waiting for webhooks.
+    const response = await $fetch(`/api/polar/subscriptions/${polarSubscriptionId}/sync`, {
+      method: 'POST',
+    })
+
+    // Refresh subscriptions in store to reflect latest data
+    await fetchSubscriptions()
+
+    return response
+  }
+
+  const syncAllSubscriptionsWithPolar = async () => {
+    // Fetch all subscriptions from Polar for authenticated user
     const response = await $fetch('/api/polar/subscriptions/sync', {
       method: 'POST',
-      body: {
-        polarSubscriptionId,
-      },
     })
 
     // Refresh subscriptions in store to reflect latest data
@@ -152,30 +161,28 @@ export const usePaymentsStore = defineStore('payments', () => {
     ])
   }
 
-  const buyProduct = async (productId: number, options?: { refetchOrdersAndSubscriptions: boolean }) => {
-    const { refetchOrdersAndSubscriptions = true } = options || {}
-
+  const buyProduct = async (productId: number) => {
     // Check if user is authenticated as only authenticated users can create checkout sessions
-    if (!userStore.user) {
-      infoToast({
-        title: 'Sign in required for purchase',
-      })
-      await navigateTo(`${runtimeConfig.public.app.routes.signIn}?nextAction=checkout&productId=${productId}`)
-    }
+    if (runtimeConfig.public.shared.polarCheckoutForAuthenticatedUsersOnly) {
+      if (!userStore.user) {
+        infoToast({
+          title: 'Sign in required for purchase',
+        })
+        return await navigateTo(`${runtimeConfig.public.app.routes.signIn}?nextAction=checkout&productId=${productId}`)
+      }
 
-    // Only refetch orders and subscriptions if needed
-    if (refetchOrdersAndSubscriptions) {
+      // We placed it after the sign-in check to avoid fetching products for guest users or else we get 401 error
       await refreshSubscriptionsAndOrders()
     }
 
     // Verify if user is not purchasing already owned product
     if (hasPurchasedProduct([productId])) {
       // Navigate to billing page if already purchased
-      await navigateTo(runtimeConfig.public.app.routes.billing, { replace: true })
       infoToast({
         title: 'You have already purchased this product',
         description: 'Redirected to billing page',
       })
+      return await navigateTo(runtimeConfig.public.app.routes.billing, { replace: true })
     }
 
     // Get polar product id or throw
@@ -184,8 +191,15 @@ export const usePaymentsStore = defineStore('payments', () => {
       throw createError({ status: 404, message: `Product with id=${productId} not found` })
     }
 
+    /*
+      NOTE: Dynamic successUrl is not working due to bug in polar plugin
+      Issue URL: https://github.com/polarsource/polar/issues/9300
+    */
     await authClient.checkout({
       products: [polarProductId],
+      successUrl: userStore.user
+        ? '/polar/success?checkout_id={CHECKOUT_ID}'
+        : runtimeConfig.public.app.routes.signUp,
     })
   }
 
@@ -267,6 +281,7 @@ export const usePaymentsStore = defineStore('payments', () => {
     refreshSubscriptionsAndOrders,
     syncOrderByCheckoutIdWithPolar,
     syncSubscriptionByPolarSubscriptionIdWithPolar,
+    syncAllSubscriptionsWithPolar,
     buyProduct,
     changePlan,
     hasPurchasedProduct,

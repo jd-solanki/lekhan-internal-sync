@@ -145,6 +145,14 @@ export default defineNuxtConfig({
 
           // When magic link auth is enabled instead of email, sign up page will be /auth/sign-in and that page will render magic link form
           signUp: '/auth/sign-up',
+          /*
+            Most of the time support page is at "/support"
+
+            You can also set this to discord or some other support channel link if you don't have dedicated support page
+
+            TIP: You can search where it's being used by searching `routes.support` in the project
+          */
+          support: '/support',
         },
       },
 
@@ -180,6 +188,9 @@ export default defineNuxtConfig({
          * Set to `false` in your `.env` for local development to bypass the verification check.
          */
         isEmailVerificationRequiredForAccess: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
+
+        // Payments Layer Config
+        polarCheckoutForAuthenticatedUsersOnly: env.POLAR_CHECKOUT_FOR_AUTHENTICATED_USERS_ONLY,
       },
     },
   },
@@ -230,9 +241,9 @@ export default defineNuxtConfig({
       dirs: [
         'server/db/*', // Allow db const auto import
 
-        // DB Tables of app & layers (exclude index.ts using glob pattern)
-        'server/db/schemas/tables/!(index).ts',
-        'layers/*/server/db/schemas/tables/!(index).ts',
+        // // DB Tables of app & layers (exclude index.ts using glob pattern)
+        // 'server/db/schemas/tables/!(index).ts',
+        // 'layers/*/server/db/schemas/tables/!(index).ts',
 
         // Utils of app & layers
         'server/utils/**',

@@ -1,27 +1,25 @@
-import * as z from 'zod'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
 import { upsertSubscriptionFromPolar } from '~~/layers/payments/server/services/polar/subscription'
 
-const schemaBody = z.object({
-  polarSubscriptionId: z.string().min(1),
-})
-
 export default defineAuthenticatedEventHandler(async (event) => {
-  const body = await readValidatedBody(event, schemaBody.parse)
   const user = event.context.user
+  const userPolarCustomerId = user.polarCustomerId
 
-  // Fetch latest subscription to sync entitlements immediately after plan change.
-  const subscription = await polarClient.subscriptions.get({
-    id: body.polarSubscriptionId,
+  // Fetch all subscriptions from Polar for authenticated user
+  const response = await polarClient.subscriptions.list({
+    customerId: userPolarCustomerId,
   })
 
-  if (subscription.customer.externalId !== String(user.id)) {
-    throw createError({ status: 403, message: 'Subscription does not belong to this user.' })
+  const subscriptions = response.result.items
+
+  const syncedSubscriptions = []
+
+  for (const subscription of subscriptions) {
+    const syncedSubscription = await upsertSubscriptionFromPolar(subscription)
+    syncedSubscriptions.push(syncedSubscription)
   }
 
-  const syncedSubscription = await upsertSubscriptionFromPolar(subscription)
-
   return {
-    subscription: syncedSubscription,
+    syncedSubscriptions,
   }
 })

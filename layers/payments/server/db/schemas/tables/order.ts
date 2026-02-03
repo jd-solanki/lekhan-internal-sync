@@ -10,8 +10,10 @@ export const dbTablePolarOrder = pgTable('polar_order', {
   polarModifiedAt: timestamp({ withTimezone: true }),
   ...mixinCreatedAt('createdAt', 'created_at'),
   ...mixinUpdatedAt('updatedAt', 'updated_at'),
-
-  userId: integer().notNull().references(() => dbTableUser.id),
+  // If checkout is only for authenticated users, mark userId required
+  userId: process.env.POLAR_CHECKOUT_FOR_AUTHENTICATED_USERS_ONLY === 'true'
+    ? integer().notNull().references(() => dbTableUser.id)
+    : integer().references(() => dbTableUser.id),
   productId: integer().notNull().references(() => dbTablePolarProduct.id),
   subscriptionId: integer().references(() => dbTablePolarSubscription.id),
 

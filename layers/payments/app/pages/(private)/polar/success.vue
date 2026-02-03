@@ -19,88 +19,102 @@ definePageMeta({
 
 const checkoutId = getFirstQueryValue('checkout_id')!
 
-// Key by checkoutId to avoid stale cache between checkouts.
-const {
-  data: orderResult,
-  error: orderError,
-  status: orderStatus,
-  execute: executeOrderSync,
-} = useAsyncData(
-  `polar-order-sync-${checkoutId}`,
-  async () => paymentsStore.syncOrderByCheckoutIdWithPolar(checkoutId),
-  { immediate: false },
-)
+type StepStatus = 'idle' | 'pending' | 'success' | 'error'
 
-const polarSubscriptionId = computed(() => orderResult.value?.order.polarSubscriptionId ?? null)
-// Only show subscription sync for recurring purchases.
-const isSubscriptionSyncVisible = computed(() => Boolean(polarSubscriptionId.value))
+const orderStep = ref<{ status: StepStatus, error: string | null }>({
+  status: 'idle',
+  error: null,
+})
+const subscriptionStep = ref<{ status: StepStatus, error: string | null }>({
+  status: 'idle',
+  error: null,
+})
+const subscriptionIds = ref<string[]>([])
 
-// Subscription sync runs only after order data yields a subscription id.
-const {
-  error: subscriptionError,
-  status: subscriptionStatus,
-  execute: executeSubscriptionSync,
-} = useAsyncData(
-  `polar-subscription-sync-${checkoutId}`,
-  async () => {
-    return polarSubscriptionId.value
-      ? await paymentsStore.syncSubscriptionByPolarSubscriptionIdWithPolar(polarSubscriptionId.value)
-      : null
-  },
-  { immediate: false },
-)
+// Normalize errors into a consistent string.
+function getErrorMessage(err: unknown, fallback: string) {
+  return err instanceof Error ? err.message : fallback
+}
 
-// Trigger subscription sync when order is for recurring product
-watch(polarSubscriptionId, async (value) => {
-  if (!value)
+// Sync order details and return subscription ids if any.
+async function runOrderSync() {
+  orderStep.value = { status: 'pending', error: null }
+
+  try {
+    const { syncedOrders } = await paymentsStore.syncOrderByCheckoutIdWithPolar(checkoutId)
+
+    // Extract unique subscription IDs from synced orders.
+    const ids = syncedOrders
+      .map(order => order.polarSubscriptionId)
+      .filter((id): id is string => Boolean(id))
+
+    subscriptionIds.value = Array.from(new Set(ids))
+    orderStep.value = { status: 'success', error: null }
+  }
+  catch (err) {
+    orderStep.value = { status: 'error', error: getErrorMessage(err, 'Unable to fetch order data.') }
+    subscriptionIds.value = []
+  }
+}
+
+// Sync subscriptions sequentially for clearer retry behavior.
+async function runSubscriptionSync() {
+  if (subscriptionIds.value.length === 0) {
+    subscriptionStep.value = { status: 'idle', error: null }
+    return
+  }
+
+  subscriptionStep.value = { status: 'pending', error: null }
+
+  for (const subscriptionId of subscriptionIds.value) {
+    try {
+      await paymentsStore.syncSubscriptionByPolarSubscriptionIdWithPolar(subscriptionId)
+    }
+    catch (err) {
+      subscriptionStep.value = {
+        status: 'error',
+        error: `Subscription ${subscriptionId}: ${getErrorMessage(err, 'Unable to fetch subscription data.')}`,
+      }
+      return
+    }
+  }
+
+  subscriptionStep.value = { status: 'success', error: null }
+}
+
+// Run the full flow in sequence: order sync -> subscription sync (if needed).
+async function runSync() {
+  await runOrderSync()
+  if (subscriptionIds.value.length === 0)
     return
 
-  await executeSubscriptionSync()
-})
+  await runSubscriptionSync()
+}
 
 // Show the first failing sync error to keep messaging focused.
-const errorMessage = computed(() => {
-  if (orderStatus.value === 'error') {
-    return orderError.value instanceof Error ? orderError.value.message : 'Unable to fetch order data.'
-  }
+const errorMessage = computed(() => orderStep.value.error ?? subscriptionStep.value.error)
 
-  if (subscriptionStatus.value === 'error') {
-    return subscriptionError.value instanceof Error
-      ? subscriptionError.value.message
-      : 'Unable to fetch subscription data.'
-  }
-
-  return null
-})
-
-// Treat order sync as complete when subscription sync is not needed.
+// Treat sync as complete when all required steps succeed.
 const isComplete = computed(() => {
-  if (!isSubscriptionSyncVisible.value) {
-    return orderStatus.value === 'success'
-  }
+  const hasSubscriptions = subscriptionStep.value.status !== 'idle'
+  if (!hasSubscriptions)
+    return orderStep.value.status === 'success'
 
-  return orderStatus.value === 'success' && subscriptionStatus.value === 'success'
+  return orderStep.value.status === 'success' && subscriptionStep.value.status === 'success'
 })
 
 // Enable navigation only after sync completes or fails.
 const isActionEnabled = computed(() => isComplete.value
-  || orderStatus.value === 'error'
-  || subscriptionStatus.value === 'error')
+  || orderStep.value.status === 'error'
+  || subscriptionStep.value.status === 'error')
 
-async function retryOrderSync() {
-  await executeOrderSync()
-}
-
-async function retrySubscriptionSync() {
-  if (!polarSubscriptionId.value) {
-    return
-  }
-
-  await executeSubscriptionSync()
+// Retry subscription sync using cached ids from order.
+async function retrySyncSubscriptions() {
+  await runSubscriptionSync()
 }
 
 onMounted(async () => {
-  await executeOrderSync()
+  await runSync()
 })
 </script>
 
@@ -125,14 +139,14 @@ onMounted(async () => {
     <div class="space-y-3">
       <PagePolarSuccessSyncStep
         label="Fetching order"
-        :state="orderStatus"
-        @retry="retryOrderSync"
+        :state="orderStep.status"
+        @retry="runSync"
       />
       <PagePolarSuccessSyncStep
-        v-if="isSubscriptionSyncVisible"
+        v-if="subscriptionStep.status !== 'idle'"
         label="Fetching subscription"
-        :state="subscriptionStatus"
-        @retry="retrySubscriptionSync"
+        :state="subscriptionStep.status"
+        @retry="retrySyncSubscriptions"
       />
     </div>
 
@@ -150,5 +164,15 @@ onMounted(async () => {
     >
       Go To Home
     </UButton>
+    <p class="text-dimmed max-w-sm text-center text-balance">
+      <span>If you face any issues while fetching payment data, please </span>
+      <ULink
+        class="underline text-dimmed"
+        :href="runtimeConfig.public.app.routes.support"
+      >
+        <span>contact support</span>
+      </ULink>
+      <span>.</span>
+    </p>
   </div>
 </template>

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import type { PolarWebhookEvent } from '~~/layers/payments/server/utils/polar/types'
-import { handleCustomerCreated } from '~~/layers/payments/server/utils/polar/webhookHandlers/customer'
 import { handleOrderEvent } from '~~/layers/payments/server/utils/polar/webhookHandlers/order'
 import { handleProductCreated } from '~~/layers/payments/server/utils/polar/webhookHandlers/product'
 import { handleSubscriptionEvent } from '~~/layers/payments/server/utils/polar/webhookHandlers/subscription'
@@ -8,7 +7,6 @@ import { handleSubscriptionEvent } from '~~/layers/payments/server/utils/polar/w
 type PolarEventHandler = (event: PolarWebhookEvent) => Promise<void>
 
 const handlers: Record<string, PolarEventHandler> = {
-  'customer.created': handleCustomerCreated,
   'product.created': handleProductCreated,
   'product.updated': handleProductCreated,
   'subscription.created': handleSubscriptionEvent,

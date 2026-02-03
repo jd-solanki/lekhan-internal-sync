@@ -24,6 +24,9 @@ async function onSubmit(event: FormSubmitEvent<SchemaSignUp>) {
 }
 
 const lastSignInMethod = authClient.getLastUsedLoginMethod()
+
+// Only relevant for guest checkouts
+informSignUpToAccessEntitlementsOnSuccessfulGuestCheckout()
 </script>
 
 <template>
@@ -42,6 +45,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
         :key="provider.id"
         :ui="provider.iconClass ? { leadingIcon: provider.iconClass } : undefined"
         variant="outline"
+        color="neutral"
         :icon="provider.icon"
         block
         :disabled="userStore.isLoading"

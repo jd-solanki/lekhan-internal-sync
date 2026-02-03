@@ -43,10 +43,11 @@ declare module 'nuxt/schema' {
         adminHome: string
         home: string
         signIn: string
-        signUp: string
         verifyEmail: string
         accountSettingsLinkedAccounts: string
         billing: string
+        signUp: string
+        support: string
       }
       pageMetaDefaults: {
         isEmailVerificationRequired: boolean

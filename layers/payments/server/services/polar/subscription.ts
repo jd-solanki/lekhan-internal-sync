@@ -4,7 +4,7 @@ import type { Subscription } from '@polar-sh/sdk/models/components/subscription'
 import { Subscription$inboundSchema } from '@polar-sh/sdk/models/components/subscription'
 import { eq } from 'drizzle-orm'
 import { dbTablePolarSubscription } from '~~/server/db/schemas/tables'
-import { resolveProductId, resolveUserIdFromExternalId } from './resolvers'
+import { resolveProductId, resolveUserIdFromPolarCustomerId } from './resolvers'
 
 export async function parseSubscriptionPayload(rawData: unknown, eventType: string): Promise<Subscription | null> {
   const result = Subscription$inboundSchema.safeParse(rawData)
@@ -46,11 +46,13 @@ export async function isSubscriptionStale(subscriptionPayload: Subscription): Pr
 
 export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscription): Promise<DBSelectPolarSubscription> {
   const subscriptionLabel = `subscription ${subscriptionPayload.id}`
-  const userId = await resolveUserIdFromExternalId(subscriptionPayload.customer.externalId, subscriptionLabel)
+  const userId = await resolveUserIdFromPolarCustomerId(subscriptionPayload.customerId, subscriptionLabel)
   const productId = await resolveProductId(subscriptionPayload.productId, subscriptionLabel)
 
   // What: isolate mutable fields; Why: avoid overwriting immutable IDs/timestamps.
+  // INFO: We've added userId here to support guest checkouts where userId can be null initially and later updated when user registers
   const updateFields = {
+    userId,
     polarModifiedAt: subscriptionPayload.modifiedAt,
     status: subscriptionPayload.status,
     amount: subscriptionPayload.amount,
@@ -82,7 +84,6 @@ export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscript
       ...updateFields,
       polarId: subscriptionPayload.id,
       polarCreatedAt: subscriptionPayload.createdAt,
-      userId,
       productId,
       polarCustomerId: subscriptionPayload.customerId,
       polarProductId: subscriptionPayload.productId,

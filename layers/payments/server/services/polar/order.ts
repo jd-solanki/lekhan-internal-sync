@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import type { Order } from '@polar-sh/sdk/models/components/order'
-import type { H3Event } from 'h3'
 
 import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
 import { eq } from 'drizzle-orm'
 import { dbTablePolarOrder } from '~~/server/db/schemas/tables'
-import { resolveProductId, resolveSubscriptionId, resolveUserIdFromExternalId } from './resolvers'
+import { resolveProductId, resolveSubscriptionId, resolveUserIdFromPolarCustomerId } from './resolvers'
 
 export async function parseOrderPayload(rawData: unknown, eventType: string): Promise<Order | null> {
   const result = Order$inboundSchema.safeParse(rawData)
@@ -45,16 +44,19 @@ export async function isOrderStale(orderPayload: Order): Promise<boolean> {
   return existingModifiedAt >= payloadModifiedAt
 }
 
-export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event): Promise<DBSelectPolarOrder> {
+export async function upsertOrderFromPolar(orderPayload: Order): Promise<DBSelectPolarOrder> {
   const orderLabel = `order ${orderPayload.id}`
-  const userId = await resolveUserIdFromExternalId(orderPayload.customer.externalId, orderLabel)
+  const userId = await resolveUserIdFromPolarCustomerId(orderPayload.customerId, orderLabel)
+
   const [productId, subscriptionId] = await Promise.all([
     resolveProductId(orderPayload.productId, orderLabel),
-    resolveSubscriptionId(orderPayload.subscriptionId, orderLabel, event),
+    resolveSubscriptionId(orderPayload.subscriptionId),
   ])
 
   // What: isolate mutable fields; Why: avoid overwriting immutable IDs/timestamps.
+  // INFO: We've added userId here to support guest checkouts where userId can be null initially and later updated when user registers
   const updateFields = {
+    userId,
     polarModifiedAt: orderPayload.modifiedAt,
     status: orderPayload.status,
     paid: orderPayload.paid,
@@ -88,7 +90,6 @@ export async function upsertOrderFromPolar(orderPayload: Order, event?: H3Event)
       ...updateFields,
       polarId: orderPayload.id,
       polarCreatedAt: orderPayload.createdAt,
-      userId,
       productId,
       subscriptionId,
       polarCustomerId: orderPayload.customerId,

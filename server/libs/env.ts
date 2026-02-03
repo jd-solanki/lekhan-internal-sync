@@ -57,6 +57,7 @@ const EnvSchema = z.object({
   POLAR_ACCESS_TOKEN: z.string(),
   POLAR_SERVER: z.enum(['sandbox', 'production']),
   POLAR_WEBHOOK_SECRET: z.string(),
+  POLAR_CHECKOUT_FOR_AUTHENTICATED_USERS_ONLY: z.stringbool(),
 
   // 🕒 Cron
   CRON_SECRET: z.string(),
