@@ -8,9 +8,8 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   await paymentStore.init()
 
   if (userStore.user) {
-    // Check if email verification is required
-    if (to.meta.isEmailVerificationRequired && !userStore.user.emailVerified) {
-      // Redirect to email verification page if email is not verified
+    // Redirect to email verification page if email is not verified
+    if (!userStore.user.emailVerified) {
       return navigateTo(runtimeConfig.public.app.routes.verifyEmail)
     }
 

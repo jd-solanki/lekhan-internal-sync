@@ -4,19 +4,6 @@ import env from './server/libs/env'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  /*
-    Default values for page meta properties.
-    Based on runtime configuration of `isEmailVerificationRequiredForAccess`,
-    set the default value for `isEmailVerificationRequired` in page meta.
-
-    If `isEmailVerificationRequiredForAccess` is true, then `isEmailVerificationRequired` will also be true by default.
-    If `isEmailVerificationRequiredForAccess` is false, then `isEmailVerificationRequired` will also be false by default.
-  */
-  pageMetaDefaults: {
-    defaults: {
-      isEmailVerificationRequired: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
-    },
-  },
   css: ['~/assets/css/main.css'],
   routeRules: {
     '/docs': { redirect: '/docs/getting-started/introduction' },
@@ -181,13 +168,6 @@ export default defineNuxtConfig({
             },
           ]),
         },
-        /**
-         * Determines if email verification is required for a user to access protected parts of the app.
-         * This is controlled by the `NUXT_EMAIL_VERIFICATION_IS_REQUIRED_FOR_ACCESS` environment variable.
-         * It defaults to `true` (verification is mandatory) for safety in production.
-         * Set to `false` in your `.env` for local development to bypass the verification check.
-         */
-        isEmailVerificationRequiredForAccess: env.NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS,
 
         // Payments Layer Config
         polarCheckoutForAuthenticatedUsersOnly: env.POLAR_CHECKOUT_FOR_AUTHENTICATED_USERS_ONLY,

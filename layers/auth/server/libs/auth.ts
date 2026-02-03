@@ -279,7 +279,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
-    requireEmailVerification: runtimeConfig.public.shared.isEmailVerificationRequiredForAccess,
+    requireEmailVerification: true,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
       const emailSubject = 'Reset your password'
@@ -322,24 +322,6 @@ export const auth = betterAuth({
     },
   },
 })
-
-/*
-  🚨 NEVER enable social sign in without email verification
-  CASE 1: User sign in via Google. This will create user record & account record.
-    Now attacker can use password based sign in with the same email. This will create a new account record and map it to the existing user record.
-    As there was not email verification, the attacker can access the existing user account.
-  CASE 2: User X sign up via password but uses User Y's email. This will create user record & account record.
-    Now another user Y sign in via google. This will create a new account record and map it to the existing user record.
-    Now User X unintentionally gains access to User Y's account.
-*/
-if (
-  Object.prototype.hasOwnProperty.call(auth.options, 'emailAndPassword')
-  && Object.prototype.hasOwnProperty.call(auth.options.emailAndPassword, 'requireEmailVerification')
-  && !auth.options.emailAndPassword.requireEmailVerification
-  && Object.prototype.hasOwnProperty.call(auth.options, 'socialProviders')
-) {
-  throw new Error('Social Sign In is not allowed without email verification. Reason: Someone can hijack other users\' accounts.')
-}
 
 export type Session = typeof auth.$Infer.Session
 export type User = Simplify<Omit<Session['user'], 'id'> & { id: number }>

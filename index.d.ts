@@ -49,9 +49,6 @@ declare module 'nuxt/schema' {
         signUp: string
         support: string
       }
-      pageMetaDefaults: {
-        isEmailVerificationRequired: boolean
-      }
     }
     shared: SharedPublicRuntimeConfig
   }
@@ -79,7 +76,6 @@ declare module 'nuxt/schema' {
         iconClass?: string
       }[]
     }
-    isEmailVerificationRequiredForAccess: boolean
   }
 }
 

@@ -84,14 +84,8 @@ export const useUserStore = defineStore('user', () => {
         callbackURL: runtimeConfig.public.app.routes.signIn,
       }, {
         onSuccess: async (_ctx) => {
-          if (runtimeConfig.public.shared.isEmailVerificationRequiredForAccess) {
-            // Send verification mail and redirect to verify email page
-            await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?state=mail-sent`)
-          }
-          else {
-            // If email verification is optional, redirect to home page
-            await navigateTo(userHomeRoute.value)
-          }
+          // Redirect to verify email page to inform user to check inbox
+          await navigateTo(`${runtimeConfig.public.app.routes.verifyEmail}?state=mail-sent`)
         },
         onError: (ctx) => {
           errorToast({

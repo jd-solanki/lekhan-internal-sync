@@ -5,12 +5,9 @@ import * as z from 'zod'
 definePageMeta({
   layout: 'blank',
   mainClass: 'grid place-items-center',
-  isEmailVerificationRequired: false,
   redirectIfEmailVerified: true,
 })
 
-const runtimeConfig = useRuntimeConfig()
-const isEmailVerificationRequiredForAccess = runtimeConfig.public.shared.isEmailVerificationRequiredForAccess
 const route = useRoute()
 const userStore = useUserStore()
 
@@ -39,7 +36,7 @@ async function sendVerificationEmail(event: FormSubmitEvent<z.infer<typeof schem
       {{ uiState === 'mail-sent' ? 'Verification email sent' : 'Verify your account' }}
     </h1>
     <p class="text-muted text-balance">
-      {{ isEmailVerificationRequiredForAccess ? 'You need to verify your email address to proceed further' : 'Verify your email address' }}
+      Verify your email address
     </p>
 
     <div class="mt-12 space-y-8">
@@ -48,8 +45,8 @@ async function sendVerificationEmail(event: FormSubmitEvent<z.infer<typeof schem
         <p>Please check your inbox.</p>
       </div>
 
-      <template v-if="!uiState">
-        <!-- If there's no UI state => Show button to send verification email -->
+      <!-- If there's no UI state => Show button to send verification email -->
+      <template v-else>
         <UForm
           :schema="schema"
           :state="{ email }"
@@ -77,18 +74,8 @@ async function sendVerificationEmail(event: FormSubmitEvent<z.infer<typeof schem
           </UButton>
         </UForm>
 
-        <!-- Only show action buttons if there's no UI state -->
-        <!-- E.g. Don't show action buttons is mail is sent -->
         <!-- Action Buttons -->
         <UButton
-          v-if="isEmailVerificationRequiredForAccess"
-          variant="ghost"
-          :to="runtimeConfig.public.app.routes.signIn"
-        >
-          Log in with different account
-        </UButton>
-        <UButton
-          v-else
           to="/"
           variant="ghost"
         >

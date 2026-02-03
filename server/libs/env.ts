@@ -50,7 +50,6 @@ const EnvSchema = z.object({
   AUTH_GOOGLE_CLIENT_SECRET: z.string(),
   AUTH_GITHUB_CLIENT_ID: z.string(),
   AUTH_GITHUB_CLIENT_SECRET: z.string(),
-  NUXT_PUBLIC_IS_EMAIL_VERIFICATION_REQUIRED_FOR_ACCESS: z.stringbool().default(true),
 
   // 💰 Polar
   POLAR_DASHBOARD_URL: z.url(),
