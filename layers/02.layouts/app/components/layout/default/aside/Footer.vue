@@ -8,6 +8,7 @@ const userStore = useUserStore()
     <UButton
       class="flex items-center gap-x-3"
       block
+      color="neutral"
       variant="ghost"
     >
       <UAvatar
