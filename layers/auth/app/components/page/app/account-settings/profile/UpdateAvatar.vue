@@ -88,7 +88,7 @@ const { isLoading: isRemoving, fnWithLoading: handleRemoveAvatar } = useWithLoad
             @update:model-value="(file) => handleAvatarUpload(file as File)"
           >
             <UButton
-              color="primary"
+              color="neutral"
               variant="outline"
               icon="i-lucide-upload"
               :loading="isUploading"
