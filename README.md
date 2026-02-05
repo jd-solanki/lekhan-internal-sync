@@ -28,5 +28,10 @@
 - Run tunnel
 
 ```shell
+# 1. Run tunnel
 while true; do lt --port 3000 --subdomain nuxtstart; sleep 1; done
+
+# 2. Open tunnel url and insert password as per instructions
+
+# 3. Confirm tunnel works by visiting `/api/health` endpoint
 ```
