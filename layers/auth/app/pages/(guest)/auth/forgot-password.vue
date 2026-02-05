@@ -8,9 +8,10 @@ definePageMeta({
 
 const userStore = useUserStore()
 const route = useRoute()
+const queryEmail = getFirstQueryValue('email', { route })
 
 const state = reactive<Partial<SchemaForgotPassword>>({
-  email: process.env.NODE_ENV === 'development' ? 'admin@mail.com' : undefined,
+  email: queryEmail || (process.env.NODE_ENV === 'development' ? 'admin@mail.com' : undefined),
 })
 const uiState = ref(route.query.state)
 
@@ -71,12 +72,12 @@ async function onSubmit(event: FormSubmitEvent<SchemaForgotPassword>) {
       </UForm>
 
       <p class="text-sm text-center">
-        <span class="text-muted">Remembered your password?</span>
+        <span class="text-muted">Remembered your password? </span>
         <ULink
           to="/auth/sign-in"
           class="hover:underline"
         >
-          Sign In
+          <span>Sign In</span>
         </ULink>
       </p>
     </template>

@@ -86,7 +86,15 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
       icon="i-lucide-alert-triangle"
       class="mb-6"
       :title="`You signed up using ${connectedOAuthProviders}`"
-      description="To set a password, please use the forgot password flow first."
+      description="To set a password, please sign out and reset password."
+      :actions="[{
+        label: 'Reset Password',
+        color: 'warning',
+        variant: 'outline',
+        onClick: async () => {
+          userStore.signOut({ redirectTo: `/auth/forgot-password?email=${userStore.user?.email}` })
+        },
+      }]"
     />
 
     <div v-if="hasEmailAccount">
