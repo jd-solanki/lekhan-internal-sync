@@ -160,7 +160,11 @@ export const useUserStore = defineStore('user', () => {
       await authClient.signIn.social({
         provider,
         errorCallbackURL: runtimeConfig.public.app.routes.signIn,
-        callbackURL: userHomeRoute.value,
+        /*
+          INFO: We're using `runtimeConfig.public.app.routes.home` instead of `userHomeRoute.value`
+          because while this executes user session is not set and `userHomeRoute` will return sign in route which causes unwanted redirection
+        */
+        callbackURL: runtimeConfig.public.app.routes.home,
       })
     })
   }
@@ -170,7 +174,11 @@ export const useUserStore = defineStore('user', () => {
       try {
         await authClient.signIn.magicLink({
           email,
-          callbackURL: userHomeRoute.value,
+          /*
+            INFO: We're using `runtimeConfig.public.app.routes.home` instead of `userHomeRoute.value`
+            because while this executes user session is not set and `userHomeRoute` will return sign in route which causes unwanted redirection
+          */
+          callbackURL: runtimeConfig.public.app.routes.home,
           errorCallbackURL: runtimeConfig.public.app.routes.signIn,
         })
 
