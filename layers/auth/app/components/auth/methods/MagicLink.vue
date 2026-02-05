@@ -2,6 +2,7 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { breakpointsTailwind, useBreakpoints, useMounted } from '@vueuse/core'
 
+const queryRedirectUrl = getFirstQueryValue('redirectUrl')
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater('lg')
 const isMounted = useMounted()
@@ -16,7 +17,7 @@ const state = reactive<SchemaMagicLink>({
 })
 
 async function onSubmit(event: FormSubmitEvent<SchemaMagicLink>) {
-  await userStore.sendMagicLink(event.data.email)
+  await userStore.sendMagicLink(event.data.email, { redirectUrl: queryRedirectUrl })
 }
 
 const lastSignInMethod = authClient.getLastUsedLoginMethod()
@@ -55,7 +56,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
             :disabled="userStore.isLoading"
             loading-auto
             class="w-full"
-            @click="userStore.socialSignIn(provider.id)"
+            @click="userStore.socialSignIn(provider.id, { redirectUrl: queryRedirectUrl })"
           >
             {{ provider.name }}
           </UButton>

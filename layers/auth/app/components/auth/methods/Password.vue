@@ -91,7 +91,7 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
             :disabled="userStore.isLoading"
             loading-auto
             class="w-full"
-            @click="userStore.socialSignIn(provider.id)"
+            @click="userStore.socialSignIn(provider.id, { redirectUrl: parsedQuery.redirectUrl })"
           >
             {{ provider.name }}
           </UButton>

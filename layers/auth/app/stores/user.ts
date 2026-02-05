@@ -145,17 +145,21 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  async function signOut() {
+  async function signOut(options?: { redirectTo?: string }) {
+    const { redirectTo = runtimeConfig.public.app.routes.signIn } = options || {}
+
     // eslint-disable-next-line regex/invalid
     await authClient.signOut()
 
     // NOTE: We'll only redirect after session is updated to avoid unexpected behavior
     watch(user, async () => {
-      await navigateTo(runtimeConfig.public.app.routes.signIn)
+      await navigateTo(redirectTo)
     })
   }
 
-  async function socialSignIn(provider: SocialProviderId) {
+  async function socialSignIn(provider: SocialProviderId, options?: { redirectUrl?: string }) {
+    const { redirectUrl = runtimeConfig.public.app.routes.home } = options || {}
+
     await withLoading(async () => {
       await authClient.signIn.social({
         provider,
@@ -164,12 +168,14 @@ export const useUserStore = defineStore('user', () => {
           INFO: We're using `runtimeConfig.public.app.routes.home` instead of `userHomeRoute.value`
           because while this executes user session is not set and `userHomeRoute` will return sign in route which causes unwanted redirection
         */
-        callbackURL: runtimeConfig.public.app.routes.home,
+        callbackURL: redirectUrl,
       })
     })
   }
 
-  async function sendMagicLink(email: string) {
+  async function sendMagicLink(email: string, options?: { redirectUrl?: string }) {
+    const { redirectUrl = runtimeConfig.public.app.routes.home } = options || {}
+
     await withLoading(async () => {
       try {
         await authClient.signIn.magicLink({
@@ -178,7 +184,7 @@ export const useUserStore = defineStore('user', () => {
             INFO: We're using `runtimeConfig.public.app.routes.home` instead of `userHomeRoute.value`
             because while this executes user session is not set and `userHomeRoute` will return sign in route which causes unwanted redirection
           */
-          callbackURL: runtimeConfig.public.app.routes.home,
+          callbackURL: redirectUrl,
           errorCallbackURL: runtimeConfig.public.app.routes.signIn,
         })
 
