@@ -175,12 +175,12 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
     </UForm>
 
     <p class="text-sm text-center">
-      <span class="text-muted">Don't have an account?</span>
+      <span class="text-muted">Don't have an account? </span>
       <ULink
         to="/auth/sign-up"
         class="hover:underline"
       >
-        Sign Up
+        <span>Sign Up</span>
       </ULink>
     </p>
   </div>

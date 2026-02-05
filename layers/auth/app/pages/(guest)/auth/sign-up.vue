@@ -130,12 +130,12 @@ informSignUpToAccessEntitlementsOnSuccessfulGuestCheckout()
       v-else
       class="text-sm text-center"
     >
-      <span class="text-muted">Already have an account?</span>
+      <span class="text-muted">Already have an account? </span>
       <ULink
         to="/auth/sign-in"
         class="hover:underline"
       >
-        Sign In
+        <span>Sign In</span>
       </ULink>
     </p>
   </div>
