@@ -20,7 +20,6 @@ jobs:
       # App global variables
       NUXT_PUBLIC_APP_NAME: ${{ vars.NUXT_PUBLIC_APP_NAME }}
       NUXT_PUBLIC_APP_BASE_URL: ${{ vars.NUXT_PUBLIC_APP_BASE_URL }}
-      NUXT_PUBLIC_API_BASE_URL: ${{ vars.NUXT_PUBLIC_API_BASE_URL }}
 
       # 💬 Contact Us
       NUXT_PUBLIC_CONTACT_EMAIL: ${{ vars.NUXT_PUBLIC_CONTACT_EMAIL }}
