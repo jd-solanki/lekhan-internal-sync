@@ -1,5 +1,5 @@
 ---
-name: Nuxt/Nitro API
+name: nuxt-nitro-api
 description: How to design and develop APIs, including authentication, best practices, etc for scalability and security.
 ---
 

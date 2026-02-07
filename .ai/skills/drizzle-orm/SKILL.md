@@ -1,5 +1,5 @@
 ---
-name: Drizzle ORM
+name: drizzle-orm
 description: Skills related to using Drizzle ORM for database interactions, including schema definitions, migrations, querying, and best practices for performance and maintainability.
 ---
 

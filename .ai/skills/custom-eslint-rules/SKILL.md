@@ -1,3 +1,8 @@
+---
+name: custom-eslint-rules
+description: How to develop custom ESLint rules for Nuxt/Nitro projects, including rule creation, testing, and best practices.
+---
+
 # Custom ESLint Rules Development Guide
 
 ## Project Structure

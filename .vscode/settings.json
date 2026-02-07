@@ -1,12 +1,4 @@
 {
-  "chat.instructionsFilesLocations": {
-    ".ai/rules": true
-  },
-  // NOTE: Do not edit symlinked files manually. Prefer editing source files in `.prompts` directory
-  "files.readonlyInclude": {
-    ".cursor/**": true,
-    ".github/prompts/**": true
-  },
   // SECTION: antfu-eslint
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,

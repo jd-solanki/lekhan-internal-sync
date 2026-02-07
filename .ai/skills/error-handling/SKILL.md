@@ -1,5 +1,5 @@
 ---
-name: Error Handling
+name: error-handling
 description: How to effectively handle errors in your application, including best practices for logging, user notifications, and debugging strategies.
 ---
 
