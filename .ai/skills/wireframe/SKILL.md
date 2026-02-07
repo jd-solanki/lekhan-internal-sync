@@ -3,7 +3,7 @@ name: wireframe
 description: Use when designing text-based UI mockups, visualizing layouts in chat, or specifying component hierarchy without graphical tools
 ---
 
-# Creating ASCII Wireframes
+# Creating ASCII Wireframe
 
 ## Overview
 

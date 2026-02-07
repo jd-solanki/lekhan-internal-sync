@@ -1,10 +1,10 @@
 ---
-name: ui
-description: Skills related to user interface design and development, including front-end frameworks, responsive design, and user experience principles.
+name: nuxt-ui
+description: Skills related to user interface design and development using Nuxt UI
 ---
 
 - Always use Nuxt UI MCP to fetch component documentation before using it
-- Don't use custom CSS classes unless necessary. Most importantly text colors, font sizes, spacing, border, layout, etc.
+- Never use custom CSS color classes unless in special cases. Most importantly text colors, font sizes, spacing, border, layout, etc.
 - Reuse tokens we have in Nuxt UI like colors, spacing, font sizes, etc. E.g. text-muted instead of gray color from tailwind.
 - NEVER use custom color classes and refer to CSS available CSS Variables at <https://ui.nuxt.com/docs/getting-started/theme/css-variables>.
 - Ensure responsiveness using Tailwind's responsive utilities (e.g., `sm:`, `md:`, `lg:`, `xl:`). Do take care of font sizes, spacing, and layout adjustments across different screen sizes.
