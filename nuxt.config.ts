@@ -288,4 +288,14 @@ export default defineNuxtConfig({
       description: `Comprehensive documentation of ${env.NUXT_PUBLIC_APP_NAME}`,
     },
   },
+  devServer: {
+    port: 3020,
+  },
+  $development: {
+    vite: {
+      server: {
+        allowedHosts: ['lekhan.loca.lt'],
+      },
+    },
+  },
 })

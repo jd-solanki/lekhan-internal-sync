@@ -3,7 +3,7 @@
 @source "../../../layers/**";
 @source "../../../nuxt.config.ts";
 
-/* @theme {
+@theme {
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-} */
+}

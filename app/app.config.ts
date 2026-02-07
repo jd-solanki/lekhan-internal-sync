@@ -6,6 +6,9 @@ export default defineAppConfig({
     logo: '/logo.png',
   },
   ui: defu({
-    /* Write your Nuxt UI config */
+    colors: {
+      primary: 'black',
+      neutral: 'neutral',
+    },
   }, outlineCardWOBorders),
 })
