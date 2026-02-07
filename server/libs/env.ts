@@ -13,7 +13,6 @@ const EnvSchema = z.object({
   NUXT_PUBLIC_APP_NAME: z.string(),
   NUXT_PUBLIC_APP_DOMAIN: z.string().optional(),
   NUXT_PUBLIC_APP_BASE_URL: z.url().optional().default('http://localhost:3000'),
-  NUXT_PUBLIC_API_BASE_URL: z.url().optional().default('http://localhost:3000/api'),
 
   // 💬 Contact Us
   NUXT_PUBLIC_CONTACT_EMAIL: z.email(),

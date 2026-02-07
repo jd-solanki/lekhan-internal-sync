@@ -111,9 +111,7 @@ export default defineNuxtConfig({
     // INFO: Types are defined in `index.d.ts`
     public: {
       // Server Config
-      server: {
-        apiBaseUrl: env.NUXT_PUBLIC_API_BASE_URL,
-      },
+      server: {},
 
       // App Config
       app: {
