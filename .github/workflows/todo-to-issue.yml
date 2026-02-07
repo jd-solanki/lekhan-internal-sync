@@ -35,6 +35,7 @@ jobs:
           AUTO_ASSIGN: 'true'
 
           IDENTIFIERS: '[{"name": "TODO", "labels": ["todo"]}]'
+          IGNORE: '.agents/skills/**,.github/agents/**,.cursor/**,.claude'
       - name: Set Git user
         run: |
           git config --global user.name "github-actions[bot]"
