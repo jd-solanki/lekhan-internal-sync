@@ -2,20 +2,9 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 export const navigationItems: NavigationMenuItem[] = [
   {
-    label: 'Dashboard',
+    label: 'Home',
     to: '/app',
     icon: 'lucide:home',
-  },
-  {
-    label: 'Billing',
-    to: '/app/billing',
-    icon: 'lucide:credit-card',
-  },
-  {
-    label: 'Customer Portal',
-    icon: 'i-lucide-store',
-    to: '/polar/customer-portal',
-    target: '_blank',
   },
 ]
 
@@ -40,9 +29,14 @@ export const adminNavigationItems: NavigationMenuItem[] = [
 
 export const navigationFooterItems: NavigationMenuItem[] = [
   {
-    label: 'Documentation',
-    to: '/docs',
-    icon: 'i-lucide-book',
+    label: 'Billing',
+    to: '/app/billing',
+    icon: 'lucide:credit-card',
+  },
+  {
+    label: 'Customer Portal',
+    icon: 'i-lucide-store',
+    to: '/polar/customer-portal',
     target: '_blank',
   },
 ]

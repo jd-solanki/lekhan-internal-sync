@@ -6,7 +6,6 @@ import env from './server/libs/env'
 export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   routeRules: {
-    '/docs': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false, ssr: false },
     '/app/**': { robots: false, ssr: false },
   },
@@ -51,7 +50,7 @@ export default defineNuxtConfig({
   },
   seo: {
     meta: {
-      description: 'Production ready Nuxt.js SaaS boilerplate to launch your SaaS app faster.',
+      description: 'Simple & Elegant note taking app.',
       // INFO: It's recommended to update these colors to match your brand identity
       themeColor: [
         // Light/Dark Color Scheme (From https://nuxt.com/design-kit)

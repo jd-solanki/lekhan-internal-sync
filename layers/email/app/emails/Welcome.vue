@@ -15,8 +15,7 @@ defineProps<Props>()
 //   subject: 'Welcome to NuxtStart!',
 //   name: 'John Doe',
 // })
-
-const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/introduction'
+const actionBtnUrl = 'https://lekhan.nuxtstart.com/app'
 </script>
 
 <template>
@@ -37,11 +36,11 @@ const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/in
       Welcome to <strong>{{ env.NUXT_PUBLIC_APP_NAME }}</strong> - you're officially in 🚀
     </EText>
     <EText>
-      You now have everything you need to start building your SaaS faster with a clean, production-ready Nuxt.js foundation.
+      Explore simple and elegant note-taking experience with markdown support. Whether you're jotting down quick thoughts or crafting detailed documents.
     </EText>
 
     <EButton
-      :href="localSetupInstructionsUrl"
+      :href="actionBtnUrl"
       style="
         background-color: #000;
         color: #ffffff;
@@ -51,39 +50,9 @@ const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/in
         display: inline-block;
       "
     >
-      Local Setup Instructions
+      Create Your First Note
     </EButton>
 
-    <EHeading
-      style="
-        margin-top: 30px;
-        font-size: 16px;
-        color: #333333;
-        font-weight: bold;
-        margin-bottom: 12px;
-      "
-    >
-      What you get
-    </EHeading>
-    <EText style="margin-bottom: 0px;">
-      • Access to the
-      <ELink href="https://discord.gg/xXPJRpnv">
-        <span>Discord server</span>
-      </ELink>
-      for support & questions
-    </EText>
-    <EText style="margin: 0px;">
-      • Download invoice and purchase key at <ELink href="https://nuxtstart.com/polar/customer-portal">
-        Polar customer portal
-      </ELink>
-    </EText>
-    <EText style="margin-top: 0px;">
-      • Ongoing updates and improvements to {{ env.NUXT_PUBLIC_APP_NAME }}
-    </EText>
-
-    <EText style="margin-bottom: 16px;">
-      If you get stuck at any point, just ping me in Discord - happy to help.
-    </EText>
     <EText style="margin-bottom: 0px;">
       — JD Solanki<br>
       Founder, <strong>{{ env.NUXT_PUBLIC_APP_NAME }}</strong>
@@ -92,13 +61,13 @@ const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/in
     <EHr style="margin-top: 24px; margin-bottom: 24px;" />
 
     <EText style="margin-bottom: 0px; font-size: 12px; color: #666666;">
-      If you're having trouble clicking the "Local Setup Instructions" button or want to open in different browser window, copy and paste the following URL into your web browser:
+      If you're having trouble clicking the "Create Your First Note" button or want to open in different browser window, copy and paste the following URL into your web browser:
     </EText>
     <ELink
-      :href="localSetupInstructionsUrl"
+      :href="actionBtnUrl"
       style="font-size: 12px; color: #1a73e8; text-decoration: underline; word-break: break-all; color: #666666;"
     >
-      {{ localSetupInstructionsUrl }}
+      {{ actionBtnUrl }}
     </ELink>
   </EmailLayoutDefault>
 </template>

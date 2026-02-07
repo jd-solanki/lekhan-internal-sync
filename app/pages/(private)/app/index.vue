@@ -10,5 +10,6 @@ definePageMeta({
 <template>
   <div>
     <AppPageHeader title="Dashboard" />
+    <p>WIP...</p>
   </div>
 </template>

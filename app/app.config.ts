@@ -7,8 +7,8 @@ export default defineAppConfig({
   },
   ui: defu({
     colors: {
-      primary: 'black',
-      neutral: 'neutral',
+      primary: 'blue',
+      neutral: 'zinc',
     },
   }, outlineCardWOBorders),
 })
