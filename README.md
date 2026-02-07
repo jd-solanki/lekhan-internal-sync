@@ -29,7 +29,7 @@
 
 ```shell
 # 1. Run tunnel
-while true; do lt --port 3000 --subdomain nuxtstart; sleep 1; done
+while true; do lt --port 3020 --subdomain lekhan; sleep 1; done
 
 # 2. Open tunnel url and insert password as per instructions
 
