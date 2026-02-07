@@ -1,0 +1,11 @@
+{
+    "Define comment achors section": {
+        "prefix": "!section",
+        "body": [
+            "// SECTION: ${1}",
+            "${2}",
+            "// !SECTION"
+        ],
+        "description": "Define comment achors section"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "get appConfig": {
+        "include": "**/app/**",
+        "prefix": "!appConfig",
+        "body": [
+            "const appConfig = useAppConfig()"
+        ],
+        "description": "get appConfig"
+    },
+    "get runtimeConfig": {
+        "prefix": "!runtimeConfig",
+        "body": [
+            "const runtimeConfig = useRuntimeConfig()"
+        ],
+        "description": "get runtimeConfig"
+    },
+    "Create nitro event handler": {
+        "include": "**/server/**",
+        "prefix": "!event",
+        "body": [
+            "export default defineEventHandler(async (event) => {",
+            "  ${1}",
+            "})"
+        ],
+        "description": "Create nitro event handler"
+    }
+}

@@ -1,0 +1,113 @@
+/* eslint-disable no-console */
+import type { Order } from '@polar-sh/sdk/models/components/order'
+
+import { Order$inboundSchema } from '@polar-sh/sdk/models/components/order'
+import { eq } from 'drizzle-orm'
+import { dbTablePolarOrder } from '~~/server/db/schemas/tables'
+import { resolveProductId, resolveSubscriptionId, resolveUserIdFromPolarCustomerId } from './resolvers'
+
+export async function parseOrderPayload(rawData: unknown, eventType: string): Promise<Order | null> {
+  const result = Order$inboundSchema.safeParse(rawData)
+
+  // If parsing fails, it probably means Polar changed the payload structure and we need to update our SDK or webhook handler.
+  if (!result.success) {
+    const errorTitle = `Invalid '${eventType}' Payload Structure`
+    console.error(`${errorTitle}:`, result.error)
+
+    await sendEmailToAdmins({
+      subject: errorTitle,
+      text: JSON.stringify({
+        error: result.error,
+        payload: rawData,
+      }, null, 2),
+    })
+
+    return null
+  }
+
+  console.log(`'${eventType}' payload structure validated successfully`)
+  return result.data
+}
+
+export async function isOrderStale(orderPayload: Order): Promise<boolean> {
+  const existingOrder = await db.query.dbTablePolarOrder.findFirst({
+    where: eq(dbTablePolarOrder.polarId, orderPayload.id),
+  })
+
+  if (!existingOrder) {
+    return false
+  }
+
+  const payloadModifiedAt = orderPayload.modifiedAt || orderPayload.createdAt
+  const existingModifiedAt = existingOrder.polarModifiedAt || existingOrder.polarCreatedAt
+
+  return existingModifiedAt >= payloadModifiedAt
+}
+
+export async function upsertOrderFromPolar(orderPayload: Order): Promise<DBSelectPolarOrder> {
+  const orderLabel = `order ${orderPayload.id}`
+  const userId = await resolveUserIdFromPolarCustomerId(orderPayload.customerId, orderLabel)
+
+  const [productId, subscriptionId] = await Promise.all([
+    resolveProductId(orderPayload.productId, orderLabel),
+    resolveSubscriptionId(orderPayload.subscriptionId),
+  ])
+
+  // What: isolate mutable fields; Why: avoid overwriting immutable IDs/timestamps.
+  // INFO: We've added userId here to support guest checkouts where userId can be null initially and later updated when user registers
+  const updateFields = {
+    userId,
+    polarModifiedAt: orderPayload.modifiedAt,
+    status: orderPayload.status,
+    paid: orderPayload.paid,
+    billingReason: orderPayload.billingReason,
+    subtotalAmount: orderPayload.subtotalAmount,
+    discountAmount: orderPayload.discountAmount,
+    netAmount: orderPayload.netAmount,
+    taxAmount: orderPayload.taxAmount,
+    totalAmount: orderPayload.totalAmount,
+    appliedBalanceAmount: orderPayload.appliedBalanceAmount,
+    dueAmount: orderPayload.dueAmount,
+    refundedAmount: orderPayload.refundedAmount,
+    refundedTaxAmount: orderPayload.refundedTaxAmount,
+    platformFeeAmount: orderPayload.platformFeeAmount,
+    currency: orderPayload.currency,
+    billingName: orderPayload.billingName,
+    billingAddress: orderPayload.billingAddress,
+    invoiceNumber: orderPayload.invoiceNumber,
+    isInvoiceGenerated: orderPayload.isInvoiceGenerated,
+    seats: orderPayload.seats ?? null,
+    description: orderPayload.description,
+    items: orderPayload.items || [],
+    discount: orderPayload.discount,
+    metadata: orderPayload.metadata || {},
+    customFieldData: orderPayload.customFieldData || null,
+  }
+
+  const [order] = await db
+    .insert(dbTablePolarOrder)
+    .values({
+      ...updateFields,
+      polarId: orderPayload.id,
+      polarCreatedAt: orderPayload.createdAt,
+      productId,
+      subscriptionId,
+      polarCustomerId: orderPayload.customerId,
+      polarProductId: orderPayload.productId as string,
+      polarSubscriptionId: orderPayload.subscriptionId,
+      polarDiscountId: orderPayload.discountId,
+      polarCheckoutId: orderPayload.checkoutId,
+    })
+    .onConflictDoUpdate({
+      target: dbTablePolarOrder.polarId,
+      set: updateFields,
+    })
+    .returning()
+
+  if (!order) {
+    throw new Error(`Failed to upsert order: ${orderPayload.id}`)
+  }
+
+  console.log(`✅ Order upserted: ${orderPayload.id}`)
+  return order
+}

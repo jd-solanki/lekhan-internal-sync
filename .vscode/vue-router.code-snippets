@@ -1,0 +1,18 @@
+{
+    "Get current route": {
+        "include": "**/app/**",
+        "prefix": "!route",
+        "body": [
+            "const route = useRoute()"
+        ],
+        "description": "Get current route"
+    },
+    "Get router": {
+        "include": "**/app/**",
+        "prefix": "!router",
+        "body": [
+            "const router = useRouter()"
+        ],
+        "description": "Get router"
+    }
+}

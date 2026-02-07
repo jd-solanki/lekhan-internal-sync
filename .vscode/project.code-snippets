@@ -1,0 +1,57 @@
+{
+    "Use error toast message": {
+        "include": "**/app/**",
+        "prefix": "!errorToast",
+        "body": [
+            "const { errorToast } = useToastMessage()"
+        ],
+        "description": "Use error toast message"
+    },
+    "Use success toast message": {
+        "include": "**/app/**",
+        "prefix": "!successToast",
+        "body": [
+            "const { successToast } = useToastMessage()"
+        ],
+        "description": "Use success toast message"
+    },
+    "Import EnvSchema": {
+        "include": "**/server/**",
+        "prefix": "ienvschema",
+        "body": [
+            "import env from '#server/libs/env'"
+        ],
+        "description": "Import EnvSchema"
+    },
+    "get userStore": {
+        "include": "**/app/**",
+        "prefix": "!userStore",
+        "body": [
+            "const userStore = useUserStore()"
+        ],
+        "description": "get userStore"
+    },
+    "get paymentsStore": {
+        "include": "**/app/**",
+        "prefix": "!paymentsStore",
+        "body": [
+            "const paymentsStore = usePaymentsStore()"
+        ],
+        "description": "get paymentsStore"
+    },
+    "Get polar customer state": {
+        "include": "**/server/**",
+        "prefix": "!pocstate",
+        "body": [
+            "const polarCustomerState = await getPolarCustomerState(event.context.user.id)"
+        ],
+        "description": "Get polar customer state"
+    },
+    "Import zod": {
+        "prefix": "iz",
+        "body": [
+            "import * as z from 'zod'"
+        ],
+        "description": "Import zod"
+    }
+}

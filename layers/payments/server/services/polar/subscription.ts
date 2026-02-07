@@ -1,0 +1,105 @@
+/* eslint-disable no-console */
+import type { Subscription } from '@polar-sh/sdk/models/components/subscription'
+
+import { Subscription$inboundSchema } from '@polar-sh/sdk/models/components/subscription'
+import { eq } from 'drizzle-orm'
+import { dbTablePolarSubscription } from '~~/server/db/schemas/tables'
+import { resolveProductId, resolveUserIdFromPolarCustomerId } from './resolvers'
+
+export async function parseSubscriptionPayload(rawData: unknown, eventType: string): Promise<Subscription | null> {
+  const result = Subscription$inboundSchema.safeParse(rawData)
+
+  // If parsing fails, it probably means Polar changed the payload structure and we need to update our SDK or webhook handler.
+  if (!result.success) {
+    const errorTitle = `Invalid '${eventType}' Payload Structure`
+    console.error(`${errorTitle}:`, result.error)
+
+    await sendEmailToAdmins({
+      subject: errorTitle,
+      text: JSON.stringify({
+        error: result.error,
+        payload: rawData,
+      }, null, 2),
+    })
+
+    return null
+  }
+
+  console.log(`'${eventType}' payload structure validated successfully`)
+  return result.data
+}
+
+export async function isSubscriptionStale(subscriptionPayload: Subscription): Promise<boolean> {
+  const existingSubscription = await db.query.dbTablePolarSubscription.findFirst({
+    where: eq(dbTablePolarSubscription.polarId, subscriptionPayload.id),
+  })
+
+  if (!existingSubscription) {
+    return false
+  }
+
+  const payloadModifiedAt = subscriptionPayload.modifiedAt || subscriptionPayload.createdAt
+  const existingModifiedAt = existingSubscription.polarModifiedAt || existingSubscription.polarCreatedAt
+
+  return existingModifiedAt >= payloadModifiedAt
+}
+
+export async function upsertSubscriptionFromPolar(subscriptionPayload: Subscription): Promise<DBSelectPolarSubscription> {
+  const subscriptionLabel = `subscription ${subscriptionPayload.id}`
+  const userId = await resolveUserIdFromPolarCustomerId(subscriptionPayload.customerId, subscriptionLabel)
+  const productId = await resolveProductId(subscriptionPayload.productId, subscriptionLabel)
+
+  // What: isolate mutable fields; Why: avoid overwriting immutable IDs/timestamps.
+  // INFO: We've added userId here to support guest checkouts where userId can be null initially and later updated when user registers
+  const updateFields = {
+    userId,
+    polarModifiedAt: subscriptionPayload.modifiedAt,
+    status: subscriptionPayload.status,
+    amount: subscriptionPayload.amount,
+    currency: subscriptionPayload.currency,
+    recurringInterval: subscriptionPayload.recurringInterval,
+    recurringIntervalCount: subscriptionPayload.recurringIntervalCount,
+    currentPeriodStart: subscriptionPayload.currentPeriodStart,
+    currentPeriodEnd: subscriptionPayload.currentPeriodEnd,
+    trialStart: subscriptionPayload.trialStart,
+    trialEnd: subscriptionPayload.trialEnd,
+    startedAt: subscriptionPayload.startedAt,
+    endsAt: subscriptionPayload.endsAt,
+    endedAt: subscriptionPayload.endedAt,
+    cancelAtPeriodEnd: subscriptionPayload.cancelAtPeriodEnd,
+    canceledAt: subscriptionPayload.canceledAt,
+    customerCancellationReason: subscriptionPayload.customerCancellationReason,
+    customerCancellationComment: subscriptionPayload.customerCancellationComment,
+    seats: subscriptionPayload.seats ?? null,
+    prices: subscriptionPayload.prices || [],
+    meters: subscriptionPayload.meters || [],
+    discount: subscriptionPayload.discount,
+    metadata: subscriptionPayload.metadata || {},
+    customFieldData: subscriptionPayload.customFieldData || null,
+  }
+
+  const [subscription] = await db
+    .insert(dbTablePolarSubscription)
+    .values({
+      ...updateFields,
+      polarId: subscriptionPayload.id,
+      polarCreatedAt: subscriptionPayload.createdAt,
+      productId,
+      polarCustomerId: subscriptionPayload.customerId,
+      polarProductId: subscriptionPayload.productId,
+      polarDiscountId: subscriptionPayload.discountId,
+      polarCheckoutId: subscriptionPayload.checkoutId,
+    })
+    .onConflictDoUpdate({
+      target: dbTablePolarSubscription.polarId,
+      set: updateFields,
+    })
+    .returning()
+
+  if (!subscription) {
+    throw new Error(`Failed to upsert subscription: ${subscriptionPayload.id}`)
+  }
+
+  console.log(`✅ Subscription upserted: ${subscriptionPayload.id}`)
+  return subscription
+}
