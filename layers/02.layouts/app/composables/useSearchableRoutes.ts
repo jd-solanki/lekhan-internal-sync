@@ -38,7 +38,8 @@ export function useSearchableRoutes() {
         continue
 
       // Generate a human-readable label from the route path
-      const label = meta.search?.label || generateLabelFromPath(route.path)
+      // Custom label from meta overrides only the leaf segment, prefix is always path-derived
+      const label = generateSearchLabel(route.path, meta.search?.label)
 
       // Skip routes without meaningful labels (like parent routes without content)
       if (!label)
@@ -65,9 +66,10 @@ export function useSearchableRoutes() {
 
 /**
  * Generate a human-readable label from a route path
- * For nested routes, prefix with parent route (e.g., "Account Settings / Profile")
+ * For nested routes, prefix with parent context (e.g., "Account Settings / Profile")
+ * If customLabel is provided, it overrides only the leaf segment
  */
-function generateLabelFromPath(path: string): string {
+function generateSearchLabel(path: string, customLabel?: string): string {
   // Remove leading/trailing slashes
   const cleanPath = path.replace(/^\/+|\/+$/g, '')
 
@@ -86,14 +88,15 @@ function generateLabelFromPath(path: string): string {
   if (meaningfulSegments.length === 0)
     return ''
 
-  // Convert each segment to title case
-  const labelSegments = meaningfulSegments.map(segment =>
-    segment
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' '))
+  // For single segment routes, use custom label or auto-generate
+  if (meaningfulSegments.length === 1) {
+    return customLabel || toTitleCase(meaningfulSegments[0]!)
+  }
 
-  // For nested routes (more than 1 segment), join with " / "
-  // For single routes, just return the label
-  return labelSegments.join(' / ')
+  // For nested routes, build prefix from all but last segment
+  const prefixSegments = meaningfulSegments.slice(0, -1).map(toTitleCase)
+  const leafLabel = customLabel || toTitleCase(meaningfulSegments[meaningfulSegments.length - 1]!)
+
+  // Join prefix and leaf with " / "
+  return [...prefixSegments, leafLabel].join(' / ')
 }
