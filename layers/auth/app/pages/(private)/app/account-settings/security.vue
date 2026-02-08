@@ -42,9 +42,7 @@ async function handleDeactivate() {
       class="mt-2"
     >
       <template #header>
-        <h3 class="text-lg font-semibold">
-          Danger Zone
-        </h3>
+        <AppCardHeader title="Danger Zone" />
       </template>
 
       <UAlert
