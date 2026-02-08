@@ -43,6 +43,16 @@ export default defineNuxtConfig({
       ],
     },
   },
+  /*
+    Most of the time your sitemap only changes when you deploy a new version of your app
+    This reduces ~50kb from the server bundle and improves performance by generating sitemap at build time instead of runtime
+    Refer to when to use section: https://nuxtseo.com/docs/sitemap/guides/zero-runtime#when-to-use
+
+    Docs: https://nuxtseo.com/docs/sitemap/guides/zero-runtime
+  */
+  sitemap: {
+    zeroRuntime: true,
+  },
   // Docs: https://nuxtseo.com/docs/site-config/guides/setting-site-config
   site: {
     url: env.NUXT_PUBLIC_APP_BASE_URL,
