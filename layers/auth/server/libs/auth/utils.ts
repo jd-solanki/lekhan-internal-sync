@@ -1,12 +1,13 @@
 import type { BetterAuthOptions } from 'better-auth'
 
 import type { Get, Paths } from 'type-fest'
-
 import env from '#server/libs/env'
+
+import { parseURL } from 'ufo'
 import { findCustomerByEmail, syncOrdersByPolarCustomerId, syncSubscriptionsByCustomerId } from '~~/layers/payments/server/utils/polar/utils'
 
 type DatabaseHooksPath = Paths<BetterAuthOptions['databaseHooks']> // Auto-complete all valid paths
-type DatabaseHook<P extends DatabaseHooksPath> = Get<BetterAuthOptions['databaseHooks'], P>
+type DatabaseHook<P extends DatabaseHooksPath> = NonNullable<Get<BetterAuthOptions['databaseHooks'], P>>
 
 /*
   INFO: This hook handler is important to link existing Polar customer (from guest checkouts) to newly created user account
@@ -35,6 +36,23 @@ export const onBeforeUserCreateDatabaseHookInsertPolarCustomerId: DatabaseHook<'
       }),
     })
     return { data: { ...user } }
+  }
+}
+
+export const onBeforeUserCreateDatabaseHookDownloadOAuthImage: DatabaseHook<'user.create.before'> = async (user, _ctx) => {
+  if (!user.image)
+    return { data: { ...user } }
+
+  if (!parseURL(user.image).protocol)
+    return { data: { ...user } }
+
+  const storedImageKey = await downloadAndStoreExternalImage(user.image)
+
+  return {
+    data: {
+      ...user,
+      image: storedImageKey,
+    },
   }
 }
 

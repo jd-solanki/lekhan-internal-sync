@@ -11,7 +11,11 @@ import { handleOAuthAccountLinkEmailMismatch } from '~~/layers/auth/server/utils
 import { sendEmail } from '~~/layers/email/server/utils/email'
 import { polarClient } from '~~/layers/payments/server/libs/polar'
 import { dbTableUser } from '~~/server/db/schemas/tables'
-import { onAfterUserCreateDatabaseHookSyncPolarOrdersAndSubscriptionsForGuestCheckout, onBeforeUserCreateDatabaseHookInsertPolarCustomerId } from './utils'
+import {
+  onAfterUserCreateDatabaseHookSyncPolarOrdersAndSubscriptionsForGuestCheckout,
+  onBeforeUserCreateDatabaseHookDownloadOAuthImage,
+  onBeforeUserCreateDatabaseHookInsertPolarCustomerId,
+} from './utils'
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -183,7 +187,16 @@ export const auth = betterAuth({
     },
     user: {
       create: {
-        before: onBeforeUserCreateDatabaseHookInsertPolarCustomerId,
+        before: async (user, ctx) => {
+          const imageResult = await onBeforeUserCreateDatabaseHookDownloadOAuthImage(user, ctx)
+
+          // const nextUser = typeof imageResult === 'object' ? imageResult.data : user
+          if (imageResult && typeof imageResult === 'object') {
+            user.image = imageResult.data.image
+          }
+
+          return onBeforeUserCreateDatabaseHookInsertPolarCustomerId(user, ctx)
+        },
         after: onAfterUserCreateDatabaseHookSyncPolarOrdersAndSubscriptionsForGuestCheckout,
       },
     },

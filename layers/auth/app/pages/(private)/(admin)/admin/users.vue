@@ -382,7 +382,7 @@ const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = create
       <template #name-cell="{ row }">
         <div class="flex items-center gap-3">
           <UAvatar
-            :src="row?.original?.image || undefined"
+            :src="genImgUrlFromKey(row?.original?.image)"
             :text="getInitials(row?.original?.name)"
             :alt="`${row?.original?.name} avatar`"
             size="sm"
