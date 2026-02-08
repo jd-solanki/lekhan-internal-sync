@@ -1,6 +1,10 @@
 @import "@nuxt/ui";
 @import "./tailwind";
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
   --ui-radius: 0.375rem;
 }

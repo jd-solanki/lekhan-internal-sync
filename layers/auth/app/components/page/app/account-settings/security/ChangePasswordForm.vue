@@ -74,9 +74,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
 <template>
   <UCard>
     <template #header>
-      <h4 class="text-lg font-semibold">
-        Change Password
-      </h4>
+      <AppCardHeader title="Change Password" />
     </template>
 
     <UAlert

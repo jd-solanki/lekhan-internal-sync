@@ -1,12 +1,11 @@
-import { defineCommand, runMain } from 'citty'
-import { polarClient } from '../layers/payments/server/libs/polar'
-import { upsertProduct } from '../layers/payments/server/services/polar/product'
+/* eslint-disable no-console */
+import { polarClient } from '../libs/polar'
+import { upsertProduct } from '../services/polar/product'
 
-// npx tsx --tsconfig .nuxt/tsconfig.json scripts/syncPolarProducts.ts
-const main = defineCommand({
+export default defineTask({
   meta: {
     name: 'syncPolarProducts',
-    description: 'Sync Polar products via Polar SDK',
+    description: 'Sync Polar products',
   },
   async run() {
     // We assume you won't have more than 100 products so don't implement pagination here
@@ -21,8 +20,6 @@ const main = defineCommand({
     }
 
     console.log('All products synced successfully')
-    process.exit(0)
+    return { result: data.result.items }
   },
 })
-
-runMain(main)
