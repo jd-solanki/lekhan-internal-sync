@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/lift-ban",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
