@@ -23,5 +23,16 @@
             "})"
         ],
         "description": "Create nitro event handler"
+    },
+    "Nuxt Content MD Page": {
+        "include": "**/content/**",
+        "prefix": "!content-md",
+        "body": [
+            "---",
+            "title:$1",
+            "description: $2",
+            "---"
+        ],
+        "description": "Nuxt Content MD Page"
     }
 }
