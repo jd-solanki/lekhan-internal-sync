@@ -11,7 +11,7 @@ on:
 jobs:
   run-migration:
     name: Run Production Migration
-    environment: prod
+    environment: production
     runs-on: ubuntu-latest
 
     env:
