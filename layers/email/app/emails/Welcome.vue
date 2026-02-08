@@ -15,7 +15,7 @@ defineProps<Props>()
 //   subject: 'Welcome to NuxtStart!',
 //   name: 'John Doe',
 // })
-const actionBtnUrl = 'https://lekhan.nuxtstart.com/app'
+const actionBtnUrl = 'https://www.lekhan.nuxtstart.com/app'
 </script>
 
 <template>
