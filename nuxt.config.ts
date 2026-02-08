@@ -251,12 +251,12 @@ export default defineNuxtConfig({
   },
   // INFO: Production-only settings
   $production: {
-    // Only configure netlify image provider in production because in dev we serve from local filesystem
+    // Only configure vercel image provider in production because in dev we serve from local filesystem
     image: {
-      // INFO: Project is hosted on Netlify and we have to configure remote domains hence this config is needed
+      // INFO: Project is hosted on vercel and we have to configure remote domains hence this config is needed
       //   If you're deploying elsewhere, adjust accordingly
-      provider: 'netlify',
-      // Let netlify handle images from other domains like S3 bucket, Google Images, etc
+      provider: 'vercel',
+      // Let vercel handle images from other domains like S3 bucket, Google Images, etc
       domains: [
         'images.unsplash.com', // Unsplash images
         `${env.APP_AWS_BUCKET_NAME}.s3.${env.APP_AWS_REGION}.amazonaws.com`,
@@ -264,6 +264,13 @@ export default defineNuxtConfig({
         'avatars.githubusercontent.com', // GitHub profile pics [GitHub Social Sign In]
         // ...any other remote domains you use
       ],
+    },
+    content: {
+      /*
+        When on vercel it's required to use Node's native SQLite connector
+        Issue: https://github.com/nuxt/content/issues/3689
+      */
+      experimental: { sqliteConnector: 'native' },
     },
   },
   content: {
