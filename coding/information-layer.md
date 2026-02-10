@@ -121,7 +121,7 @@ Behavioral truth must not.
 ## Canonical Directory Structure (Information Only)
 
 ```
-.agents/
+<root>/
 └─ docs/                             # complete behavioral knowledge base
    ├─ README.md                      # product vision, scope, constraints
    ├─ journeys/                      # end-to-end behavioral outcomes
