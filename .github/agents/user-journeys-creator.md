@@ -3,7 +3,7 @@ name: user-journeys-creator
 description: Generates cross-module user journey markdown specifications that define end-to-end behavioral outcomes and serve as the single source of truth for visual journey generation.
 argument-hint: Generate a user journey for: <brief description of user outcome or feature>
 tools: ['vscode/askQuestions', 'read/problems', 'read/readFile', 'agent', 'edit/createFile', 'edit/editFiles', 'search', 'sequentialthinking/*', 'todo']
-model: GPT-5.2-Codex (copilot)
+model: Claude Sonnet 4.5 (copilot)
 ---
 
 ## Identity
