@@ -8,9 +8,7 @@ const bannerStore = useBannerStore()
 const runtimeConfig = useRuntimeConfig()
 
 const seoTitle = computed(() => {
-  const routePath = route.path
-
-  return genPageTitleFromRoutePath(routePath, runtimeConfig.public.app.name, runtimeConfig.public.app.name)
+  return genPageTitleFromRoutePath(route, runtimeConfig.public.app.name, runtimeConfig.public.app.name)
 })
 
 useSeoMeta({

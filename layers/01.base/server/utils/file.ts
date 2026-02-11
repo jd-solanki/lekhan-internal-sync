@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3'
-import type { Buffer } from 'node:buffer'
+import { Buffer } from 'node:buffer'
+import { randomUUID as uuidV4 } from 'node:crypto'
 import { fileTypeFromBuffer } from 'file-type'
 
 export async function extractUploadedFiles(event: H3Event) {
@@ -40,4 +41,34 @@ export async function validateUploadedFile(
   }
 
   return detectedType
+}
+
+export async function downloadAndStoreExternalImage(imageUrl: string): Promise<string | null> {
+  const maxSizeMB = 1
+  const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif']
+  const avatarPrefix = 'avatars/'
+
+  try {
+    const arrayBuffer = await $fetch<ArrayBuffer>(imageUrl, { responseType: 'arrayBuffer' })
+    const buffer = Buffer.from(arrayBuffer)
+    const maxSizeBytes = maxSizeMB * 1024 * 1024
+
+    if (buffer.length > maxSizeBytes)
+      return null
+
+    const detectedType = await fileTypeFromBuffer(buffer)
+
+    if (!detectedType || !allowedMimeTypes.includes(detectedType.mime))
+      return null
+
+    const filePath = `${avatarPrefix}${uuidV4()}.${detectedType.ext}`
+    const storage = useStorage('file')
+    await storage.setItemRaw(filePath, buffer)
+
+    return filePath
+  }
+  catch (error) {
+    console.warn('[auth] failed to download external avatar image', error)
+    return null
+  }
 }

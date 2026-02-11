@@ -69,34 +69,63 @@ export function useSearchableRoutes() {
  * For nested routes, prefix with parent context (e.g., "Account Settings / Profile")
  * If customLabel is provided, it overrides only the leaf segment
  */
-function generateSearchLabel(path: string, customLabel?: string): string {
-  // Remove leading/trailing slashes
+function generateSearchLabel(path: string, label?: string): string | null {
+  /*
+    Remove leading/trailing slashes
+
+    /app => "app"
+    /app/billing/ => "app/billing"
+  */
   const cleanPath = path.replace(/^\/+|\/+$/g, '')
 
-  // Skip root path and paths that are too generic
-  if (!cleanPath || cleanPath === 'app')
-    return ''
+  // Skip root path only
+  if (!cleanPath)
+    return null
 
-  // Split by slashes and get the segments
+  /*
+    "app/billing" => [ "app", "billing" ]
+    "admin/settings" => [ "admin", "settings" ]
+  */
   const segments = cleanPath.split('/')
 
-  // Skip the first segment if it's 'app' or 'admin'
+  /*
+    Skip the first segment if it's 'app' or 'admin'
+
+    [ "app", "billing" ] => 1
+    [ "billing" ] => 0
+
+    [ "app", "billing" ] => [ "billing" ]
+    [ "billing" ] => [ "billing" ]
+  */
   const startIdx = (segments[0] === 'app' || segments[0] === 'admin') ? 1 : 0
   const meaningfulSegments = segments.slice(startIdx)
 
-  // Skip if no meaningful segments
+  /*
+    [ "app" ] => []
+    [ "app", "billing" ] => [ "billing" ]
+  */
   if (meaningfulSegments.length === 0)
-    return ''
+    return label || null
 
-  // For single segment routes, use custom label or auto-generate
+  // For single segment routes, use provided label or auto-generate
   if (meaningfulSegments.length === 1) {
-    return customLabel || toTitleCase(meaningfulSegments[0]!)
+    return label || toTitleCase(meaningfulSegments[0]!)
   }
 
-  // For nested routes, build prefix from all but last segment
-  const prefixSegments = meaningfulSegments.slice(0, -1).map(toTitleCase)
-  const leafLabel = customLabel || toTitleCase(meaningfulSegments[meaningfulSegments.length - 1]!)
+  /*
+    For nested routes, build prefix from all but last segment
 
-  // Join prefix and leaf with " / "
+    [ "account-settings", "profile" ] => [ "Account Settings" ]
+  */
+  const prefixSegments = meaningfulSegments.slice(0, -1).map(toTitleCase)
+  /*
+    [ "account-settings", "profile" ] + label "User Profile" => "User Profile"
+    [ "account-settings", "profile" ] + no label => "Profile"
+  */
+  const leafLabel = label || toTitleCase(meaningfulSegments[meaningfulSegments.length - 1]!)
+
+  /*
+    [ "Account Settings", "Profile" ] => "Account Settings / Profile"
+  */
   return [...prefixSegments, leafLabel].join(' / ')
 }

@@ -1,11 +1,21 @@
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { titleCase } from 'scule'
 
-export function genPageTitleFromRoutePath(routePath: string, defaultOgImageTitle: string, defaultPageTitle: string): { ogImageTitle: string | undefined, pageTitle: string | undefined } {
+export function genPageTitleFromRoutePath(route: RouteLocationNormalizedLoaded, defaultOgImageTitle: string, defaultPageTitle: string): { ogImageTitle: string | undefined, pageTitle: string | undefined } {
+  const routePath = route.path
+
+  const routeLabel = route.meta.search && typeof route.meta.search.label === 'string'
+    ? route.meta.search.label
+    : undefined
+
   if (!routePath || routePath === '/')
     return { ogImageTitle: defaultOgImageTitle, pageTitle: defaultPageTitle }
 
-  if (routePath === '/app')
-    return { ogImageTitle: 'Dashboard', pageTitle: 'Dashboard' }
+  if (routePath === '/app') {
+    const appTitle = routeLabel || defaultPageTitle
+
+    return { ogImageTitle: appTitle || defaultOgImageTitle, pageTitle: appTitle }
+  }
 
   /*
     /app/billing => /billing

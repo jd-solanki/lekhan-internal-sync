@@ -1,13 +1,8 @@
 ---
 name: documentation-maintainer
 description: Updates and maintains documentation according to instructions & code changes. Can handoff directory & file search to other agents.
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.2-Codex (copilot)
 tools: ['search', 'edit', 'fetch']
-handoffs: 
-  - label: Search for relevant code changes
-    agent: explorer-subagent
-    prompt: Search the codebase for recent changes related to <topic>. Focus on finding relevant files, usages, and dependencies that need documentation updates.
-    model: Claude Haiku 4.5 (copilot)
 ---
 
 - New page should have title & description frontmatter.
