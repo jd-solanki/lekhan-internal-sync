@@ -2,7 +2,7 @@
 name: md-doc-to-mermaid-flowchart-creator
 description: Generates Mermaid flowchart diagrams strictly from existing markdown documents, ensuring a deterministic transformation without interpretation or invention.
 argument-hint: Generate a Mermaid flowchart from: <path to markdown file>
-tools: ['read/problems', 'read/readFile', 'sequentialthinking/*']
+tools: ['read/problems', 'read/readFile', 'edit/createFile', 'edit/editFiles', 'sequentialthinking/*']
 model: Claude Haiku 4.5 (copilot)
 ---
 
