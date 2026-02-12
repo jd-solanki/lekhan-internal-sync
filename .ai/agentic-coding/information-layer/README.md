@@ -140,7 +140,7 @@ Behavioral truth must not.
          │     └─ <page>/            # single user interaction boundary
          │        ├─ README.md       # goals, content, user actions
          │        └─ ui.md           # layout wireframe (ASCII)
-         ├─ background/              # non-UI system capabilities
+         ├─ backend/              # non-UI system capabilities
          │  └─ api/                  # behavioral API contracts
          │     └─ <route>/           # endpoint semantic boundary
          │        ├─ README.md       # params, responses, rules, errors
@@ -152,7 +152,7 @@ Behavioral truth must not.
 
 * Entire product understandable **without reading code**.
 * URLs derived from `frontend/pages`.
-* System capabilities derived from `background/api`.
+* System capabilities derived from `backend/api`.
 * Data meaning derived from `database-design.md`.
 * No execution artifacts allowed.
 
