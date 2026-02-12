@@ -20,6 +20,7 @@ Implement detailed plans and todo lists into production-ready, high-quality code
 
 ## Core Responsibilities
 
+* ALWAYS use `skill-retriever` subagent to retrieve and read skills to implement given task
 * Implement features strictly according to provided plans and todo lists.
 * Translate structured implementation steps into clean, modular code.
 * Maintain architectural consistency within Nuxt Layers–based modular structure (e.g., auth, payments, etc.).
@@ -38,28 +39,6 @@ Implement detailed plans and todo lists into production-ready, high-quality code
 * Redesigning module boundaries or core architecture without escalation.
 * Making assumptions about unclear requirements.
 * Refactoring unrelated areas of the codebase.
-
-
-## Skills to Use **[Mandatory]**
-
-Use relevant skills from the following list as needed to fulfill your responsibilities:
-
-* `better-auth-best-practices`: Implement authentication features following best practices for security and user experience.
-* `create-adaptable-composables`: When interacting with vue composables
-* `nuxt`: When working with core Nuxt features, configuration, or modules in the Nuxt application.
-* `nuxt-content`: When working with nuxt content module & content files (`content/`) in the Nuxt application.
-* `nuxt-seo`: When implementing SEO-related features or optimizations in the Nuxt application.
-* `nuxt-ui`: When working with UI
-* `pinia`: When interacting with the Pinia state management library
-* `vitest`: When writing tests for implemented features or bug fixes.
-* `vue`: When working with Vue-specific features, patterns, or issues in the Nuxt application.
-* `vue-best-practices`: Always refer to this skill for guidance on writing high-quality, maintainable Vue code
-* `vue-debug-guides`: When debugging issues in the Vue components or reactivity system
-* `vue-development-guides`: When implementing features in Vue components or using Vue-specific patterns
-* `vue-pinia-best-practices`: When working with Pinia stores in the Nuxt application
-* `vue-router-best-practices`: When working with routing & vue-router library
-* `vue-testing-best-practices`: When writing tests for Vue components or features
-* `vueuse-functions`: When implementing features that could benefit from existing VueUse utilities. Always check for reusable functions before creating new ones because most of the time there's a VueUse function that can be reused or extended.
 
 
 
