@@ -49,15 +49,13 @@ Testing & quality (fixed):
 └─ docs/                             # canonical documentation for agents
    ├─ README.md                      # global product + architecture truth
    ├─ journeys/                      # behavioral journeys (top authority)
-   │  ├─ <journey>.md                # journey narrative + acceptance
-   │  └─ <journey>.mermaid           # journey flow diagram
+   │  └─ <journey>.md                # journey narrative + acceptance
    └─ modules/                       # isolated module workspaces
       └─ <module>/                   # single sprint boundary
          ├─ README.md                # module purpose + responsibilities
          ├─ CONTRIBUTING.md          # rules agents must re-read each run
          ├─ user-stories/            # deterministic behavioral stories
-         │  ├─ <story>.md            # story definition + acceptance
-         │  └─ <story>.mermaid       # story flow visualization
+         │  └─ <story>.md            # story definition + acceptance
          ├─ database-design.md       # schema, relations, indexes
          ├─ prd.json                 # sprint task list
          ├─ progress.txt             # append-only execution log
@@ -65,12 +63,13 @@ Testing & quality (fixed):
          │  └─ pages/                # filesystem routes (SEO-critical)
          │     └─ <page>/            # individual route boundary
          │        ├─ README.md       # page goal, content, behavior
-         │        └─ ui.md           # ASCII wireframe + layout map
+         │        └─ wireframe.md    # indented spacing + ASCII mini-map wireframe
          └─ backend/                 # server/background capabilities
             └─ api/                  # Nitro filesystem endpoints
-               └─ <route>/           # path+method (e.g. users/[id].get)
-                  ├─ README.md       # params, response, errors, security
-                  └─ tests.md        # AI-generated test scenarios
+               └─ <route>/           # endpoint path boundary
+                  └─ <method>/       # HTTP method (get, post, patch, delete, etc.)
+                     ├─ README.md    # params, response, errors, security
+                     └─ tests.md     # AI-generated test scenarios
 ```
 
 ## Documentation System
@@ -98,7 +97,6 @@ No agent‑execution instructions allowed.
 
 ```
 .agents/docs/journeys/<journey>.md
-.agents/docs/journeys/<journey>.mermaid
 ```
 
 Defines:
@@ -115,7 +113,6 @@ Journeys are the **primary behavioral authority**.
 
 ```
 .agents/docs/modules/<module>/user-stories/<story>.md
-.agents/docs/modules/<module>/user-stories/<story>.mermaid
 ```
 
 Rules:
