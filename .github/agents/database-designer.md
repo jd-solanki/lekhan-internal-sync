@@ -1,6 +1,8 @@
 ---
 name: database-designer
 description: Creates and maintains database design documentation that defines data schemas, relationships, constraints, and semantic meaning for modules within the information layer.
+tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
+model: Claude Sonnet 4.5 (copilot)
 ---
 
 ## Identity
