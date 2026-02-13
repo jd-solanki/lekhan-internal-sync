@@ -118,34 +118,31 @@ Behavioral truth must not.
 
 ---
 
-## Canonical Directory Structure (Information Only)
+## Canonical Directory Structure
 
 ```
 <root>/
 └─ docs/                             # complete behavioral knowledge base
    ├─ README.md                      # product vision, scope, constraints
-   ├─ journeys/                      # end-to-end behavioral outcomes
-   │  ├─ <journey>.md                # narrative + acceptance truth
-   │  └─ <journey>.mermaid           # visual behavior flow
+   ├─ user-journeys/                 # end-to-end behavioral outcomes
+   │  └─ <journey>.md                # narrative + acceptance truth
    └─ modules/                       # domain-isolated knowledge units
       └─ <module>/                   # single bounded context
          ├─ README.md                # responsibilities + boundaries
-         ├─ CONTRIBUTING.md          # documentation rules for this module
          ├─ user-stories/            # atomic behavioral goals
-         │  ├─ <story>.md            # intent + acceptance criteria
-         │  └─ <story>.mermaid       # story interaction flow
+         │  └─ <story>.md            # intent + acceptance criteria
          ├─ database-design.md       # domain entities + relationships
          ├─ frontend/                # user experience definition only
          │  └─ pages/                # URL-level behavioral surfaces
          │     └─ <page>/            # single user interaction boundary
          │        ├─ README.md       # goals, content, user actions
-         │        └─ ui.md           # layout wireframe (ASCII)
-         ├─ backend/              # non-UI system capabilities
-         │  └─ api/                  # behavioral API contracts
-         │     └─ <route>/           # endpoint semantic boundary
-         │        ├─ README.md       # params, responses, rules, errors
-         │        └─ tests.md        # behavioral verification cases
-         └─ backend/                 # domain logic description only
+         │        └─ wireframe.md    # indented spacing + ASCII mini-map wireframe
+         └─ backend/                 # non-UI system capabilities
+            └─ api/                  # behavioral API contracts
+               └─ <route>/           # endpoint path boundary
+                  └─ <method>/       # HTTP method (get, post, patch, delete, etc.)
+                     ├─ README.md    # params, responses, rules, errors
+                     └─ tests.md     # behavioral verification cases
 ```
 
 ### Structural Guarantees
@@ -249,7 +246,7 @@ Each page README defines:
 * empty/loading/error states
 * SEO meaning of route
 
-`ui.md` provides:
+`wireframe.md` provides:
 
 * structural layout
 * hierarchy of elements
@@ -261,7 +258,17 @@ No framework or component naming allowed.
 
 ### APIs — System Capability Contract
 
-Each endpoint README defines:
+Each endpoint is organized by route and HTTP method following Nitro filesystem routing conventions.
+
+**Structure:** `backend/api/<route>/<method>/`
+
+**Examples:**
+* `backend/api/notes/get/README.md` → `GET /api/notes`
+* `backend/api/notes/post/README.md` → `POST /api/notes`
+* `backend/api/notes/[id]/get/README.md` → `GET /api/notes/:id`
+* `backend/api/notes/[id]/patch/README.md` → `PATCH /api/notes/:id`
+
+Each endpoint `README.md` defines:
 
 * purpose
 * inputs
