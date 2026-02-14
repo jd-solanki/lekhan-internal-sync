@@ -593,45 +593,6 @@ When documentation conflicts, higher authority wins:
 docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages/*/README.md > database-design.md
 ```
 
-## Change Guardrails
-
-> _Rules governing how product evolves over time. Prevents AI from breaking existing user workflows when adding new features._
-
-**When modifying this product:**
-
-✅ **DO:**
-
-- Add new features as opt-in enhancements
-- Preserve existing user workflows unchanged
-- Make advanced features discoverable but not intrusive
-- Maintain backward compatibility with user data
-- Keep module boundaries clear (don't leak responsibilities)
-- Allow bidirectional data relationships between modules (e.g., User ↔ Payment via foreign keys)
-- Use well-defined contracts/APIs for inter-module communication
-
-❌ **DON'T:**
-
-- Remove features users depend on
-- Change default behaviors without user consent
-- Require users to relearn core workflows
-- Break existing data formats or API contracts
-- Create circular code dependencies (Module A imports Module B, Module B imports Module A)
-- Directly couple module implementations (modules should communicate via contracts)
-
-**Example Scenarios:**
-
-**Good change:** Add rich text formatting as optional toggle in Notes module — plain text remains default  
-**Bad change:** Force all notes to use rich text editor
-
-**Good change:** Add new Archive feature to Notes module alongside existing Trash  
-**Bad change:** Replace Trash with Archive (breaks user mental model)
-
-**Good change:** Add social login to Auth module as additional option  
-**Bad change:** Remove email/password login (breaks existing users)
-
-**Good change:** Payment module stores `user_id` reference, Auth module stores `payment_provider_id` (bidirectional data)  
-**Bad change:** Payment module directly imports and calls Auth module code (circular code dependency)
-
 ## Architectural Philosophy (Conceptual)
 
 > _High-level design principles guiding technical decisions across all modules. Helps AI choose implementation approaches aligned with product values. No specific technologies mentioned._
@@ -664,7 +625,7 @@ _No frameworks, languages, or infrastructure mentioned._
    - Product vision and value proposition
    - Module overview and responsibilities
    - Cross-module product rules
-   - Change guardrails and architectural philosophy
+   - Architectural philosophy
 
 2. Review **module dependency graph** to understand:
    - Which modules your task affects
@@ -766,11 +727,6 @@ If no → documentation incomplete, ask human for clarification.
    - Affected journeys still work end-to-end
    - Acceptance criteria met
 
-5. **Change guardrails followed:**
-   - Existing user workflows preserved
-   - Backward compatibility maintained
-   - No breaking changes
-
 ### Phase 5: Documentation Maintenance
 
 **After implementation complete:**
@@ -829,7 +785,6 @@ Phase 1 → Phase 4 (ensure no behavioral changes) → Phase 5 (update only if m
 **When to ask human for help:**
 
 - Documentation conflicts detected (multiple sources of truth)
-- Proposed change violates change guardrails
 - Cross-module rules unclear or contradictory
 - Module boundaries ambiguous
 - Breaking change unavoidable
@@ -918,18 +873,12 @@ For each section:
     - Show authority hierarchy
     - Document where agents find specific knowledge
 
-13. **Change Guardrails**:
-    - DO/DON'T rules for evolution
-    - Preserve existing workflows
-    - Allow bidirectional data, forbid circular code
-    - Example scenarios for clarity
-
-14. **Architectural Philosophy**:
+13. **Architectural Philosophy**:
     - Conceptual principles (offline-first, fast, durable)
     - Never mention specific technologies
     - Guide AI implementation choices
 
-15. **AI Agent Development Workflow**:
+14. **AI Agent Development Workflow**:
     - 5-phase workflow: Understanding → Planning → Implementation → Validation → Documentation
     - Common workflows (new feature, bug fix, refactoring)
     - Escalation points for human involvement
@@ -958,7 +907,6 @@ Cross-check against canonical template:
 - [ ] Mermaid diagrams render correctly
 - [ ] Glossary terms used consistently
 - [ ] Authority hierarchy clear
-- [ ] Change guardrails actionable
 
 ### Phase 6: Deliver Final Output
 
@@ -1013,7 +961,6 @@ Create `docs/README.md` with:
 - Cross-module rules enforceable
 - Glossary eliminates ambiguity
 - Examples concrete and realistic
-- Change guardrails prevent scope creep
 
 **Poor product definition:**
 - Vague vision or value proposition
