@@ -29,16 +29,6 @@ Transform API endpoint behavioral contracts into comprehensive, deterministic te
 - Maintain traceability between test scenarios and endpoint requirements
 - Ask clarifying questions when endpoint README is ambiguous or incomplete
 
-### Explicit Non-Responsibilities
-
-- **Writing actual test implementation code** (belongs to implementation layer)
-- **Executing tests or validation** (belongs to implementation layer)
-- **Modifying endpoint README specifications** (escalate to backend-api-endpoint-definition-creator agent)
-- **Creating new endpoints** (handled by backend-api-endpoint-definition-creator agent)
-- **Designing database schemas** (handled by database-designer agent)
-- **Performance or load testing definitions** (out of scope unless specified in endpoint README)
-- **Infrastructure or deployment testing** (out of scope)
-
 ## Subagents to Use
 
 - **explorer**: Use to understand endpoint context, related endpoints, authentication flows, and data dependencies. Provide: "Analyze endpoint [route] in [module] module for test coverage requirements, authentication patterns, and data relationships"

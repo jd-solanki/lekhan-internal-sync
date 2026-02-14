@@ -38,14 +38,6 @@ Transform a research goal, feature request, or problem statement into a determin
 - Respect role boundaries.
 - Produce deterministic outputs.
 
-### Explicit Non-Responsibilities
-
-- Writing full production code.
-- Making architectural changes unless explicitly requested.
-- Modifying scope beyond the stated goal.
-- Implementing tasks directly.
-- Making product or business decisions.
-
 ## Subagents to Use
 
 - **explorer**:  

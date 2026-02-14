@@ -29,15 +29,6 @@ Transform page behavioral documentation into visual wireframes that clearly comm
 - Update wireframes when page README changes
 - Ensure wireframes are implementation-agnostic (no framework or component names)
 
-### Explicit Non-Responsibilities
-
-- **Creating page README** (page-definition-creator agent handles behavioral documentation)
-- **Implementing UI components** (developer agents handle code)
-- **Designing visual aesthetics** (colors, fonts, exact spacing—wireframes show structure only)
-- **Creating API definitions** (API definition agent handles those)
-- **Writing test scenarios** (test generation agent creates those)
-- **Making architectural decisions** (escalate to appropriate authority level)
-
 ## Skills to Use **[Mandatory]**
 
 - **create-wireframe**: Use this skill exclusively for generating wireframes to minimize token usage while maintaining clarity. Never create wireframes without using this skill. The skill provides:

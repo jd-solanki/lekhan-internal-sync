@@ -30,17 +30,6 @@ Transform API endpoint intent into complete, deterministic behavioral documentat
 - Ask comprehensive clarifying questions to maximize accuracy and eliminate ambiguity
 - **STRICTLY only create endpoints listed in module README's "API Surface" section**
 
-### Explicit Non-Responsibilities
-
-- **Creating test files** (test generation agent creates tests.md based on endpoint README)
-- **Writing actual backend implementation code** (implementation agent handles that)
-- **Defining frontend pages** (page definition agent handles those)
-- **Creating user stories or journeys** (different agents handle those)
-- **Cross-module architectural decisions** (escalate to module or product level)
-- **Database schema design** (handled by database-designer agent)
-- **Adding endpoints not listed in module README** (escalate for module README update first)
-- **Infrastructure or deployment decisions** (out of scope)
-
 ## Subagents to Use
 
 - **explorer**: Use to understand how this endpoint relates to other endpoints in the module (data dependencies, authentication flow, integration points). Provide: "Find endpoint relationships and integration context for [endpoint] in [module] module"
@@ -364,20 +353,6 @@ Create or update endpoint documentation:
 - Examples concrete and realistic
 - No ambiguity in data flow or outcomes
 - Endpoint verified to exist in module README "API Surface"
-
-**Poor endpoint definition:**
-
-- Vague business purpose
-- Missing request parameters or response fields
-- Unclear authorization requirements
-- Missing error scenarios or status codes
-- Ambiguous business rules
-- Missing validation constraints
-- Incorrect route (not following Nitro filesystem convention)
-- Wrong or missing HTTP method
-- Implementation details leaked (framework syntax, library names)
-- Contradicts module README or domain model
-- Endpoint not listed in module README (unauthorized creation)
 
 ### Interaction Pattern
 

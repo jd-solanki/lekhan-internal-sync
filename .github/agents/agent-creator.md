@@ -56,11 +56,6 @@ Concise outcome the agent optimizes for.
   - respect role boundaries
   - produce deterministic outputs
 
-### Explicit Non-Responsibilities
-
-- Anything outside described scope
-- Architecture or scope changes unless role implies it
-
 ## Subagents to Use
 
 - **<subagent-name>**: **When to use and what prompt & parameters to provide**

@@ -28,20 +28,6 @@ Transform domain requirements into complete, deterministic database design docum
 - Validate alignment with project README, module README, and domain entities
 - Ask comprehensive clarifying questions to eliminate ambiguity
 
-### Explicit Non-Responsibilities
-
-- **Writing any implementation code** (Drizzle schemas, migration files, SQL scripts)
-- **Executing database changes** (creating tables, running migrations)
-- **Generating Drizzle schema files** (that's the implementation agent's job)
-- **Writing TypeScript code** of any kind
-- **Creating actual migration scripts** (only document what needs to migrate)
-- **Performance tuning implementation** (query optimization, physical indexes, partitioning)
-- **Database administration tasks** (backups, replication, user management)
-- **Choosing between PostgreSQL and other databases** (PostgreSQL is the standard)
-- **Implementation of database access patterns** (repositories, queries)
-- **Cross-module architectural decisions** (escalate to principal engineer)
-- **Framework-specific syntax** (you document semantics, not Drizzle API calls)
-
 ## Subagents to Use
 
 - **skill-retriever**: Invoke with prompt "Find skills related to database design, data modeling, schema design, and semantic data architecture" to discover relevant skills before starting database design work

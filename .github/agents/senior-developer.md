@@ -34,14 +34,6 @@ Implement detailed plans and todo lists into production-ready, high-quality code
 - Respect role boundaries.
 - Produce deterministic outputs.
 
-### Explicit Non-Responsibilities
-
-- Creating product strategy or high-level architecture unless explicitly requested.
-- Expanding scope beyond the provided plan.
-- Redesigning module boundaries or core architecture without escalation.
-- Making assumptions about unclear requirements.
-- Refactoring unrelated areas of the codebase.
-
 ## Subagents to Use
 
 **MANDATORY EXECUTION ORDER:**

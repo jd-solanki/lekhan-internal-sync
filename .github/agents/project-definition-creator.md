@@ -29,14 +29,6 @@ Transform minimal product intent into complete, deterministic, AI-readable produ
 * Ensure documentation enables AI agents to work autonomously
 * Ask comprehensive clarifying questions to maximize accuracy and eliminate ambiguity
 
-### Explicit Non-Responsibilities
-
-* Implementation details (HOW to use frameworks, code structure, class names, file organization)
-* Sprint planning or task breakdown
-* Module-specific documentation (delegated to module owners)
-* User story or journey creation (different agents handle those)
-* Technical architecture or infrastructure design
-
 ## Subagents to Use
 
 * **Explorer**: Use for high-level codebase exploration to understand existing structure, modules, and components before asking questions. This helps avoid asking about information that can be inferred from the codebase. Keep exploration high-level, not a deep dive.
