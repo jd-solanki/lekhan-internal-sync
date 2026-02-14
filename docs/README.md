@@ -21,12 +21,6 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 - **Agencies**: Building client projects on tight timelines — need reliable, well-structured foundation they can customize and extend
 - **Freelancers**: Delivering full-stack web applications — benefit from pre-built essentials (auth, payments, content) to maximize billable feature work
 
-**NOT for:**
-
-- **Nuxt Beginners**: Those learning the framework — requires intermediate+ knowledge of Nuxt, Vue, and TypeScript
-- **Mobile-First Projects**: Native or mobile-first applications — optimized for web applications, not React Native or Capacitor
-- **Static Sites Without Auth**: Simple content sites — includes authentication/database infrastructure unnecessary for static publishing
-
 ## Technology Stack
 
 > _Core technologies and platforms used. Helps AI understand technical constraints and available tools. Document WHAT technologies are used, never HOW they are implemented._
@@ -119,21 +113,6 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 **UI Foundation:**
 - Component library with dark/light mode
 - Responsive layouts and animations
-
-### What We Don't Build (Deliberate Exclusions)
-
-**Current Exclusions:**
-
-- **Mobile app support**: Focused on web applications only
-- **Complex workflow automation**: Visual builders, scheduling engines
-- **Built-in CMS for non-technical users**: Uses markdown-based content for developers
-- **Framework alternatives**: Nuxt-specific, not Next.js/SvelteKit/Remix
-- **Database alternatives**: PostgreSQL-optimized schemas
-
-**Planned for Future:**
-
-- **Advanced admin dashboards**: Analytics, reporting, audit logs, system monitoring
-- **Multi-tenancy & team workspaces**: Team collaboration, member management, role-based access
 
 ## Modules Overview
 
