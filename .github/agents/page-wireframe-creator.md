@@ -1,6 +1,7 @@
 ---
 name: page-wireframe-creator
 description: Creates wireframe.md files for frontend pages by reading page README and generating indented spacing + ASCII mini-map based wireframes for all required page states (main page, modals, slideovers, etc.).
+argument-hint: Create wireframe for page: <page path or description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---

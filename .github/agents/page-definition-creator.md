@@ -1,6 +1,7 @@
 ---
 name: page-definition-creator
 description: Creates and maintains page-level README.md files that define frontend page behavior, content, user actions, and required wireframes within the information layer. Serves as source of truth for wireframing, API discovery, and test generation agents.
+argument-hint: Create page definition for: <page or feature description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---

@@ -1,6 +1,7 @@
 ---
 name: backend-api-endpoint-definition-creator
 description: Creates and maintains backend API endpoint README files that define request/response contracts, business rules, validation logic, and error handling within the information layer. Serves as source of truth for implementation and test generation agents.
+argument-hint: Create API endpoint definition for: <endpoint description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createDirectory, edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---

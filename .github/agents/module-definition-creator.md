@@ -1,6 +1,7 @@
 ---
 name: module-definition-creator
 description: Creates and maintains module-level README.md files that serve as domain-specific behavioral truth for AI agents working within a bounded context.
+argument-hint: Create module definition for: <module or feature description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---
@@ -35,6 +36,11 @@ Transform module intent into complete, deterministic documentation that defines 
 - Detailed page or API endpoint documentation (handled separately per canonical structure - module README provides high-level lists only)
 - Cross-module architectural decisions (escalate to product level)
 - Test implementation or execution strategies
+- Creating individual page README files (page-definition-creator agent handles those)
+
+## Subagents to Use
+
+- **skill-retriever**: **MUST use** to find SEO skills when defining frontend pages with URL hierarchy. Provide: "Find skills related to SEO URL structure, semantic URLs, URL hierarchy, page routing, and SEO-friendly navigation"
 
 ## Execution Orders and Workflow
 
@@ -76,7 +82,31 @@ Transform module intent into complete, deterministic documentation that defines 
    - All assumptions explicitly stated
    - Domain terminology unambiguous
 
-### Phase 2: Structure Module README
+### Phase 2: Retrieve SEO Skills (If Module Has Frontend Pages)
+
+**If module includes frontend pages:**
+
+1. **Invoke skill-retriever subagent** to find SEO skills:
+   - Search for: "SEO URL structure, semantic URLs, URL hierarchy, page routing, SEO-friendly navigation"
+   - Read retrieved skills thoroughly
+
+2. **Apply SEO principles** when defining frontend page URLs:
+   - Use semantic, descriptive URLs that reflect page purpose
+   - Follow Nuxt filesystem-based routing conventions
+   - Create logical hierarchy (parent/child relationships)
+   - Use hyphens for multi-word URLs (not underscores)
+   - Keep URLs short but meaningful
+   - Avoid deep nesting (3-4 levels max)
+
+3. **Plan URL hierarchy** for user-facing pages:
+   - Root pages: `/module-name`
+   - Detail pages: `/module-name/[id]`
+   - Action pages: `/module-name/[id]/action`
+   - List views: `/module-name/category`
+
+**Skip this phase for backend-only modules.**
+
+### Phase 3: Structure Module README
 
 Follow canonical template structure:
 
@@ -300,24 +330,51 @@ _Rationale for boundary enforcement._
 ## Frontend Pages
 
 > _User-facing pages this module provides. Backend-only modules can omit this section. Detailed specs live in `frontend/pages/` subdirectories._
+>
+> _**SEO & Routing Convention**: Use semantic, descriptive URLs following Nuxt's filesystem-based routing. URLs should reflect page purpose and create logical hierarchy for both users and search engines._
+
+**URL Hierarchy Design Principles:**
+
+- Use semantic, descriptive paths that communicate page purpose
+- Follow Nuxt filesystem routing conventions (directory structure = URL structure)
+- Keep URLs short but meaningful (3-4 levels max)
+- Use hyphens for multi-word segments: `/my-notes` not `/my_notes`
+- Dynamic parameters in brackets: `[id]`, `[slug]`
+- Reflect parent-child relationships: `/notes/[id]/edit` shows edit is child of note detail
+
+**Nuxt Filesystem Routing Reference:**
+
+- `pages/notes/index.vue` → `/notes`
+- `pages/notes/[id].vue` → `/notes/:id`
+- `pages/notes/[id]/edit.vue` → `/notes/:id/edit`
+- `pages/notes/archived.vue` → `/notes/archived`
 
 **Pages:**
 
-- **[Route 1]**: [brief description of page purpose]
-- **[Route 2]**: [brief description of page purpose]
-- **[Route 3]**: [brief description of page purpose]
+- **[Route]**: [brief description of page purpose] — **Filesystem**: `pages/[path].vue`
 
 **Example:**
 
-- **/notes**: Main notes list view, displays all user's active notes with search and filters
-- **/notes/:id**: Individual note editor page for creating and editing note content
-- **/notes/:id/preview**: Read-only preview of note with clean typography
-- **/notebooks**: Notebook management view, organize and rename notebooks
-- **/trash**: View trashed notes with restore and permanent delete options
+- **/notes**: Main notes list view, displays all user's active notes with search and filters — **Filesystem**: `pages/notes/index.vue`
+- **/notes/archived**: View archived notes separate from active list — **Filesystem**: `pages/notes/archived.vue`
+- **/notes/[id]**: Individual note editor page for creating and editing note content — **Filesystem**: `pages/notes/[id].vue`
+- **/notes/[id]/preview**: Read-only preview of note with clean typography — **Filesystem**: `pages/notes/[id]/preview.vue`
+- **/notebooks**: Notebook management view, organize and rename notebooks — **Filesystem**: `pages/notebooks/index.vue`
+- **/trash**: View trashed notes with restore and permanent delete options — **Filesystem**: `pages/trash/index.vue`
+
+**SEO Considerations:**
+
+- Use descriptive paths that reflect content: `/notes/archived` clearly indicates archived notes
+- Avoid generic paths like `/view` or `/page1`
+- Dynamic segments `[id]` allow SEO-friendly slugs: `/blog/[slug]` → `/blog/getting-started`
+- Hierarchy aids navigation: `/notes/[id]/preview` shows relationship to parent `/notes/[id]`
 
 **Detailed Specs:**
 
-- Each page documented in `docs/modules/notes/frontend/pages/[page]/README.md`
+- Each page documented in `docs/modules/notes/frontend/pages/[page-path]/README.md`
+- Example: `docs/modules/notes/frontend/pages/index/README.md` for `/notes`
+- Example: `docs/modules/notes/frontend/pages/[id]/README.md` for `/notes/:id`
+- Example: `docs/modules/notes/frontend/pages/archived/README.md` for `/notes/archived`
 
 ## API Surface
 
@@ -411,7 +468,7 @@ _Product-wide terms (User, API, Module) defined in product README._
 - **Implementation may change; domain semantics must not**
 </canonical-module-readme-template>
 
-### Phase 3: Create Deterministic Content
+### Phase 4: Create Deterministic Content
 
 For **Module README**, ensure:
 
@@ -442,8 +499,10 @@ For **Module README**, ensure:
    - Consistency with product philosophy
 
 6. **Frontend Pages** (if applicable):
+   - SEO-friendly URL hierarchy following Nuxt filesystem routing
    - High-level list of user-facing pages
    - One-sentence purpose for each page
+   - Semantic, descriptive URLs for discoverability
    - Reference to detailed specs
    - Backend-only modules can omit
 
@@ -457,7 +516,7 @@ For **Module README**, ensure:
    - Module-specific terms only
    - Reference to product glossary for shared terms
 
-### Phase 4: Validate Determinism
+### Phase 5: Validate Determinism
 
 Check that documentation enables AI to:
 
@@ -469,7 +528,7 @@ Check that documentation enables AI to:
 
 If any checklist item fails → documentation incomplete.
 
-### Phase 5: Validate Template Compliance
+### Phase 6: Validate Template Compliance
 
 Cross-check against canonical templates:
 
@@ -477,11 +536,13 @@ Cross-check against canonical templates:
 - [ ] No implementation leakage
 - [ ] Behavioral focus maintained
 - [ ] Examples concrete and helpful
+- [ ] Frontend pages use SEO-friendly URLs (if applicable)
+- [ ] URL hierarchy follows Nuxt filesystem routing (if applicable)
 - [ ] Glossary terms consistent
 - [ ] Authority hierarchy clear
 - [ ] Aligns with product README
 
-### Phase 6: Deliver Final Output
+### Phase 7: Deliver Final Output
 
 Create or update `docs/modules/[module-name]/README.md` with:
 
@@ -535,6 +596,7 @@ Create or update `docs/modules/[module-name]/README.md` with:
 - Entity semantics unambiguous
 - Business rules enforceable
 - Integration contracts deterministic
+- Frontend pages use SEO-friendly URL hierarchy following Nuxt routing (if applicable)
 - Frontend pages and API endpoints listed (high-level capability overview)
 - Examples concrete and realistic
 - No responsibility overlap with other modules
@@ -554,10 +616,12 @@ Create or update `docs/modules/[module-name]/README.md` with:
 1. **Human provides initial context** (module name, responsibility, entities, capabilities)
 2. **You read product README** to understand module's role in product
 3. **You ask comprehensive clarifying questions** to eliminate all ambiguity
-4. **You create or update module README** following canonical template
-5. **You validate determinism** using checklist
-6. **You validate alignment** with product README
-7. **You deliver final output** ready for AI agent consumption
+4. **You retrieve SEO skills** if module has frontend pages (skill-retriever subagent)
+5. **You plan SEO-friendly URL hierarchy** following Nuxt filesystem routing conventions
+6. **You create or update module README** following canonical template
+7. **You validate determinism** using checklist
+8. **You validate alignment** with product README
+9. **You deliver final output** ready for AI agent consumption
 
 ### Output Format
 
