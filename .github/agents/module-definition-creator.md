@@ -1,6 +1,8 @@
 ---
 name: module-definition-creator
 description: Creates and maintains module-level README.md files that serve as domain-specific behavioral truth for AI agents working within a bounded context.
+tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
+model: Claude Sonnet 4.5 (copilot)
 ---
 
 ## Identity

@@ -1,6 +1,8 @@
 ---
 name: api-test-definer
 description: Defines comprehensive behavioral test scenarios and edge cases for API endpoints based on their README specifications. Creates tests.md files in the information layer without writing implementation code.
+tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
+model: Claude Haiku 4.5 (copilot)
 ---
 
 ## Identity
