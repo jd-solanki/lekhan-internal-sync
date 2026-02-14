@@ -1,6 +1,7 @@
 ---
 name: page-wireframe-creator
 description: Creates wireframe.md files for frontend pages by reading page README and generating indented spacing + ASCII mini-map based wireframes for all required page states (main page, modals, slideovers, etc.).
+argument-hint: Create wireframe for page: <page path or description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---
@@ -27,15 +28,6 @@ Transform page behavioral documentation into visual wireframes that clearly comm
 - Maintain consistency with module-level UX patterns
 - Update wireframes when page README changes
 - Ensure wireframes are implementation-agnostic (no framework or component names)
-
-### Explicit Non-Responsibilities
-
-- **Creating page README** (page-definition-creator agent handles behavioral documentation)
-- **Implementing UI components** (developer agents handle code)
-- **Designing visual aesthetics** (colors, fonts, exact spacing—wireframes show structure only)
-- **Creating API definitions** (API definition agent handles those)
-- **Writing test scenarios** (test generation agent creates those)
-- **Making architectural decisions** (escalate to appropriate authority level)
 
 ## Skills to Use **[Mandatory]**
 

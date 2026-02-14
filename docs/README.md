@@ -1,120 +1,234 @@
-# Lekhan
+# NuxtStart
 
-> _A simple note taking app._
+> _A production-ready Nuxt starter kit with authentication, payments, and content management built-in._
 
 ## Vision Statement
 
-Light weight & easy to use note taking experience but with a focus on speed and simplicity. The goal is to help users capture and organize their thoughts instantly without any complexity or friction using markdown.
+> _Defines the singular problem this product solves and the outcome it creates. Helps AI agents reject features outside core purpose._
+
+**One-sentence product essence:**
+
+Provide developers with a production-ready Nuxt foundation that includes authentication, payments, and content management, eliminating months of boilerplate setup and enabling rapid SaaS product launches.
 
 ## Primary Users
 
-**Example:**
+> _Identifies who benefits from this product and who doesn't. Prevents AI from building features for wrong audience._
 
-- **Students**: Take class notes and organize study materials
-- **Writers**: Capture ideas and draft content quickly
+**Who uses this product:**
 
-**NOT for:**
-
-**Teams:** Enterprise teams needing advanced permissions, collaboration and audit logs
-
-## Core Value Proposition
-
-1. **Notion like Experience**: Write and organize notes in markdown with a clean, intuitive interface
-2. **Zero organization overhead**: No nested notes to organize. Adding new notes auto add them to sidebar. Just write and find them later with search or sidebar navigation.
-3. **Simple & Elegant note taking experience without complexity**: Focus on core note-taking features without overwhelming users with advanced formatting, collaboration, or project management tools.
-
-## Product Boundaries
-
-- Create and edit text notes
-- Auto notes organization in sidebar with custom ordering
-- Search across all notes
-- User authentication and account management
-
-### Out of Scope
-
-- Real-time collaboration between users
-- Rich media embedding (videos, audio)
-- Version history and change tracking
-- Built-in project management features
-- Sharing notes with other users
-
-**Why excluded:**  
-We focus on individual note-taking. Collaboration requires different UX patterns and increases complexity. Users needing collaboration should use dedicated team tools.
+- **Solo Developers**: Building SaaS products independently — need complete foundation to launch quickly without building infrastructure from scratch
+- **Startups & Small Teams**: Launching MVPs and validating ideas — require production-ready codebase to move fast and focus on unique business logic
+- **Agencies**: Building client projects on tight timelines — need reliable, well-structured foundation they can customize and extend
+- **Freelancers**: Delivering full-stack web applications — benefit from pre-built essentials (auth, payments, content) to maximize billable feature work
 
 ## Technology Stack
 
+> _Core technologies and platforms used. Helps AI understand technical constraints and available tools. Document WHAT technologies are used, never HOW they are implemented._
+
 **Platform:**
 
-- Web App and mobile app or PWA in future, but we will start with web app first. API should be independent of frontend framework so we can easily add mobile app or PWA in future without changing API layer.
+- Web application (browser-based, server-side rendered)
 
 **Primary Technologies:**
 
-- **Nuxt**: Full stack framework for building web applications with Vue.js. Provides server-side rendering, static site generation, and powerful module ecosystem.
-- **Nuxt UI**: Component library for building consistent and reusable UI across the application.
-**Nuxt UI Editor Component**: Notion-like markdown editor component for creating and editing notes with rich formatting options.
-- **Postgres**: For relational data storage, user accounts, notes metadata, etc. No browser database like IndexedDB or localStorage since we want a consistent experience across devices and sessions with server-side data persistence.
-
-**Example:**
-
-- **Platform**: Web application (browser-based)
 - **Language**: TypeScript
-- **Runtime**: Node.js (backend), Browser (frontend)
+- **Framework**: Nuxt (Vue 3 full-stack SSR framework)
 - **Database**: PostgreSQL
-- **Storage**: AWS S3 for file uploads
-- **Authentication**: Auth0
+- **ORM**: Drizzle ORM with drizzle-zod for schema validation
+- **State Management**: Pinia
+- **UI Library**: @nuxt/ui (125+ accessible components with Tailwind CSS)
+- **Authentication**: better-auth with @polar-sh/better-auth extensions
+- **Payment Processing**: @polar-sh/sdk (Polar payment platform)
+- **Content Management**: @nuxt/content (markdown-based)
+- **Email Service**: unemail (multi-provider abstraction)
+- **Storage**: AWS S3 (via aws4fetch)
+- **SEO**: @nuxtjs/seo (sitemap, meta tags, OG images, schema-org)
+- **Image Optimization**: @nuxt/image with Vercel provider support
 
-**Constraints:**
+**Development Tools:**
 
-- Requires active internet connection (online-only app)
-- Must run on low-spec devices (limit bundle size)
+- ESLint with @antfu/eslint-config and custom rules
+- Vitest (unit testing with Vue Test Utils)
+- Husky + lint-staged (pre-commit hooks)
+- commitlint (conventional commit messages)
+- Drizzle Kit (database migrations)
+
+**Notes:**
+
+- Uses PostgreSQL as the recommended database
+- Optimized for Vercel deployment with custom configurations
+- Supports modern browsers
+- OAuth works with Google and GitHub providers by default
+- File storage uses AWS S3 or S3-compatible services
+
+## Core Value Proposition
+
+> _Explains what makes this product valuable and different. AI uses this to prioritize features that strengthen core benefits._
+
+**What makes this product valuable:**
+
+1. **Nuxt Layers Architecture**: Modular layer-based organization enables clean separation of concerns, easy customization, and selective feature adoption in child projects
+2. **Production-Ready Essentials**: Authentication (OAuth + email/password + magic link), payment processing (Polar), content management (blog/docs), and email service pre-integrated and tested
+3. **SEO Pre-Configured**: Sitemap generation, Open Graph images, meta tags, and structured data work out-of-box without additional setup
+4. **Best Practices Built-In**: Type-safe database queries, custom ESLint rules enforcing naming conventions, comprehensive testing setup, and pre-commit quality gates
+5. **Easy Extensibility**: Well-documented architecture with clear module boundaries allows developers to add custom features without breaking existing functionality
+6. **High Code Quality**: TypeScript throughout, automated linting, testing infrastructure, and semantic commit enforcement ensure maintainable codebase
+7. **Comprehensive Documentation**: AI-first documentation in `/docs` guides both human developers and AI agents through architecture, patterns, and extension points
+
+## Product Boundaries
+
+> _Explicit scope fence defining what product does and doesn't do. Prevents feature creep and keeps AI focused. Includes both capabilities we build and deliberate exclusions with rationale._
+
+### What We Build (In Scope)
+
+**Authentication & User Management:**
+
+- User registration and email verification
+- Email/password and magic link authentication
+- OAuth social login (Google, GitHub)
+- Account linking across providers
+- Session management and admin impersonation
+
+**Payment & Subscription:**
+
+- Polar payment integration with checkout flows
+- Subscription and order management
+- Customer portal and webhook handling
+- Usage tracking for metered billing
+
+**Content Management:**
+
+- Markdown-based blog and documentation
+- Legal/marketing content pages
+- SEO-optimized rendering with sitemaps
+
+**Email Communication:**
+
+- Multi-provider email service setup
+- Transactional email templates
+- Multi-sender configuration
+
+**Infrastructure:**
+
+- PostgreSQL database with type-safe ORM
+- AWS S3 file storage
+- Testing infrastructure and code quality tools
+- Environment-based configuration
+
+**UI Foundation:**
+
+- Component library with dark/light mode
+- Responsive layouts and animations
 
 ## Modules Overview
 
 > _Lists all bounded contexts (modules) in this product, their responsibilities, and dependencies. Helps AI understand product structure and navigate to detailed module documentation._
 
-### Base (Not documented ATM, kindly read the relevant code for now at `layers/01.base/`)
+**Note on Terminology**: In NuxtStart, "Layer" is the technical Nuxt term for code organization, while "Module" is the conceptual term for bounded contexts. Each Nuxt Layer represents one module. Documentation uses "module" to describe responsibilities and boundaries.
 
-**Responsibility:** Reusable foundational code and utilities shared across modules & projects (e.g. components, helper functions, etc.). Basically everything that is not domain-specific, used by multiple modules, and can be reused in future projects.
-**Key Capabilities:** Shared UI components (buttons, inputs, modals), common layouts, utility functions (date formatting, validation), shared styles/themes, etc.
-**Path:** `/docs/modules/base/`
+**Note on Modularity**: Modules are organized separately for code structure and maintainability, not strict isolation. Modules can communicate with each other and import from one another. Child projects can remove unused modules (e.g., blog, docs, payments) though some configuration changes outside the module may be required.
 
-### Layouts (Not documented ATM, kindly read the relevant code for now at `layers/02.layouts/`)
+### 01.base Module
 
-**Responsibility:** Provides common page layouts and structural components that define the overall look and feel of the application. These are higher-level than base components and are used to compose the actual pages in the frontend layer. This may include non-domain specific layouts because this is also shared across multiple modules and projects.
-**Key Capabilities:** Header, footer, sidebar, grid system, responsive design patterns, etc.
-**Path:** `/docs/modules/layouts/`
+**Responsibility:** Foundation layer providing core infrastructure, database schemas, utilities, and shared configuration  
+**Key Capabilities:**
 
-### Auth (Not documented ATM, kindly read the relevant code for now at `layers/auth/`)
+- PostgreSQL database schemas and migrations
+- Shared utilities, composables, and stores
+- Base middleware (global query parameter validation)
+- Transition CSS animations
+- App configuration defaults
+- Nuxt UI customization configuration
 
-**Responsibility:** Handles user authentication, registration, and account management. Provides APIs for login, logout, password reset, and user profile management. This module is foundational for any user-specific features in the product.
-**Key Capabilities:** User registration, login/logout, password reset, session management, user profile management, etc.
-**Path:** `/docs/modules/auth/`
+**Path:** `/layers/01.base/`
 
-### Email (Not documented ATM, kindly read the relevant code for now at `layers/email/`)
+### 02.layouts Module
 
-**Responsibility:** Handles email-related functionalities such as verification emails, password resets, and other user communications. This module is foundational for any email-based features in the product. No email tracking or marketing emails are handled by this module, it's purely for transactional emails related to user accounts and authentication with email templates & utilities to send emails.
-**Key Capabilities:** Sending transactional emails, email templates, etc.
-**Path:** `/docs/modules/email/`
+**Responsibility:** Application layout components and layout-specific styling  
+**Key Capabilities:**
 
-### Payments (Not documented ATM, kindly read the relevant code for now at `layers/payments/`)
+- Layout components for consistent page structure
+- Layout-specific composables and utilities
+- Brand assets and styling overrides
 
-**Responsibility:** Handles payment-related functionalities such as processing transactions, managing subscriptions, and handling billing information. This module is foundational for any payment-based features in the product.
-**Key Capabilities:** Payment processing, subscription management, billing information management, etc.
-**Path:** `/docs/modules/payments/`
+**Path:** `/layers/02.layouts/`
 
-### Website (Not documented ATM, kindly read the relevant code for now at `layers/website/`)
+### Auth Module
 
-**Responsibility:** Module to frontend of our app involving landing page, marketing pages, and any non-authenticated user-facing pages. This module is separate from the main app frontend to keep marketing and product codebases isolated.
-**Key Capabilities:** Landing page, marketing pages, etc.
-**Path:** `/docs/modules/website/`
+**Responsibility:** User authentication, authorization, session management, and account administration  
+**Key Capabilities:**
 
-### Notes
+- BetterAuth server setup with OAuth (Google, GitHub), magic link, email verification
+- Database tables: users, sessions, accounts, verifications
+- Auth middleware (public, private, guest, admin page groups)
+- Auth pages: sign-in, sign-up, email verification, magic link
+- User account management pages
+- Admin functionality with user impersonation
 
-**Responsibility:** Handles note-related functionalities such as creating, editing, deleting, and organizing notes. This module is foundational for any note-based features in the product.
-**Key Capabilities:** Note creation, editing, deletion, auto organization, etc.
-**Path:** `/docs/modules/notes/`
+**Path:** `/layers/auth/`
 
----
+### Blog Module
+
+**Responsibility:** Markdown-based blog content management and rendering  
+**Key Capabilities:**
+
+- Markdown blog posts with frontmatter (title, description, image, date, category)
+- Blog post rendering with syntax highlighting
+- Category-based organization
+- Prerendered static pages at build time
+
+**Path:** `/layers/blog/`
+
+### Docs Module
+
+**Responsibility:** Documentation site with markdown content and custom plugins  
+**Key Capabilities:**
+
+- Markdown documentation pages
+- Custom markdown plugins (code snippet imports)
+- Syntax highlighting (github-light/dracula themes)
+- Prerendered static documentation site
+
+**Path:** `/layers/docs/`
+
+### Email Module
+
+**Responsibility:** Email service abstraction and template management  
+**Key Capabilities:**
+
+- Multi-provider email service (AWS SES, Resend, SMTP)
+- Provider configuration based on environment
+- Email templates (verification, magic link, password reset, welcome)
+- Multi-sender support (security, events, alerts, system)
+- Admin notification capabilities
+
+**Path:** `/layers/email/`
+
+### Payments Module
+
+**Responsibility:** Payment processing, subscription management, and order tracking via Polar  
+**Key Capabilities:**
+
+- Database tables: orders, subscriptions, products
+- Polar SDK client setup
+- Checkout integration (guest + authenticated user support)
+- Customer portal integration
+- Usage tracking for metered billing
+- Webhook handling for payment events
+- Order and subscription management
+
+**Path:** `/layers/payments/`
+
+### Website Module
+
+**Responsibility:** Public-facing website pages and legal/marketing content  
+**Key Capabilities:**
+
+- Public website pages
+- Legal/marketing content via Nuxt Content
+- Markdown-based content management for terms, privacy, etc.
+
+**Path:** `/layers/website/`
 
 ## Module Dependencies
 
@@ -122,108 +236,162 @@ We focus on individual note-taking. Collaboration requires different UX patterns
 
 **Dependency Graph:**
 
-```MERMAID
+```mermaid
 graph TD
-    Base[Base Module<br/>No dependencies]
-    Layouts[Layouts Module<br/>Depends on: Base]
-    Auth[Auth Module]
-    Email[Email Module]
-    Payments[Payments Module<br/>Depends on: Auth, Base]
-    Website[Website Module<br/>Depends on: Base, Layouts, Auth]
-    Notes[Notes Module<br/>Depends on: Auth, Base, Payments]
+    Base[01.base Module<br/>No dependencies]
+    Layouts[02.layouts Module<br/>Depends on: Base]
+    Auth[Auth Module<br/>Depends on: Base, Email optional]
+    Blog[Blog Module<br/>Depends on: Base, Docs]
+    Docs[Docs Module<br/>Depends on: Base]
+    Email[Email Module<br/>Depends on: Base]
+    Payments[Payments Module<br/>Depends on: Base, Auth]
+    Website[Website Module<br/>Depends on: Base]
     
     Layouts --> Base
-    Payments --> Auth
+    Auth --> Base
+    Auth -.->|optional| Email
+    Blog --> Base
+    Blog --> Docs
+    Docs --> Base
+    Email --> Base
     Payments --> Base
+    Payments --> Auth
     Website --> Base
-    Website --> Auth
-    Website --> Layouts
-    Notes --> Auth
-    Notes --> Base
-    Notes --> Payments
-    
-    style Base fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    style Layouts fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
-    style Auth fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
-    style Email fill:#fff3e0,stroke:#ff9800,stroke-width:2px
-    style Payments fill:#fce4ec,stroke:#e91e63,stroke-width:2px
-    style Website fill:#e0f2f1,stroke:#009688,stroke-width:2px
-    style Notes fill:#fff3e1,stroke:#f57c00,stroke-width:2px
 ```
 
 **Detailed Dependencies:**
 
-- **Base Module** → no dependencies
-  - Reason: Foundation layer providing shared utilities and components
+- **02.layouts Module** → depends on **01.base Module**
+  - Reason: Layouts use base utilities, composables, and Nuxt UI configuration
 
-- **Layouts Module** → depends on **Base Module**
-  - Reason: Uses shared UI components and utilities from Base
+- **Auth Module** → optionally depends on **01.base Module**, **Email Module**
+  - Reason: Auth uses base database utilities; email integration is optional (wired to send auth emails but can work without it)
 
-- **Auth Module** → no dependencies
-  - Reason: Foundational authentication module independent of other modules
+- **Blog Module** → depends on **01.base Module**, **Docs Module**
+  - Reason: Blog uses base Nuxt Content configuration, shared utilities, and docs layer components
 
-- **Email Module** → no dependencies
-  - Reason: Standalone email sending utilities and templates
+- **Docs Module** → depends on **01.base Module**
+  - Reason: Docs uses base Nuxt Content configuration and custom markdown plugins
 
-- **Payments Module** → depends on **Auth Module**, **Base Module**
-  - Reason: Payment processing requires authenticated users and shared utilities
+- **Email Module** → depends on **01.base Module**
+  - Reason: Email uses base configuration and environment utilities
 
-- **Website Module** → depends on **Base Module**, **Layouts Module**, **Auth Module**
-  - Reason: Marketing pages use shared components, layout structures, and authentication
+- **Payments Module** → depends on **01.base Module**, **Auth Module**
+  - Reason: Payments require user authentication for customer linking and uses base database utilities
 
-- **Notes Module** → depends on **Auth Module**, **Base Module**, **Payments Module**
-  - Reason: Notes belong to authenticated users, use shared utilities, and integrate with payment features
+- **Website Module** → depends on **01.base Module**
+  - Reason: Website uses base Nuxt Content configuration and shared utilities
 
-**Rules:**
+**Notes:**
 
-- Base and Auth modules are foundation layers (no dependencies)
-- Email module is standalone for transactional emails
-- Modules communicate via defined contracts/APIs only
-- Bidirectional data relationships allowed (e.g., User ↔ Payment via foreign keys)
-- Circular code dependencies forbidden (Module A imports Module B, Module B imports Module A)
-
----
+- 01.base Module has no dependencies (foundation layer)
+- Modules can freely communicate and import from each other for code reuse
+- Bidirectional data relationships allowed via foreign keys
+- Child projects can remove unused modules with minor configuration adjustments
 
 ## Cross-Module Product Rules
 
-- **Free Trial**: For each plan they can use the product for free for 7 days, after which they need to subscribe to a paid plan (enforced by Payments + Auth modules)
-- **No trash retention or archive**: All deleted notes are permanently deleted immediately
-- **Auto-save interval**: All editable content auto-saves every 3 seconds (Notes module)
+> _Product-wide standards and conventions that maintain consistency across all modules._
 
-## Non-Goals
+**Naming Conventions:**
 
-- Enterprise-grade user permissions and roles
-- Team workspaces and shared notebooks
-- Advanced formatting (charts, diagrams)
-- AI-generated content suggestions
-- Integration with third-party productivity tools
+- Database table names use snake_case
+- Database type names follow pattern: `{TableName}Schema`, `New{TableName}`, `{TableName}`
+- Zod schemas for database validation use snake_case
+- Conventional commit message format required
 
-**Rationale:**
+**Architecture Standards:**
 
-We optimize for simple, fast individual note-taking. Enterprise features add complexity and slow down core workflows. Users needing collaboration should use dedicated team tools.
+- Each module is a self-contained Nuxt Layer with `nuxt.config.ts`
+- Shared configuration centralized in 01.base module
+- Server code in `server/`, client code in `app/`
+- Database schemas in module's `server/db/schemas/`
+
+**Security Requirements:**
+
+- Private pages require authenticated session via middleware
+- Password reset emails use `security` sender category
+- OAuth callbacks validate state parameter
+- Session tokens are HTTP-only cookies
+- User data isolation enforced
+
+**Quality Standards:**
+
+- TypeScript strict mode enabled
+- Database migrations generated via Drizzle Kit
+- Environment variables validated on startup
+- Public routes generate sitemap entries
+- Dark/light mode support for user-facing content
 
 ## Assumptions & Dependencies
 
-- Users understand basic text editing and optionally markdown (typing, selecting, deleting)
+> _Explicit assumptions about users and external systems. Helps AI validate if implementation environment matches product requirements._
+
+### Assumptions
+
+**Developer Knowledge:**
+
+- Developers have intermediate or advanced understanding of Nuxt 3+ and Vue 3 Composition API
+- Developers are comfortable writing TypeScript with strict mode enabled
+- Developers understand relational database concepts and SQL basics
+- Developers familiar with Drizzle ORM syntax for type-safe queries
+- Developers understand OAuth authentication flows and security best practices
+- Developers have Git version control experience
+- Developers can work with command-line tools (npm/pnpm, drizzle-kit, etc.)
+
+**Development Environment:**
+
+- Developers have Node.js installed
+- Developers have PostgreSQL server available (local or remote)
+- Developers can configure environment variables via `.env` files
+- Developers have modern code editor with TypeScript support (VS Code recommended)
+- Developers can run Docker containers for local PostgreSQL (optional but recommended)
+
+**Deployment Environment:**
+
+- Production environment supports Node.js server-side rendering
+- Vercel deployment preferred (optimizations included)
+- HTTPS enabled for OAuth callbacks and secure cookies
 
 ### External Dependencies
 
-- S3 for image uploads & assets storage (Notes module)
-- Resend for sending emails
-- Polar for payment processing
-- Google & GitHub OAuth for social login options
+**Required Services:**
+
+- **PostgreSQL Database Server**: Relational database for all persistent data (users, sessions, orders, content metadata)
+- **Email Provider**: One of AWS SES, Resend, or SMTP server for transactional emails (verification, password reset, notifications)
+- **Payment Provider**: Polar account and API credentials for payment processing and subscription management
+- **AWS S3 or S3-Compatible Storage**: Object storage for user-uploaded files and static assets
+
+**Optional Services:**
+
+- **OAuth Provider Apps**: Google OAuth 2.0 app and/or GitHub OAuth app for social authentication (can disable if not needed)
+- **Vercel**: Recommended hosting platform with built-in optimizations (can deploy elsewhere with adjustments)
+
+**Development-Only Dependencies:**
+
+- **MailPit or Similar**: Local SMTP server for testing emails in development (port 1025)
+- **Docker**: For running PostgreSQL locally via containers (alternative to native install)
+
+**Third-Party SDK Dependencies:**
+
+- Polar SDK for payment API communication
+- Better Auth for authentication flows
+- AWS SDK (aws4fetch) for S3 signed requests
 
 ## Glossary
 
+> _Product-wide terminology used consistently across all modules and documentation. Prevents ambiguity in behavioral descriptions. Module-specific terms live in module READMEs._
+
 **Product-level terminology:**
 
-- **User**: A registered account holder who can create and manage notes
-- **Note/Page**: A single text document created by user. Can be called as page entity in through out the application.
-- **editor**: Notion like markdown editor used to create and edit notes
+- **NuxtStart**: The starter kit product itself; provides production-ready Nuxt foundation
+- **Layer**: Technical Nuxt term for code organization unit; synonymous with "Module" in conceptual documentation
+- **Module**: Bounded context representing one domain area (auth, payments, blog, etc.); implemented as Nuxt Layer
+- **Child Project**: An application built using NuxtStart as foundation; extends starter with custom modules and business logic
+- **Base Module (01.base)**: Foundation layer providing core infrastructure, database, utilities, and shared configuration; no dependencies
+- **Content Collection**: Organized group of markdown files (blog posts, docs pages, legal content) managed by Nuxt Content
 
-_Module-specific terms are defined in respective module READMEs._
-
----
+_Module-specific terms (e.g., "checkout flow", "impersonation", "usage tracking") are defined in respective module READMEs._
 
 ## Information Architecture
 
@@ -231,30 +399,36 @@ _Module-specific terms are defined in respective module READMEs._
 
 ```
 <root>/
-└─ docs/                             # complete behavioral knowledge base
-   ├─ README.md                      # product vision, scope, constraints
-   ├─ journeys/                      # end-to-end behavioral outcomes
-   │  ├─ <journey>.md                # narrative + acceptance truth
-   │  └─ <journey>.mermaid           # visual behavior flow
-   └─ modules/                       # domain-isolated knowledge units
-      └─ <module>/                   # single bounded context
-         ├─ README.md                # responsibilities + boundaries
-         ├─ CONTRIBUTING.md          # documentation rules for this module
-         ├─ user-stories/            # atomic behavioral goals
-         │  ├─ <story>.md            # intent + acceptance criteria
-         │  └─ <story>.mermaid       # story interaction flow
-         ├─ database-design.md       # domain entities + relationships
-         ├─ frontend/                # user experience definition only
-         │  └─ pages/                # URL-level behavioral surfaces
-         │     └─ <page>/            # single user interaction boundary
-         │        ├─ README.md       # goals, content, user actions
-         │        └─ ui.md           # layout wireframe (ASCII)
-         ├─ background/              # non-UI system capabilities
-         │  └─ api/                  # behavioral API contracts
-         │     └─ <route>/           # endpoint semantic boundary
-         │        ├─ README.md       # params, responses, rules, errors
-         │        └─ tests.md        # behavioral verification cases
-         └─ backend/                 # domain logic description only
+├─ docs/                             # complete behavioral knowledge base
+│  ├─ README.md                      # product vision, scope, constraints (THIS FILE)
+│  ├─ user-journeys/                 # end-to-end behavioral outcomes
+│  │  └─ <journey>.md                # narrative + acceptance truth
+│  └─ modules/                       # domain-isolated knowledge units
+│     └─ <module>/                   # single bounded context
+│        ├─ README.md                # responsibilities + boundaries
+│        ├─ user-stories/            # atomic behavioral goals
+│        │  └─ <story>.md            # intent + acceptance criteria
+│        ├─ database-design.md       # domain entities + relationships
+│        ├─ frontend/                # user experience definition only
+│        │  └─ pages/                # URL-level behavioral surfaces
+│        │     └─ <page>/            # single user interaction boundary
+│        │        ├─ README.md       # goals, content, user actions
+│        │        └─ wireframe.md    # indented spacing + ASCII mini-map wireframe
+│        └─ backend/                 # non-UI system capabilities
+│           └─ api/                  # behavioral API contracts
+│              └─ <route>/           # endpoint path boundary
+│                 └─ <method>/       # HTTP method (get, post, patch, delete, etc.)
+│                    ├─ README.md    # params, responses, rules, errors
+│                    └─ tests.md     # behavioral verification cases
+└─ layers/                           # actual implementation (code)
+   ├─ 01.base/                       # base module implementation
+   ├─ 02.layouts/                    # layouts module implementation
+   ├─ auth/                          # auth module implementation
+   ├─ blog/                          # blog module implementation
+   ├─ docs/                          # docs module implementation
+   ├─ email/                         # email module implementation
+   ├─ payments/                      # payments module implementation
+   └─ website/                       # website module implementation
 ```
 
 **Authority Hierarchy:**
@@ -265,52 +439,22 @@ When documentation conflicts, higher authority wins:
 docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages/*/README.md > database-design.md
 ```
 
----
-
-## Change Guardrails
-
-**When modifying this product:**
-
-✅ **DO:**
-
-- Add new features as opt-in enhancements
-- Preserve existing user workflows unchanged
-- Make advanced features discoverable but not intrusive
-- Maintain backward compatibility with user data
-- Keep module boundaries clear (don't leak responsibilities)
-- Allow bidirectional data relationships between modules (e.g., User ↔ Payment via foreign keys)
-- Use well-defined contracts/APIs for inter-module communication
-
-❌ **DON'T:**
-
-- Remove features users depend on
-- Change default behaviors without user consent
-- Require users to relearn core workflows
-- Break existing data formats or API contracts
-- Create circular code dependencies (Module A imports Module B, Module B imports Module A)
-- Directly couple module implementations (modules should communicate via contracts)
-
-**Example Scenarios:**
-
-**Good change:** Add rich text formatting as optional toggle in Notes module — plain text remains default  
-**Bad change:** Force all notes to use rich text editor
-
-**Good change:** Add new Archive feature to Notes module alongside existing Trash  
-**Bad change:** Replace Trash with Archive (breaks user mental model)
-
-**Good change:** Add social login to Auth module as additional option  
-**Bad change:** Remove email/password login (breaks existing users)
-
-**Good change:** Payment module stores `user_id` reference, Auth module stores `payment_provider_id` (bidirectional data)  
-**Bad change:** Payment module directly imports and calls Auth module code (circular code dependency)
-
 ## Architectural Philosophy (Conceptual)
 
-- **Editor Component for markdown based editing**: Use a Notion-like markdown editor component to provide rich text editing capabilities
-- **Simple by design**: Minimalist UI with focus on core note-taking features, no unnecessary complexity
-- **Online-only with manual save**: App requires internet connection. Manual save button always available alongside auto-save for user control.
-- **Auto Sidebar**: Adding new notes automatically adds them to the sidebar for easy access, no manual organization needed. User can change order of notes in sidebar but cannot create nested notes or folders.
-- **Nuxt Content + Dynamic Markdown Content**: Use strictly markdown to store notes (no HTML) in database and use Nuxt Content & MDC syntax for rendering markdown content in frontend. This allows us to have a consistent markdown-based content format and leverage Nuxt Content's powerful markdown rendering capabilities.
+> _High-level design principles guiding technical decisions across all modules. Helps AI choose implementation approaches aligned with product values. No specific technologies mentioned._
+
+**Guiding principles:**
+
+- **Modularity via Layers**: Organize code into Nuxt Layers (modules) for better structure; modules can communicate and import from each other; child projects can remove unused modules
+- **Type Safety First**: Leverage TypeScript strict mode throughout; validate data at boundaries with Zod; generate types from database schemas
+- **Convention Over Configuration**: Use Nuxt auto-imports, file-based routing, and naming conventions to reduce boilerplate; custom ESLint rules enforce consistency
+- **Progressive Enhancement**: Core features work without JavaScript; enhance with client-side interactivity where valuable
+- **Developer Experience**: Optimize for fast feedback loops with pre-commit hooks, type checking, automated testing, and clear error messages
+- **Production-Ready Defaults**: Configure SEO, security headers, error handling, email templates, and database migrations out-of-box
+- **Customizable Foundation**: Child projects can modify and customize source code as needed; this is a starter kit, not a rigid framework
+- **Best Practices Enforced**: Use linting rules, type checking, and pre-commit hooks to prevent common mistakes
+- **Documentation-Driven**: Document behavioral intent in `/docs` before implementation; AI agents and developers use documentation as source of truth
+- **Separation of Concerns**: Organize authentication, payments, content, and email into distinct modules for maintainability
 
 ## AI Agent Development Workflow
 
@@ -321,32 +465,30 @@ docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages
 **When starting any task:**
 
 1. Read **this README** for:
-   - Product vision and value proposition
-   - Module overview and responsibilities
-   - Cross-module product rules
-   - Change guardrails and architectural philosophy
+   - Product vision and value proposition (what makes NuxtStart unique)
+   - Module overview and responsibilities (which modules own what)
+   - Cross-module product rules (code quality, architecture, security)
+   - Change guardrails and architectural philosophy (how to evolve without breaking)
 
 2. Review **module dependency graph** to understand:
    - Which modules your task affects
-   - Integration points between modules
-   - Data flow and relationships
+   - Integration points between modules (e.g., Auth → Email for verification)
+   - Data flow and relationships (e.g., Payments depends on Auth for user linking)
 
 3. Read **relevant module READMEs** for:
    - Domain model (entities and relationships)
-   - Module-specific rules
-   - UX philosophy
-   - Boundaries and responsibilities
+   - Module-specific rules and boundaries
+   - UX philosophy and interaction patterns
+   - Public APIs (composables, utilities) available to other modules
 
-4. Review **journeys** that involve your task:
-   - End-to-end user flows
-   - Acceptance criteria
+4. Review **journeys** that involve your task (when available):
+   - End-to-end user flows (e.g., "User signs up → verifies email → completes checkout")
+   - Acceptance criteria for each step
    - Cross-module interactions
 
 **Determinism Check:**  
 _Can you explain what your task affects without reading code?_  
-If no → documentation incomplete, ask human for clarification.
-
----
+If no → documentation incomplete, ask human for clarification or create missing documentation first.
 
 ### Phase 2: Planning Changes
 
@@ -355,88 +497,96 @@ If no → documentation incomplete, ask human for clarification.
 1. **Identify affected modules:**
    - Which module owns this feature?
    - Which modules does it integrate with?
+   - Example: Adding password reset affects Auth (owns users) and Email (sends reset link)
 
 2. **Check constraints:**
-   - Review cross-module product rules
-   - Check module boundaries (scope creep?)
-   - Verify architectural philosophy alignment
+   - Review cross-module product rules (code quality, security, architecture)
+   - Check module boundaries (is this scope creep into another module?)
+   - Verify architectural philosophy alignment (modularity, type safety, etc.)
 
 3. **Validate dependencies:**
-   - Will this create new module dependencies?
-   - Are circular code dependencies introduced?
-   - Are bidirectional data relationships needed?
+   - Will this create new module dependencies? (Check module dependency graph)
+   - Are circular code dependencies introduced? (Forbidden - use contracts/composables instead)
+   - Are bidirectional data relationships needed? (Allowed via foreign keys in database)
 
 4. **Draft implementation plan:**
-   - Write acceptance criteria
-   - List test scenarios
-   - Identify edge cases
-   - Note documentation updates needed
+   - Write acceptance criteria (what defines "done"?)
+   - List test scenarios (unit tests, integration tests, edge cases)
+   - Identify edge cases (validation errors, network failures, missing data)
+   - Note documentation updates needed (module README, API contracts, user stories)
 
 5. **Human review checkpoint:**
-   - Present plan to human
-   - Get approval before implementation
-
----
+   - Present plan to human for approval
+   - Clarify any ambiguous requirements
+   - Get approval before proceeding to implementation
 
 ### Phase 3: Implementation
 
 **During development:**
 
 1. **Test-Driven Development (TDD):**
-   - Write tests first (delegate to Test Writer Agent)
-   - Run tests → expect failure
-   - Implement code
-   - Run tests → pass
+   - Write tests first using Vitest (define expected behavior)
+   - Run tests → expect failure (red phase)
+   - Implement minimal code to pass tests (green phase)
+   - Refactor for clarity and maintainability
+   - Repeat until feature complete
 
-2. **Respect module boundaries:**
-   - Implement within assigned module only
-   - Use contracts/APIs for inter-module communication
-   - Don't leak responsibilities to other modules
+2. **Respect module organization:**
+   - Keep related functionality within appropriate module
+   - Modules can import from each other as needed
+   - Maintain clear separation of concerns
 
-3. **Follow UX philosophy:**
-   - Adhere to module's interaction patterns
-   - Maintain consistency with existing flows
-   - Don't break user mental models
+3. **Follow code quality rules:**
+   - Use snake_case for database table names
+   - Use TypeScript strict mode (no `any`, properly typed)
+   - Validate input with Zod schemas
+   - Don't use `statusCode` or `statusMessage` in `createError()`
+   - Follow conventional commit format in commit messages
+   - And others
 
 4. **Apply architectural philosophy:**
-   - Fast by default
-   - Data durability
-   - Graceful degradation
+   - Type safety first (generate types from schemas)
+   - Convention over configuration (use auto-imports)
+   - Progressive enhancement (works without JS)
+   - Extensibility (expose composables for child projects)
 
 5. **Database changes (if needed):**
-   - Delegate to DB Designer Agent
-   - Update `database-design.md`
-   - Maintain referential integrity
-
----
+   - Update schema in appropriate module's `server/db/schemas/`
+   - Use snake_case for table and column names
+   - Generate migration with `pnpm db:generate`
+   - Test migration with `pnpm db:migrate`
+   - Update `database-design.md` documentation
 
 ### Phase 4: Validation
 
 **Before marking task complete:**
 
 1. **All tests pass:**
-   - Unit tests
-   - Integration tests
-   - Edge case coverage
+   - Unit tests for new code
+   - Integration tests for cross-module interactions
+   - Edge case coverage (errors, validation failures)
+   - Type checking passes (`pnpm typecheck`)
 
 2. **Cross-module rules respected:**
    - No violations of product-wide constraints
-   - Module boundaries maintained
+   - Module boundaries maintained (no scope creep)
+   - Code quality standards met (ESLint passes)
+   - Pre-commit hooks pass (linting, type checking)
 
 3. **Dependencies validated:**
-   - Module dependency graph unchanged (or explicitly updated in README)
-   - No circular code dependencies introduced
+   - Module dependency graph unchanged (or explicitly updated in this README if new dependency justified)
+   - No circular code dependencies introduced (Module A → Module B → Module A forbidden)
+   - Bidirectional data relationships documented if added (e.g., foreign keys)
 
 4. **User journeys still achievable:**
    - Affected journeys still work end-to-end
-   - Acceptance criteria met
+   - Acceptance criteria met for all impacted user stories
+   - No existing workflows broken
 
-5. **Change guardrails followed:**
-   - Existing user workflows preserved
-   - Backward compatibility maintained
-   - No breaking changes
-
----
+5. **Quality maintained:**
+   - Code follows established patterns
+   - Documentation updated to reflect changes
+   - No regressions in existing functionality
 
 ### Phase 5: Documentation Maintenance
 
@@ -446,72 +596,79 @@ If no → documentation incomplete, ask human for clarification.
    - New entities added to domain model
    - New module rules introduced
    - Module responsibilities changed
-   - UX philosophy evolved
+   - Public APIs (composables, utilities) added or modified
+   - Database schema changed
 
 2. **Update this product README if:**
-   - New module added
-   - Module dependencies changed
+   - New module added to NuxtStart
+   - Module dependencies changed (update dependency graph)
    - Cross-module rules added/modified
-   - Product boundaries changed
+   - Product boundaries changed (new capabilities or exclusions)
+   - Technology stack updated (new major dependency)
 
 3. **Update journeys if:**
-   - User flow changed
-   - New steps added to existing journey
+   - User flow changed (new steps, removed steps)
+   - New user journey created
    - Acceptance criteria modified
 
 4. **Update glossary if:**
    - New product-wide terminology introduced
-   - Existing terms redefined
+   - Existing terms redefined or clarified
 
 5. **Update user stories if:**
    - Acceptance criteria changed
    - New stories added
-   - Stories deprecated
+   - Stories deprecated or completed
 
 **Documentation First Principle:**  
-_If behavior changed, documentation MUST change before code is merged._
-
----
+_If behavior changed, documentation MUST change before code is merged._  
+Documentation is source of truth; code implements documentation.
 
 ### Common Workflows
 
-**Adding a new feature:**
+**Adding a new feature to existing module:**
 
 ```
-Phase 1 → Phase 2 → Human Review → Phase 3 → Phase 4 → Phase 5
+Phase 1 (understand module context) → Phase 2 (plan + human review) → Phase 3 (TDD implementation) → Phase 4 (validate) → Phase 5 (document)
+```
+
+**Adding a new module:**
+
+```
+Phase 1 (understand product boundaries) → Phase 2 (plan module responsibilities, dependencies, public APIs + human review) → Create module README → Phase 3 (implement) → Phase 4 (validate) → Phase 5 (update product README with new module + dependency graph)
 ```
 
 **Fixing a bug:**
 
 ```
-Phase 1 (understand affected modules) → Phase 3 (TDD fix) → Phase 4 (validate) → Phase 5 (if behavior changed)
+Phase 1 (understand affected modules) → Phase 3 (TDD fix with regression test) → Phase 4 (validate no new issues) → Phase 5 (update docs if behavior clarified)
 ```
 
-**Refactoring:**
+**Refactoring code:**
 
 ```
-Phase 1 → Phase 4 (ensure no behavioral changes) → Phase 5 (update only if module boundaries changed)
+Phase 1 (understand module) → Phase 4 (ensure no behavioral changes via existing tests) → Phase 5 (update module README only if public APIs changed)
 ```
-
----
 
 ### Escalation Points
 
 **When to ask human for help:**
 
-- Documentation conflicts detected (multiple sources of truth)
-- Proposed change violates change guardrails
+- Documentation conflicts detected (e.g., this README contradicts module README)
 - Cross-module rules unclear or contradictory
-- Module boundaries ambiguous
-- Breaking change unavoidable
-- New module needed (requires product-level decision)
-
----
+- Module organization ambiguous (which module should own this responsibility?)
+- New module needed (requires product-level architectural decision)
+- Major architectural changes (switching core dependencies, major refactoring)
+- Security implications unclear (authentication, authorization, data access)
+- Performance trade-offs unclear (caching strategy, database indexing)
 
 ## Notes for Future AI Agents
 
-- **This document defines WHAT at product level, never HOW**
-- **All product-wide behavioral truth flows from here**
-- **Module-specific details live in module READMEs**
-- **If contradictions found, this README wins**
-- **Implementation may change; product definition must not**
+- **This document defines WHAT at product level, never HOW**: Technologies listed (PostgreSQL, Better Auth, Polar) describe WHAT is used, not HOW to configure or implement them. Implementation details live in code and inline comments.
+- **All product-wide behavioral truth flows from here**: When in doubt, this README is highest authority. Module READMEs provide module-specific detail but cannot contradict this file.
+- **Module-specific details live in module READMEs**: Don't bloat this file with implementation details. Link to module docs for deep dives.
+- **If contradictions found, this README wins**: Escalate to human if contradiction seems wrong, but assume this file is correct until clarified.
+- **Implementation may change; product definition must not**: Code can be refactored, but vision, users, boundaries, and modules remain stable. Changes here require human approval.
+- **Child projects can fully customize**: NuxtStart is a starter kit. Child projects are free to modify source code, remove unused modules, and adapt to their specific needs.
+- **Layers = Modules in mental model**: "Layer" is Nuxt technical term; "Module" is conceptual bounded context. Use "module" in documentation for clarity.
+- **Documentation-driven development**: Write or update `/docs` before writing code. Documentation is source of truth; code implements documentation.

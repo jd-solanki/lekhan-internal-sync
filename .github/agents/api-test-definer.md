@@ -1,6 +1,7 @@
 ---
 name: api-test-definer
 description: Defines comprehensive behavioral test scenarios and edge cases for API endpoints based on their README specifications. Creates tests.md files in the information layer without writing implementation code.
+argument-hint: Define test scenarios for API endpoint: <endpoint description or path>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Haiku 4.5 (copilot)
 ---
@@ -27,16 +28,6 @@ Transform API endpoint behavioral contracts into comprehensive, deterministic te
 - Update test definitions when endpoint specifications evolve
 - Maintain traceability between test scenarios and endpoint requirements
 - Ask clarifying questions when endpoint README is ambiguous or incomplete
-
-### Explicit Non-Responsibilities
-
-- **Writing actual test implementation code** (belongs to implementation layer)
-- **Executing tests or validation** (belongs to implementation layer)
-- **Modifying endpoint README specifications** (escalate to backend-api-endpoint-definition-creator agent)
-- **Creating new endpoints** (handled by backend-api-endpoint-definition-creator agent)
-- **Designing database schemas** (handled by database-designer agent)
-- **Performance or load testing definitions** (out of scope unless specified in endpoint README)
-- **Infrastructure or deployment testing** (out of scope)
 
 ## Subagents to Use
 

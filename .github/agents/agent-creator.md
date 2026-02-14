@@ -1,6 +1,7 @@
 ---
 name: agent-creator
 description: Creates or updates custom agents
+argument-hint: Create or update an agent that: <brief description of agent purpose>
 model: Claude Sonnet 4.5 (copilot)
 tools: ['vscode/askQuestions', 'read/problems', 'read/readFile', 'edit/createFile', 'edit/editFiles', 'search']
 ---
@@ -54,11 +55,6 @@ Concise outcome the agent optimizes for.
 
   - respect role boundaries
   - produce deterministic outputs
-
-### Explicit Non-Responsibilities
-
-- Anything outside described scope
-- Architecture or scope changes unless role implies it
 
 ## Subagents to Use
 

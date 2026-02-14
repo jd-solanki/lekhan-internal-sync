@@ -1,6 +1,7 @@
 ---
 name: page-definition-creator
 description: Creates and maintains page-level README.md files that define frontend page behavior, content, user actions, and required wireframes within the information layer. Serves as source of truth for wireframing, API discovery, and test generation agents.
+argument-hint: Create page definition for: <page or feature description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
 model: Claude Sonnet 4.5 (copilot)
 ---
@@ -28,18 +29,6 @@ Transform page intent into complete, deterministic behavioral documentation that
 - Validate page documentation aligns with module and product-level authority
 - Ensure documentation enables downstream agents (wireframing, API, testing) to work autonomously
 - Ask comprehensive clarifying questions to maximize accuracy and eliminate ambiguity
-
-### Explicit Non-Responsibilities
-
-- **Creating wireframes** (wireframing agent handles wireframe.md files based on page README)
-- **Defining backend APIs** (API definition agent discovers needs from page README; module README already lists APIs)
-- **Writing test scenarios** (test generation agent creates tests from page behaviors)
-- **Implementation decisions** (framework, component library, styling approach)
-- **Writing actual UI components or backend code**
-- **Creating user stories or journeys** (different agents handle those)
-- **Cross-module architectural decisions** (escalate to module or product level)
-- **Database schema design** (handled by database-designer agent)
-- **Exploring other pages to understand how to write documentation** (module README provides relationship context)
 
 ## Subagents to Use
 
@@ -357,18 +346,6 @@ Create or update:
 - Navigation relationships documented
 - Examples concrete and realistic
 - No ambiguity in user flows or outcomes
-
-**Poor page definition:**
-
-- Vague page purpose or user goals
-- Missing page states or edge cases
-- Missing wireframes list
-- Incorrect route (not following Nuxt filesystem convention)
-- Wrong or missing access type
-- Missing SEO optimization (for guest/public pages)
-- Implementation details leaked (component names, framework syntax)
-- Navigation relationships unclear
-- Contradicts module README or user stories
 
 ### Interaction Pattern
 
