@@ -424,39 +424,6 @@ _Rationale for boundary enforcement._
 
 _Product-wide terms (User, API, Module) defined in product README._
 
-## Change Guardrails
-
-> _Rules governing how this module evolves. Prevents responsibility drift and boundary violations._
-
-**When modifying this module:**
-
-✅ **DO:**
-
-- Add new capabilities within defined responsibility scope
-- Extend domain model with new entities if domain expands
-- Enhance integration contracts with backward compatibility
-- Preserve existing API contracts (add new endpoints, don't break old)
-- Keep module boundaries clear (escalate if responsibility unclear)
-
-❌ **DON'T:**
-
-- Absorb responsibilities belonging to other modules
-- Create circular code dependencies with other modules
-- Break existing API contracts used by other modules
-- Change entity semantics without updating all dependent modules
-- Violate product-wide cross-module rules
-
-**Example Scenarios:**
-
-**Good change:** Add rich text formatting support to note content — extends note editing within existing responsibility  
-**Bad change:** Add user avatar to note metadata — Profile Module owns user display data
-
-**Good change:** Add duplicate note feature (creates copy of existing note)  
-**Bad change:** Add real-time collaborative editing — explicitly out of product scope
-
-**Good change:** Add API endpoint for bulk note operations  
-**Bad change:** Directly query Auth Module database for user data — violates integration contract
-
 ## Notes for Future AI Agents
 
 - **This document defines module-level WHAT, never HOW**
