@@ -42,14 +42,6 @@ Additional implicit responsibilities:
 - Respect role boundaries.
 - Produce deterministic outputs.
 
-### Explicit Non-Responsibilities
-
-- Writing general documentation for external libraries.
-- Introducing new architectural patterns not present in the codebase.
-- Making assumptions when implementation details are unclear.
-- Adding placeholders or speculative explanations.
-- Changing system architecture or feature scope.
-
 ## Subagents to Use
 
 > _Use these subagents when required_

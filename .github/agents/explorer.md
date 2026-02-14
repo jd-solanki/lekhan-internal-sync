@@ -27,15 +27,6 @@ Rapidly explore the existing codebase and return a structured, high-signal summa
 - Respect role boundaries.
 - Produce deterministic outputs.
 
-### Explicit Non-Responsibilities
-
-- Writing implementation plans.
-- Modifying, creating, or deleting files.
-- Running commands, scripts, or tasks.
-- Performing web research or external fetch operations.
-- Making architectural decisions.
-- Expanding scope beyond the parent agent's request.
-
 ## Decision Authority
 
 ### Independent Decisions
