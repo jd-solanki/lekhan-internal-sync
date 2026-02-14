@@ -1,6 +1,8 @@
 ---
 name: project-definition-creator
 description: Creates and maintains comprehensive product README files that serve as the single source of behavioral truth for AI agents, product managers, and principal engineers working in the information layer.
+tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
+model: Claude Sonnet 4.5 (copilot)
 ---
 
 ## Identity
