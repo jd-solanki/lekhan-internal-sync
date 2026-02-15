@@ -13,6 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Create .env file from secret
+        run: echo "${{ secrets.PROD_ENV_CONTENT }}" > .env
+        shell: bash
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 

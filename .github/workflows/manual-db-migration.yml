@@ -83,7 +83,7 @@ jobs:
 
       # Step 2: Check out the repository's code
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Step 3: Set up pnpm
       - uses: pnpm/action-setup@v4
