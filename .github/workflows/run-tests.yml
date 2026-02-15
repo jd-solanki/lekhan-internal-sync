@@ -7,7 +7,9 @@ on:
     branches: [main, ai/*]
 
 jobs:
-  build:
+  test:
+    name: Run Tests
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
