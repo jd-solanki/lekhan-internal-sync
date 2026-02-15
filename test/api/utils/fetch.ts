@@ -1,6 +1,6 @@
 import type { InternalApi } from 'nitropack/types'
 import type { FetchOptions } from 'ofetch'
-import type {} from '../../.nuxt/types/nitro-routes'
+import type {} from '../../../.nuxt/types/nitro-routes'
 import { $fetch } from 'ofetch'
 
 const port = process.env.NUXT_PORT || 3000
