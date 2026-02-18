@@ -106,3 +106,27 @@ const { isLoading, fnWithLoading: onSubmit } = useWithLoading(_onSubmit)
 <!-- ✅ No loading state needed -->
 <UButton loading-auto @click="onSubmit">Submit</UButton>
 ```
+
+## Data Fetching Error Handling
+
+When catching errors from `$fetch` / `useFetch`, check for `FetchError` (from `ofetch`) to extract the structured API message. Fall back to a generic string otherwise.
+
+```typescript
+import { FetchError } from 'ofetch'
+
+// ❌ Avoid - Generic cast loses structured API error
+catch (e) {
+  errorToast({ description: (e as Error).message })
+}
+
+// ✅ Good - Extract server message when available
+catch (e) {
+  const message = e instanceof FetchError
+    ? e.data.message
+    : 'An unexpected error occurred.'
+
+  errorToast({ description: message })
+}
+```
+
+**Why**: Nuxt server errors sent via `createError` carry a structured `data.message`. Casting to `Error` loses this and shows an unhelpful status-code string instead.
