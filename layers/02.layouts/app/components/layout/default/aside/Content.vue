@@ -5,6 +5,18 @@ import { adminNavigationItems, navigationFooterItems, navigationItems } from '~~
 const userStore = useUserStore()
 const { isAdminRoute } = useAdmin()
 const colorMode = useColorMode()
+const notesStore = useNotesStore()
+
+await callOnce('sidebar-notes', () => notesStore.fetchNotes())
+
+const appNavItems = computed<NavigationMenuItem[]>(() => [
+  ...navigationItems,
+  ...notesStore.sortedNotes.map(note => ({
+    label: note.title || 'Untitled',
+    to: `/app/notes/${note.id}`,
+    icon: 'lucide:file-text',
+  })),
+])
 
 const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
   isAdminRoute.value
@@ -18,7 +30,7 @@ const items: ComputedRef<NavigationMenuItem[][]> = computed(() => [
           ...adminNavigationItems,
         ]
       : []
-    : navigationItems,
+    : appNavItems.value,
   navigationFooterItems,
 ])
 </script>

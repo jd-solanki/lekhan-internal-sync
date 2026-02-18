@@ -1,6 +1,6 @@
-# NuxtStart
+# Lekhan
 
-> _A production-ready Nuxt starter kit with authentication, payments, and content management built-in._
+> _Simple & fast note-taking app for capturing and organizing thoughts instantly._
 
 ## Vision Statement
 
@@ -8,7 +8,7 @@
 
 **One-sentence product essence:**
 
-Provide developers with a production-ready Nuxt foundation that includes authentication, payments, and content management, eliminating months of boilerplate setup and enabling rapid SaaS product launches.
+Help people capture and organize thoughts instantly without complexity.
 
 ## Primary Users
 
@@ -16,10 +16,16 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 
 **Who uses this product:**
 
-- **Solo Developers**: Building SaaS products independently — need complete foundation to launch quickly without building infrastructure from scratch
-- **Startups & Small Teams**: Launching MVPs and validating ideas — require production-ready codebase to move fast and focus on unique business logic
-- **Agencies**: Building client projects on tight timelines — need reliable, well-structured foundation they can customize and extend
-- **Freelancers**: Delivering full-stack web applications — benefit from pre-built essentials (auth, payments, content) to maximize billable feature work
+- **Students**: Taking class notes and organizing study materials — need fast capture during lectures and quick retrieval when studying
+- **Writers**: Capturing ideas and drafting content quickly — benefit from distraction-free markdown editor with instant save
+- **Daily Note-Takers**: Personal journaling and thought organization — want simple, reliable place to capture thoughts without complexity
+
+**NOT for:**
+
+- Enterprise teams needing advanced permissions and audit logs
+- Users requiring real-time collaboration (Google Docs-style editing)
+- Power users needing advanced project management or task tracking features
+- Teams requiring shared workspaces and role-based access control
 
 ## Technology Stack
 
@@ -37,11 +43,11 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 - **ORM**: Drizzle ORM with drizzle-zod for schema validation
 - **State Management**: Pinia
 - **UI Library**: @nuxt/ui (125+ accessible components with Tailwind CSS)
+- **Editor**: Nuxt UI Editor Component (markdown editing with rich text interface)
 - **Authentication**: better-auth with @polar-sh/better-auth extensions
 - **Payment Processing**: @polar-sh/sdk (Polar payment platform)
-- **Content Management**: @nuxt/content (markdown-based)
+- **Content Management**: @nuxt/content (markdown-based note storage and rendering)
 - **Email Service**: unemail (multi-provider abstraction)
-- **Storage**: AWS S3 (via aws4fetch)
 - **SEO**: @nuxtjs/seo (sitemap, meta tags, OG images, schema-org)
 - **Image Optimization**: @nuxt/image with Vercel provider support
 
@@ -55,11 +61,12 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 
 **Notes:**
 
-- Uses PostgreSQL as the recommended database
+- Uses PostgreSQL as the database
 - Optimized for Vercel deployment with custom configurations
-- Supports modern browsers
+- Supports modern browsers (Chrome, Firefox, Safari, Edge)
 - OAuth works with Google and GitHub providers by default
-- File storage uses AWS S3 or S3-compatible services
+- Markdown editing powered by Nuxt UI Editor Component with rich text interface
+- No offline support (web-only, requires internet connection)
 
 ## Core Value Proposition
 
@@ -67,13 +74,11 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 
 **What makes this product valuable:**
 
-1. **Nuxt Layers Architecture**: Modular layer-based organization enables clean separation of concerns, easy customization, and selective feature adoption in child projects
-2. **Production-Ready Essentials**: Authentication (OAuth + email/password + magic link), payment processing (Polar), content management (blog/docs), and email service pre-integrated and tested
-3. **SEO Pre-Configured**: Sitemap generation, Open Graph images, meta tags, and structured data work out-of-box without additional setup
-4. **Best Practices Built-In**: Type-safe database queries, custom ESLint rules enforcing naming conventions, comprehensive testing setup, and pre-commit quality gates
-5. **Easy Extensibility**: Well-documented architecture with clear module boundaries allows developers to add custom features without breaking existing functionality
-6. **High Code Quality**: TypeScript throughout, automated linting, testing infrastructure, and semantic commit enforcement ensure maintainable codebase
-7. **Comprehensive Documentation**: AI-first documentation in `/docs` guides both human developers and AI agents through architecture, patterns, and extension points
+1. **Instant Capture**: Write thoughts without waiting for app to load — instant save with auto-save every few seconds ensures nothing is lost
+2. **Clean, Minimal UI**: No clutter or distractions — just a simple sidebar with notes and a focused markdown editor
+3. **Fast Search**: Find any note instantly — full-text search across all notes with<100ms response time
+4. **Markdown with Rich Text**: Best of both worlds — markdown power with visual rich text editing interface (no syntax memorization needed)
+5. **Mobile-Responsive**: Works perfectly on any device — optimized for both desktop and mobile browsers
 
 ## Product Boundaries
 
@@ -81,52 +86,174 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 
 ### What We Build (In Scope)
 
-**Authentication & User Management:**
+**Note Creation & Editing:**
 
-- User registration and email verification
+- Create and edit markdown notes with rich text editor (Nuxt UI Editor)
+- Auto-save every few seconds (no manual save needed)
+- Instant note creation (no loading delays)
+- Drag-to-reorder notes in sidebar
+
+**Note Organization:**
+
+- Flat list of notes in sidebar (auto-organized as created)
+- Fast full-text search across all notes
+- No folders, tags, or manual categorization
+
+**User Authentication:**
+
+- User registration with email verification
 - Email/password and magic link authentication
 - OAuth social login (Google, GitHub)
-- Account linking across providers
-- Session management and admin impersonation
+- Password reset and account management
 
-**Payment & Subscription:**
+**Subscription Management:**
 
 - Polar payment integration with checkout flows
-- Subscription and order management
-- Customer portal and webhook handling
-- Usage tracking for metered billing
+- Subscription plan management (Starter, Pro, Max)
+- Note limit enforcement per plan
+- Customer billing portal access
 
-**Content Management:**
+### What We Don't Build (Deliberate Exclusions)
 
-- Markdown-based blog and documentation
-- Legal/marketing content pages
-- SEO-optimized rendering with sitemaps
+> _Features and capabilities this product will NOT provide, with clear rationale to prevent scope creep._
 
-**Email Communication:**
+**Excluded capabilities:**
 
-- Multi-provider email service setup
-- Transactional email templates
-- Multi-sender configuration
+- **Real-time collaboration between users**: Adds complexity to sync infrastructure and conflict resolution. Lekhan optimizes for individual, private note-taking.
+- **Rich media embedding (videos, audio, file attachments)**: Keeps product simple and fast. Media handling requires storage infrastructure and playback complexity beyond core value proposition.
+- **Version history and change tracking**: Adds complexity to UI and storage. Users needing detailed version control should use dedicated tools.
+- **Built-in task management features (to-dos, projects, Kanban)**: This is a note-taking app, not a project manager. Focus on simple note capture, not workflow management.
+- **Native desktop/mobile apps**: Web-only keeps development focused. PWA capabilities provide app-like experience without platform-specific builds.
+- **Public note sharing via links**: Notes are private by default. Sharing adds security surface area and complexity.
+- **Folders, notebooks, or hierarchical organization**: Eliminates decision fatigue. Notes auto-organize chronologically with drag-to-reorder and fast search.
+- **Trash/Archive functionality**: No soft deletes. Permanent deletion keeps storage clean and UI simple.
+- **Offline mode**: Requires service workers and conflict resolution. Web-only with internet required keeps complexity low.
 
-**Infrastructure:**
+## Monetization & Pricing
 
-- PostgreSQL database with type-safe ORM
-- AWS S3 file storage
-- Testing infrastructure and code quality tools
-- Environment-based configuration
+> _Defines pricing tiers, plan features, and usage limits. Helps AI agents understand which features belong to which tier and enforce plan-based constraints during development._
 
-**UI Foundation:**
+### Pricing Model
 
-- Component library with dark/light mode
-- Responsive layouts and animations
+**Revenue model:**
+
+- **Model**: Subscription-only (no free plan)
+- **Billing**: Monthly or yearly (20% discount on yearly)
+- **Trial**: 7-day free trial of all plans, no credit card required
+
+### Pricing Tiers
+
+#### Starter Plan — $9/month or $86/year
+
+**Target user:** Casual note-takers starting with Lekhan
+
+**Features:**
+
+- Create and edit markdown notes with rich text editor
+- Auto-save functionality
+- Fast full-text search
+- Drag-to-reorder notes
+- Mobile and desktop access
+- OAuth and email/password authentication
+
+**Limits:**
+
+- Maximum 50 notes
+- Unlimited storage (no storage limits)
+
+#### Pro Plan — $19/month or $182/year
+
+**Target user:** Active users needing more capacity
+
+**Features:**
+
+- All Starter plan features
+- Higher note capacity
+
+**Limits:**
+
+- Maximum 200 notes
+- Unlimited storage (no storage limits)
+
+#### Max Plan — $29/month or $278/year
+
+**Target user:** Power users with extensive note collections
+
+**Features:**
+
+- All Pro plan features
+- Unlimited note capacity
+
+**Limits:**
+
+- Unlimited notes
+- Unlimited storage (no storage limits)
+
+### Plan Comparison
+
+> _Quick reference table showing key differences between plans._
+
+| Feature | Starter | Pro | Max |
+|---------|---------|-----|-----|
+| **Notes limit** | 50 | 200 | Unlimited |
+| **Storage** | Unlimited | Unlimited | Unlimited |
+| **Rich text editor** | ✅ | ✅ | ✅ |
+| **Fast search** | ✅ | ✅ | ✅ |
+| **Auto-save** | ✅ | ✅ | ✅ |
+| **Mobile access** | ✅ | ✅ | ✅ |
+| **OAuth login** | ✅ | ✅ | ✅ |
+| **Drag to reorder** | ✅ | ✅ | ✅ |
+
+### Upgrade/Downgrade Rules
+
+> _Behavioral rules governing plan changes. AI agents use this to implement upgrade prompts and enforce downgrades correctly._
+
+**Upgrade behavior:**
+
+- New plan features activate immediately
+- Note limit increases instantly
+- User billed prorated amount for current billing cycle
+- No data migration needed (everything already stored)
+
+**Downgrade behavior:**
+
+- Downgrade takes effect at end of current billing period
+- If user exceeds new plan limits (e.g., 100 notes when downgrading to Starter's 50-note limit):
+  - Existing notes remain accessible (read-only)
+  - User cannot create new notes until below limit
+  - User shown prompt to delete notes or upgrade
+- No data deleted automatically
+
+### Monetization-Driven Product Rules
+
+> _Cross-module constraints related to plan enforcement. Supplements "Cross-Module Product Rules" section with monetization-specific invariants._
+
+- **Note limit enforcement**: When user reaches plan limit, show upgrade prompt but never block access to existing notes
+- **Trial expiration**: At end of 7-day trial, user must choose a paid plan to continue access
+- **Payment failure**: After 3 failed payment attempts, user account suspended with 7-day grace period
+- **All plans have full features**: No feature gating beyond note limits (all users get rich editor, search, auto-save)
+
+### Upgrade Triggers
+
+> _When and where product prompts users to upgrade. Guides AI agents on implementing conversion opportunities._
+
+**Contextual upgrade prompts:**
+
+- **Note limit reached**: When attempting to create note beyond plan limit, show modal: "You've reached your [plan] plan limit of [X] notes. Upgrade to [next plan] for [Y] notes." with upgrade CTA
+- **Approaching limit**: When reaching 80% of note limit (e.g., 40/50 notes on Starter), show banner: "You're using 40 of 50 notes. Upgrade to Pro for 200 notes."
+- **Settings page**: Always show current plan with "Upgrade" button and plan comparison
+
+**Non-intrusive placement:**
+
+- Settings page always shows current plan with "Upgrade" button
+- Pricing page accessible from account menu
+- Upgrade prompts dismissible (don't block workflow)
 
 ## Modules Overview
 
 > _Lists all bounded contexts (modules) in this product, their responsibilities, and dependencies. Helps AI understand product structure and navigate to detailed module documentation._
 
-**Note on Terminology**: In NuxtStart, "Layer" is the technical Nuxt term for code organization, while "Module" is the conceptual term for bounded contexts. Each Nuxt Layer represents one module. Documentation uses "module" to describe responsibilities and boundaries.
-
-**Note on Modularity**: Modules are organized separately for code structure and maintainability, not strict isolation. Modules can communicate with each other and import from one another. Child projects can remove unused modules (e.g., blog, docs, payments) though some configuration changes outside the module may be required.
+**Note on Terminology**: In Lekhan, "Layer" is the technical Nuxt term for code organization, while "Module" is the conceptual term for bounded contexts. Each Nuxt Layer represents one module. Documentation uses "module" to describe responsibilities and boundaries.
 
 ### 01.base Module
 
@@ -147,9 +274,10 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 **Responsibility:** Application layout components and layout-specific styling  
 **Key Capabilities:**
 
-- Layout components for consistent page structure
+- Layout components for consistent page structure (sidebar, command palette)
 - Layout-specific composables and utilities
 - Brand assets and styling overrides
+- Dark/light mode support
 
 **Path:** `/layers/02.layouts/`
 
@@ -162,34 +290,25 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 - Database tables: users, sessions, accounts, verifications
 - Auth middleware (public, private, guest, admin page groups)
 - Auth pages: sign-in, sign-up, email verification, magic link
-- User account management pages
+- User account management pages and settings
 - Admin functionality with user impersonation
 
 **Path:** `/layers/auth/`
 
-### Blog Module
+### Notes Module
 
-**Responsibility:** Markdown-based blog content management and rendering  
+**Responsibility:** Core note-taking functionality — creation, editing, organization, and search  
 **Key Capabilities:**
 
-- Markdown blog posts with frontmatter (title, description, image, date, category)
-- Blog post rendering with syntax highlighting
-- Category-based organization
-- Prerendered static pages at build time
+- Create and edit markdown notes with rich text editor (Nuxt UI Editor)
+- Auto-save functionality (every 3 seconds)
+- Flat list organization in sidebar with drag-to-reorder
+- Fast full-text search across all user notes
+- Note limit enforcement based on subscription plan
+- Database tables: notes
+- Private user-specific content (only owner can access)
 
-**Path:** `/layers/blog/`
-
-### Docs Module
-
-**Responsibility:** Documentation site with markdown content and custom plugins  
-**Key Capabilities:**
-
-- Markdown documentation pages
-- Custom markdown plugins (code snippet imports)
-- Syntax highlighting (github-light/dracula themes)
-- Prerendered static documentation site
-
-**Path:** `/layers/docs/`
+**Path:** `/layers/notes/` _(to be created)_
 
 ### Email Module
 
@@ -200,22 +319,21 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 - Provider configuration based on environment
 - Email templates (verification, magic link, password reset, welcome)
 - Multi-sender support (security, events, alerts, system)
-- Admin notification capabilities
 
 **Path:** `/layers/email/`
 
 ### Payments Module
 
-**Responsibility:** Payment processing, subscription management, and order tracking via Polar  
+**Responsibility:** Payment processing, subscription management, and plan limit enforcement via Polar  
 **Key Capabilities:**
 
-- Database tables: orders, subscriptions, products
+- Database tables: polar_subscriptions, polar_products, polar_orders
 - Polar SDK client setup
-- Checkout integration (guest + authenticated user support)
+- Checkout integration for Starter/Pro/Max plans
 - Customer portal integration
-- Usage tracking for metered billing
+- Subscription plan tracking and note limit enforcement
 - Webhook handling for payment events
-- Order and subscription management
+- Trial period management (7-day free trial)
 
 **Path:** `/layers/payments/`
 
@@ -224,9 +342,10 @@ Provide developers with a production-ready Nuxt foundation that includes authent
 **Responsibility:** Public-facing website pages and legal/marketing content  
 **Key Capabilities:**
 
-- Public website pages
-- Legal/marketing content via Nuxt Content
-- Markdown-based content management for terms, privacy, etc.
+- Marketing homepage
+- Pricing page showcasing Starter/Pro/Max plans
+- Legal content via Nuxt Content (terms, privacy)
+- SEO-optimized landing pages
 
 **Path:** `/layers/website/`
 
@@ -241,8 +360,7 @@ graph TD
     Base[01.base Module<br/>No dependencies]
     Layouts[02.layouts Module<br/>Depends on: Base]
     Auth[Auth Module<br/>Depends on: Base, Email optional]
-    Blog[Blog Module<br/>Depends on: Base, Docs]
-    Docs[Docs Module<br/>Depends on: Base]
+    Notes[Notes Module<br/>Depends on: Base, Auth, Payments]
     Email[Email Module<br/>Depends on: Base]
     Payments[Payments Module<br/>Depends on: Base, Auth]
     Website[Website Module<br/>Depends on: Base]
@@ -250,9 +368,9 @@ graph TD
     Layouts --> Base
     Auth --> Base
     Auth -.->|optional| Email
-    Blog --> Base
-    Blog --> Docs
-    Docs --> Base
+    Notes --> Base
+    Notes --> Auth
+    Notes --> Payments
     Email --> Base
     Payments --> Base
     Payments --> Auth
@@ -264,14 +382,11 @@ graph TD
 - **02.layouts Module** → depends on **01.base Module**
   - Reason: Layouts use base utilities, composables, and Nuxt UI configuration
 
-- **Auth Module** → optionally depends on **01.base Module**, **Email Module**
+- **Auth Module** → depends on **01.base Module**, optionally **Email Module**
   - Reason: Auth uses base database utilities; email integration is optional (wired to send auth emails but can work without it)
 
-- **Blog Module** → depends on **01.base Module**, **Docs Module**
-  - Reason: Blog uses base Nuxt Content configuration, shared utilities, and docs layer components
-
-- **Docs Module** → depends on **01.base Module**
-  - Reason: Docs uses base Nuxt Content configuration and custom markdown plugins
+- **Notes Module** → depends on **01.base Module**, **Auth Module**, **Payments Module**
+  - Reason: Notes require authenticated user for ownership; uses base database and content utilities; checks payment subscription for note limit enforcement
 
 - **Email Module** → depends on **01.base Module**
   - Reason: Email uses base configuration and environment utilities
@@ -287,7 +402,7 @@ graph TD
 - 01.base Module has no dependencies (foundation layer)
 - Modules can freely communicate and import from each other for code reuse
 - Bidirectional data relationships allowed via foreign keys
-- Child projects can remove unused modules with minor configuration adjustments
+- Notes module checks Payments module for subscription plan and note limits
 
 ## Cross-Module Product Rules
 
@@ -313,7 +428,8 @@ graph TD
 - Password reset emails use `security` sender category
 - OAuth callbacks validate state parameter
 - Session tokens are HTTP-only cookies
-- User data isolation enforced
+- **User data isolation enforced**: Users can only access their own notes, never other users' notes
+- **Note ownership validation**: All note operations verify userId matches authenticated user
 
 **Quality Standards:**
 
@@ -323,60 +439,53 @@ graph TD
 - Public routes generate sitemap entries
 - Dark/light mode support for user-facing content
 
+**Lekhan-Specific Rules:**
+
+- **Auto-save interval**: All note edits auto-save every 3 seconds (enforced by Notes module)
+- **Note limit enforcement**: When user reaches plan limit (Starter: 50, Pro: 200, Max: unlimited), prevent new note creation but allow editing existing notes
+- **Performance target**: Note search and load operations must complete within 100ms perceived latency
+- **No trash/archive**: Notes are permanently deleted immediately when user deletes (no soft delete, no recovery)
+- **Flat organization only**: No folders, tags, or hierarchical categorization — notes displayed in flat list with drag-to-reorder
+
 ## Assumptions & Dependencies
 
 > _Explicit assumptions about users and external systems. Helps AI validate if implementation environment matches product requirements._
 
 ### Assumptions
 
-**Developer Knowledge:**
+**User Capabilities:**
 
-- Developers have intermediate or advanced understanding of Nuxt 3+ and Vue 3 Composition API
-- Developers are comfortable writing TypeScript with strict mode enabled
-- Developers understand relational database concepts and SQL basics
-- Developers familiar with Drizzle ORM syntax for type-safe queries
-- Developers understand OAuth authentication flows and security best practices
-- Developers have Git version control experience
-- Developers can work with command-line tools (npm/pnpm, drizzle-kit, etc.)
+- Users have email address for account creation and authentication
+- Users understand basic text editing (typing, selecting, copying, pasting)
+- Users access Lekhan via modern web browser (Chrome, Firefox, Safari, Edge) on desktop or mobile
+- Users have stable internet connection (no offline support)
+- Users comfortable with markdown formatting or can use visual rich text editor without markdown knowledge
 
-**Development Environment:**
+**User Context:**
 
-- Developers have Node.js installed
-- Developers have PostgreSQL server available (local or remote)
-- Developers can configure environment variables via `.env` files
-- Developers have modern code editor with TypeScript support (VS Code recommended)
-- Developers can run Docker containers for local PostgreSQL (optional but recommended)
-
-**Deployment Environment:**
-
-- Production environment supports Node.js server-side rendering
-- Vercel deployment preferred (optimizations included)
-- HTTPS enabled for OAuth callbacks and secure cookies
+- Users expect instant response times (<100ms for interactions)
+- Users value simplicity over advanced organization features
+- Users trust auto-save and don't expect manual save buttons
+- Users understand subscription plans and note limits
 
 ### External Dependencies
 
 **Required Services:**
 
-- **PostgreSQL Database Server**: Relational database for all persistent data (users, sessions, orders, content metadata)
-- **Email Provider**: One of AWS SES, Resend, or SMTP server for transactional emails (verification, password reset, notifications)
-- **Payment Provider**: Polar account and API credentials for payment processing and subscription management
-- **AWS S3 or S3-Compatible Storage**: Object storage for user-uploaded files and static assets
+- **PostgreSQL Database Server**: Relational database for all persistent data (users, sessions, notes, subscriptions)
+- **Email Provider**: One of AWS SES, Resend, or SMTP server for transactional emails (verification, password reset, welcome)
+- **Payment Provider**: Polar account and API credentials for subscription payment processing and plan management
+- **Hosting Platform**: Vercel or similar Node.js SSR-compatible hosting with HTTPS support
 
 **Optional Services:**
 
-- **OAuth Provider Apps**: Google OAuth 2.0 app and/or GitHub OAuth app for social authentication (can disable if not needed)
-- **Vercel**: Recommended hosting platform with built-in optimizations (can deploy elsewhere with adjustments)
-
-**Development-Only Dependencies:**
-
-- **MailPit or Similar**: Local SMTP server for testing emails in development (port 1025)
-- **Docker**: For running PostgreSQL locally via containers (alternative to native install)
+- **OAuth Provider Apps**: Google OAuth 2.0 app and/or GitHub OAuth app for social authentication (can disable if email-only authentication preferred)
 
 **Third-Party SDK Dependencies:**
 
-- Polar SDK for payment API communication
-- Better Auth for authentication flows
-- AWS SDK (aws4fetch) for S3 signed requests
+- Polar SDK for payment API communication and subscription management
+- Better Auth for authentication flows and session management
+- Nuxt UI Editor for markdown rich text editing interface
 
 ## Glossary
 
@@ -384,14 +493,18 @@ graph TD
 
 **Product-level terminology:**
 
-- **NuxtStart**: The starter kit product itself; provides production-ready Nuxt foundation
+- **Lekhan**: The note-taking app product itself; simple & fast note-taking for capturing and organizing thoughts
+- **Note**: A single markdown document created and owned by a user; the core content unit in Lekhan
+- **User**: A registered account holder with authenticated session who can create and manage notes
+- **Plan**: Subscription tier (Starter, Pro, Max) with specific note limits and pricing
+- **Note Limit**: Maximum number of notes allowed based on user's subscription plan (Starter: 50, Pro: 200, Max: unlimited)
+- **Auto-Save**: Automatic saving of note content every 3 seconds without manual user action
+- **Sidebar**: Flat list of user's notes displayed in sidebar navigation with drag-to-reorder capability
+- **Rich Text Editor**: Visual markdown editing interface (Nuxt UI Editor) requiring no markdown syntax knowledge
 - **Layer**: Technical Nuxt term for code organization unit; synonymous with "Module" in conceptual documentation
-- **Module**: Bounded context representing one domain area (auth, payments, blog, etc.); implemented as Nuxt Layer
-- **Child Project**: An application built using NuxtStart as foundation; extends starter with custom modules and business logic
-- **Base Module (01.base)**: Foundation layer providing core infrastructure, database, utilities, and shared configuration; no dependencies
-- **Content Collection**: Organized group of markdown files (blog posts, docs pages, legal content) managed by Nuxt Content
+- **Module**: Bounded context representing one domain area (auth, notes, payments, etc.); implemented as Nuxt Layer
 
-_Module-specific terms (e.g., "checkout flow", "impersonation", "usage tracking") are defined in respective module READMEs._
+_Module-specific terms are defined in respective module READMEs._
 
 ## Information Architecture
 
@@ -424,8 +537,7 @@ _Module-specific terms (e.g., "checkout flow", "impersonation", "usage tracking"
    ├─ 01.base/                       # base module implementation
    ├─ 02.layouts/                    # layouts module implementation
    ├─ auth/                          # auth module implementation
-   ├─ blog/                          # blog module implementation
-   ├─ docs/                          # docs module implementation
+   ├─ notes/                         # notes module implementation (TO BE CREATED)
    ├─ email/                         # email module implementation
    ├─ payments/                      # payments module implementation
    └─ website/                       # website module implementation
@@ -445,16 +557,16 @@ docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages
 
 **Guiding principles:**
 
-- **Modularity via Layers**: Organize code into Nuxt Layers (modules) for better structure; modules can communicate and import from each other; child projects can remove unused modules
-- **Type Safety First**: Leverage TypeScript strict mode throughout; validate data at boundaries with Zod; generate types from database schemas
-- **Convention Over Configuration**: Use Nuxt auto-imports, file-based routing, and naming conventions to reduce boilerplate; custom ESLint rules enforce consistency
-- **Progressive Enhancement**: Core features work without JavaScript; enhance with client-side interactivity where valuable
-- **Developer Experience**: Optimize for fast feedback loops with pre-commit hooks, type checking, automated testing, and clear error messages
-- **Production-Ready Defaults**: Configure SEO, security headers, error handling, email templates, and database migrations out-of-box
-- **Customizable Foundation**: Child projects can modify and customize source code as needed; this is a starter kit, not a rigid framework
-- **Best Practices Enforced**: Use linting rules, type checking, and pre-commit hooks to prevent common mistakes
-- **Documentation-Driven**: Document behavioral intent in `/docs` before implementation; AI agents and developers use documentation as source of truth
-- **Separation of Concerns**: Organize authentication, payments, content, and email into distinct modules for maintainability
+- **Speed First**: Optimize for instant perceived performance (<100ms) — instant note creation, instant search results, instant auto-save feedback
+- **Simplicity Over Features**: Favor minimal UI and workflows over advanced features — no folders, no tags, no complex organization
+- **Invisible Reliability**: Auto-save should be invisible yet trustworthy — users never worry about losing work
+- **Data Durability**: Favor preserving user content over feature convenience — always confirm destructive delete actions, no accidental data loss
+- **Mobile-First Responsive**: All interactions work perfectly on mobile and desktop — touch-friendly, keyboard-friendly
+- **Type Safety First**: Leverage TypeScript strict mode; validate data at boundaries; generate types from database schemas
+- **User Data Isolation**: User can only access their own notes, never other users' data — enforced at database and API layers
+- **Progressive Enhancement**: Core note editing works without JavaScript; enhance with auto-save and search client-side
+- **Plan Limit Enforcement**: Hard limits on note creation based on subscription plan, but existing notes always accessible
+- **Documentation-Driven**: Document behavioral intent in `/docs` before implementation; AI agents use documentation as source of truth
 
 ## AI Agent Development Workflow
 
@@ -465,14 +577,14 @@ docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages
 **When starting any task:**
 
 1. Read **this README** for:
-   - Product vision and value proposition (what makes NuxtStart unique)
+   - Product vision and value proposition (what makes Lekhan unique)
    - Module overview and responsibilities (which modules own what)
    - Cross-module product rules (code quality, architecture, security)
-   - Change guardrails and architectural philosophy (how to evolve without breaking)
+   - Architectural philosophy (how to evolve without breaking)
 
 2. Review **module dependency graph** to understand:
    - Which modules your task affects
-   - Integration points between modules (e.g., Auth → Email for verification)
+   - Integration points between modules (e.g., Auth → Email for verification, Notes → Payments for plan limits)
    - Data flow and relationships (e.g., Payments depends on Auth for user linking)
 
 3. Read **relevant module READMEs** for:
@@ -482,7 +594,7 @@ docs/README.md > journeys/*.md > modules/*/README.md > user-stories/*.md > pages
    - Public APIs (composables, utilities) available to other modules
 
 4. Review **journeys** that involve your task (when available):
-   - End-to-end user flows (e.g., "User signs up → verifies email → completes checkout")
+   - End-to-end user flows (e.g., "User signs up → verifies email → creates first note → reaches plan limit → upgrades")
    - Acceptance criteria for each step
    - Cross-module interactions
 
@@ -497,12 +609,12 @@ If no → documentation incomplete, ask human for clarification or create missin
 1. **Identify affected modules:**
    - Which module owns this feature?
    - Which modules does it integrate with?
-   - Example: Adding password reset affects Auth (owns users) and Email (sends reset link)
+   - Example: Adding note search affects Notes (owns notes content) and Auth (validates user ownership)
 
 2. **Check constraints:**
-   - Review cross-module product rules (code quality, security, architecture)
+   - Review cross-module product rules (code quality, security, architecture, Lekhan-specific rules)
    - Check module boundaries (is this scope creep into another module?)
-   - Verify architectural philosophy alignment (modularity, type safety, etc.)
+   - Verify architectural philosophy alignment (speed first, simplicity, data durability, etc.)
 
 3. **Validate dependencies:**
    - Will this create new module dependencies? (Check module dependency graph)
@@ -545,10 +657,13 @@ If no → documentation incomplete, ask human for clarification or create missin
    - And others
 
 4. **Apply architectural philosophy:**
+   - Speed first (instant perceived performance <100ms)
+   - Simplicity over features (minimal UI, no complex organization)
+   - Invisible reliability (auto-save trustworthy)
+   - Data durability (preserve user content, confirm deletes)
+   - User data isolation (enforce userId checks)
    - Type safety first (generate types from schemas)
-   - Convention over configuration (use auto-imports)
-   - Progressive enhancement (works without JS)
-   - Extensibility (expose composables for child projects)
+   - Plan limit enforcement (check subscription before note creation)
 
 5. **Database changes (if needed):**
    - Update schema in appropriate module's `server/db/schemas/`
@@ -600,7 +715,7 @@ If no → documentation incomplete, ask human for clarification or create missin
    - Database schema changed
 
 2. **Update this product README if:**
-   - New module added to NuxtStart
+   - New module added to Lekhan
    - Module dependencies changed (update dependency graph)
    - Cross-module rules added/modified
    - Product boundaries changed (new capabilities or exclusions)
@@ -664,11 +779,11 @@ Phase 1 (understand module) → Phase 4 (ensure no behavioral changes via existi
 
 ## Notes for Future AI Agents
 
-- **This document defines WHAT at product level, never HOW**: Technologies listed (PostgreSQL, Better Auth, Polar) describe WHAT is used, not HOW to configure or implement them. Implementation details live in code and inline comments.
+- **This document defines WHAT at product level, never HOW**: Technologies listed (PostgreSQL, Better Auth, Polar, Nuxt UI Editor) describe WHAT is used, not HOW to configure or implement them. Implementation details live in code and inline comments.
 - **All product-wide behavioral truth flows from here**: When in doubt, this README is highest authority. Module READMEs provide module-specific detail but cannot contradict this file.
 - **Module-specific details live in module READMEs**: Don't bloat this file with implementation details. Link to module docs for deep dives.
 - **If contradictions found, this README wins**: Escalate to human if contradiction seems wrong, but assume this file is correct until clarified.
-- **Implementation may change; product definition must not**: Code can be refactored, but vision, users, boundaries, and modules remain stable. Changes here require human approval.
-- **Child projects can fully customize**: NuxtStart is a starter kit. Child projects are free to modify source code, remove unused modules, and adapt to their specific needs.
+- **Implementation may change; product definition must not**: Code can be refactored, but vision (simple & fast note-taking), users (students, writers, daily note-takers), boundaries (no folders/tags/trash), and modules remain stable. Changes here require human approval.
+- **Speed and simplicity are non-negotiable**: Any feature that slows down note creation, search, or editing contradicts core value proposition. Any feature adding UI complexity contradicts simplicity philosophy.
 - **Layers = Modules in mental model**: "Layer" is Nuxt technical term; "Module" is conceptual bounded context. Use "module" in documentation for clarity.
 - **Documentation-driven development**: Write or update `/docs` before writing code. Documentation is source of truth; code implements documentation.

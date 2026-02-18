@@ -4,6 +4,7 @@ import {
   dbTableUser,
 } from '#server/db/schemas/tables'
 import { relations } from 'drizzle-orm'
+import { dbTableNote } from '~~/layers/notes/server/db/schemas/tables/note'
 import { dbTablePolarSubscription } from '~~/layers/payments/server/db/schemas/tables/subscription'
 
 export const dbTablePolarOrderRelations = relations(dbTablePolarOrder, ({ one }) => ({
@@ -41,4 +42,5 @@ export const dbTablePolarSubscriptionRelations = relations(dbTablePolarSubscript
 export const dbTableUserRelations = relations(dbTableUser, ({ many }) => ({
   polarOrders: many(dbTablePolarOrder),
   polarSubscriptions: many(dbTablePolarSubscription),
+  notes: many(dbTableNote),
 }))

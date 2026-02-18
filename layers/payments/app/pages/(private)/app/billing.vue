@@ -7,7 +7,8 @@ definePageMeta({
 })
 
 const paymentsStore = usePaymentsStore()
-const product = computed(() => paymentsStore.oneTimeProducts[0])
+const products = computed(() => paymentsStore.recurringProducts)
+const productIds = computed(() => products.value.map(p => p.id))
 
 // Use a friendly label for scheduled cancellation.
 const cancelDateLabel = computed(() => {
@@ -19,14 +20,7 @@ const cancelDateLabel = computed(() => {
   return formatDateByLocale('en-US', currentPeriodEnd)
 })
 
-if (!product.value) {
-  throw createError({
-    status: 404,
-    message: 'No products found',
-  })
-}
-
-const hasPurchasedProduct = paymentsStore.hasPurchasedProduct([product.value.id])
+const hasPurchasedProduct = paymentsStore.hasPurchasedProduct(productIds.value)
 </script>
 
 <template>
@@ -52,7 +46,7 @@ const hasPurchasedProduct = paymentsStore.hasPurchasedProduct([product.value.id]
       title="Billing"
       description="Manage your billing information here"
     />
-    <PricingPlans :products="paymentsStore.oneTimeProducts" />
+    <PricingPlans :products="paymentsStore.recurringProducts" />
     <UAlert
       v-if="hasPurchasedProduct"
       title="You can download invoice & access entitlements from Polar Customer Portal."

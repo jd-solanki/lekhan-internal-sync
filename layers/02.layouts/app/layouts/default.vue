@@ -2,11 +2,34 @@
 import type { CommandPaletteGroup } from '@nuxt/ui'
 
 const userStore = useUserStore()
+const notesStore = useNotesStore()
 const commandPaletteStore = useCommandPalette()
 const searchableRoutes = useSearchableRoutes()
 
+defineShortcuts({
+  meta_ctrl_n: {
+    handler: async () => {
+      await notesStore.createEmptyNoteAndNavigate()
+    },
+  },
+})
+
 const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
   const routeGroups: CommandPaletteGroup[] = []
+
+  // Actions
+  routeGroups.push({
+    id: 'actions',
+    label: 'Actions',
+    items: [
+      {
+        label: 'Create new note',
+        icon: 'i-lucide-plus',
+        kbds: ['meta', 'ctrl', 'n'],
+        onSelect: async () => { await notesStore.createEmptyNoteAndNavigate() },
+      },
+    ],
+  })
 
   // Page Actions (if any)
   if (commandPaletteStore._pageActions && commandPaletteStore._pageActions.length > 0) {
@@ -14,6 +37,21 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
       id: 'pageActions',
       label: 'Page Actions',
       items: commandPaletteStore._pageActions,
+    })
+  }
+
+  // Notes (injected manually – dynamic routes skipped by useSearchableRoutes)
+  const noteItems: CommandPaletteGroup['items'] = notesStore.sortedNotes.map(note => ({
+    label: note.title || 'Untitled',
+    icon: 'lucide:file-text',
+    to: `/app/notes/${note.id}`,
+    active: false,
+  }))
+  if (noteItems.length > 0) {
+    routeGroups.push({
+      id: 'notes',
+      label: 'Notes',
+      items: noteItems,
     })
   }
 
