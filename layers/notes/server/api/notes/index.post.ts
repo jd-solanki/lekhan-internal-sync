@@ -10,11 +10,13 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const body = await readValidatedBody(event, noteCreateSchema.parse)
 
   // Check plan limit
-  const { allowed, noteCount, noteLimit } = await canUserCreateNote(userId)
+  const { allowed, noSubscription, noteCount, noteLimit } = await canUserCreateNote(userId)
   if (!allowed) {
     throw createError({
       status: 403,
-      message: `Note limit reached. Your plan allows ${noteLimit} notes and you have ${noteCount}.`,
+      message: noSubscription
+        ? 'You don\'t have an active subscription. Please subscribe to create notes.'
+        : `Note limit reached. Your plan allows ${noteLimit} notes and you have ${noteCount}.`,
     })
   }
 

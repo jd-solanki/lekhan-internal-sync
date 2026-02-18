@@ -40,14 +40,18 @@ export async function getUserNoteCount(userId: number): Promise<number> {
   return result?.count ?? 0
 }
 
-export async function canUserCreateNote(userId: number): Promise<{ allowed: boolean, noteCount: number, noteLimit: number }> {
+export async function canUserCreateNote(userId: number): Promise<{ allowed: boolean, noSubscription: boolean, noteCount: number, noteLimit: number }> {
   const [noteLimit, noteCount] = await Promise.all([
     getUserNoteLimit(userId),
     getUserNoteCount(userId),
   ])
 
+  // noteLimit === 0 means no active subscription (getUserNoteLimit returns 0 when no sub found)
+  const noSubscription = noteLimit === 0
+
   return {
     allowed: noteCount < noteLimit,
+    noSubscription,
     noteCount,
     noteLimit,
   }

@@ -28,15 +28,5 @@ export const adminNavigationItems: NavigationMenuItem[] = [
 ]
 
 export const navigationFooterItems: NavigationMenuItem[] = [
-  {
-    label: 'Billing',
-    to: '/app/billing',
-    icon: 'lucide:credit-card',
-  },
-  {
-    label: 'Customer Portal',
-    icon: 'i-lucide-store',
-    to: '/polar/customer-portal',
-    target: '_blank',
-  },
+
 ]

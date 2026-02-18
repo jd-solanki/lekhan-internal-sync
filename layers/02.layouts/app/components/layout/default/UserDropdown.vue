@@ -39,6 +39,11 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
         icon: 'i-lucide-cog',
         to: '/app/account-settings',
       },
+      {
+        label: 'Billing',
+        to: '/app/billing',
+        icon: 'lucide:credit-card',
+      },
     ],
     ...(userStore.isUserAdmin
       ? [

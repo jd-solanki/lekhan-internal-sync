@@ -121,7 +121,7 @@ const updatedAt = ref<string | Date | null>(null)
 
 const { isLoading: isSaving, fnWithLoading: saveNote } = useWithLoading(
   async () => {
-    // Use route-scoped noteId — never reads activeNote.id to avoid cross-note corruption
+    // Use route-scoped noteId
     if (title.value === savedTitle.value && content.value === savedContent.value)
       return
 
@@ -145,7 +145,12 @@ const lastEditedText = computed(() => {
   return `Edited ${timeAgo.value}`
 })
 
+// Set to true on delete — prevents the debounced save and onBeforeRouteLeave from updating a deleted note
+const isDeleted = ref(false)
+
 const debouncedSave = useDebounceFn(async () => {
+  if (isDeleted.value)
+    return
   try {
     await saveNote()
   }
@@ -163,18 +168,10 @@ watch([title, content], () => {
 })
 
 async function handleDelete() {
-  const { confirm } = useConfirm({
-    title: 'Delete Note',
-    body: `Delete "${title.value || 'Untitled'}"? This action is permanent and cannot be undone.`,
-    confirmBtnProps: { label: 'Delete', color: 'error' },
-    onConfirm: async () => {
-      await notesStore.deleteNote(noteId.value)
-      await navigateTo('/app')
-    },
-  })
-
   try {
-    await confirm()
+    await notesStore.deleteNote(noteId.value)
+    isDeleted.value = true
+    await navigateTo('/app')
   }
   catch {
     errorToast({ title: 'Failed to delete note', description: 'An error occurred while deleting the note.' })
@@ -207,6 +204,8 @@ useEventListener(window, 'beforeunload', handleBeforeUnload)
 // Save before navigation — use noteId.value (route param) as the authoritative id,
 // never activeNote.id which may already point to the next note during fast nav.
 onBeforeRouteLeave(async () => {
+  if (isDeleted.value)
+    return
   if (title.value !== savedTitle.value || content.value !== savedContent.value) {
     try {
       await notesStore.updateNote(noteId.value, {

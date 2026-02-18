@@ -1,4 +1,5 @@
 import type { InternalApi } from 'nitropack/types'
+import { FetchError } from 'ofetch'
 
 type NoteListItem = InternalApi['/api/notes']['get']['data'][number]
 
@@ -44,10 +45,14 @@ export const useNotesStore = defineStore('notes', () => {
 
       return newNote
     }
-    catch {
+    catch (e) {
+      const apiMessage = e instanceof FetchError
+        ? e.data.message
+        : 'An error occurred while creating the note.'
+
       errorToast({
         title: 'Failed to create note',
-        description: 'An error occurred while creating the note.',
+        description: apiMessage,
       })
     }
   }

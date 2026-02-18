@@ -46,7 +46,19 @@ const hasPurchasedProduct = paymentsStore.hasPurchasedProduct(productIds.value)
       title="Billing"
       description="Manage your billing information here"
     />
-    <PricingPlans :products="paymentsStore.recurringProducts" />
+    <PricingPlans
+      :products="paymentsStore.recurringProducts"
+      compact
+      class="max-w-6xl"
+    />
+    <UAlert
+      color="success"
+      variant="subtle"
+      title="You won't be charged"
+      description="Payments are sandboxed in demo. Use test card number '4242 4242 4242 4242' with any future expiry and CVC."
+      icon="i-lucide-info"
+      class="mt-10"
+    />
     <UAlert
       v-if="hasPurchasedProduct"
       title="You can download invoice & access entitlements from Polar Customer Portal."
