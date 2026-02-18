@@ -2,7 +2,7 @@
 name: agent-creator
 description: Creates or updates custom agents
 argument-hint: Create or update an agent that: <brief description of agent purpose>
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 tools: ['vscode/askQuestions', 'read/problems', 'read/readFile', 'edit/createFile', 'edit/editFiles', 'search']
 ---
 
