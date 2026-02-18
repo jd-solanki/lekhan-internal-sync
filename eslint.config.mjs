@@ -15,8 +15,8 @@ export default withNuxt(
   {
     ignores: [
       './server/db/migrations/**/*',
-      // This is downloaded from remote source, we don't want to lint it.
-      './.ai/rules/nuxt-ui.instructions.md',
+      '.agents/**/*',
+      '.ai/**/*',
     ],
   },
   antfu({
