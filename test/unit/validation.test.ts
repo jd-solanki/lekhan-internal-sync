@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import * as z from 'zod'
-import { partialParse } from '~~/layers/01.base/shared/utils/validation'
+import { partialParse } from '../../layers/01.base/shared/utils/validation'
 
 describe('partialParse', () => {
   describe('runtime behavior', () => {

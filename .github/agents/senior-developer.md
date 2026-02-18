@@ -3,7 +3,7 @@ name: senior-developer
 description: Implements new features or solves problems based on detailed plans and todo lists with quality code
 argument-hint: Implement tasks related to: <research goal or problem statement> based on the provided plan and optionally todo list
 tools: ['vscode/askQuestions', 'execute/getTerminalOutput', 'execute/awaitTerminal', 'execute/killTerminal', 'execute/runInTerminal', 'read/problems', 'read/readFile', 'agent', 'edit/createDirectory', 'edit/createFile', 'edit/editFiles', 'search', 'web', 'context7/*', 'nuxt/get-documentation-page', 'nuxt/list-documentation-pages', 'nuxt-ui/get-component', 'nuxt-ui/get-component-metadata', 'nuxt-ui/get-documentation-page', 'nuxt-ui/get-example', 'nuxt-ui/get-template', 'nuxt-ui/list-components', 'nuxt-ui/list-composables', 'nuxt-ui/list-documentation-pages', 'nuxt-ui/list-examples', 'nuxt-ui/list-getting-started-guides', 'nuxt-ui/list-templates', 'nuxt-ui/search-components-by-category', 'sequentialthinking/*', 'vscode.mermaid-chat-features/renderMermaidDiagram', 'todo']
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 ---
 
 # .github/agents/senior-developer.md

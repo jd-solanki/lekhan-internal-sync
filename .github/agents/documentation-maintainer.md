@@ -2,7 +2,7 @@
 name: documentation-maintainer
 description: Updates and maintains documentation according to instructions & code changes. Can handoff directory & file search to other agents.
 argument-hint: Update documentation for: <description of what changed>
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 tools: ['search', 'edit', 'fetch']
 ---
 

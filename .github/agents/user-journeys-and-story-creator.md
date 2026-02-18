@@ -3,7 +3,7 @@ name: user-journeys-and-story-creator
 description: Generates and maintains cross-module user journeys and module-specific user stories that define complete behavioral outcomes. Outputs act as the single source of truth for downstream visual journey generation, documentation, and product alignment.
 argument-hint: Generate a user journey for <brief description of user outcome or feature>
 tools: ['vscode/askQuestions', 'read/problems', 'read/readFile', 'agent', 'edit/createFile', 'edit/editFiles', 'search', 'sequentialthinking/*', 'todo']
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 ---
 
 ## Identity
