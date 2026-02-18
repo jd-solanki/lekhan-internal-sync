@@ -82,7 +82,7 @@ function buildPlanButton(plan: PricingPlanProps, product: Props['products'][numb
         label: 'Buy Now',
         loadingAuto: true,
         disabled: isPaymentInProgress.value,
-        onClick: async () => await withLoading(async () => await paymentsStore.buyProduct(product.id)),
+        onClick: async () => { await withLoading(async () => await paymentsStore.buyProduct(product.id)) },
       }
     }
     return
