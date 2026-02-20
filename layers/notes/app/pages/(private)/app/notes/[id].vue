@@ -287,7 +287,7 @@ const editorExtensions = [
         This note may have been deleted.
       </p>
       <UButton
-        label="Back to Dashboard"
+        label="Back to Library"
         to="/app"
       />
     </div>

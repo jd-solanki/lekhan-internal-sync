@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   search: {
-    label: 'Dashboard',
+    label: 'Library',
     icon: 'i-lucide-home',
   },
 })
@@ -9,7 +9,7 @@ definePageMeta({
 const notesStore = useNotesStore()
 
 // Populate store on mount; sortedNotes computed reacts to store state
-const { pending } = await useAsyncData('dashboard-notes', () => notesStore.fetchNotes())
+const { pending } = await useAsyncData('library-notes', () => notesStore.fetchNotes())
 
 async function handleDeleteNote(id: number) {
   await notesStore.deleteNote(id)
@@ -18,7 +18,7 @@ async function handleDeleteNote(id: number) {
 
 <template>
   <div>
-    <AppPageHeader title="Dashboard" />
+    <AppPageHeader title="Library" />
 
     <!-- Loading skeletons -->
     <div
