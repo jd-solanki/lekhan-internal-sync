@@ -16,6 +16,7 @@ async function runMigrations() {
   // which is fine for self-hosted or simple setups without a pooler.
   const migrationClient = postgres(env.DIRECT_DATABASE_URL || env.DATABASE_URL, {
     max: 1, // Max 1 connection for migrations
+    ssl: isProd ? 'require' : false,
   })
   const db = drizzle(migrationClient)
 
