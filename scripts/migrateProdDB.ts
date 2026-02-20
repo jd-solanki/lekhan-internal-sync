@@ -6,8 +6,17 @@ import env from '../server/libs/env'
 async function runMigrations() {
   console.log('MIGRATIONS: Connecting to database...')
 
-  // Max 1 connection for migrations
-  const migrationClient = postgres(env.DATABASE_URL, { max: 1 })
+  const isProd = process.env.NODE_ENV === 'production'
+  console.log(`MIGRATIONS: Running in ${isProd ? 'production' : 'development'} mode.`)
+
+  // Use DIRECT_DATABASE_URL for migrations if set.
+  // Migrations require a persistent direct connection and cannot run through
+  // a connection pooler (like PgBouncer in transaction mode).
+  // If DIRECT_DATABASE_URL is not set, falls back to DATABASE_URL —
+  // which is fine for self-hosted or simple setups without a pooler.
+  const migrationClient = postgres(env.DIRECT_DATABASE_URL || env.DATABASE_URL, {
+    max: 1, // Max 1 connection for migrations
+  })
   const db = drizzle(migrationClient)
 
   try {

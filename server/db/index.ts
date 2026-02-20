@@ -5,6 +5,11 @@ import postgres from 'postgres'
 import 'dotenv/config'
 
 // Docs: https://supabase.com/docs/guides/database/drizzle
+// DATABASE_URL should point to your connection pooler if available.
+// Connection poolers (like PgBouncer) reuse database connections efficiently,
+// which is important in serverless environments where each request may
+// spin up a new process and naively open a new DB connection.
+// `prepare: false` is required when using PgBouncer in transaction mode.
 const client = postgres(
   env.DATABASE_URL,
   {
