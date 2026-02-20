@@ -28,6 +28,7 @@ const EnvSchema = z.object({
 
   // 📦 Database
   DATABASE_URL: z.string(),
+  DIRECT_DATABASE_URL: z.string().optional(),
 
   // Email
   // NOTE: Kept on top of AWS to get picked up as email service as AWS is configured for storage
