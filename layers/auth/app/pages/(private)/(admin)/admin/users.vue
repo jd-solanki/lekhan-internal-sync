@@ -410,6 +410,7 @@ const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = create
         <UDropdownMenu :items="getUserActionItems(toRaw(row?.original), refresh)">
           <UButton
             icon="i-lucide-more-horizontal"
+            color="neutral"
             variant="ghost"
             size="sm"
             aria-label="Actions"

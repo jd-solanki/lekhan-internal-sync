@@ -166,9 +166,9 @@ export const usePaymentsStore = defineStore('payments', () => {
     if (runtimeConfig.public.shared.polarCheckoutForAuthenticatedUsersOnly) {
       if (!userStore.user) {
         infoToast({
-          title: 'Sign in required for purchase',
+          title: 'Account required for purchase',
         })
-        return await navigateTo(`${runtimeConfig.public.app.routes.signIn}?nextAction=checkout&productId=${productId}`)
+        return await navigateTo(`${runtimeConfig.public.app.routes.signUp}?nextAction=checkout&productId=${productId}`)
       }
 
       // We placed it after the sign-in check to avoid fetching products for guest users or else we get 401 error
