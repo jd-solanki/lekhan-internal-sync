@@ -28,6 +28,10 @@ export default defineConfig({
           typecheck: {
             enabled: true,
           },
+          alias: {
+            '~~': '.',
+            '#server': './server',
+          },
         },
       },
       await defineVitestProject({
