@@ -17,7 +17,7 @@ defineProps<Props>()
 //   name: 'John Doe',
 // })
 
-const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/introduction'
+const actionBtnUrl = 'https://nuxtstart.com/docs/getting-started/introduction'
 </script>
 
 <template>
@@ -42,7 +42,7 @@ const localSetupInstructionsUrl = 'https://nuxtstart.com/docs/getting-started/in
     </EText>
 
     <EButton
-      :href="localSetupInstructionsUrl"
+      :href="actionBtnUrl"
       :style="{ backgroundColor: BRAND_COLOR }"
       style="
         color: #ffffff;
