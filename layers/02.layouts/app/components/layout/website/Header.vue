@@ -6,5 +6,9 @@ const runtimeConfig = useRuntimeConfig()
   <UHeader
     :title="runtimeConfig.public.app.name"
     to="/"
-  />
+  >
+    <template #right>
+      <ColorModeDropdown />
+    </template>
+  </UHeader>
 </template>
