@@ -18,5 +18,6 @@ informSignUpToAccessEntitlementsOnSuccessfulGuestCheckout()
 <template>
   <div>
     <AuthMethodsPassword />
+    <BtnSignInAsAdmin />
   </div>
 </template>

@@ -38,6 +38,10 @@ const isSubmitting = ref(false)
 const withLoading = createWithLoading(isSubmitting)
 
 async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
+  if (userStore.isUserAdmin) {
+    return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+  }
+
   await withLoading(async () => {
     try {
       const { error } = await authClient.changePassword({
@@ -187,6 +191,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaChangePassword>) {
           type="submit"
           size="lg"
           :loading="isSubmitting"
+          :disabled="userStore.isUserAdmin"
         >
           Change Password
         </UButton>

@@ -10,6 +10,7 @@ definePageMeta({
   flashMessageErrorQueryAlias: 'error',
 })
 
+const userStore = useUserStore()
 const { errorToast, successToast } = useToastMessage()
 const runtimeConfig = useRuntimeConfig()
 
@@ -36,6 +37,10 @@ const connectedSocialAccountsCount = computed(() => {
 })
 
 async function linkAccount(provider: SocialProviderId) {
+  if (userStore.isUserAdmin) {
+    return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+  }
+
   try {
     const callbackURL = `${runtimeConfig.public.app.baseUrl}/app/account-settings/linked-accounts`
 
@@ -186,6 +191,7 @@ onMounted(async () => {
               :icon="provider.icon"
               :ui="provider.iconClass ? { leadingIcon: 'light:invert' } : undefined"
               loading-auto
+              :disabled="userStore.isUserAdmin"
               @click="linkAccount(provider.id)"
             >
               Connect

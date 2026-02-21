@@ -138,5 +138,6 @@ informSignUpToAccessEntitlementsOnSuccessfulGuestCheckout()
         <span>Sign In</span>
       </ULink>
     </p>
+    <BtnSignInAsAdmin />
   </div>
 </template>

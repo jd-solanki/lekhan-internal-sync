@@ -5,6 +5,10 @@ const { errorToast, successToast } = useToastMessage()
 const user = computed(() => userStore.user)
 
 async function _handleAvatarUpload(file: File | null | undefined) {
+  if (userStore.isUserAdmin) {
+    return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+  }
+
   if (!file)
     return
 
@@ -92,6 +96,7 @@ const { isLoading: isRemoving, fnWithLoading: handleRemoveAvatar } = useWithLoad
               variant="outline"
               icon="i-lucide-upload"
               :loading="isUploading"
+              :disabled="userStore.isUserAdmin"
               @click.prevent="open()"
             >
               Change Image

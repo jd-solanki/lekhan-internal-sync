@@ -9,6 +9,10 @@ definePageMeta({
 })
 
 async function handleDeactivate() {
+  if (userStore.isUserAdmin) {
+    return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+  }
+
   const { confirm } = useConfirm({
     title: 'Deactivate Account?',
     body: 'Your account will be deactivated immediately. All active sessions will be logged out and your content will be hidden from public pages. You can reactivate your account by signing in again.',
@@ -56,6 +60,7 @@ async function handleDeactivate() {
       <UButton
         color="error"
         variant="outline"
+        :disabled="userStore.isUserAdmin"
         @click="handleDeactivate"
       >
         Deactivate Account

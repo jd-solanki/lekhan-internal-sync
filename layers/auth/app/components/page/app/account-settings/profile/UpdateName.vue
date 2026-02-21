@@ -12,6 +12,10 @@ const isSubmitting = ref(false)
 const withLoading = createWithLoading(isSubmitting)
 
 async function onSubmit(event: FormSubmitEvent<SchemaUpdateProfile>) {
+  if (userStore.isUserAdmin) {
+    return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+  }
+
   await withLoading(async () => {
     try {
       const { error } = await authClient.updateUser({
@@ -60,7 +64,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaUpdateProfile>) {
           type="text"
           size="xl"
           class="w-full"
-          :disabled="isSubmitting"
+          :disabled="isSubmitting || userStore.isUserAdmin"
         />
       </UFormField>
 
@@ -68,7 +72,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaUpdateProfile>) {
         type="submit"
         size="lg"
         :loading="isSubmitting"
-        :disabled="userStore.user?.name === state.name"
+        :disabled="userStore.user?.name === state.name || userStore.isUserAdmin"
       >
         Update Name
       </UButton>

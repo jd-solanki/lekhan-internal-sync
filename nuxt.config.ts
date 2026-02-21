@@ -54,6 +54,9 @@ export default defineNuxtConfig({
   },
   // Docs: https://nuxtseo.com/docs/site-config/guides/setting-site-config
   site: {
+    // Disable indexing of the site by search engines but keep OG tags for better link previews when shared on social media
+    indexable: false,
+
     url: env.NUXT_PUBLIC_APP_BASE_URL,
     name: env.NUXT_PUBLIC_APP_NAME,
     env: env.NODE_ENV,

@@ -62,7 +62,9 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
   const banAction: DropdownMenuItem = {
     label: 'Ban User',
     icon: 'i-lucide-ban',
+    disabled: true,
     onSelect: async () => {
+      return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
       const result = await overlay.create(PageAdminUsersBanUserModal).open()
 
       if (!result)
@@ -103,7 +105,9 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
   const deactivateUserAction: DropdownMenuItem = {
     label: 'Deactivate User',
     icon: 'i-lucide-user-x',
+    disabled: true,
     onSelect: async () => {
+      return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
       await useConfirm({
         title: 'Deactivate User',
         body: `Are you sure you want to deactivate user "${user.name}"?. User can reactivate account by signing in.`,
@@ -140,7 +144,9 @@ function getUserActionItems(user: User & { banned?: boolean }, refresh: ReturnTy
       label: 'Hard Delete User',
       icon: 'i-lucide-trash',
       color: 'error',
+      disabled: true,
       onSelect: async () => {
+        return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
         await useConfirm({
           title: 'Hard Delete User',
           body: `This action is irreversible. Are you sure you want to remove user ${user.name} and all their data permanently?`,
@@ -264,6 +270,8 @@ const columns: TableColumn<any>[] = [
 ]
 
 async function createUser() {
+  return // Early return in demo; Read-only operations for admin users to prevent abuse of shared admin account
+
   // Open Modal to create user
   const result = await overlay.create(PageAdminUsersCreateUserModal).open()
 
@@ -312,7 +320,10 @@ const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = create
           <ReuseAdditionalActionsTemplate class="max-sm:hidden" />
 
           <!-- Create User -->
-          <UButton @click="createUser">
+          <UButton
+            disabled
+            @click="createUser"
+          >
             Create User
           </UButton>
         </div>

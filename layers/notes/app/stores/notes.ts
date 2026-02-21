@@ -4,6 +4,8 @@ import { FetchError } from 'ofetch'
 type NoteListItem = InternalApi['/api/notes']['get']['data'][number]
 
 export const useNotesStore = defineStore('notes', () => {
+  const paymentsStore = usePaymentsStore()
+
   // State
   const notes = ref<NoteListItem[]>([])
 
@@ -53,6 +55,19 @@ export const useNotesStore = defineStore('notes', () => {
       errorToast({
         title: 'Failed to create note',
         description: apiMessage,
+        ...(
+          paymentsStore.activeSubscription
+            ? {}
+            : {
+                actions: [
+                  {
+                    label: 'Subscribe to Premium',
+                    to: '/app/billing',
+                    color: 'primary',
+                  },
+                ],
+              }
+        ),
       })
     }
   }
