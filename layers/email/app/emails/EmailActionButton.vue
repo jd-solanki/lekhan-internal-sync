@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BRAND_COLOR } from '~~/layers/email/shared/utils/constants'
 import EmailLayoutDefault from './layouts/EmailLayoutDefault.vue'
 
 export interface Props {
@@ -38,8 +39,8 @@ defineProps<Props>()
     </EText>
     <EButton
       :href="btnUrl"
+      :style="{ backgroundColor: BRAND_COLOR }"
       style="
-        background-color: #000;
         color: #ffffff;
         padding: 12px 24px;
         text-decoration: none;
