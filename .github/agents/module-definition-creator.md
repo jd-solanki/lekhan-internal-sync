@@ -3,7 +3,7 @@ name: module-definition-creator
 description: Creates and maintains module-level README.md files that serve as domain-specific behavioral truth for AI agents working within a bounded context.
 argument-hint: Create module definition for: <module or feature description>
 tools: [vscode/askQuestions, read/problems, read/readFile, agent, 'sequentialthinking/*', edit/createFile, edit/editFiles, search, todo]
-model: Claude Sonnet 4.6 (copilot)
+model: GPT-5.3-Codex (copilot)
 ---
 
 ## Identity
