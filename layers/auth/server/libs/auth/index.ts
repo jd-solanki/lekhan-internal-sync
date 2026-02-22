@@ -235,7 +235,7 @@ export const auth = betterAuth({
         type: 'security',
         to: { email: user.email },
         subject: emailSubject,
-        html: emailHTML,
+        html: typeof emailHTML === 'string' ? emailHTML : emailHTML.html,
       })
     },
     async afterEmailVerification(user, _) {
@@ -251,7 +251,7 @@ export const auth = betterAuth({
         type: 'events',
         to: { email: user.email },
         subject: emailSubject,
-        html: emailHTML,
+        html: typeof emailHTML === 'string' ? emailHTML : emailHTML.html,
       })
     },
   },
@@ -276,7 +276,7 @@ export const auth = betterAuth({
         type: 'security',
         to: { email: user.email },
         subject: emailSubject,
-        html: emailHTML,
+        html: typeof emailHTML === 'string' ? emailHTML : emailHTML.html,
       })
     },
   },
