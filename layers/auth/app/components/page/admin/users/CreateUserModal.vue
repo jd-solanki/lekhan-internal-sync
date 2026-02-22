@@ -9,7 +9,7 @@ const emit = defineEmits<{
 
 const [isPasswordVisible, togglePasswordVisibility] = useToggle(false)
 
-const schema = schemaSignUpWithName
+const schema = publicSchemaSignUpWithName
 type Schema = z.output<typeof schema>
 const { errorToast } = useToastMessage()
 

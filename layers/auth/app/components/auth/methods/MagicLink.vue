@@ -67,7 +67,7 @@ const lastSignInMethod = authClient.getLastUsedLoginMethod()
     <USeparator label="Or continue With" />
 
     <UForm
-      :schema="schemaMagicLink"
+      :schema="publicSchemaMagicLink"
       :state="state"
       class="space-y-6 my-8"
       @submit="onSubmit"

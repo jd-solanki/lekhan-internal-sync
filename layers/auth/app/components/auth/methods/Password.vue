@@ -102,7 +102,7 @@ const socialProviders = runtimeConfig.public.shared.auth.socialProviders
     <USeparator label="Or continue With" />
 
     <UForm
-      :schema="schemaSignIn"
+      :schema="publicSchemaSignIn"
       :state="state"
       class="space-y-6 my-8"
       @submit="onSubmit"

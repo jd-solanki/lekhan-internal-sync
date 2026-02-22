@@ -45,7 +45,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaForgotPassword>) {
 
     <template v-if="!uiState">
       <UForm
-        :schema="schemaForgotPassword"
+        :schema="publicSchemaForgotPassword"
         :state="state"
         class="space-y-6 my-10"
         @submit="onSubmit"

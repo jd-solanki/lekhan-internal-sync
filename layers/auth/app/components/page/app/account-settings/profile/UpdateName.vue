@@ -46,7 +46,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaUpdateProfile>) {
 <template>
   <div>
     <UForm
-      :schema="schemaUpdateProfile"
+      :schema="publicSchemaUpdateProfile"
       :state="state"
       class="space-y-6 max-w-xs"
       @submit="onSubmit"

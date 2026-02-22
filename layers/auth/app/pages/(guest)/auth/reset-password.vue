@@ -47,7 +47,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaResetPassword>) {
     </p>
 
     <UForm
-      :schema="schemaResetPassword"
+      :schema="publicSchemaResetPassword"
       :state="state"
       class="space-y-6 my-10"
       @submit="onSubmit"
