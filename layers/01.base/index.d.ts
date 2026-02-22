@@ -1,12 +1,15 @@
-interface AppLogoAppConfig {
-  app: {
-    logo: string | { light: string, dark: string }
-  }
+interface AppLogoConfig {
+  logo: string | { light: string, dark: string }
 }
 
 declare module 'nuxt/schema' {
-  interface AppConfigInput extends AppLogoAppConfig {}
-  interface AppConfig extends AppLogoAppConfig {}
+  interface AppConfigInput {
+    app: AppLogoConfig
+  }
+
+  interface AppConfig {
+    app: AppLogoConfig
+  }
 }
 
 declare module '#app' {
