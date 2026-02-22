@@ -2,17 +2,17 @@ import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 import { dbTablePolarOrder, dbTablePolarProduct, dbTablePolarSubscription } from '~~/server/db/schemas/tables'
 
-export const dbSchemaPolarProductSelect = createSelectSchema(dbTablePolarProduct)
-export const dbSchemaPolarProductInsert = createInsertSchema(dbTablePolarProduct)
-export const dbSchemaPolarProductUpdate = createUpdateSchema(dbTablePolarProduct)
+export const dbSchemaSelectPolarProduct = createSelectSchema(dbTablePolarProduct)
+export const dbSchemaInsertPolarProduct = createInsertSchema(dbTablePolarProduct)
+export const dbSchemaUpdatePolarProduct = createUpdateSchema(dbTablePolarProduct)
 
-export const dbSchemaPolarSubscriptionSelect = createSelectSchema(dbTablePolarSubscription)
-export const dbSchemaPolarSubscriptionInsert = createInsertSchema(dbTablePolarSubscription)
-export const dbSchemaPolarSubscriptionUpdate = createUpdateSchema(dbTablePolarSubscription)
+export const dbSchemaSelectPolarSubscription = createSelectSchema(dbTablePolarSubscription)
+export const dbSchemaInsertPolarSubscription = createInsertSchema(dbTablePolarSubscription)
+export const dbSchemaUpdatePolarSubscription = createUpdateSchema(dbTablePolarSubscription)
 
-export const dbSchemaPolarOrderSelect = createSelectSchema(dbTablePolarOrder)
-export const dbSchemaPolarOrderInsert = createInsertSchema(dbTablePolarOrder)
-export const dbSchemaPolarOrderUpdate = createUpdateSchema(dbTablePolarOrder)
+export const dbSchemaSelectPolarOrder = createSelectSchema(dbTablePolarOrder)
+export const dbSchemaInsertPolarOrder = createInsertSchema(dbTablePolarOrder)
+export const dbSchemaUpdatePolarOrder = createUpdateSchema(dbTablePolarOrder)
 
 export type DBSelectPolarProduct = InferSelectModel<typeof dbTablePolarProduct>
 export type DBInsertPolarProduct = InferInsertModel<typeof dbTablePolarProduct>

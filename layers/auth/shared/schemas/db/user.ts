@@ -6,15 +6,15 @@ import { dbTableUser } from '~~/server/db/schemas/tables'
 
 const userTableNameSchema = z.string({ error: 'Name is required' }).max(255)
 
-export const dbSchemaUserSelect = createSelectSchema(dbTableUser, {
+export const dbSchemaSelectUser = createSelectSchema(dbTableUser, {
   email: emailSchema,
 })
-export const dbSchemaUserInsert = createInsertSchema(dbTableUser, {
+export const dbSchemaInsertUser = createInsertSchema(dbTableUser, {
   email: emailSchema,
   name: userTableNameSchema,
   deactivatedAt: z.coerce.date().nullable(),
 })
-export const dbSchemaUserUpdate = createUpdateSchema(dbTableUser, {
+export const dbSchemaUpdateUser = createUpdateSchema(dbTableUser, {
   email: emailSchema.optional(),
   name: userTableNameSchema.optional(),
   deactivatedAt: z.coerce.date().nullable().optional(),

@@ -40,9 +40,9 @@ import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod'
 import { dbTable${formattedTableName} } from '#server/db/schemas/tables'
 
-export const dbSchema${formattedTableName}Select = createSelectSchema(dbTable${formattedTableName})
-export const dbSchema${formattedTableName}Insert = createInsertSchema(dbTable${formattedTableName})
-export const dbSchema${formattedTableName}Update = createUpdateSchema(dbTable${formattedTableName})
+export const dbSchemaSelect${formattedTableName} = createSelectSchema(dbTable${formattedTableName})
+export const dbSchemaInsert${formattedTableName} = createInsertSchema(dbTable${formattedTableName})
+export const dbSchemaUpdate${formattedTableName} = createUpdateSchema(dbTable${formattedTableName})
 
 export type DBSelect${formattedTableName} = InferSelectModel<typeof ${formattedTableName}Table>
 export type DBInsert${formattedTableName} = InferInsertModel<typeof ${formattedTableName}Table>
