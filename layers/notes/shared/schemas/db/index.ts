@@ -17,5 +17,15 @@ export const dbSchemaUpdateNote = createUpdateSchema(dbTableNote, {
   content: noteContentSchema,
 })
 
+export const publicSchemaCreateNote = dbSchemaInsertNote.pick({ title: true, content: true }).required()
+export const publicSchemaUpdateNote = dbSchemaUpdateNote
+  .pick({ title: true, content: true })
+  .refine(
+    data => data.title !== undefined || data.content !== undefined,
+    { message: 'Must provide title or content to update' },
+  )
+
 export type DBSelectNote = InferSelectModel<typeof dbTableNote>
 export type DBInsertNote = InferInsertModel<typeof dbTableNote>
+export type PublicSchemaCreateNote = z.infer<typeof publicSchemaCreateNote>
+export type PublicSchemaUpdateNote = z.infer<typeof publicSchemaUpdateNote>
