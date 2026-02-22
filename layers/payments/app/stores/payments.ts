@@ -1,10 +1,5 @@
 import type { InternalApi } from 'nitropack/types'
 
-interface PlaceholderOrder {
-  productId?: number
-  status?: string
-}
-
 export const usePaymentsStore = defineStore('payments', () => {
   const userStore = useUserStore()
   const { infoToast, successToast } = useToastMessage()
@@ -12,7 +7,7 @@ export const usePaymentsStore = defineStore('payments', () => {
 
   // Fetch from DB
   const products = ref<InternalApi['/api/polar/products']['get']['products']>([])
-  const orders = ref<PlaceholderOrder[]>([])
+  const orders = ref<InternalApi['/api/polar/orders']['get']['orders']>([])
   const subscriptions = ref<InternalApi['/api/polar/subscriptions']['get']['subscriptions']>([])
 
   // One time
@@ -215,7 +210,7 @@ export const usePaymentsStore = defineStore('payments', () => {
     }
 
     const executeChangePlan = async () => {
-      const updatedPolarSubscription = await $fetch<{ id: string }>(`/api/polar/subscriptions/${subscription.polarId}`, {
+      const updatedPolarSubscription = await $fetch(`/api/polar/subscriptions/${subscription.polarId}`, {
         method: 'PATCH',
         body: {
           productId: polarProductId,
@@ -257,7 +252,7 @@ export const usePaymentsStore = defineStore('payments', () => {
     }
 
     // Uncancel subscription that is scheduled to end.
-    const updatedPolarSubscription = await $fetch<{ id: string }>(`/api/polar/subscriptions/${subscription.polarId}`, {
+    const updatedPolarSubscription = await $fetch(`/api/polar/subscriptions/${subscription.polarId}`, {
       method: 'PATCH',
       body: {
         cancelAtPeriodEnd: false,

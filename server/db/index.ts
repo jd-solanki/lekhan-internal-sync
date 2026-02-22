@@ -1,8 +1,14 @@
-import * as schema from '#server/db/schemas/tables'
+import * as dbRelations from '#server/db/schemas/relations'
+import * as dbTables from '#server/db/schemas/tables'
 import env from '#server/libs/env'
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import 'dotenv/config'
+
+const schema = {
+  ...dbTables,
+  ...dbRelations,
+}
 
 // Docs: https://supabase.com/docs/guides/database/drizzle
 // DATABASE_URL should point to your connection pooler if available.

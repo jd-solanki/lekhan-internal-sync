@@ -59,7 +59,7 @@ informSignUpToAccessEntitlementsOnSuccessfulGuestCheckout()
     <USeparator label="Or continue With" />
 
     <UForm
-      :schema="schemaSignUp"
+      :schema="publicSchemaSignUp"
       :state="state"
       class="space-y-6 my-8"
       @submit="onSubmit"

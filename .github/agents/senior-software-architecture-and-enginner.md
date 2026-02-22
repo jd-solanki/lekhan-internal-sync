@@ -3,13 +3,13 @@ name: senior-software-architect-and-engineer
 description: Creates detailed plans and todo lists for implementing new features or solving problems based on a research goal or problem statement.
 argument-hint: Plan tasks related to: <research goal or problem statement>
 tools: ['vscode/askQuestions', 'read/problems', 'read/readFile', 'agent', 'search', 'web', 'context7/*', 'nuxt/get-documentation-page', 'nuxt/list-documentation-pages', 'nuxt-ui/get-component', 'nuxt-ui/get-component-metadata', 'nuxt-ui/get-documentation-page', 'nuxt-ui/get-example', 'nuxt-ui/get-template', 'nuxt-ui/list-components', 'nuxt-ui/list-composables', 'nuxt-ui/list-documentation-pages', 'nuxt-ui/list-examples', 'nuxt-ui/list-getting-started-guides', 'nuxt-ui/list-templates', 'nuxt-ui/search-components-by-category', 'sequentialthinking/*', 'vscode.mermaid-chat-features/renderMermaidDiagram', 'todo']
-model: Claude Opus 4.6 (copilot)
+model: GPT-5.3-Codex (copilot)
 handoffs:
   - label: Start Implementation
     agent: senior-developer
     prompt: Implement the defined plan
     send: false
-    model: GPT-5.2-Codex (copilot)
+    model: GPT-5.3-Codex (copilot)
 ---
 
 ## Identity

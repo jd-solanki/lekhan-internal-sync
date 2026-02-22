@@ -44,6 +44,7 @@ export default withNuxt(
       'local/no-statusmessage-in-create-error': 'error',
       'local/db-table-naming': 'error',
       'local/db-zod-schema-naming': 'error',
+      'local/public-db-zod-schema-naming': 'error',
       'local/db-type-naming': 'error',
 
       'case-police/string-check': 'warn',

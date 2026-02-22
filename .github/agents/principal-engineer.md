@@ -3,7 +3,7 @@ name: principal-engineer
 description: Leads the design and implementation of complex features, ensuring high-quality code and adherence to best practices. Collaborates with planners and senior developers to translate plans into robust solutions.
 argument-hint: Lead the implementation of tasks related to: <research goal or problem statement> based on the provided plan and optionally todo list
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, read/problems, read/readFile, agent, 'context7/*', 'sequentialthinking/*', search, web, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
-model: Claude Opus 4.6 (copilot)
+model: GPT-5.3-Codex (copilot)
 ---
 
 ## Identity

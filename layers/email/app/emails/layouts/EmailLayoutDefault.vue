@@ -12,8 +12,8 @@ defineProps<Props>()
 
 <template>
   <EHtml style="background-color: #f8fafc; padding: 24px 0;">
+    <ESubject>{{ subject }}</ESubject>
     <EHead>
-      <title>{{ subject }}</title>
       <EStyle>
         body {
         margin: 0 !important;
