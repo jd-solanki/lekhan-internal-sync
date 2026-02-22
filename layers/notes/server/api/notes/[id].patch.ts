@@ -2,7 +2,6 @@ import { db } from '#server/db'
 import { dbTableNote } from '#server/db/schemas/tables'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
-import { idSchema } from '~~/layers/auth/shared/schemas'
 import { noteUpdateSchema } from '~~/layers/notes/shared/schemas/note'
 
 const schemaRouterParams = z.object({
