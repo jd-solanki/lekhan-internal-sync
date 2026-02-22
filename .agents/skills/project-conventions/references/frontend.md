@@ -130,3 +130,44 @@ catch (e) {
 ```
 
 **Why**: Nuxt server errors sent via `createError` carry a structured `data.message`. Casting to `Error` loses this and shows an unhelpful status-code string instead.
+
+## Page Component Decomposition
+
+When building pages, divide the page into smaller, page-specific components rather than keeping all code in a single file.
+
+### Storage Convention
+
+Store page-specific components in the `components/page/` directory, mirroring the route path of the page they belong to (ignoring route groups like `(private)`).
+
+For example, if you have a page at `pages/(private)/app/account-settings/profile.vue`, its components should be stored in:
+`components/page/app/account-settings/profile/`
+
+```text
+components/
+  page/
+    app/
+      account-settings/
+        profile/
+          UpdateAvatar.vue
+          UpdateName.vue
+```
+
+### Auto-Import Usage
+
+Nuxt automatically imports these components based on their directory structure. Use the `Page<PathInPascalCase><ComponentName>` format to render them.
+
+```vue
+<!-- ✅ Good - Using auto-imported page components -->
+<template>
+  <div>
+    <h2 class="text-2xl font-semibold mb-2">My Profile</h2>
+    
+    <UCard>
+      <PageAppAccountSettingsProfileUpdateAvatar class="mt-2 mb-4" />
+      <PageAppAccountSettingsProfileUpdateName />
+    </UCard>
+  </div>
+</template>
+```
+
+**Rationale**: This convention keeps page files clean and readable, encapsulates section-specific logic, and prevents the global `components/` directory from being cluttered with components that are only used on a single page.
