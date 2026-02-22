@@ -22,7 +22,6 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     <UNavigationMenu :items="navItems" />
 
     <template #right>
-      <ColorModeDropdown />
       <UButton
         label="Sign in"
         color="neutral"
