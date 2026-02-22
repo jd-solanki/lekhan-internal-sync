@@ -1,17 +1,17 @@
 import { z } from 'zod/v4'
 import { plainPasswordSchema } from '~~/layers/auth/shared/schemas'
-import { dbSchemaUserInsert } from './db/user'
-import { dbSchemaVerificationInsert } from './db/verification'
+import { dbSchemaInsertUser } from './db/user'
+import { dbSchemaInsertVerification } from './db/verification'
 
 // Sign Up
 export const schemaSignUp = z.strictObject({
-  ...dbSchemaUserInsert.pick({ email: true }).shape,
+  ...dbSchemaInsertUser.pick({ email: true }).shape,
   password: plainPasswordSchema,
 })
 export type SchemaSignUp = z.infer<typeof schemaSignUp>
 
 export const schemaSignUpWithName = schemaSignUp.extend({
-  ...dbSchemaUserInsert.pick({ name: true }).shape,
+  ...dbSchemaInsertUser.pick({ name: true }).shape,
 })
 export type SchemaSignUpWithName = z.infer<typeof schemaSignUpWithName>
 
@@ -29,7 +29,7 @@ export type SchemaForgotPassword = z.infer<typeof schemaForgotPassword>
 
 // Reset Password
 export const schemaResetPassword = z.strictObject({
-  token: dbSchemaVerificationInsert.pick({ identifier: true }).shape.identifier,
+  token: dbSchemaInsertVerification.pick({ identifier: true }).shape.identifier,
   ...schemaSignIn.pick({ password: true }).shape,
 })
 export type SchemaResetPassword = z.infer<typeof schemaResetPassword>
@@ -47,6 +47,6 @@ export type SchemaChangePassword = z.infer<typeof schemaChangePassword>
 
 // Update Profile
 export const schemaUpdateProfile = z.strictObject({
-  ...dbSchemaUserInsert.pick({ name: true }).shape,
+  ...dbSchemaInsertUser.pick({ name: true }).shape,
 })
 export type SchemaUpdateProfile = z.infer<typeof schemaUpdateProfile>

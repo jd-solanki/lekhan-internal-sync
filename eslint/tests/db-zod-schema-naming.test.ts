@@ -17,26 +17,26 @@ const ruleTester = new RuleTester({
 ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
   valid: [
     // Correct naming with dbTable prefix
-    `export const dbSchemaAccountSelect = createSelectSchema(dbTableAccount)`,
-    `export const dbSchemaAccountInsert = createInsertSchema(dbTableAccount)`,
-    `export const dbSchemaAccountUpdate = createUpdateSchema(dbTableAccount)`,
-    `export const dbSchemaUserSelect = createSelectSchema(dbTableUser)`,
-    `export const dbSchemaUserInsert = createInsertSchema(dbTableUser)`,
-    `export const dbSchemaUserUpdate = createUpdateSchema(dbTableUser)`,
-    `export const dbSchemaProductSelect = createSelectSchema(dbTableProduct)`,
-    `export const dbSchemaProductInsert = createInsertSchema(dbTableProduct)`,
-    `export const dbSchemaProductUpdate = createUpdateSchema(dbTableProduct)`,
-    `export const dbSchemaOrderItemSelect = createSelectSchema(dbTableOrderItem)`,
-    `export const dbSchemaOrderItemInsert = createInsertSchema(dbTableOrderItem)`,
-    `export const dbSchemaOrderItemUpdate = createUpdateSchema(dbTableOrderItem)`,
+    `export const dbSchemaSelectAccount = createSelectSchema(dbTableAccount)`,
+    `export const dbSchemaInsertAccount = createInsertSchema(dbTableAccount)`,
+    `export const dbSchemaUpdateAccount = createUpdateSchema(dbTableAccount)`,
+    `export const dbSchemaSelectUser = createSelectSchema(dbTableUser)`,
+    `export const dbSchemaInsertUser = createInsertSchema(dbTableUser)`,
+    `export const dbSchemaUpdateUser = createUpdateSchema(dbTableUser)`,
+    `export const dbSchemaSelectProduct = createSelectSchema(dbTableProduct)`,
+    `export const dbSchemaInsertProduct = createInsertSchema(dbTableProduct)`,
+    `export const dbSchemaUpdateProduct = createUpdateSchema(dbTableProduct)`,
+    `export const dbSchemaSelectOrderItem = createSelectSchema(dbTableOrderItem)`,
+    `export const dbSchemaInsertOrderItem = createInsertSchema(dbTableOrderItem)`,
+    `export const dbSchemaUpdateOrderItem = createUpdateSchema(dbTableOrderItem)`,
 
     // Multi-word entities in PascalCase
-    `export const dbSchemaUserProfileSelect = createSelectSchema(dbTableUserProfile)`,
-    `export const dbSchemaShoppingCartSelect = createSelectSchema(dbTableShoppingCart)`,
+    `export const dbSchemaSelectUserProfile = createSelectSchema(dbTableUserProfile)`,
+    `export const dbSchemaSelectShoppingCart = createSelectSchema(dbTableShoppingCart)`,
 
     // Destructuring
-    `export const { dbSchemaPostSelect } = createSelectSchema(dbTablePost)`,
-    `export const { dbSchemaCommentInsert } = createInsertSchema(dbTableComment)`,
+    `export const { dbSchemaSelectPost } = createSelectSchema(dbTablePost)`,
+    `export const { dbSchemaInsertComment } = createInsertSchema(dbTableComment)`,
 
     // Non-schema exports (should be ignored)
     `export const accountTable = pgTable('account', {})`,
@@ -60,7 +60,7 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
         messageId: 'invalidNaming',
         data: {
           actual: 'accountSelect',
-          expected: 'dbSchemaAccountSelect',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
@@ -72,14 +72,14 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
         messageId: 'invalidNaming',
         data: {
           actual: 'userInsert',
-          expected: 'dbSchemaUserInsert',
+          expected: 'dbSchemaInsertUser',
           suffix: 'Insert',
           functionName: 'createInsertSchema',
         },
       }],
     },
 
-    // Wrong suffix
+    // Wrong operation position (old dbSchema<Entity><Op> style)
     {
       code: `export const dbSchemaAccountInsert = createSelectSchema(dbTableAccount)`,
       errors: [{
@@ -116,24 +116,24 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
 
     // Wrong entity name
     {
-      code: `export const dbSchemaUserSelect = createSelectSchema(dbTableAccount)`,
+      code: `export const dbSchemaSelectUser = createSelectSchema(dbTableAccount)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemaUserSelect',
-          expected: 'dbSchemaAccountSelect',
+          actual: 'dbSchemaSelectUser',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
       }],
     },
     {
-      code: `export const dbSchemaProductInsert = createInsertSchema(dbTableUser)`,
+      code: `export const dbSchemaInsertProduct = createInsertSchema(dbTableUser)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemaProductInsert',
-          expected: 'dbSchemaUserInsert',
+          actual: 'dbSchemaInsertProduct',
+          expected: 'dbSchemaInsertUser',
           suffix: 'Insert',
           functionName: 'createInsertSchema',
         },
@@ -142,36 +142,36 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
 
     // Entity not in PascalCase
     {
-      code: `export const dbSchemaaccountSelect = createSelectSchema(dbTableAccount)`,
+      code: `export const dbSchemaSelectaccount = createSelectSchema(dbTableAccount)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemaaccountSelect',
-          expected: 'dbSchemaAccountSelect',
+          actual: 'dbSchemaSelectaccount',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
       }],
     },
     {
-      code: `export const dbSchemauserInsert = createInsertSchema(dbTableUser)`,
+      code: `export const dbSchemaInsertuser = createInsertSchema(dbTableUser)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemauserInsert',
-          expected: 'dbSchemaUserInsert',
+          actual: 'dbSchemaInsertuser',
+          expected: 'dbSchemaInsertUser',
           suffix: 'Insert',
           functionName: 'createInsertSchema',
         },
       }],
     },
     {
-      code: `export const dbSchemaUSERSelect = createSelectSchema(dbTableUser)`,
+      code: `export const dbSchemaSelectUSER = createSelectSchema(dbTableUser)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemaUSERSelect',
-          expected: 'dbSchemaUserSelect',
+          actual: 'dbSchemaSelectUSER',
+          expected: 'dbSchemaSelectUser',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
@@ -180,24 +180,24 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
 
     // Case sensitivity on dbSchema prefix
     {
-      code: `export const dbschemaAccountSelect = createSelectSchema(dbTableAccount)`,
+      code: `export const dbschemaSelectAccount = createSelectSchema(dbTableAccount)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbschemaAccountSelect',
-          expected: 'dbSchemaAccountSelect',
+          actual: 'dbschemaSelectAccount',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
       }],
     },
     {
-      code: `export const DbSchemaAccountSelect = createSelectSchema(dbTableAccount)`,
+      code: `export const DbSchemaSelectAccount = createSelectSchema(dbTableAccount)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'DbSchemaAccountSelect',
-          expected: 'dbSchemaAccountSelect',
+          actual: 'DbSchemaSelectAccount',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
@@ -211,7 +211,7 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
         messageId: 'invalidNaming',
         data: {
           actual: 'accountSelect',
-          expected: 'dbSchemaAccountSelect',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },
@@ -229,12 +229,12 @@ ruleTester.run('db-zod-schema-naming', dbZodSchemaNaming, {
       }],
     },
     {
-      code: `export const { dbSchemaaccountSelect } = createSelectSchema(dbTableAccount)`,
+      code: `export const { dbSchemaSelectaccount } = createSelectSchema(dbTableAccount)`,
       errors: [{
         messageId: 'invalidNaming',
         data: {
-          actual: 'dbSchemaaccountSelect',
-          expected: 'dbSchemaAccountSelect',
+          actual: 'dbSchemaSelectaccount',
+          expected: 'dbSchemaSelectAccount',
           suffix: 'Select',
           functionName: 'createSelectSchema',
         },

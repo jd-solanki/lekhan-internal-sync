@@ -41,12 +41,12 @@ export const dbZodSchemaNaming = createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Enforce strict Drizzle Zod schema naming: dbSchema<Entity><Select|Insert|Update> from dbTable<Entity>',
+      description: 'Enforce strict Drizzle Zod schema naming: dbSchema<Select|Insert|Update><Entity> from dbTable<Entity>',
     },
     messages: {
-      invalidNaming: 'Schema "{{actual}}" must be "{{expected}}" (pattern: dbSchema<Entity>{{suffix}} from {{functionName}}(dbTable<Entity>))',
+      invalidNaming: 'Schema "{{actual}}" must be "{{expected}}" (pattern: dbSchema{{suffix}}<Entity> from {{functionName}}(dbTable<Entity>))',
       missingPrefix: 'Schema must start with "dbSchema"',
-      wrongSuffix: 'Schema from {{functionName}} must end with "{{expectedSuffix}}" (got "{{actual}}")',
+      wrongSuffix: 'Schema from {{functionName}} must have operation "{{expectedSuffix}}" after "dbSchema" prefix (got "{{actual}}")',
       entityNotPascalCase: 'Entity name "{{entity}}" in "{{actual}}" must be PascalCase',
     },
     schema: [],
@@ -75,8 +75,8 @@ export const dbZodSchemaNaming = createRule({
 
               if (!varName.startsWith('dbSchema')) {
                 const expected = entityName
-                  ? `dbSchema${toPascalCase(entityName)}${expectedSuffix}`
-                  : `dbSchema<Entity>${expectedSuffix}`
+                  ? `dbSchema${expectedSuffix}${toPascalCase(entityName)}`
+                  : `dbSchema${expectedSuffix}<Entity>`
 
                 context.report({
                   node: declarator.id,
@@ -91,8 +91,8 @@ export const dbZodSchemaNaming = createRule({
                 continue
               }
 
-              // Check suffix
-              if (!varName.endsWith(expectedSuffix)) {
+              // Operation suffix must come directly after 'dbSchema' prefix
+              if (!varName.slice(8).startsWith(expectedSuffix)) {
                 context.report({
                   node: declarator.id,
                   messageId: 'wrongSuffix',
@@ -108,10 +108,10 @@ export const dbZodSchemaNaming = createRule({
               // Validate full pattern if entity known
               if (entityName) {
                 const pascalEntity = toPascalCase(entityName)
-                const expected = `dbSchema${pascalEntity}${expectedSuffix}`
+                const expected = `dbSchema${expectedSuffix}${pascalEntity}`
 
                 // Check if entity part is PascalCase
-                const entityPart = varName.slice(8, varName.length - expectedSuffix.length) // Remove 'dbSchema' and suffix
+                const entityPart = varName.slice(8 + expectedSuffix.length) // Remove 'dbSchema' and operation suffix
                 if (entityPart !== pascalEntity) {
                   context.report({
                     node: declarator.id,
@@ -137,8 +137,8 @@ export const dbZodSchemaNaming = createRule({
 
                   if (!varName.startsWith('dbSchema')) {
                     const expected = entityName
-                      ? `dbSchema${toPascalCase(entityName)}${expectedSuffix}`
-                      : `dbSchema<Entity>${expectedSuffix}`
+                      ? `dbSchema${expectedSuffix}${toPascalCase(entityName)}`
+                      : `dbSchema${expectedSuffix}<Entity>`
 
                     context.report({
                       node: prop.key,
@@ -153,7 +153,7 @@ export const dbZodSchemaNaming = createRule({
                     continue
                   }
 
-                  if (!varName.endsWith(expectedSuffix)) {
+                  if (!varName.slice(8).startsWith(expectedSuffix)) {
                     context.report({
                       node: prop.key,
                       messageId: 'wrongSuffix',
@@ -168,8 +168,8 @@ export const dbZodSchemaNaming = createRule({
 
                   if (entityName) {
                     const pascalEntity = toPascalCase(entityName)
-                    const expected = `dbSchema${pascalEntity}${expectedSuffix}`
-                    const entityPart = varName.slice(8, varName.length - expectedSuffix.length)
+                    const expected = `dbSchema${expectedSuffix}${pascalEntity}`
+                    const entityPart = varName.slice(8 + expectedSuffix.length) // Remove 'dbSchema' and operation suffix
 
                     if (entityPart !== pascalEntity) {
                       context.report({

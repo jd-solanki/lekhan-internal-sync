@@ -8,7 +8,7 @@ const schemaRouterParams = z.object({
 
 export default defineAdminEventHandler(async (event) => {
   const routerParams = await getValidatedRouterParams(event, schemaRouterParams.parse)
-  const parsedBody = await readValidatedBody(event, dbSchemaUserUpdate.parse)
+  const parsedBody = await readValidatedBody(event, dbSchemaUpdateUser.parse)
 
   // Set deactivatedAt to current timestamp
   const [updatedUser] = await db

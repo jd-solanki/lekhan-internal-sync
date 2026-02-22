@@ -188,14 +188,30 @@ export const auth = betterAuth({
     user: {
       create: {
         before: async (user, ctx) => {
-          const imageResult = await onBeforeUserCreateDatabaseHookDownloadOAuthImage(user, ctx)
+          // Run both hooks in parallel — they are independent (image download vs Polar customer lookup)
+          const [imageResult, polarResult] = await Promise.allSettled([
+            onBeforeUserCreateDatabaseHookDownloadOAuthImage(user, ctx),
+            onBeforeUserCreateDatabaseHookInsertPolarCustomerId(user, ctx),
+          ])
 
-          // const nextUser = typeof imageResult === 'object' ? imageResult.data : user
-          if (imageResult && typeof imageResult === 'object') {
-            user.image = imageResult.data.image
+          // Merge: start from original user, apply fulfilled results
+          const mergedUser = { ...user }
+
+          if (imageResult.status === 'fulfilled' && imageResult.value && typeof imageResult.value === 'object') {
+            mergedUser.image = imageResult.value.data.image
+          }
+          else if (imageResult.status === 'rejected') {
+            console.error('[user.create.before] OAuth image download failed:', imageResult.reason)
           }
 
-          return onBeforeUserCreateDatabaseHookInsertPolarCustomerId(user, ctx)
+          if (polarResult.status === 'fulfilled' && polarResult.value && typeof polarResult.value === 'object') {
+            mergedUser.polarCustomerId = polarResult.value.data.polarCustomerId
+          }
+          else if (polarResult.status === 'rejected') {
+            console.error('[user.create.before] Polar customer ID lookup failed:', polarResult.reason)
+          }
+
+          return { data: mergedUser }
         },
         after: onAfterUserCreateDatabaseHookSyncPolarOrdersAndSubscriptionsForGuestCheckout,
       },
