@@ -1,4 +1,5 @@
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { RobotsValue } from '@nuxtjs/robots'
 import type { SocialProviderId } from './layers/auth/server/libs/auth'
 
 declare module '#app' {
@@ -76,6 +77,17 @@ declare module 'nuxt/schema' {
         iconClass?: string
       }[]
     }
+  }
+}
+
+// Temp fix for https://github.com/harlan-zw/nuxt-seo/issues/461
+declare module 'nitropack/types' {
+  interface NitroRouteRules {
+    robots?: RobotsValue
+  }
+
+  interface NitroRouteConfig {
+    robots?: RobotsValue
   }
 }
 

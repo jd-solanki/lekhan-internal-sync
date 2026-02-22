@@ -96,10 +96,10 @@ const actionBtnUrl = 'https://nuxtstart.com/docs/getting-started/introduction'
       If you're having trouble clicking the "Local Setup Instructions" button or want to open in different browser window, copy and paste the following URL into your web browser:
     </EText>
     <ELink
-      :href="localSetupInstructionsUrl"
+      :href="actionBtnUrl"
       style="font-size: 12px; color: #1a73e8; text-decoration: underline; word-break: break-all; color: #666666;"
     >
-      {{ localSetupInstructionsUrl }}
+      {{ actionBtnUrl }}
     </ELink>
   </EmailLayoutDefault>
 </template>
