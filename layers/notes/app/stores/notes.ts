@@ -22,7 +22,7 @@ export const useNotesStore = defineStore('notes', () => {
     return response.data
   }
 
-  async function createNote(data: { title: string, content: string }) {
+  async function createNote(data: PublicSchemaCreateNote) {
     const newNote = await $fetch('/api/notes', {
       method: 'POST',
       body: data,
@@ -72,7 +72,7 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  async function updateNote(id: number, data: { title?: string, content?: string }) {
+  async function updateNote(id: number, data: PublicSchemaUpdateNote) {
     const updated = await $fetch(`/api/notes/${id}`, {
       method: 'PATCH',
       body: data,

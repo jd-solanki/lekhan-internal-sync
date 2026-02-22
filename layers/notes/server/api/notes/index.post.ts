@@ -2,12 +2,11 @@ import { db } from '#server/db'
 import { dbTableNote } from '#server/db/schemas/tables'
 import { eq, max } from 'drizzle-orm'
 import { canUserCreateNote } from '~~/layers/notes/server/utils/plan-limit'
-import { noteCreateSchema } from '~~/layers/notes/shared/schemas/note'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const userId = event.context.user.id
 
-  const body = await readValidatedBody(event, noteCreateSchema.parse)
+  const body = await readValidatedBody(event, publicSchemaCreateNote.parse)
 
   // Check plan limit
   const { allowed, noSubscription, noteCount, noteLimit } = await canUserCreateNote(userId)

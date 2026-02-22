@@ -2,7 +2,6 @@ import { db } from '#server/db'
 import { dbTableNote } from '#server/db/schemas/tables'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
-import { noteUpdateSchema } from '~~/layers/notes/shared/schemas/note'
 
 const schemaRouterParams = z.object({
   id: idSchema,
@@ -13,7 +12,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
   const { id } = await getValidatedRouterParams(event, schemaRouterParams.parse)
 
-  const body = await readValidatedBody(event, noteUpdateSchema.parse)
+  const body = await readValidatedBody(event, publicSchemaUpdateNote.parse)
 
   const [updatedNote] = await db
     .update(dbTableNote)
