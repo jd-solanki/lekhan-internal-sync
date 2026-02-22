@@ -270,7 +270,6 @@ export default defineNuxtConfig({
       provider: 'vercel',
       // Let vercel handle images from other domains like S3 bucket, Google Images, etc
       domains: [
-        'images.unsplash.com', // Unsplash images
         `${env.APP_AWS_BUCKET_NAME}.s3.${env.APP_AWS_REGION}.amazonaws.com`,
         // ...any other remote domains you use
       ],
