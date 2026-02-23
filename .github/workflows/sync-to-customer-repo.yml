@@ -50,8 +50,15 @@ jobs:
       - name: Clone customer repo
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+          CUSTOMER_REPO_ORG: ${{ vars.CUSTOMER_REPO_ORG }}
+          CUSTOMER_REPO: ${{ vars.CUSTOMER_REPO }}
         run: |
-          git clone https://x-access-token:${GH_PAT}@github.com/YOUR_ORG/YOUR_CUSTOMER_REPO.git /tmp/customer-repo
+          if [ -z "$CUSTOMER_REPO_ORG" ] || [ -z "$CUSTOMER_REPO" ]; then
+            echo "Missing required vars: CUSTOMER_REPO_ORG and/or CUSTOMER_REPO"
+            exit 1
+          fi
+
+          git clone https://x-access-token:${GH_PAT}@github.com/${CUSTOMER_REPO_ORG}/${CUSTOMER_REPO}.git /tmp/customer-repo
           cd /tmp/customer-repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
