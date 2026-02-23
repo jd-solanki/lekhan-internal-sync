@@ -103,7 +103,7 @@ export const auth = betterAuth({
           type: 'security',
           to: { email },
           subject: emailSubject,
-          html: emailHTML,
+          html: typeof emailHTML === 'string' ? emailHTML : emailHTML.html,
         })
       },
     }),

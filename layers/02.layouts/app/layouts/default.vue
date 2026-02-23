@@ -93,7 +93,7 @@ const groups: ComputedRef<CommandPaletteGroup[]> = computed(() => {
       {
         icon: 'i-lucide-log-out',
         label: 'Sign Out',
-        onSelect: userStore.signOut,
+        onSelect: async () => { await userStore.signOut() },
       },
     ],
   })

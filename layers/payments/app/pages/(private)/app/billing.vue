@@ -46,7 +46,7 @@ const hasPurchasedProduct = paymentsStore.hasPurchasedProduct(productIds.value)
       title="Billing"
       description="Manage your billing information here"
     />
-    <PricingPlans
+    <PolarPricingPlans
       :products="paymentsStore.recurringProducts"
       compact
       class="max-w-6xl"
