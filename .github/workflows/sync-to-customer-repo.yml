@@ -22,6 +22,16 @@ on:
 
 jobs:
   sync:
+    # Only sync from the internal repo so that other forks or child repos don't accidentally trigger this workflow and cause unwanted pushes to the customer repo.
+    # We have 3 layer of protection to prevent that:
+    # 1) When creating forks or child repo we manually remove this workflow file so that it doesn't exist in their repo at all.
+    # 2) This workflow has an explicit check to only run if the repo is the internal one.
+    # 3) Even if someone accidentally pushes this workflow file to another repo, due to missing required vars (CUSTOMER_REPO_ORG and CUSTOMER_REPO) the workflow will fail early without doing any harm.
+
+    # We can have pre-commit hook that prevents pushing this workflow file to any repo other than the internal one.
+    # Issue with this point is we have to edit pre-commit hook file which gets forwarded to customer repo so can't filter it out
+    # To achieve this we have to create script that edits files in this workflow which I don't prefer ATM of writing
+    if: github.repository == 'nuxtstart/nuxtstart--internal'
     runs-on: ubuntu-latest
 
     steps:
