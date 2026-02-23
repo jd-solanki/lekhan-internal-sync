@@ -3,7 +3,7 @@ name: documentation-maintainer
 description: Updates and maintains documentation according to instructions & code changes. Can handoff directory & file search to other agents.
 argument-hint: Update documentation for: <description of what changed>
 model: GPT-5.3-Codex (copilot)
-tools: ['search', 'edit', 'fetch']
+tools: [vscode/askQuestions, read/readFile, agent, edit, search, web/fetch, 'context7/*', 'sequentialthinking/*', todo]
 ---
 
 ## Identity
