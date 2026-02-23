@@ -74,6 +74,7 @@ jobs:
           # -------------------------------------------------------
           EXCLUDED_PATHS=(
             "docs/"
+            "coding/"
             ".github/workflows/sync-to-customer-repo.yml"
             ".ai/"
             ".github/agents/"
