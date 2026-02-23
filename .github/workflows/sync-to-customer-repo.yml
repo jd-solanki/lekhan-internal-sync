@@ -1,0 +1,209 @@
+name: Sync to Customer Repo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      from_sha:
+        description: Start SHA (exclusive) — the last already-synced commit to customer repo
+        required: true
+      to_sha:
+        description: End SHA (inclusive) — leave empty to use HEAD for customer repo sync
+        required: false
+        default: ''
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout internal repo (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine SHA range
+        id: sha_range
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FROM_SHA="${{ github.event.inputs.from_sha }}"
+            TO_SHA="${{ github.event.inputs.to_sha }}"
+            if [ -z "$TO_SHA" ]; then
+              TO_SHA=$(git rev-parse HEAD)
+            fi
+          else
+            FROM_SHA="${{ github.event.before }}"
+            TO_SHA="${{ github.event.after }}"
+          fi
+
+          echo "from_sha=$FROM_SHA" >> $GITHUB_OUTPUT
+          echo "to_sha=$TO_SHA"     >> $GITHUB_OUTPUT
+          echo "Syncing range: $FROM_SHA..$TO_SHA"
+
+      - name: Clone customer repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git clone https://x-access-token:${GH_PAT}@github.com/YOUR_ORG/YOUR_CUSTOMER_REPO.git /tmp/customer-repo
+          cd /tmp/customer-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync commits
+        run: |
+          # -------------------------------------------------------
+          # EXCLUDED PATHS: add your private dirs/files/globs here.
+          # Rules:
+          #   - Directories must end with /   e.g. "internal/"
+          #   - Specific files                e.g. ".env"
+          #   - Wildcard files                e.g. "*.secret"
+          # -------------------------------------------------------
+          EXCLUDED_PATHS=(
+            "docs/"
+            ".github/workflows/sync-to-customer-repo.yml"
+            ".ai/"
+            ".github/agents/"
+          )
+          # -------------------------------------------------------
+
+          FROM_SHA="${{ steps.sha_range.outputs.from_sha }}"
+          TO_SHA="${{ steps.sha_range.outputs.to_sha }}"
+
+          # Helper: check if a file matches any excluded pattern
+          is_excluded() {
+            local FILE="$1"
+            for PATTERN in "${EXCLUDED_PATHS[@]}"; do
+              # Directory pattern (ends with /)
+              if [[ "$PATTERN" == */ ]]; then
+                # Match files that are exactly inside that directory (not partial name match)
+                if [[ "$FILE" == "$PATTERN"* ]]; then
+                  return 0
+                fi
+              # Glob/wildcard pattern
+              elif [[ "$PATTERN" == *"*"* ]]; then
+                BASENAME=$(basename "$FILE")
+                if [[ "$BASENAME" == $PATTERN ]]; then
+                  return 0
+                fi
+              # Exact file match
+              else
+                if [[ "$FILE" == "$PATTERN" ]]; then
+                  return 0
+                fi
+              fi
+            done
+            return 1
+          }
+
+          # Get all commits in range, oldest first
+          COMMITS=$(git log --reverse --pretty=format:"%H" ${FROM_SHA}..${TO_SHA})
+
+          if [ -z "$COMMITS" ]; then
+            echo "No commits to sync."
+            exit 0
+          fi
+
+          PUSHED_COUNT=0
+          SKIPPED_COUNT=0
+
+          for COMMIT in $COMMITS; do
+            echo "========================================"
+            echo "Processing commit: $COMMIT"
+
+            # Extract commit metadata
+            COMMIT_MSG=$(git log -1 --pretty=format:"%B" $COMMIT)
+            COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:"%an" $COMMIT)
+            COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:"%ae" $COMMIT)
+            COMMIT_DATE=$(git log -1 --pretty=format:"%aI" $COMMIT)
+
+            # Get all files changed in this commit
+            CHANGED_FILES=$(git diff-tree --no-commit-id -r --name-only $COMMIT)
+
+            if [ -z "$CHANGED_FILES" ]; then
+              echo "SKIPPED (empty commit — no file changes)"
+              SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+              continue
+            fi
+
+            # Check if ALL changed files are excluded
+            ALL_EXCLUDED=true
+            while IFS= read -r FILE; do
+              if ! is_excluded "$FILE"; then
+                ALL_EXCLUDED=false
+                break
+              fi
+            done <<< "$CHANGED_FILES"
+
+            if [ "$ALL_EXCLUDED" = true ]; then
+              echo "SKIPPED (all changed files are private)"
+              while IFS= read -r FILE; do
+                echo "  - $FILE"
+              done <<< "$CHANGED_FILES"
+              SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+              continue
+            fi
+
+            # Apply changes to customer repo
+            cd /tmp/customer-repo
+
+            while IFS= read -r FILE; do
+              if is_excluded "$FILE"; then
+                echo "  [excluded] $FILE"
+                continue
+              fi
+
+              # Check if file was deleted in this commit
+              if git -C $GITHUB_WORKSPACE cat-file -e ${COMMIT}:${FILE} 2>/dev/null; then
+                # File exists — copy it over
+                mkdir -p "$(dirname "$FILE")"
+                git -C $GITHUB_WORKSPACE show ${COMMIT}:${FILE} > "$FILE"
+                git add "$FILE"
+                echo "  [added/modified] $FILE"
+              else
+                # File was deleted in internal repo — delete from customer repo too
+                if [ -f "$FILE" ]; then
+                  git rm "$FILE"
+                  echo "  [deleted] $FILE"
+                fi
+              fi
+            done <<< "$CHANGED_FILES"
+
+            # If nothing staged (edge case: all changes were on excluded files
+            # but we missed it above), skip
+            if git diff --cached --quiet; then
+              echo "SKIPPED (nothing to commit after filtering)"
+              SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+              cd $GITHUB_WORKSPACE
+              continue
+            fi
+
+            # Commit preserving original author and timestamp
+            GIT_AUTHOR_NAME="$COMMIT_AUTHOR_NAME" \
+            GIT_AUTHOR_EMAIL="$COMMIT_AUTHOR_EMAIL" \
+            GIT_AUTHOR_DATE="$COMMIT_DATE" \
+            GIT_COMMITTER_DATE="$COMMIT_DATE" \
+            git commit -m "$COMMIT_MSG"
+
+            PUSHED_COUNT=$((PUSHED_COUNT + 1))
+            echo "APPLIED: $COMMIT — \"$(echo "$COMMIT_MSG" | head -1)\""
+
+            cd $GITHUB_WORKSPACE
+          done
+
+          echo "========================================"
+          echo "Summary — Applied: $PUSHED_COUNT | Skipped: $SKIPPED_COUNT"
+
+          if [ $PUSHED_COUNT -gt 0 ]; then
+            cd /tmp/customer-repo
+            git push origin main
+            echo "Pushed $PUSHED_COUNT commit(s) to customer repo."
+          else
+            echo "Nothing to push."
+          fi
