@@ -52,7 +52,7 @@ const hasPurchasedProduct = paymentsStore.hasPurchasedProduct([product.value.id]
       title="Billing"
       description="Manage your billing information here"
     />
-    <PricingPlans :products="paymentsStore.oneTimeProducts" />
+    <PolarPricingPlans :products="paymentsStore.oneTimeProducts" />
     <UAlert
       v-if="hasPurchasedProduct"
       title="You can download invoice & access entitlements from Polar Customer Portal."
