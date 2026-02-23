@@ -1,4 +1,10 @@
-name: Sync to Customer Repo
+# Sync behavior note:
+# - Internal repo is source of truth for synced paths.
+# - Customer-only edits stay only until internal changes same file/path.
+# - If internal later touches same path, next sync overwrites customer-only edits.
+# - Excluded paths/files are not synced, so customer-only changes there remain.
+
+name: 🔄 Sync to Customer Repo
 
 on:
   push:
