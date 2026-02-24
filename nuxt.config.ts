@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/docs': { redirect: '/docs/getting-started/introduction' },
     '/admin/**': { robots: false, ssr: false },
+    '/admin': { redirect: '/admin/users' },
     '/app/**': { robots: false, ssr: false },
   },
   app: {
