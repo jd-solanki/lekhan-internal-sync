@@ -396,7 +396,10 @@ const [DefineAdditionalActionsTemplate, ReuseAdditionalActionsTemplate] = create
 
       <!-- Actions column cell slot: dropdown trigger/button -->
       <template #actions-cell="{ row }">
-        <UDropdownMenu :items="getUserActionItems(toRaw(row?.original), refresh)">
+        <UDropdownMenu
+          :items="getUserActionItems(toRaw(row?.original), refresh)"
+          :content="{ align: 'start' }"
+        >
           <UButton
             icon="i-lucide-more-horizontal"
             color="neutral"

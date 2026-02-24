@@ -44,7 +44,7 @@ const hasHiddenColumns = computed<boolean>(() => {
             },
           }))
       "
-      :content="{ align: 'end' }"
+      :content="{ align: 'start' }"
       :ui="{ content: 'w-40' }"
     >
       <UButton

@@ -72,7 +72,10 @@ const userDropdownItems = computed<DropdownMenuItem[][]>(() => {
 </script>
 
 <template>
-  <UDropdownMenu :items="userDropdownItems">
+  <UDropdownMenu
+    :items="userDropdownItems"
+    :content="{ align: 'start' }"
+  >
     <!-- Dropdown Item: Profile -->
     <template #profile>
       <div class="flex items-center gap-2">
