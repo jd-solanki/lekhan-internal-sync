@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   routeRules: {
     '/admin/**': { robots: false, ssr: false },
+    '/admin': { redirect: '/admin/users' },
     '/app/**': { robots: false, ssr: false },
   },
   app: {

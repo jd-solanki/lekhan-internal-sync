@@ -162,7 +162,8 @@ const plans = computed(() => sortedProduct.value.map((product) => {
         ? `/${product.recurringInterval}`
         : undefined,
     title: product.name,
-    description: product.description || undefined,
+    // We added `metadata._ui_description` because now Polar doesn't allow adding description in products
+    description: product.description || product.metadata._ui_description || undefined,
     features: extractProductFeaturesFromMetadata(product.metadata || {}),
 
     // Highlight preferred options from metadata to guide buyer choice.

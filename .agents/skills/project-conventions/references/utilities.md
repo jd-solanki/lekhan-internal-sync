@@ -1,5 +1,52 @@
 # Utilities Conventions
 
+## Loading State Utilities
+
+Use project loading wrappers instead of hand-rolled loading flags.
+
+### `createWithLoading`
+
+Type-safe wrapper for async operations with loading state.
+
+```typescript
+const isSubmitting = ref(false)
+const withLoading = createWithLoading(isSubmitting)
+
+await withLoading(async () => {
+	await authClient.sendVerificationEmail({ email })
+})
+```
+
+Location: `/app/utils/withLoading.ts`
+
+### `createWithLoadingFor`
+
+Preserves function signatures while adding loading state.
+
+```typescript
+const isLoading = ref(false)
+const fetchUserWithLoading = createWithLoadingFor(isLoading, authClient.getUser)
+
+const user = await fetchUserWithLoading('123', options)
+```
+
+### `useWithLoading`
+
+Composable wrapper around loading patterns.
+
+```typescript
+const { isLoading, fnWithLoading: sendVerificationEmail } = useWithLoading(_sendVerificationEmail)
+await sendVerificationEmail('ada@example.com')
+```
+
+Location: `/app/composables/useWithLoading.ts`
+
+### Selection Guidance
+
+- Use `createWithLoading` when wrapping inline async blocks.
+- Use `createWithLoadingFor` when wrapping an existing function while preserving args/return type.
+- Use `useWithLoading` in Vue components/composables where both wrapped fn and loading ref are needed.
+
 ## Placement
 
 Generic utilities that can be reused across the application go in `utils/` directory, not embedded in components or module-specific files:

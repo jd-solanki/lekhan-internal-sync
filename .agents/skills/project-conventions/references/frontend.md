@@ -42,61 +42,102 @@ const { data: user } = await useAsyncData('user', () =>
 
 **Rationale**: Single source of truth prevents type mismatches, keeps frontend in sync with backend changes, and reduces maintenance burden.
 
-## Reactive State Management
+## Toast Messages
 
-Never create custom reactive values for managing state. Use `useWithLoading` utility instead:
+### `useToastMessage`
+
+Use typed toast helpers for consistent notifications.
 
 ```typescript
-// ❌ Avoid - Custom reactive state
-const state = reactive<Partial<FormData>>({
-  email: undefined,
-  name: undefined,
-  password: undefined,
+const { errorToast, successToast, infoToast } = useToastMessage()
+
+successToast({
+  title: 'Profile updated',
+  description: 'Your changes have been saved',
 })
 
-const isLoading = ref(false)
-const error = ref<string | null>(null)
-
-async function onSubmit(event: FormSubmitEvent<FormData>) {
-  isLoading.value = true
-  try {
-    const { data, error: err } = await authClient.admin.createUser(event.data)
-    if (err) {
-      error.value = err.message
-    }
-  } catch (err) {
-    error.value = (err as Error).message
-  } finally {
-    isLoading.value = false
-  }
-}
-
-// ✅ Good - Use useWithLoading
-const state = reactive<Partial<FormData>>({
-  email: undefined,
-  name: undefined,
-  password: undefined,
+errorToast({
+  title: 'Update failed',
+  description: error.message || 'Unable to update. Please try again.',
 })
-
-async function _onSubmit(event: FormSubmitEvent<FormData>) {
-  const { data, error } = await authClient.admin.createUser(event.data)
-  if (error) {
-    throw new Error(error.message)
-  }
-  emit('close', !!data)
-}
-
-const { isLoading, fnWithLoading: onSubmit } = useWithLoading(_onSubmit)
 ```
 
-## Why useWithLoading
+Location: `/app/composables/useToastMessage.ts`
 
-- **Single source of truth**: Loading state managed in one place
-- **Consistent patterns**: All async operations behave the same
-- **Error handling**: Built-in support for pending/completed states
-- **Less boilerplate**: Reduces repetitive try/catch/finally patterns
+### Flash Messages (Server → Client)
 
-**Rationale**: Custom loading flags lead to state synchronization bugs and inconsistent behavior. A dedicated utility ensures reliability.
+Use cookie-based flash messages for server-originated feedback.
+
+```typescript
+event.node.res.setHeader('Set-Cookie', serialize('flash_message__success', 'Account created!'))
+
+showFlashMessageFromCookie()
+```
+
+Cookies: `flash_message__error`, `flash_message__info`, `flash_message__success`
+
+Location: `/app/utils/showFlashMessageFromCookie.ts`
+
+## Form Submissions
+
+Use this pattern: schema + typed state + `_onSubmit` + `useWithLoading` wrapper.
+
+```vue
+<script lang="ts" setup>
+import type { FormSubmitEvent } from '@nuxt/ui'
+import type * as z from 'zod'
+
+const schema = z.object({})
+type Schema = z.output<typeof schema>
+
+const state = reactive<Schema>({})
+
+async function _onSubmit(event: FormSubmitEvent<Schema>) {}
+
+const { isLoading, fnWithLoading: onSubmit } = useWithLoading(_onSubmit)
+</script>
+
+<template>
+  <UForm
+    :schema="schema"
+    :state="state"
+    class="space-y-6"
+    @submit="onSubmit"
+  >
+    <UButton
+      type="submit"
+      size="lg"
+      block
+      :loading="isLoading"
+    >
+      Add User
+    </UButton>
+  </UForm>
+</template>
+```
+
+Reference: `/app/components/page/admin/users/CreateUserModal.vue`
+
+## Modal / Confirm Dialogs
+
+### `useConfirm`
+
+Use `useConfirm` for async-safe destructive confirmations.
+
+```typescript
+const { confirm } = useConfirm({
+  title: 'Deactivate Account?',
+  body: 'Your account will be deactivated immediately. This action cannot be undone.',
+  confirmBtnProps: { label: 'Deactivate', color: 'error' },
+  onConfirm: async () => {
+    await userStore.deactivateCurrentAccount()
+  },
+})
+
+await confirm()
+```
+
+Location: `/app/composables/useConfirm.ts`
 
 ## Exception: UButton `loading-auto`
 
