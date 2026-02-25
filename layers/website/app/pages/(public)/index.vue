@@ -257,7 +257,7 @@ const faqItems: AccordionItem[] = [
           </p>
         </div>
 
-        <PricingPlans
+        <PolarPricingPlans
           :products="paymentsStore.recurringProducts"
           class="max-w-5xl mx-auto"
         />
